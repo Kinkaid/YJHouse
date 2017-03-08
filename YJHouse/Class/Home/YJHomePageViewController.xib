@@ -15,6 +15,7 @@
                 <outlet property="headerView" destination="h6w-69-OR6" id="2bU-Jb-ll6"/>
                 <outlet property="navView" destination="GdQ-sd-k0k" id="H4p-mo-w6k"/>
                 <outlet property="popupView" destination="U1X-4j-Haa" id="p8c-UW-pMr"/>
+                <outlet property="regionView" destination="HvC-Mc-reC" id="Wyh-4J-kbq"/>
                 <outlet property="searchBtn" destination="Tsq-h9-y3o" id="ATe-fl-Rxb"/>
                 <outlet property="tableView" destination="ek2-bW-wB6" id="dNA-Ut-v5A"/>
                 <outlet property="titleView" destination="sbp-jf-3do" id="inw-x7-PTJ"/>
@@ -469,7 +470,7 @@
                 <constraint firstItem="OY8-Ny-AiS" firstAttribute="top" secondItem="b5k-vV-mzy" secondAttribute="bottom" id="zlG-ms-XqB"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="257" y="121"/>
+            <point key="canvasLocation" x="255" y="217"/>
         </view>
         <view contentMode="scaleToFill" id="U1X-4j-Haa" customClass="KLCPopup">
             <rect key="frame" x="0.0" y="0.0" width="76" height="90"/>
@@ -526,7 +527,21 @@
                 <constraint firstItem="BPR-2A-yVw" firstAttribute="top" secondItem="U1X-4j-Haa" secondAttribute="top" id="zcB-mW-kNd"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="586" y="217"/>
+            <point key="canvasLocation" x="526" y="246"/>
+        </view>
+        <view contentMode="scaleToFill" id="HvC-Mc-reC">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fb2-FM-oz8">
+                    <rect key="frame" x="37" y="33" width="301" height="335"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.47058823529999999" blue="0.47058823529999999" alpha="1" colorSpace="calibratedRGB"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="669" y="-619"/>
         </view>
     </objects>
     <resources>

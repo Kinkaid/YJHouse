@@ -22,15 +22,20 @@
 @property (nonatomic,strong)KLCPopup *klcManager;
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
+@property (strong, nonatomic) IBOutlet UIView *regionView;
 
 @end
 
 @implementation YJHomePageViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
     [self registerTableView];
+    self.regionView.frame = CGRectMake(0, 104, APP_SCREEN_WIDTH, 0);
+    [self.view addSubview:self.regionView];
+    [self.regionView setAutoresizesSubviews:YES];
     
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -106,6 +111,15 @@
     if (button.tag < 55) {
       [self.tableView setContentOffset:CGPointMake(0, APP_SCREEN_WIDTH *0.66 +150 + 6 - 64)];
     }
+    if (self.regionView.frame.size.height < 10) {
+       [UIView animateWithDuration:0.4 animations:^{
+            self.regionView.frame = CGRectMake(0, 104, APP_SCREEN_WIDTH, 400);
+       }];
+    } else {
+        [UIView animateWithDuration:0.4 animations:^{
+            self.regionView.frame = CGRectMake(0, 104, APP_SCREEN_WIDTH, 0);
+        }];
+    }
 }
 
 
@@ -121,7 +135,9 @@
         self.titleView.hidden = YES;
         self.searchBtn.hidden = YES;
     }
-    
+    [UIView animateWithDuration:0.4 animations:^{
+        self.regionView.frame = CGRectMake(0, 104, APP_SCREEN_WIDTH, 0);
+    }];
 }
 
 

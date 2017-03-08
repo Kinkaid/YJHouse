@@ -132,7 +132,7 @@
                 <constraint firstItem="ThC-Vf-RbN" firstAttribute="leading" secondItem="qpc-ei-ecj" secondAttribute="leading" constant="41" id="znt-3n-cz4"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="444" y="98"/>
+            <point key="canvasLocation" x="71" y="128"/>
         </view>
     </objects>
     <resources>
