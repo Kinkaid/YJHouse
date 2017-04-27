@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YJHouseListModel.h"
 @interface YJHomePageViewCell : UITableViewCell
+
+- (void)showDataWithModel:(YJHouseListModel *)model;
 
 @end

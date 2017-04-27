@@ -30,33 +30,35 @@
     if (!_noSearchResultView) {
         _noSearchResultView = [[YJNoSearchDataView alloc] initWithFrame:CGRectMake(0, 64, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 64)];
         [self.view addSubview:_noSearchResultView];
+        [self.view bringSubviewToFront:self.searchView];
     }
     return _noSearchResultView;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationBar.hidden = YES;
     [self registerTableView];
     [self setHistoryView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)setHistoryView {
     self.searchView = [[YJHistorySearchView alloc]initWithFrame:CGRectMake(0, 64, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
+    self.searchView.backgroundColor = [UIColor whiteColor];
     self.searchView.label.text = @"历史搜索";
     self.searchView.delegate = self;
     [self.view addSubview:self.searchView];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     NSArray *array = [userDefault objectForKey:@"historySearch"];
-    [self.searchView KeyViewH:array isHistory:YES];
+    [self.searchView KeyViewH:array];
 
 }
 
@@ -106,7 +108,7 @@
 }
 - (IBAction)scanTypeAction:(id)sender {
     self.klcManager = [KLCPopup popupWithContentView:self.popupView];
-    [self.klcManager showAtCenter:CGPointMake(APP_SCREEN_WIDTH - 40, 100) inView:self.view];
+    [self.klcManager showAtCenter:CGPointMake(40, 100) inView:self.view];
 }
 - (IBAction)selectType:(id)sender {
     UIButton *selectBtn = sender;
@@ -126,6 +128,14 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.searchBar resignFirstResponder];
 }
+
+- (IBAction)cancelAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchView.hidden = NO;
+}
 #pragma mark UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -136,9 +146,11 @@
     [userDefault synchronize];
     self.searchBar.text = @"";
     [self.searchBar resignFirstResponder];
+    self.searchView.hidden = YES;
     [self loadSearchData];
 }
 - (void)getKeyValue:(NSString *)str {
+    [self.searchBar resignFirstResponder];
     [self loadSearchData];
 
 }

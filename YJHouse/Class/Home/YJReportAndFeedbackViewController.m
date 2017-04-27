@@ -22,15 +22,31 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont systemFontOfSize:20], NSFontAttributeName, nil]];
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStyleDone target:self action:@selector(commitAction)];
     self.navigationItem.rightBarButtonItem = right;
+    [self setRightBarButtonItem];
+}
+- (void)setRightBarButtonItem {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self setNavigationBarItem:button];
+    [button addTarget:self action:@selector(commitAction) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"提交" forState:UIControlStateNormal];
+    [button setTintColor:[UIColor whiteColor]];
+    button.titleLabel.font = [UIFont systemFontOfSize:16];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(48);
+        make.height.mas_equalTo(30);
+        make.centerY.equalTo(self.navigationBar).with.offset(10);
+        make.trailing.equalTo(self.navigationBar).with.offset(-10);
+    }];
 }
 - (void)commitAction {
-    NSMutableArray *reasonAry = [@[] mutableCopy];
+    NSMutableArray *resonAry = [@[] mutableCopy];
     for (int i= 1; i<=5; i++) {
         UIButton *button = [self.view viewWithTag:i];
         if (button.selected ==  YES) {
-            [reasonAry addObject:button.titleLabel.text];
+            [resonAry addObject:button.titleLabel.text];
         }
     }
+    YJLog(@"%@",resonAry);
 }
 - (IBAction)selectReasonAction:(id)sender {
     UIButton *btn = sender;

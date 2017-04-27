@@ -10,10 +10,15 @@
 #import "YJHomePageViewCell.h"
 #import "YJReportAndFeedbackViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
-@interface YJHouseDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import "YJHouseDetailModel.h"
+#import "YJDate.h"
+#import "YJWebViewController.h"
+@interface YJHouseDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
-@property (weak, nonatomic) IBOutlet UIImageView *houseImg;//图片
+@property (weak, nonatomic) IBOutlet UIScrollView *imgScrollView;
+
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (weak, nonatomic) IBOutlet UILabel *houseDescriptionLabel;//房源介绍
 @property (weak, nonatomic) IBOutlet UILabel *houseScoreLabel;//评分
 @property (weak, nonatomic) IBOutlet UILabel *sketchTimeLabel;//房源上架时间
@@ -44,7 +49,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *dislikeBtn;
 @property (weak, nonatomic) IBOutlet UIView *showView;
-
+@property (nonatomic,strong) YJHouseDetailModel *houseModel;
 
 
 
@@ -56,21 +61,75 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationBar.hidden = YES;
     [self registerTableView];
+    [self loadHouseDetailData];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
 }
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.hidden = NO;
 }
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 290 + 12 + 300 + 12 + 250 + 12 + 50);
     [self.tableView setTableHeaderView:self.headerView];
+}
+- (void)loadHouseDetailData {
+    __weak typeof(self) weakSelf = self;
+    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/ershou/item-info" parameters:@{@"site_id":self.site_id,@"uid":self.uid} method:GET callBack:^(id responseObject) {
+        if (responseObject) {
+            NSMutableArray *imgAry = [@[] mutableCopy];
+            if (!ISEMPTY(responseObject[@"result"][@"info"][@"main_img"])) {
+               [imgAry addObject:responseObject[@"result"][@"info"][@"main_img"]];
+            }
+            for (int i=0; i<[responseObject[@"result"][@"img"] count]; i++) {
+                [imgAry addObject:responseObject[@"result"][@"img"][i][@"url"]];
+            }
+            weakSelf.houseModel = [MTLJSONAdapter modelOfClass:[YJHouseDetailModel class] fromJSONDictionary:responseObject[@"result"][@"info"] error:nil];
+            weakSelf.houseModel.imgAry = imgAry;
+            weakSelf.pageControl.numberOfPages = imgAry.count;
+            [self fillData];
+        }
+        
+    }];
+}
+- (void)fillData {
+    if (self.houseModel.imgAry.count) {
+        self.imgScrollView.contentSize = CGSizeMake(APP_SCREEN_WIDTH *self.houseModel.imgAry.count, 0);
+        for (int i=0; i<self.houseModel.imgAry.count; i++) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH *i, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.66)];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:self.houseModel.imgAry[i]] placeholderImage:[UIImage imageNamed:@"icon_placeholder"]];
+            [self.imgScrollView addSubview:imageView];
+        }
+    } else {
+        self.imgScrollView.contentSize = CGSizeMake(APP_SCREEN_WIDTH , 0);
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.66)];
+        imageView.image = [UIImage imageNamed:@"icon_placeholder"];
+        [self.imgScrollView addSubview:imageView];
+    }
+    
+    self.houseDescriptionLabel.text = self.houseModel.title;
+    self.sketchTimeLabel.text = [NSString stringWithFormat:@"房源上架于%@",[YJDate parseRemoteDataToString:self.houseModel.update_time withFormatterString:@"yyyy-MM-dd"]];
+    self.housePriceLabel.text = [NSString stringWithFormat:@"%@万",self.houseModel.total_price];
+    self.houseApartmentLayoutLabel.text = self.houseModel.type;
+    self.houseAreaLabel.text = [NSString stringWithFormat:@"%.0f平",[self.houseModel.area floatValue]];
+    self.averagePriceLabel.text = [NSString stringWithFormat:@"均价:%@元/平",self.houseModel.unit_price];
+     self.sketchTimeLabel.text = [NSString stringWithFormat:@"挂牌:%@",[YJDate parseRemoteDataToString:self.houseModel.update_time withFormatterString:@"yyyy-MM-dd"]];
+    self.floorLabel.text = [NSString stringWithFormat:@"楼层:%@/%@层",self.houseModel.tour_count,self.houseModel.total_storey];
+    self.faceDirectionLabel.text = [NSString stringWithFormat:@"朝向:%@",self.houseModel.toward];
+    self.repairInfoLabel.text = [NSString stringWithFormat:@"装修:%@",self.houseModel.decoration];
+    self.houseTypeLabel.text = [NSString stringWithFormat:@"楼型:%@",@"无"];
+    self.completionTimeLabel.text = [NSString stringWithFormat:@"年代:%@",self.houseModel.age];
+    self.regionLabel.text = [NSString stringWithFormat:@"区域:%@-%@",self.houseModel.region,self.houseModel.plate];
+    [self.likeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.good] forState:UIControlStateNormal];
+    [self.dislikeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.bad] forState:UIControlStateNormal];
+    
+    CGFloat total = ([self.houseModel.good floatValue] + [self.houseModel.bad floatValue]);
+    CGFloat ratio = [self.houseModel.good floatValue] / total == 0 ?1:total;
+    [self.toScoreBtn setTitle:[NSString stringWithFormat:@"%.0f%%",ratio] forState:UIControlStateNormal];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -93,7 +152,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    PushController(vc);
 }
 #pragma mark - IBActions
 - (IBAction)backAction:(id)sender {
@@ -148,6 +207,15 @@
         [bottonView bringSubviewToFront:self.selectView];
     }];
 }
+- (IBAction)openUrl:(id)sender {
+    YJWebViewController *vc = [[YJWebViewController alloc] init];
+    vc.url = self.houseModel.page;
+    PushController(vc);
+}
 
-
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.imgScrollView) {
+        self.pageControl.currentPage = self.imgScrollView.contentOffset.x / APP_SCREEN_WIDTH;
+    }
+}
 @end

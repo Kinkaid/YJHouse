@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - IQKeyboardManager (4.0.8)
   - KLCPopup (1.0)
   - Mantle (2.1.0):
     - Mantle/extobjc (= 2.1.0)
@@ -21,31 +22,36 @@ PODS:
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.12)
-  - SDWebImage (3.8.2):
-    - SDWebImage/Core (= 3.8.2)
-  - SDWebImage/Core (3.8.2)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
+  - SVProgressHUD (2.1.2)
   - TTRangeSlider (1.0.5)
 
 DEPENDENCIES:
   - AFNetworking
+  - IQKeyboardManager
   - KLCPopup
   - Mantle
   - Masonry
   - MBProgressHUD
   - MJRefresh
   - SDWebImage
+  - SVProgressHUD
   - TTRangeSlider
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  IQKeyboardManager: 1a8189fa153bf09044355ee0ad36826f6767e7f7
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
-  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   TTRangeSlider: 2f2ce4a33b32bb323c6575b9f5161c4664459c58
 
-PODFILE CHECKSUM: 093b1a370644a25894f95fcbd59f12d0b8ac26b0
+PODFILE CHECKSUM: 6f9b81e9b10f508cd5c5f412d167b765c4bbcd5c
 
 COCOAPODS: 1.1.1

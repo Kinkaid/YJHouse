@@ -13,6 +13,7 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
 #import "WeiboSDK.h"
+#import "YJFirstStepViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -22,6 +23,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//    YJFirstStepViewController *vc= [[YJFirstStepViewController alloc] init];
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+//    self.window.rootViewController = nav;
     self.tabBar = [[YJTabBarSystemController alloc] init];
     self.window.rootViewController = self.tabBar;
     [self.window makeKeyAndVisible];
@@ -59,8 +63,8 @@
                                                                                                     authType:SSDKAuthTypeBoth];
                                                                          break;
                                                                      case SSDKPlatformTypeWechat:
-                                                                         [appInfo SSDKSetupWeChatByAppId:@"wx4868b35061f87885"
-                                                                                               appSecret:@"64020361b8ec4c99936c0e3999a9f249"];
+                                                                         [appInfo SSDKSetupWeChatByAppId:@"wx82472494379ca921"
+                                                                                               appSecret:@"eb5ed168a644f863d46d38ae43d3c703"];
                                                                          break;
                                                                      case SSDKPlatformTypeQQ:
                                                                          [appInfo SSDKSetupQQByAppId:@"1105936467"

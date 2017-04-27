@@ -145,7 +145,19 @@
                     <constraint firstItem="2V5-y5-6E8" firstAttribute="bottom" secondItem="NO4-R9-22k" secondAttribute="bottom" id="smn-9e-6lk"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="2" y="83.5"/>
+            <connections>
+                <outlet property="_address" destination="o6H-mg-7HR" id="aXi-uh-V6C"/>
+                <outlet property="_label1" destination="2V5-y5-6E8" id="vjD-j7-Tmy"/>
+                <outlet property="_label2" destination="rG3-1F-wiS" id="VQ2-2Q-slN"/>
+                <outlet property="_label3" destination="Xyd-h2-XWn" id="sJO-cQ-Tz7"/>
+                <outlet property="_label4" destination="eCq-Td-wno" id="foi-Py-tjo"/>
+                <outlet property="_main_img" destination="NO4-R9-22k" id="Xdr-W7-hGo"/>
+                <outlet property="_name" destination="gxB-TU-7Sk" id="F1e-gM-twG"/>
+                <outlet property="_price" destination="jVg-xz-BrW" id="gN2-ia-Xbb"/>
+                <outlet property="_score" destination="cux-rY-dcI" id="yQk-vs-iO7"/>
+                <outlet property="_totalPrice" destination="oxA-l6-nVR" id="WkC-50-lUC"/>
+            </connections>
+            <point key="canvasLocation" x="-126" y="81"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -56,7 +56,7 @@
     }
     return self;
 }
-- (CGFloat)KeyViewH:(NSArray *)array isHistory:(BOOL)isHistory{
+- (CGFloat)KeyViewH:(NSArray *)array {
     
     
     self.keyArray = array;
@@ -84,16 +84,7 @@
         UIView *bgView = [[UIView alloc]initWithFrame:CGRectMake(x, y, w, h)];
         bgView.layer.cornerRadius = 10;
         bgView.layer.masksToBounds = YES;
-        bgView.layer.borderWidth = 0.5;
-        if (isHistory) {
-            bgView.layer.borderColor = [[UIColor colorWithRed:255/255.0 green:51/255.0 blue:34/255.0 alpha:1] CGColor];
-            bgView.backgroundColor = [UIColor colorWithRed:251/255.0 green:236/255.0 blue:232/255.0 alpha:1];
-        }else{
-            bgView.layer.borderColor = [ [UIColor colorWithRed:228/255.0 green:228/255.0 blue:228/255.0 alpha:1]CGColor];
-            bgView.backgroundColor = [UIColor colorWithRed:246/255.0 green:246/255.0 blue:246/255.0 alpha:1];
-        }
-        
-        
+        bgView.backgroundColor = [UIColor ex_colorFromHexRGB:@"F6F6F6"];
         bgView.tag = 20000+i;
         [self addSubview:bgView];
         
@@ -101,7 +92,7 @@
         [bgView addGestureRecognizer:tapGesture];
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        label.textColor = [UIColor colorWithRed:117/255.0 green:117/255.0 blue:117/255.0 alpha:1];
+        label.textColor = [UIColor ex_colorFromHexRGB:@"5A5A5A"];
         label.font = [UIFont systemFontOfSize:11];
         label.numberOfLines = 0;
         label.tag = 10000;

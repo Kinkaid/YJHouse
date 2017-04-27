@@ -9,4 +9,6 @@ target :YJHouse do
      pod 'MJRefresh'
      pod 'MBProgressHUD'
      pod 'TTRangeSlider'
+     pod 'IQKeyboardManager'
+     pod 'SVProgressHUD'
 end

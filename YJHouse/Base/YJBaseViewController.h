@@ -10,4 +10,16 @@
 
 @interface YJBaseViewController : UIViewController
 
+@property (nonatomic, readonly) BOOL firstDisplay;
+@property (nonatomic,strong)UIView *navigationBar;
+@property (nonatomic,strong)UIButton *backButton;
+@property (nonatomic, strong)UILabel *titleLabel;
+
+- (void)isHiddenBackButton:(BOOL)isHidden;
+- (void)setNavigationBarColor:(UIColor *)color;
+- (void)clickBackButtonAction;
+- (void)setTitle:(NSString *)title;
+- (void)setTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+- (void)setNavigationBarItem:(UIView *)itemView;
+
 @end

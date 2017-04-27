@@ -22,7 +22,7 @@
 @property (nonatomic, strong)UIButton *deleBtn;
 @property (nonatomic, weak)id<KeyViewDelegate>delegate;
 
-- (CGFloat)KeyViewH:(NSArray *)array isHistory:(BOOL)isHistory;
+- (CGFloat)KeyViewH:(NSArray *)array;
 - (void)removeAllKey;
 
 @end

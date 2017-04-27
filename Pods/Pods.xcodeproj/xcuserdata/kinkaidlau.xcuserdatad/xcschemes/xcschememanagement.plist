@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>IQKeyboardManager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>KLCPopup.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -44,6 +49,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SVProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>TTRangeSlider.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -57,7 +67,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3EE5D64B625C25549C132F84899E68D1</key>
+		<key>1E489DC4BD4C5FDA06A3F09E8FBFA28C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,7 +77,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>62DB70EEC055743E8D3CF82CD4C0BD6C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>74A906A03A85452A2316AB9E07191EA8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8E2F85A9EA167EFA71B3DCB5DF170059</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9650B5ADCE86F1A055FAFC635284BDB5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -87,12 +112,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BF9F608C4624DE0251E711C7FFA103AD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E33BBED300BDF0DBB453FB4F42A88A87</key>
+		<key>FD266274E129AADB06BABCA14F0E276E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

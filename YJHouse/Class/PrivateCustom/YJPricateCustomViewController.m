@@ -9,6 +9,7 @@
 #import "YJPricateCustomViewController.h"
 #import "YJPricateCustomViewCell.h"
 #import "YJPrivateAddViewCell.h"
+#import "YJFirstStepViewController.h"
 #import "KLCPopup.h"
 #define kCellIdentifier @"YJPricateCustomViewCell"
 #define kCellAddIdentifier @"YJPrivateAddViewCell"
@@ -24,9 +25,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationBar.hidden = YES;
     [self registerTableView];
     [self loadData];
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 
 - (void)registerTableView {
@@ -84,7 +93,8 @@
     if (indexPath.section < self.privateAry.count) {
         
     } else {
-        NSLog(@"去增加");
+        YJFirstStepViewController *vc = [[YJFirstStepViewController alloc] init];
+        PushController(vc);
     }
     
 }

@@ -10,4 +10,7 @@
 
 @interface YJHouseDetailViewController : YJBaseViewController
 
+@property (nonatomic,copy) NSNumber *site_id;
+@property (nonatomic,copy) NSString *uid;
+
 @end
