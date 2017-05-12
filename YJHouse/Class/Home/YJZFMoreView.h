@@ -17,5 +17,5 @@
 @interface YJZFMoreView : UIView
 
 @property (nonatomic,weak)id<YJZFSortDelegate>delegate;
-
+- (void)initWithZFBtn;
 @end

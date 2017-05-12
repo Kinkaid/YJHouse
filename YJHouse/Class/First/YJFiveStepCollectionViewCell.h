@@ -10,4 +10,6 @@
 
 @interface YJFiveStepCollectionViewCell : UICollectionViewCell
 
+- (void)showDataWithTitle:(NSString *)title andImg:(NSString *)img andSelect:(BOOL)select;
+
 @end

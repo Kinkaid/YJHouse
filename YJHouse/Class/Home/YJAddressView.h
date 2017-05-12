@@ -16,4 +16,5 @@
 
 @interface YJAddressView : UIView<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,weak)id<YJAddressClickDelegate>delegate;
+- (void)refreshTabelView;
 @end

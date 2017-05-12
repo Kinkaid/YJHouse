@@ -15,6 +15,8 @@
 #import "YJPriceView.h"
 #import "YJSortView.h"
 #define kCellIdentifier @"YJHomePageViewCell"
+static NSString *const lowHouseTypeKey = @"lowHouseTypeKey";
+static NSString *const newHouseTypeKey = @"newHouseTypeKey";
 @interface YJLowPriceViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,assign) NSInteger curPage;
@@ -73,7 +75,40 @@
     self.curTitle.text = self.isLowPrice ? @"今日白菜价":@"最新房源";
     [self registerTableView];
     [self registerRefresh];
+    if (self.isLowPrice) {
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:lowHouseTypeKey] intValue]) {
+            self.zufang = YES;
+            self.priceView.houseType = houseRent;
+            [self initWithBtnWithType:1];
+        } else {
+            self.zufang = NO;
+            self.priceView.houseType = houseBuy;
+            [self initWithBtnWithType:0];
+        }
+    } else {
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:newHouseTypeKey] intValue]) {
+            self.zufang = YES;
+            [self initWithBtnWithType:1];
+        } else {
+            self.zufang = NO;
+            [self initWithBtnWithType:0];
+        }
+    }
     [self loadData];
+}
+- (void)initWithBtnWithType:(NSInteger)type {
+    UIButton *typeBtn = [self.view viewWithTag:3];
+    UIButton *btn1 = [self.popupView viewWithTag:1];
+    UIButton *btn2 = [self.popupView viewWithTag:2];
+    if (type == 1) {
+        [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+    } else {
+        [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+    }
 }
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
@@ -100,17 +135,19 @@
     [params setValue:@(self.curPage) forKey:@"page"];
     if (self.regionID.length > 1) {
         if (self.plateID.length > 1) {
-            [params setValue:self.plateID forKey:@"plate_id"];
+            [params setValue:self.plateID forKey:@"plate_id[0]"];
         }
-        [params setValue:self.regionID forKey:@"region_id"];
+        [params setValue:self.regionID forKey:@"region_id[0]"];
     }
     if (self.sortKey.length) {
         [params setValue:self.sortValue forKey:self.sortKey];
     }
-    
     if (!ISEMPTY(self.maxPrice)) {
-        [params setObject:@([self.minPrice integerValue]) forKey:@"min_price"];
-        [params setObject:@([self.maxPrice integerValue]) forKey:@"max_price"];
+        if ([self.maxPrice intValue] < 0) {
+            [params setObject:[NSString stringWithFormat:@"%@",self.maxPrice] forKey:@"price[0]"];
+        } else {
+            [params setObject:[NSString stringWithFormat:@"%ld-%ld",[self.minPrice integerValue],[self.maxPrice integerValue]] forKey:@"price[0]"];
+        }
     }
     NSString *url;
     if (self.isLowPrice) {
@@ -172,6 +209,11 @@
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id = model.site;
     vc.uid = model.uid;
+    if (model.zufang) {
+        vc.type = type_zufang;
+    } else {
+        vc.type = type_maifang;
+    }
     PushController(vc);
 }
 
@@ -183,6 +225,10 @@
     [self.klcManager showAtCenter:CGPointMake(APP_SCREEN_WIDTH - 40, 100) inView:self.view];
 }
 - (IBAction)selectType:(id)sender {
+    self.sortKey = @"";
+    self.regionID = @"";
+    self.maxPrice = 0;
+    [self.addressView refreshTabelView];
     UIButton *selectBtn = sender;
     [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
     UIButton *typeBtn = [self.view viewWithTag:3];
@@ -192,16 +238,30 @@
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
         self.zufang = YES;
         self.priceView.houseType = houseRent;
+        [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:self.isLowPrice ? lowHouseTypeKey:newHouseTypeKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
     } else if (selectBtn.tag == 2){
         [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
         UIButton *btn = (UIButton *)[self.popupView viewWithTag:1];
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
         self.zufang = NO;
         self.priceView.houseType = houseBuy;
+        [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:self.isLowPrice ? lowHouseTypeKey:newHouseTypeKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     [self.klcManager dismiss:YES];
     self.curPage = 1;
+    [self initWithSortBtn];
     [self loadData];
+}
+- (void)initWithSortBtn {
+    UIButton *btn55 = [self.view viewWithTag:55];
+    [btn55 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    UIButton *btn56 = [self.view viewWithTag:56];
+    [btn56 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    UIButton *btn57 = [self.view viewWithTag:57];
+    [btn57 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
 }
 - (IBAction)sortAction:(id)sender {
     UIButton *button = sender;
@@ -275,44 +335,76 @@
 
 #pragma mark - 价格
 - (void)priceSortByTag:(NSInteger)tag {
+    UIButton *btn1 = [self.view viewWithTag:52];
     UIButton *btn2 = [self.view viewWithTag:56];
+    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     switch (tag) {
         case 1:
         {
-            self.minPrice = 0;
-            self.maxPrice =  0;
+            if (self.zufang) {
+                self.minPrice = 0;
+                self.maxPrice =  0;
+            } else {
+                self.minPrice = 0;
+                self.maxPrice =  0;
+            }
         }
             break;
         case 2:
         {
-            self.minPrice = 0;
-            self.maxPrice = @"100";
+            if (self.zufang) {
+                self.minPrice = 0;
+                self.maxPrice =  @"1500";
+            } else {
+                self.minPrice = 0;
+                self.maxPrice = @"100";
+            }
         }
             break;
         case 3:
         {
-            self.minPrice = @"100";
-            self.maxPrice = @"150";
+            if (self.zufang) {
+                self.minPrice = @"1500";
+                self.maxPrice =  @"2500";
+            } else {
+                self.minPrice = @"100";
+                self.maxPrice = @"150";
+            }
             
         }
             break;
         case 4:
         {
-            self.minPrice = @"150";
-            self.maxPrice = @"200";
+            if (self.zufang) {
+                self.minPrice = @"2500";
+                self.maxPrice =  @"3500";
+            } else {
+                self.minPrice = @"150";
+                self.maxPrice = @"200";
+            }
         }
             break;
         case 5:
         {
-            self.minPrice = @"200";
-            self.maxPrice = @"300";
+            if (self.zufang) {
+                self.minPrice = @"3500";
+                self.maxPrice =  @"4500";
+            } else {
+                self.minPrice = @"200";
+                self.maxPrice = @"300";
+            }
         }
             break;
         case 6:
         {
-            self.minPrice = @"300";
-            self.maxPrice = @"0";
+            if (self.zufang) {
+                self.minPrice = @"4500";
+                self.maxPrice = @"-4500";
+            } else {
+                self.minPrice = @"300";
+                self.maxPrice = @"-300";
+            }
         }
             break;
         default:

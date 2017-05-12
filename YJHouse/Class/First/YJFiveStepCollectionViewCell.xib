@@ -1,19 +1,66 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="YJFiveStepCollectionViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="103" height="145"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                <rect key="frame" x="0.0" y="0.0" width="103" height="145"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="2x7-SK-bpA">
+                        <rect key="frame" x="0.0" y="0.0" width="103" height="116"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="2x7-SK-bpA" secondAttribute="height" multiplier="168:189" id="JrV-Mp-C7t"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_jj_select" translatesAutoresizingMaskIntoConstraints="NO" id="kRi-6t-8na">
+                        <rect key="frame" x="0.0" y="0.0" width="103" height="116"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗衣机" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zqb-rd-wA1">
+                        <rect key="frame" x="32.5" y="120" width="37" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="rNC-fm-Uam"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.43137254901960786" green="0.43137254901960786" blue="0.43137254901960786" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
             </view>
+            <constraints>
+                <constraint firstItem="kRi-6t-8na" firstAttribute="top" secondItem="2x7-SK-bpA" secondAttribute="top" id="GAZ-9G-Dcg"/>
+                <constraint firstItem="kRi-6t-8na" firstAttribute="trailing" secondItem="2x7-SK-bpA" secondAttribute="trailing" id="IDx-4f-z1S"/>
+                <constraint firstItem="zqb-rd-wA1" firstAttribute="centerX" secondItem="2x7-SK-bpA" secondAttribute="centerX" id="LLi-iW-rcu"/>
+                <constraint firstItem="2x7-SK-bpA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="MkW-ah-2kS"/>
+                <constraint firstItem="zqb-rd-wA1" firstAttribute="top" secondItem="2x7-SK-bpA" secondAttribute="bottom" constant="4" id="Mkx-bU-5bD"/>
+                <constraint firstItem="kRi-6t-8na" firstAttribute="leading" secondItem="2x7-SK-bpA" secondAttribute="leading" id="Ugt-pj-Kef"/>
+                <constraint firstAttribute="trailing" secondItem="2x7-SK-bpA" secondAttribute="trailing" id="agU-Qx-NtH"/>
+                <constraint firstItem="2x7-SK-bpA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="cUF-HP-e1O"/>
+                <constraint firstItem="kRi-6t-8na" firstAttribute="bottom" secondItem="2x7-SK-bpA" secondAttribute="bottom" id="fLH-bQ-gvD"/>
+            </constraints>
+            <size key="customSize" width="103" height="145"/>
+            <connections>
+                <outlet property="_img" destination="2x7-SK-bpA" id="OZ3-3y-c7q"/>
+                <outlet property="_preImg" destination="kRi-6t-8na" id="pGG-gn-48S"/>
+                <outlet property="_title" destination="zqb-rd-wA1" id="ZwE-ye-ccx"/>
+            </connections>
+            <point key="canvasLocation" x="-65.5" y="50.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="icon_jj_select" width="84" height="94"/>
+        <image name="icon_placeholder" width="104" height="77"/>
+    </resources>
 </document>

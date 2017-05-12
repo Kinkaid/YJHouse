@@ -9,25 +9,27 @@
 #import <Mantle/Mantle.h>
 
 @interface YJHouseDetailModel : MTLModel<MTLJSONSerializing>
-@property (nonatomic,copy) NSNumber *age;
-@property (nonatomic,copy) NSNumber *area;
-@property (nonatomic,copy) NSNumber *bad;
-@property (nonatomic,copy) NSNumber *date;
-@property (nonatomic,copy) NSNumber *first_time;
-@property (nonatomic,copy) NSNumber *good;
-@property (nonatomic,copy) NSString *name;
-@property (nonatomic,copy) NSString *page;
-@property (nonatomic,copy) NSString *plate;
-@property (nonatomic,copy) NSString *region;
-@property (nonatomic,copy) NSString *title;
-@property (nonatomic,copy) NSNumber *total_price;
-@property (nonatomic,copy) NSNumber *total_storey;
-@property (nonatomic,copy) NSNumber *tour_count;
-@property (nonatomic,copy) NSString *toward;
-@property (nonatomic,copy) NSString *type;
-@property (nonatomic,copy) NSNumber *unit_price;
-@property (nonatomic,copy) NSNumber *update_time;
-@property (nonatomic,copy) NSString *decoration;
+@property (nonatomic,copy) id age;
+@property (nonatomic,copy) id area;
+@property (nonatomic,copy) id bad;
+@property (nonatomic,copy) id date;
+@property (nonatomic,copy) id first_time;
+@property (nonatomic,copy) id good;
+@property (nonatomic,copy) id name;
+@property (nonatomic,copy) id page;
+@property (nonatomic,copy) id plate;
+@property (nonatomic,copy) id region;
+@property (nonatomic,copy) id title;
+@property (nonatomic,copy) id total_price;
+@property (nonatomic,copy) id total_storey;
+@property (nonatomic,copy) id tour_count;
+@property (nonatomic,copy) id toward;
+@property (nonatomic,copy) id type;
+@property (nonatomic,copy) id unit_price;
+@property (nonatomic,copy) id update_time;
+@property (nonatomic,copy) id decoration;
+@property (nonatomic,copy) id rent;
+@property (nonatomic,copy) id in_storey;
 @property (nonatomic,strong) NSMutableArray *imgAry;
 
 @end

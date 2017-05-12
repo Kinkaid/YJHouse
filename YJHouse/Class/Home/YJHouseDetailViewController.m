@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *houseDescriptionLabel;//房源介绍
 @property (weak, nonatomic) IBOutlet UILabel *houseScoreLabel;//评分
 @property (weak, nonatomic) IBOutlet UILabel *sketchTimeLabel;//房源上架时间
+@property (weak, nonatomic) IBOutlet UILabel *shoujiaOrjunjiaLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *housePriceLabel;//售价
 @property (weak, nonatomic) IBOutlet UILabel *houseApartmentLayoutLabel;//户型
@@ -49,6 +50,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *dislikeBtn;
 @property (weak, nonatomic) IBOutlet UIView *showView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sellInfoConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *xiaoquInfoConstraint;
+
+@property (weak, nonatomic) IBOutlet UIView *sellInfoView;
+@property (weak, nonatomic) IBOutlet UIView *supportingFacilitiesView;
+
 @property (nonatomic,strong) YJHouseDetailModel *houseModel;
 
 
@@ -74,12 +81,48 @@
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 290 + 12 + 300 + 12 + 250 + 12 + 50);
+    if (self.type == type_zufang) {
+        _supportingFacilitiesView.hidden = NO;
+        NSArray *imgAry = @[@"icon_d_ds_s",@"icon_d_wl_s",@"icon_d_bx_s",@"icon_d_xyj_s",@"icon_d_rsq_s",@"icon_d_kt_s",@"icon_d_trq_s",@"icon_d_c_s"];
+        for (int i=0; i<8; i++) {
+            UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 8.0 *i, 64, APP_SCREEN_WIDTH / 8.0, APP_SCREEN_WIDTH / 8.0)];
+            imgV.image = [UIImage imageNamed:imgAry[i]];
+            [self.supportingFacilitiesView addSubview:imgV];
+        }
+        if (arc4random() % 2 ) {
+            self.sellInfoView.hidden = NO;
+            self.sellInfoConstraint.constant = 154;
+            self.xiaoquInfoConstraint.constant = 466;
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 290 + 12 + 130 + 12 + 300 + 12 + 250 + 12 + 50);
+        } else {
+            self.sellInfoView.hidden = YES;
+            self.xiaoquInfoConstraint.constant = 154;
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 290 + 12 + 130 + 12 + 250 + 12 + 50);
+        }
+    } else {
+        _supportingFacilitiesView.hidden = YES;
+        if (arc4random() % 2 ) {
+            self.sellInfoView.hidden = NO;
+            self.sellInfoConstraint.constant = 12;
+            self.xiaoquInfoConstraint.constant = 324;
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 290 + 12 + 300 + 12 + 250 + 12 + 50);
+        } else {
+            self.sellInfoView.hidden = YES;
+            self.xiaoquInfoConstraint.constant = 12;
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 290 + 12 + 250 + 12 + 50);
+        }
+    }
     [self.tableView setTableHeaderView:self.headerView];
 }
 - (void)loadHouseDetailData {
     __weak typeof(self) weakSelf = self;
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/ershou/item-info" parameters:@{@"site_id":self.site_id,@"uid":self.uid} method:GET callBack:^(id responseObject) {
+    NSString *url ;
+    if (self.type == type_zufang) {
+        url = @"https://ksir.tech/you/frontend/web/app/zufang/item-info";
+    } else {
+        url = @"https://ksir.tech/you/frontend/web/app/ershou/item-info";
+    }
+    [[NetworkTool sharedTool] requestWithURLString:url parameters:@{@"site_id":self.site_id,@"uid":self.uid} method:GET callBack:^(id responseObject) {
         if (responseObject) {
             NSMutableArray *imgAry = [@[] mutableCopy];
             if (!ISEMPTY(responseObject[@"result"][@"info"][@"main_img"])) {
@@ -93,7 +136,6 @@
             weakSelf.pageControl.numberOfPages = imgAry.count;
             [self fillData];
         }
-        
     }];
 }
 - (void)fillData {
@@ -110,20 +152,67 @@
         imageView.image = [UIImage imageNamed:@"icon_placeholder"];
         [self.imgScrollView addSubview:imageView];
     }
-    
+    if (self.type == type_zufang) {
+       self.shoujiaOrjunjiaLabel.text = @"租金";
+        NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@元/月",self.houseModel.rent]];
+        [mStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange([[self.houseModel.rent stringValue] length], 3)];
+        self.housePriceLabel.attributedText = mStr;
+        
+        NSMutableAttributedString *averagePriceStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"方式:%@",@"整租"]];
+        [averagePriceStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+        self.averagePriceLabel.attributedText = averagePriceStr;
+    } else {
+       self.shoujiaOrjunjiaLabel.text = @"售价";
+        NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@万",self.houseModel.total_price]];
+        [mStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange([[self.houseModel.total_price stringValue] length], 1)];
+        self.housePriceLabel.attributedText = mStr;
+        NSMutableAttributedString *averagePriceStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"均价:%@元/平",self.houseModel.unit_price]];
+        [averagePriceStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+        self.averagePriceLabel.attributedText = averagePriceStr;
+    }
     self.houseDescriptionLabel.text = self.houseModel.title;
     self.sketchTimeLabel.text = [NSString stringWithFormat:@"房源上架于%@",[YJDate parseRemoteDataToString:self.houseModel.update_time withFormatterString:@"yyyy-MM-dd"]];
-    self.housePriceLabel.text = [NSString stringWithFormat:@"%@万",self.houseModel.total_price];
-    self.houseApartmentLayoutLabel.text = self.houseModel.type;
-    self.houseAreaLabel.text = [NSString stringWithFormat:@"%.0f平",[self.houseModel.area floatValue]];
-    self.averagePriceLabel.text = [NSString stringWithFormat:@"均价:%@元/平",self.houseModel.unit_price];
-     self.sketchTimeLabel.text = [NSString stringWithFormat:@"挂牌:%@",[YJDate parseRemoteDataToString:self.houseModel.update_time withFormatterString:@"yyyy-MM-dd"]];
-    self.floorLabel.text = [NSString stringWithFormat:@"楼层:%@/%@层",self.houseModel.tour_count,self.houseModel.total_storey];
-    self.faceDirectionLabel.text = [NSString stringWithFormat:@"朝向:%@",self.houseModel.toward];
-    self.repairInfoLabel.text = [NSString stringWithFormat:@"装修:%@",self.houseModel.decoration];
-    self.houseTypeLabel.text = [NSString stringWithFormat:@"楼型:%@",@"无"];
-    self.completionTimeLabel.text = [NSString stringWithFormat:@"年代:%@",self.houseModel.age];
-    self.regionLabel.text = [NSString stringWithFormat:@"区域:%@-%@",self.houseModel.region,self.houseModel.plate];
+    NSMutableAttributedString *houseApartmentLayoutStr = [[NSMutableAttributedString alloc] initWithString:[[self.houseModel.type componentsSeparatedByString:@" "] firstObject]];
+    
+    for (int i=0; i<houseApartmentLayoutStr.length / 2; i++) {
+        [houseApartmentLayoutStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(2*i+1, 1)];
+    }
+    self.houseApartmentLayoutLabel.attributedText = houseApartmentLayoutStr;
+    
+    NSMutableAttributedString *houseAreaStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f平",[self.houseModel.area floatValue]]];
+    [houseAreaStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(houseAreaStr.length-1, 1)];
+    self.houseAreaLabel.attributedText = houseAreaStr;
+    
+    NSMutableAttributedString *floorStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"楼层:%@/%@层",self.houseModel.tour_count,self.houseModel.total_storey]];
+    [floorStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+    self.floorLabel.attributedText = floorStr;
+    
+    NSMutableAttributedString *putupTimeStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"挂牌:%@",[YJDate parseRemoteDataToString:self.houseModel.update_time withFormatterString:@"yyyy-MM-dd"]]];
+    [putupTimeStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+    self.putupTimeLabel.attributedText = putupTimeStr;
+    
+    NSMutableAttributedString *faceDirectionStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"朝向:%@",self.houseModel.toward]];
+    [faceDirectionStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+    self.faceDirectionLabel.attributedText = faceDirectionStr;
+    
+    NSMutableAttributedString *repairInfoStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"装修:%@",self.houseModel.decoration]];
+    [repairInfoStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+    self.repairInfoLabel.attributedText = repairInfoStr;
+    
+    NSMutableAttributedString *houseTypeStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"楼型:%@",self.houseModel.in_storey]];
+    [houseTypeStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+    self.houseTypeLabel.attributedText = houseTypeStr;
+    
+    NSMutableAttributedString *completionTimeStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"年代:%@",self.houseModel.age]];
+    [completionTimeStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+    self.completionTimeLabel.attributedText = completionTimeStr;
+    
+    NSMutableAttributedString *regionStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"区域:%@-%@",self.houseModel.region,self.houseModel.plate]];
+    [regionStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 3)];
+    self.regionLabel.attributedText = regionStr;
+
+
+    
     [self.likeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.good] forState:UIControlStateNormal];
     [self.dislikeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.bad] forState:UIControlStateNormal];
     

@@ -18,5 +18,5 @@
 @interface YJMFMoreView : UIView
 
 @property (nonatomic,weak) id<YJMFSortDelegate>delegate;
-
+- (void)initWithMFBtn;
 @end

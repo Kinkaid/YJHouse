@@ -8,11 +8,28 @@
 
 #import "YJFiveStepCollectionViewCell.h"
 
-@implementation YJFiveStepCollectionViewCell
+@implementation YJFiveStepCollectionViewCell {
+
+    __weak IBOutlet UIImageView *_img;
+    __weak IBOutlet UILabel *_title;
+    __weak IBOutlet UIImageView *_preImg;
+    
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+}
+
+
+- (void)showDataWithTitle:(NSString *)title andImg:(NSString *)img andSelect:(BOOL)select {
+    _title.text = title;
+    _img.image = [UIImage imageNamed:img];
+    if (select) {
+        _preImg.hidden = NO;
+    } else {
+        _preImg.hidden = YES;
+    }
 }
 
 @end

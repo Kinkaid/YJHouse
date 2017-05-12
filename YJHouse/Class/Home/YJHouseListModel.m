@@ -27,7 +27,10 @@
              @"uid":@"uid",
              @"rent":@"rent",
              @"total_score":@"total_score",
-             @"zufang":@"zufang"
+             @"toward":@"toward",
+             @"zufang":@"zufang",
+             @"tags":@"tags",
+             @"decoration":@"decoration"
              };
 }
 

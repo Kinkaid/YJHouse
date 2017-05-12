@@ -8,6 +8,7 @@
 
 #import "YJFourthStepViewController.h"
 #import "YJFourthStepPreview.h"
+#import "YJFiveStepViewController.h"
 @interface YJFourthStepViewController ()
 @property (weak, nonatomic) IBOutlet UIView *myView;
 @property (nonatomic,strong) NSMutableArray *oriCenterAry;
@@ -126,7 +127,8 @@
         UIButton *btn = self.oriCenterAry[i];
         YJLog(@"%@",btn.titleLabel.text);
     }
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    YJFiveStepViewController *vc = [[YJFiveStepViewController alloc] init];
+    PushController(vc);
 }
 
 @end

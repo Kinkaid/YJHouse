@@ -16,6 +16,10 @@
 		300BB42D1EA5F24D00432F8C /* YJFirstStepViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 300BB42B1EA5F24C00432F8C /* YJFirstStepViewController.xib */; };
 		300BB4311EA643FC00432F8C /* YJSecondStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300BB42F1EA643FC00432F8C /* YJSecondStepViewController.m */; };
 		300BB4321EA643FC00432F8C /* YJSecondStepViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 300BB4301EA643FC00432F8C /* YJSecondStepViewController.xib */; };
+		301D1E1A1EB8C3BB00C7A4F7 /* YJFiveStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 301D1E181EB8C3BB00C7A4F7 /* YJFiveStepViewController.m */; };
+		301D1E1B1EB8C3BB00C7A4F7 /* YJFiveStepViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 301D1E191EB8C3BB00C7A4F7 /* YJFiveStepViewController.xib */; };
+		301D1E1F1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 301D1E1D1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.m */; };
+		301D1E201EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 301D1E1E1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.xib */; };
 		302686001E685A2800A59E13 /* YJPrivateAddViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 302685FE1E685A2800A59E13 /* YJPrivateAddViewCell.m */; };
 		302686011E685A2800A59E13 /* YJPrivateAddViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302685FF1E685A2800A59E13 /* YJPrivateAddViewCell.xib */; };
 		302E7ED21E94B77A00BFCA41 /* YJPersonInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302E7ED01E94B77A00BFCA41 /* YJPersonInfoViewController.m */; };
@@ -163,6 +167,12 @@
 		300BB42E1EA643FC00432F8C /* YJSecondStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJSecondStepViewController.h; sourceTree = "<group>"; };
 		300BB42F1EA643FC00432F8C /* YJSecondStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJSecondStepViewController.m; sourceTree = "<group>"; };
 		300BB4301EA643FC00432F8C /* YJSecondStepViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJSecondStepViewController.xib; sourceTree = "<group>"; };
+		301D1E171EB8C3BB00C7A4F7 /* YJFiveStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJFiveStepViewController.h; sourceTree = "<group>"; };
+		301D1E181EB8C3BB00C7A4F7 /* YJFiveStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJFiveStepViewController.m; sourceTree = "<group>"; };
+		301D1E191EB8C3BB00C7A4F7 /* YJFiveStepViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJFiveStepViewController.xib; sourceTree = "<group>"; };
+		301D1E1C1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJFiveStepCollectionViewCell.h; sourceTree = "<group>"; };
+		301D1E1D1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJFiveStepCollectionViewCell.m; sourceTree = "<group>"; };
+		301D1E1E1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJFiveStepCollectionViewCell.xib; sourceTree = "<group>"; };
 		302685FD1E685A2800A59E13 /* YJPrivateAddViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJPrivateAddViewCell.h; sourceTree = "<group>"; };
 		302685FE1E685A2800A59E13 /* YJPrivateAddViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJPrivateAddViewCell.m; sourceTree = "<group>"; };
 		302685FF1E685A2800A59E13 /* YJPrivateAddViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJPrivateAddViewCell.xib; sourceTree = "<group>"; };
@@ -426,6 +436,12 @@
 				30EF71981EA9A4840039B98E /* YJFourthStepViewController.xib */,
 				30565FD21EADC8790038A873 /* YJFourthStepPreview.h */,
 				30565FD31EADC8790038A873 /* YJFourthStepPreview.m */,
+				301D1E171EB8C3BB00C7A4F7 /* YJFiveStepViewController.h */,
+				301D1E181EB8C3BB00C7A4F7 /* YJFiveStepViewController.m */,
+				301D1E191EB8C3BB00C7A4F7 /* YJFiveStepViewController.xib */,
+				301D1E1C1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.h */,
+				301D1E1D1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.m */,
+				301D1E1E1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.xib */,
 			);
 			path = First;
 			sourceTree = "<group>";
@@ -1004,6 +1020,7 @@
 			files = (
 				30E14A681E62C0EE00129DE0 /* YJReportAndFeedbackViewController.xib in Resources */,
 				300BB42D1EA5F24D00432F8C /* YJFirstStepViewController.xib in Resources */,
+				301D1E201EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.xib in Resources */,
 				30EF719F1EA9EB420039B98E /* YJCollectionRentViewController.xib in Resources */,
 				305CB88F1E5691EB00682F88 /* YJUserCenterViewController.xib in Resources */,
 				30AFC3351E580E7E0023F50A /* YJPricateCustomViewController.xib in Resources */,
@@ -1023,6 +1040,7 @@
 				305F627C1E7196AB00754DAA /* YJMessageCenterCell.xib in Resources */,
 				30AFC35E1E5DBFCD0023F50A /* YJSearchViewController.xib in Resources */,
 				30E14A631E61A44000129DE0 /* YJHouseDetailViewController.xib in Resources */,
+				301D1E1B1EB8C3BB00C7A4F7 /* YJFiveStepViewController.xib in Resources */,
 				30E14A9D1E6429FE00129DE0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				305CB8551E568A4F00682F88 /* LaunchScreen.storyboard in Resources */,
 				305CB88A1E5691C400682F88 /* YJHomePageViewController.xib in Resources */,
@@ -1142,6 +1160,8 @@
 				305CB8921E5696E100682F88 /* YJImage.m in Sources */,
 				30E14A5B1E606F9400129DE0 /* YJHistorySearchView.m in Sources */,
 				30E14A671E62C0EE00129DE0 /* YJReportAndFeedbackViewController.m in Sources */,
+				301D1E1F1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.m in Sources */,
+				301D1E1A1EB8C3BB00C7A4F7 /* YJFiveStepViewController.m in Sources */,
 				30AFC3341E580E7E0023F50A /* YJPricateCustomViewController.m in Sources */,
 				30CF7E291E9BAD7D00AA277B /* YJLowPriceViewController.m in Sources */,
 				306C2EAA1EA4DDEB000AC5A3 /* YJZFMoreView.m in Sources */,

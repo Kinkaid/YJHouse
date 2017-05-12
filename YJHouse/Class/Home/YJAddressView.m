@@ -167,5 +167,8 @@
     
     
 }
-
+- (void)refreshTabelView {
+    [_tableview2 reloadData];
+    [_tableview3 reloadData];
+}
 @end

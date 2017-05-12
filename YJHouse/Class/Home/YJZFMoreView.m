@@ -112,4 +112,11 @@ CGFloat btnWidth1;
     }
     [self.delegate zfSortWithParams:para];
 }
+- (void)initWithZFBtn {
+    for (int i=1; i<14; i++) {
+        UIButton *btn = [self viewWithTag:i];
+        btn.layer.borderColor = [UIColor ex_colorFromHexRGB:@"ACABBF"].CGColor;
+        btn.selected = NO;
+    }
+}
 @end

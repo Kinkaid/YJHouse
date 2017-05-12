@@ -176,4 +176,11 @@ CGFloat btnWidth;
     }
     [self.delegate mfSortWithParams:para];
 }
+- (void)initWithMFBtn {
+    for (int i=1; i<21; i++) {
+        UIButton *btn = [self viewWithTag:i];
+        btn.layer.borderColor = [UIColor ex_colorFromHexRGB:@"ACABBF"].CGColor;
+        btn.selected = NO;
+    }
+}
 @end

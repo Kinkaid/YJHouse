@@ -8,9 +8,16 @@
 
 #import "YJBaseViewController.h"
 
+typedef enum {
+    type_zufang,
+    type_maifang
+} purchaseType;
+
+
 @interface YJHouseDetailViewController : YJBaseViewController
 
 @property (nonatomic,copy) NSNumber *site_id;
 @property (nonatomic,copy) NSString *uid;
+@property (nonatomic,assign) purchaseType type;
 
 @end

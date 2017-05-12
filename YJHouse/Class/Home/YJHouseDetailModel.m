@@ -31,7 +31,9 @@
              @"unit_price":@"unit_price",
              @"update_time":@"update_time",
              @"imgAry":@"imgAry",
-             @"decoration":@"decoration"
+             @"decoration":@"decoration",
+             @"rent":@"rent",
+             @"in_storey":@"in_storey"
              };
 }
 

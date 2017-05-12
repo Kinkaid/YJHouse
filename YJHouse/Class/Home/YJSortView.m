@@ -48,6 +48,7 @@ NSArray *xiaoquTypeAry;
         {
             for (int i=0; i<5; i++) {
                 UIButton *btn = [self viewWithTag:i+1];
+                btn.selected = NO;
                 [btn setTitle:houseTypeAry[i] forState:UIControlStateNormal];
             }
         }
@@ -56,6 +57,7 @@ NSArray *xiaoquTypeAry;
         {
             for (int i=0; i<5; i++) {
                 UIButton *btn = [self viewWithTag:i+1];
+                btn.selected = NO;
                 [btn setTitle:xiaoquTypeAry[i] forState:UIControlStateNormal];
             }
         }

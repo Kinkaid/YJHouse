@@ -1,12 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YJFiveStepViewController">
             <connections>
+                <outlet property="collectionView" destination="DV3-w0-0ZH" id="8Ur-M7-H4s"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -14,7 +20,59 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_five_step" translatesAutoresizingMaskIntoConstraints="NO" id="o81-zi-exI">
+                    <rect key="frame" x="67" y="81" width="240" height="56.5"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="240" id="eEG-yU-q3T"/>
+                        <constraint firstAttribute="width" secondItem="o81-zi-exI" secondAttribute="height" multiplier="517:122" id="sJh-jh-Tui"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAV-8I-xB8">
+                    <rect key="frame" x="20" y="592" width="335" height="40"/>
+                    <color key="backgroundColor" red="0.0039215686269999999" green="0.0039215686269999999" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="yZx-yg-TFs"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" image="icon_next">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="nextStepClick:" destination="-1" eventType="touchUpInside" id="6nr-cO-Zyd"/>
+                    </connections>
+                </button>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DV3-w0-0ZH">
+                    <rect key="frame" x="0.0" y="157.5" width="375" height="414.5"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ftr-zx-7yV">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="cVS-co-cqc"/>
+                        <outlet property="delegate" destination="-1" id="8eJ-Sh-X24"/>
+                    </connections>
+                </collectionView>
+            </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="DV3-w0-0ZH" firstAttribute="top" secondItem="o81-zi-exI" secondAttribute="bottom" constant="20" id="1cL-CS-wx8"/>
+                <constraint firstItem="SAV-8I-xB8" firstAttribute="top" secondItem="DV3-w0-0ZH" secondAttribute="bottom" constant="20" id="6HG-27-uEV"/>
+                <constraint firstItem="SAV-8I-xB8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="NCb-Mg-MDo"/>
+                <constraint firstAttribute="bottom" secondItem="SAV-8I-xB8" secondAttribute="bottom" constant="35" id="STJ-CR-Lt8"/>
+                <constraint firstItem="o81-zi-exI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="81" id="WOA-2u-q22"/>
+                <constraint firstItem="o81-zi-exI" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="YPj-As-0oK"/>
+                <constraint firstAttribute="trailing" secondItem="SAV-8I-xB8" secondAttribute="trailing" constant="20" id="dty-yz-MfZ"/>
+                <constraint firstItem="DV3-w0-0ZH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iQz-0t-Pio"/>
+                <constraint firstAttribute="trailing" secondItem="DV3-w0-0ZH" secondAttribute="trailing" id="inh-jj-euC"/>
+            </constraints>
         </view>
     </objects>
+    <resources>
+        <image name="icon_five_step" width="258" height="61"/>
+        <image name="icon_next" width="60" height="20"/>
+    </resources>
 </document>
