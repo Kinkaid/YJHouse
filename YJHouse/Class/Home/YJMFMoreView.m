@@ -13,13 +13,15 @@ CGFloat btnWidth;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.layer.borderWidth = 0.5;
+        self.layer.borderColor = [UIColor ex_colorFromHexRGB:@"D8D8D8"].CGColor;
         self.backgroundColor = [UIColor whiteColor];
         UIScrollView *scoll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, frame.size.height)];
         scoll.contentSize = CGSizeMake(APP_SCREEN_WIDTH, 480);
         [self addSubview:scoll];
         for (int i=0; i<3; i++) {
             UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20, 120 *(i+1), APP_SCREEN_WIDTH - 40, 1)];
-            lineView.backgroundColor = [UIColor ex_colorFromHexRGB:@"D8D8D8"];
+            lineView.backgroundColor = [UIColor ex_colorFromHexRGB:@"EDEDED"];
             [scoll addSubview:lineView];
         }
         btnWidth = (APP_SCREEN_WIDTH - 20 * 2.0 - 12 * 3.0) / 4.0;
@@ -110,13 +112,12 @@ CGFloat btnWidth;
         UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         confirmBtn.frame = CGRectMake(20, 440, APP_SCREEN_WIDTH - 40, 30);
         [scoll addSubview:confirmBtn];
-        [confirmBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"BD00E9"] forState:UIControlStateNormal];
+        [confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
         confirmBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [confirmBtn addTarget:self action:@selector(confirmAction) forControlEvents:UIControlEventTouchUpInside];
         confirmBtn.layer.cornerRadius = 4;
-        confirmBtn.layer.borderColor = [UIColor ex_colorFromHexRGB:@"BD00E9"].CGColor;
-        confirmBtn.layer.borderWidth = 1;
+        confirmBtn.backgroundColor = [UIColor ex_colorFromHexRGB:@"A646E8"];
         valueAry = [NSArray arrayWithObjects:@"2",@"3",@"5",@"7",@"0-50",@"50-70",@"70-90",@"90-120",@"120-140",@"140-160",@"160-200",@"-200",@"5",@"10",@"15",@"20",@"-20",@"1",@"2",@"3", nil];
     }
     return self;

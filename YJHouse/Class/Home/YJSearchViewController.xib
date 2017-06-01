@@ -57,7 +57,11 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J30-aW-brh">
-                            <rect key="frame" x="329" y="28" width="30" height="29"/>
+                            <rect key="frame" x="319" y="22.5" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="G1b-nz-fGv"/>
+                                <constraint firstAttribute="height" constant="40" id="RbN-RI-Ht3"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="取消">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

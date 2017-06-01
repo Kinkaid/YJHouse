@@ -7,7 +7,8 @@
 //
 
 #import "YJBaseViewController.h"
-
+#import "YJRegisterModel.h"
 @interface YJFiveStepViewController : YJBaseViewController
-
+@property (nonatomic,strong) YJRegisterModel *registerModel;
+@property (nonatomic,assign) BOOL edit;
 @end

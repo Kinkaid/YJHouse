@@ -7,7 +7,7 @@
 //
 
 #import "YJBaseViewController.h"
-
 @interface YJFirstStepViewController : YJBaseViewController
+@property (nonatomic,assign) BOOL firstEnter;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "YJMessageCenterViewController.h"
 #import "YJMessageCenterCell.h"
+#import "YJMessageDetailViewController.h"
 #define kCellIdentifier @"YJMessageCenterCell"
 @interface YJMessageCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -19,7 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"消息中心";
-    self.automaticallyAdjustsScrollViewInsets = NO;
     [self registerTableView];
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -46,5 +46,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    YJMessageDetailViewController *vc = [[YJMessageDetailViewController alloc] init];
+    PushController(vc);
+}
 @end

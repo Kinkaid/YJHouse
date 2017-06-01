@@ -21,8 +21,10 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.layer.borderWidth = 0.5;
+        self.layer.borderColor = [UIColor ex_colorFromHexRGB:@"D8D8D8"].CGColor;
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-        UIView *tapView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, APP_SCREEN_WIDTH,self.frame.size.height - 200)];
+        UIView *tapView = [[UIView alloc] initWithFrame:CGRectMake(0, 312, APP_SCREEN_WIDTH,self.frame.size.height - 312)];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
         [tapView addGestureRecognizer:tap];
         [self addSubview:tapView];
@@ -32,23 +34,24 @@
 }
 - (void)tapClick:(UITapGestureRecognizer *)tap {
     self.hidden = YES;
+    [self.delegate hiddenAddressView];
 }
 - (void)customerTableView {
-    _tableview1 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH / 3.0, 200)];
+    _tableview1 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH * (1.000000 / 4.000000) + 1, 312)];
     _tableview1.delegate = self;
     _tableview1.dataSource = self;
     _tableview1.backgroundColor = [UIColor ex_colorFromHexRGB:@"F7F7F7"];
     _tableview1.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:_tableview1];
     [_tableview1 registerNib:[UINib nibWithNibName:kCellId bundle:nil] forCellReuseIdentifier:kCellId];
-    _tableview2 = [[UITableView alloc] initWithFrame:CGRectMake(self.frame.size.width / 3.0, 0, APP_SCREEN_WIDTH / 3.0, 200)];
+    _tableview2 = [[UITableView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH * (1.000000 / 4.000000), 0, APP_SCREEN_WIDTH *(3.0 / 8.000000), 312)];
     _tableview2.delegate = self;
     _tableview2.dataSource = self;
     _tableview2.backgroundColor = [UIColor ex_colorFromHexRGB:@"FAFAFA"];
     _tableview2.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_tableview2 registerNib:[UINib nibWithNibName:kCellId bundle:nil] forCellReuseIdentifier:kCellId];
     [self addSubview:_tableview2];
-    _tableview3 = [[UITableView alloc] initWithFrame:CGRectMake(self.frame.size.width / 3.0 *2.0,0, APP_SCREEN_WIDTH / 3.0, 200)];
+    _tableview3 = [[UITableView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH * (5.0000000 / 8.0000000),0, APP_SCREEN_WIDTH *(3.0 / 8.0000000), 312)];
     _tableview3.delegate = self;
     _tableview3.dataSource = self;
     _tableview3.backgroundColor = [UIColor ex_colorFromHexRGB:@"FFFFFF"];
@@ -89,7 +92,7 @@
     return dic;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 30;
+    return 44;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == _tableview1) {
@@ -113,6 +116,7 @@
         cell.textLabel.highlightedTextColor = [UIColor ex_colorFromHexRGB:@"A746E8"];
         cell.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"A746E8"];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
         return cell;
     } else if (tableView == _tableview2) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellId];
@@ -124,6 +128,7 @@
         cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
         cell.textLabel.text = _dataAry[_itemOneSel][@"children"][indexPath.row][@"name"];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
         cell.textLabel.highlightedTextColor = [UIColor ex_colorFromHexRGB:@"A746E8"];
         cell.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"333333"];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -138,6 +143,7 @@
         cell.selectedBackgroundView.backgroundColor = [UIColor ex_colorFromHexRGB:@"FAFAFA"];
         cell.textLabel.highlightedTextColor = [UIColor ex_colorFromHexRGB:@"A746E8"];
         cell.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"333333"];
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.text = _dataAry[_itemOneSel][@"children"][_itemTwoSel][@"children_children"][indexPath.row][@"name"];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;

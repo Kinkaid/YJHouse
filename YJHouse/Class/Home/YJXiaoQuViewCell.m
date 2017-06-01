@@ -41,12 +41,14 @@
     [_img sd_setImageWithURL:[NSURL URLWithString:model.main_img] placeholderImage:[UIImage imageNamed:@"icon_placeholder"]];
     _name.text = model.name;
     _region.text = model.region;
-    _price.text = [NSString stringWithFormat:@"%@元/平",model.avg_price];
-    _score.text = [NSString stringWithFormat:@"(%@)",model.score];
-    _starView.Score = model.score;
+    NSMutableAttributedString *priceStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@元/平",model.avg_price]];
+    [priceStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, [model.avg_price isKindOfClass:[NSNumber class]] ? [model.avg_price stringValue].length : [model.avg_price length])];
+    _price.attributedText = priceStr;
+    
+    if (!ISEMPTY(model.score)) {
+        _score.text = [NSString stringWithFormat:@"(%@)",model.score];
+        _starView.Score = model.score;
+    }
     _date.text = [NSString stringWithFormat:@"%@年建成",[YJDate parseRemoteDataToString:model.age withFormatterString:@"yyyy"]];
-    
-    
-    
 }
 @end

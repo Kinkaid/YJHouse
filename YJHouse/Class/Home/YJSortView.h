@@ -11,7 +11,7 @@
 @protocol YJSortDelegate <NSObject>
 
 - (void)sortByTag:(NSInteger)tag;
-
+- (void)hiddenSortView;
 @end
 
 @interface YJSortView : UIView
@@ -23,5 +23,5 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,weak)id<YJSortDelegate>delegate;
 @property (nonatomic,assign) YJSortType sortType;
-
+- (void)initWithSortBtn;
 @end

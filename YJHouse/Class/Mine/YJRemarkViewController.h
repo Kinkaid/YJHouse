@@ -8,6 +8,13 @@
 
 #import "YJBaseViewController.h"
 
+typedef void(^returnRemarkBlock)(NSString *content);
+
 @interface YJRemarkViewController : YJBaseViewController
 
+@property (nonatomic,copy) NSString *site;
+@property (nonatomic,copy) NSString *ID;
+@property (nonatomic,strong) returnRemarkBlock contentBlock;
+
+- (void)returnContent:(returnRemarkBlock)block;
 @end

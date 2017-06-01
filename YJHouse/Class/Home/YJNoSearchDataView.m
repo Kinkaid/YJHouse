@@ -20,7 +20,7 @@
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor ex_colorFromHexRGB:@"B3B3B3"];
         label.font = [UIFont systemFontOfSize:22];
-        label.text = @"没有任何搜索记录";
+        label.text = @"没有任何搜索结果";
         [self addSubview:label];
     }
     return self;

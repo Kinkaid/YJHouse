@@ -15,6 +15,7 @@
 @property (nonatomic,copy) id date;
 @property (nonatomic,copy) id first_time;
 @property (nonatomic,copy) id good;
+@property (nonatomic,copy) id favourite_count;
 @property (nonatomic,copy) id name;
 @property (nonatomic,copy) id page;
 @property (nonatomic,copy) id plate;
@@ -30,6 +31,11 @@
 @property (nonatomic,copy) id decoration;
 @property (nonatomic,copy) id rent;
 @property (nonatomic,copy) id in_storey;
+@property (nonatomic,copy) NSString * site_name;
 @property (nonatomic,strong) NSMutableArray *imgAry;
+@property (nonatomic,copy) id stairs_ratio;
+@property (nonatomic,copy) id around;
+@property (nonatomic,copy) id introduction;
+@property (nonatomic,copy) id point;
 
 @end

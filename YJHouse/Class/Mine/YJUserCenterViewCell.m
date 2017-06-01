@@ -29,10 +29,18 @@
     _title.text = dic[@"title"];
     if (self.indexPath.section == 0 && self.indexPath.row == 0) {
         _title.textColor = [UIColor ex_colorFromHexRGB:@"333333"];
-        _title.font = [UIFont systemFontOfSize:18];
+        if ([LJKHelper getDevicePlateform] == 4.0) {
+            _title.font = [UIFont systemFontOfSize:16];
+        } else {
+            _title.font = [UIFont systemFontOfSize:18];
+        }
     } else {
         _title.textColor = [UIColor ex_colorFromHexRGB:@"7D7D7D"];
-        _title.font = [UIFont systemFontOfSize:17];
+        if ([LJKHelper getDevicePlateform] == 4.0) {
+            _title.font = [UIFont systemFontOfSize:15];
+        } else {
+            _title.font = [UIFont systemFontOfSize:17];
+        }
     }
 }
 

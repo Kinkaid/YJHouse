@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YJPrivateModel.h"
 @protocol YJPrivateCustomEditDelegate <NSObject>
 
 - (void)privateEditAction:(NSInteger)cellSection;
@@ -17,5 +17,5 @@
 @interface YJPricateCustomViewCell : UITableViewCell
 @property (nonatomic,assign) NSInteger cellSection;
 @property (nonatomic,assign) id<YJPrivateCustomEditDelegate>delegate;
-- (void)showDataWithDic:(NSDictionary *)dic;
+- (void)showDataWithModel:(YJPrivateModel *)model;
 @end

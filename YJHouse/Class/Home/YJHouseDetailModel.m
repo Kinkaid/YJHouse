@@ -18,6 +18,7 @@
              @"date":@"date",
              @"first_time":@"first_time",
              @"good":@"good",
+             @"favourite_count":@"favourite_count",
              @"name":@"name",
              @"page":@"page",
              @"plate":@"plate",
@@ -33,7 +34,12 @@
              @"imgAry":@"imgAry",
              @"decoration":@"decoration",
              @"rent":@"rent",
-             @"in_storey":@"in_storey"
+             @"in_storey":@"in_storey",
+             @"site_name":@"site_name",
+             @"stairs_ratio":@"stairs_ratio",
+             @"around":@"around",
+             @"introduction":@"introduction",
+             @"point":@"point"
              };
 }
 

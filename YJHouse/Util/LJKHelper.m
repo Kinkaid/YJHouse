@@ -7,7 +7,6 @@
 //
 
 #import "LJKHelper.h"
-
 @implementation LJKHelper
 + (NSString *)dateStringFromNumberTimer:(NSString *)timerStr {
     //转化为Double
@@ -37,6 +36,54 @@
 + (double)getCurrentIOS {
     
     return [[[UIDevice currentDevice] systemVersion] doubleValue];
+}
+
++ (void)saveUserHeader:(NSString *)userHeaderUrl {
+    [[NSUserDefaults standardUserDefaults] setObject:userHeaderUrl forKey:@"userHeaderUrl"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (NSString *)getUserHeaderUrl {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"userHeaderUrl"];
+}
+
++ (void)saveUserName:(NSString *)userName {
+    [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (NSString *)getUserName {
+   return [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+}
++ (void)saveAuth_key:(NSString *)auth_key {
+    [[NSUserDefaults standardUserDefaults] setObject:auth_key forKey:@"auth_key"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (NSString *)getAuth_key {
+   return [[NSUserDefaults standardUserDefaults] objectForKey:@"auth_key"];
+}
+
++ (void)saveZufangWeight_id:(NSString *)weight_id {
+    [[NSUserDefaults standardUserDefaults] setObject:weight_id forKey:@"zufang_weight_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (NSString *)getZufangWeight_id {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"zufang_weight_id"];
+}
++ (void)saveErshouWeight_id:(NSString *)weight_id {
+    [[NSUserDefaults standardUserDefaults] setObject:weight_id forKey:@"ershou_weight_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (NSString *)getErshouWeight_id {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"ershou_weight_id"];
+}
++ (CGFloat)getDevicePlateform {
+    NSInteger width = [UIScreen mainScreen].applicationFrame.size.width;
+    if (width == 320) {
+        return 4;
+    } else if(width == 375){
+        return 4.7;
+    } else {
+        return 5.5;
+    }
 }
 @end
 

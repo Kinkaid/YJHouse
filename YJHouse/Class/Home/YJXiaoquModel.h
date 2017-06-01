@@ -10,12 +10,13 @@
 
 @interface YJXiaoquModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic,copy) NSNumber *avg_price;
-@property (nonatomic,copy) NSNumber *xqID;
-@property (nonatomic,copy) NSString *main_img;
-@property (nonatomic,copy) NSString *name;
-@property (nonatomic,copy) NSString *plate;
-@property (nonatomic,copy) NSString *region;
-@property (nonatomic,copy) NSNumber *score;
-@property (nonatomic,copy) NSNumber *age;
+@property (nonatomic,copy) id avg_price;
+@property (nonatomic,copy) id xqID;
+@property (nonatomic,copy) id main_img;
+@property (nonatomic,copy) id name;
+@property (nonatomic,copy) id plate;
+@property (nonatomic,copy) id region;
+@property (nonatomic,copy) id score;
+@property (nonatomic,copy) id age;
+@property (nonatomic,copy) id site;
 @end

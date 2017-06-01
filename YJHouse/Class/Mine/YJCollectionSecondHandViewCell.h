@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YJHouseListModel.h"
 @protocol YJRemarkActionDelegate <NSObject>
 
 - (void)remarkAction:(NSInteger)cellRow;
@@ -18,4 +18,5 @@
 @property (nonatomic,assign) NSInteger cellRow;
 @property(nonatomic,weak)id<YJRemarkActionDelegate>deleagate;
 
+- (void)showDataWithModel:(YJHouseListModel *)model;
 @end

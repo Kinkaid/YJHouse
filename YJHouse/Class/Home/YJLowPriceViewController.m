@@ -14,10 +14,10 @@
 #import "YJAddressView.h"
 #import "YJPriceView.h"
 #import "YJSortView.h"
+#import "YJFirstStepViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
-static NSString *const lowHouseTypeKey = @"lowHouseTypeKey";
-static NSString *const newHouseTypeKey = @"newHouseTypeKey";
-@interface YJLowPriceViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate>
+static NSString *const houseTypeKey = @"houseTypeKey";
+@interface YJLowPriceViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate,YJRequestTimeoutDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,assign) NSInteger curPage;
 @property (nonatomic,strong) NSMutableArray *lowPAry;
@@ -71,12 +71,14 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [YJRequestTimeoutUtil shareInstance].delegate = self;
+    [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
     self.navigationBar.hidden = YES;
     self.curTitle.text = self.isLowPrice ? @"今日白菜价":@"最新房源";
     [self registerTableView];
     [self registerRefresh];
     if (self.isLowPrice) {
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:lowHouseTypeKey] intValue]) {
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
             self.zufang = YES;
             self.priceView.houseType = houseRent;
             [self initWithBtnWithType:1];
@@ -86,7 +88,7 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
             [self initWithBtnWithType:0];
         }
     } else {
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:newHouseTypeKey] intValue]) {
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
             self.zufang = YES;
             [self initWithBtnWithType:1];
         } else {
@@ -95,6 +97,12 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
         }
     }
     [self loadData];
+}
+
+- (void)requestTimeoutAction {
+    if (self.isVisible) {
+        [self loadData];
+    }
 }
 - (void)initWithBtnWithType:(NSInteger)type {
     UIButton *typeBtn = [self.view viewWithTag:3];
@@ -114,13 +122,13 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.lowPAry = [@[] mutableCopy];
-    self.curPage = 1;
+    self.curPage = 0;
     self.zufang = NO;
 }
 - (void)registerRefresh {
     __weak typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        weakSelf.curPage = 1;
+        weakSelf.curPage = 0;
         [weakSelf loadData];
     }];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
@@ -129,9 +137,9 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
     }];
 }
 - (void)loadData {
-    [SVProgressHUD show];
     __weak typeof(self) weakSelf = self;
      NSMutableDictionary *params = [@{} mutableCopy];
+    [params setObject:[LJKHelper getAuth_key] forKey:@"auth_key"];
     [params setValue:@(self.curPage) forKey:@"page"];
     if (self.regionID.length > 1) {
         if (self.plateID.length > 1) {
@@ -146,7 +154,7 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
         if ([self.maxPrice intValue] < 0) {
             [params setObject:[NSString stringWithFormat:@"%@",self.maxPrice] forKey:@"price[0]"];
         } else {
-            [params setObject:[NSString stringWithFormat:@"%ld-%ld",[self.minPrice integerValue],[self.maxPrice integerValue]] forKey:@"price[0]"];
+            [params setObject:[NSString stringWithFormat:@"%d-%d",[self.minPrice intValue],[self.maxPrice intValue]] forKey:@"price[0]"];
         }
     }
     NSString *url;
@@ -165,7 +173,8 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
     }
     [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:GET callBack:^(id responseObject) {
         if (responseObject) {
-            if (weakSelf.curPage == 1) {
+            [YJGIFAnimationView hideInView:self.view];
+            if (weakSelf.curPage == 0) {
                 [weakSelf.lowPAry removeAllObjects];
             }
             NSArray *ary = responseObject[@"result"];
@@ -181,8 +190,9 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
             }
             [weakSelf.tableView.mj_header endRefreshing];
             [weakSelf.tableView reloadData];
-            [SVProgressHUD dismiss];
         }
+    } error:^(NSError *error) {
+        
     }];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -208,12 +218,13 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
     YJHouseListModel *model = self.lowPAry[indexPath.row];
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id = model.site;
-    vc.uid = model.uid;
     if (model.zufang) {
         vc.type = type_zufang;
     } else {
         vc.type = type_maifang;
     }
+    vc.house_id = model.house_id;
+    vc.score = model.total_score;
     PushController(vc);
 }
 
@@ -229,29 +240,53 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
     self.regionID = @"";
     self.maxPrice = 0;
     [self.addressView refreshTabelView];
+    [self.klcManager dismiss:YES];
     UIButton *selectBtn = sender;
-    [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
     UIButton *typeBtn = [self.view viewWithTag:3];
     if (selectBtn.tag == 1) {
-        [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
-        UIButton *btn = [self.popupView viewWithTag:2];
-        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
-        self.zufang = YES;
-        self.priceView.houseType = houseRent;
-        [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:self.isLowPrice ? lowHouseTypeKey:newHouseTypeKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
+        if ([typeBtn.titleLabel.text isEqualToString:@"租房"]) {
+            return;
+        }
+        if (!ISEMPTY([LJKHelper getZufangWeight_id])) {
+            [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+            [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
+            UIButton *btn = [self.popupView viewWithTag:2];
+            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+            self.zufang = YES;
+            self.priceView.houseType = houseRent;
+            [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:houseTypeKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }  else {
+            YJFirstStepViewController *vc = [[YJFirstStepViewController alloc] init];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            vc.firstEnter = NO;
+            [self presentViewController:nav animated:YES completion:nil];
+            return;
+        }
+   
     } else if (selectBtn.tag == 2){
-        [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
-        UIButton *btn = (UIButton *)[self.popupView viewWithTag:1];
-        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
-        self.zufang = NO;
-        self.priceView.houseType = houseBuy;
-        [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:self.isLowPrice ? lowHouseTypeKey:newHouseTypeKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        if ([typeBtn.titleLabel.text  isEqualToString:@"买房"]) {
+            [self.klcManager dismiss:YES];
+            return;
+        }
+        if (!ISEMPTY([LJKHelper getErshouWeight_id])) {
+            [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+            [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
+            UIButton *btn = (UIButton *)[self.popupView viewWithTag:1];
+            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+            self.zufang = NO;
+            self.priceView.houseType = houseBuy;
+            [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:houseTypeKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } else {
+            YJFirstStepViewController *vc = [[YJFirstStepViewController alloc] init];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            vc.firstEnter = NO;
+            [self presentViewController:nav animated:YES completion:nil];
+            return;
+        }
     }
-    [self.klcManager dismiss:YES];
-    self.curPage = 1;
+    self.curPage = 0;
     [self initWithSortBtn];
     [self loadData];
 }
@@ -285,7 +320,7 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
     [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     self.regionID =  regionID;
     self.plateID = plateID;
-    self.curPage = 1;
+    self.curPage = 0;
     [SVProgressHUD show];
     [self loadData];
 }
@@ -329,7 +364,7 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
             break;
     }
     [SVProgressHUD show];
-    self.curPage = 1;
+    self.curPage = 0;
     [self loadData];
 }
 
@@ -410,7 +445,7 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
         default:
             break;
     }
-    self.curPage = 1;
+    self.curPage = 0;
     [SVProgressHUD show];
     [self loadData];
 }
@@ -421,7 +456,7 @@ static NSString *const newHouseTypeKey = @"newHouseTypeKey";
     [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     self.minPrice = minPrice;
     self.maxPrice = maxPrice;
-    self.curPage = 1;
+    self.curPage = 0;
     [SVProgressHUD show];
     [self loadData];
 }

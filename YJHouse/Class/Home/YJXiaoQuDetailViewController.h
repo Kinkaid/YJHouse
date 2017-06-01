@@ -7,7 +7,6 @@
 //
 
 #import "YJBaseViewController.h"
-
 @interface YJXiaoQuDetailViewController : YJBaseViewController
 
 @property (nonatomic,copy) NSNumber *xiaoquId;

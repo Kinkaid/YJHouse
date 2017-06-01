@@ -11,7 +11,7 @@
 @protocol YJAddressClickDelegate <NSObject>
 
 - (void)addressTAPActionWithRegion:(NSString *)regionID andPlate:(NSString *)plateID;
-
+- (void)hiddenAddressView;
 @end
 
 @interface YJAddressView : UIView<UITableViewDelegate,UITableViewDataSource>

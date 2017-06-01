@@ -32,7 +32,20 @@
     
 }
 - (void)saveAction:(UIButton *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (!self.remarkTextView.text.length) {
+        return;
+    }
+    NSDictionary *param = @{@"site":self.site,@"id":self.ID,@"auth_key":[LJKHelper getAuth_key]};
+    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/set-remark" parameters:param method:POST callBack:^(id responseObject) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } error:^(NSError *error) {
+        
+    }];
+    
+    
+}
+- (void)returnContent:(returnRemarkBlock)block {
+    self.contentBlock = block;
 }
 #pragma mark - UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView {

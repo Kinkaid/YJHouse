@@ -9,6 +9,7 @@
 #import "YJFourthStepViewController.h"
 #import "YJFourthStepPreview.h"
 #import "YJFiveStepViewController.h"
+#import "YJTabBarSystemController.h"
 @interface YJFourthStepViewController ()
 @property (weak, nonatomic) IBOutlet UIView *myView;
 @property (nonatomic,strong) NSMutableArray *oriCenterAry;
@@ -30,14 +31,18 @@
         UILongPressGestureRecognizer * longGes = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressClick:)];
         [btn addGestureRecognizer:longGes];
     }
-}
-- (void)settingButtonFrame {
-    // 设置按钮初始位置
-    for (NSInteger i = 0; i < self.oriCenterAry.count; i++) {
-        UIButton *btn = [self.view viewWithTag:i];
-        btn.center =CGPointMake((APP_SCREEN_WIDTH / 5.0) / 2.0 + ((APP_SCREEN_WIDTH / 5.0) * i), 224);
+    if (self.edit) {
+        NSArray *selectArySort = @[self.registerModel.uw_school_weight,self.registerModel.uw_shop_weight,self.registerModel.uw_hospital_weight,self.registerModel.uw_bus_stop_weight,self.registerModel.uw_env_weight];
+        NSArray *titleAry = @[@"学区",@"商店",@"医院",@"交通",@"环境"];
+        NSArray *imgAry = @[@"icon_school_step",@"icon_shop_step",@"icon_hospital_step",@"icon_bus_step",@"icon_env_step"];
+        for (int i=0; i<5; i++) {
+            UIButton *btn = [self.view viewWithTag:(6-[selectArySort[i] intValue])];
+            [btn setImage:[UIImage imageNamed:imgAry[i]] forState:UIControlStateNormal];
+            [btn setTitle:titleAry[i] forState:UIControlStateNormal];
+        }
     }
 }
+
 - (void)longPressClick:(UIGestureRecognizer *)longGes {
     UIButton * currentBtn = (UIButton *)longGes.view;
     if (UIGestureRecognizerStateBegan == longGes.state) {
@@ -125,10 +130,74 @@
 - (IBAction)nextStepAction:(id)sender {
     for (int i=0; i<5; i++) {
         UIButton *btn = self.oriCenterAry[i];
-        YJLog(@"%@",btn.titleLabel.text);
+        [self setupSort:btn.titleLabel.text tag:i];
     }
-    YJFiveStepViewController *vc = [[YJFiveStepViewController alloc] init];
-    PushController(vc);
+    if (self.registerModel.zufang == NO) {
+        //接口调试
+        [SVProgressHUD show];
+        if (ISEMPTY([LJKHelper getAuth_key])) {
+            [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/signup" parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
+                if (!ISEMPTY(responseObject) ||ISEMPTY(responseObject[@"result"])) {
+                    [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
+                    [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+                    [self submitUserPrivateCustom];
+                }
+            } error:^(NSError *error) {
+                
+            }];
+
+        } else {
+            [self submitUserPrivateCustom];
+        }
+    } else {
+        YJFiveStepViewController *vc = [[YJFiveStepViewController alloc] init];
+        vc.registerModel = self.registerModel;
+        vc.edit = self.edit;
+        PushController(vc);
+
+    }
+}
+- (void)setupSort:(NSString *)title tag:(NSInteger)tag {
+    if ([title isEqualToString:@"医院"]) {
+        self.registerModel.uw_hospital_weight = [NSString stringWithFormat:@"%ld",5-tag];
+        return;
+    } else if ([title isEqualToString:@"学区"]) {
+        self.registerModel.uw_school_weight = [NSString stringWithFormat:@"%ld",5-tag];
+        return;
+    } else if ([title isEqualToString:@"商店"]) {
+        self.registerModel.uw_shop_weight = [NSString stringWithFormat:@"%ld",5-tag];
+        return;
+    } else if ([title isEqualToString:@"交通"]) {
+        self.registerModel.uw_bus_stop_weight = [NSString stringWithFormat:@"%ld",5-tag];
+        return;
+    } else if ([title isEqualToString:@"环境"]) {
+        self.registerModel.uw_env_weight = [NSString stringWithFormat:@"%ld",5-tag];
+        return;
+    }
+}
+- (void)submitUserPrivateCustom {
+    NSDictionary *params;
+    if (ISEMPTY(self.registerModel.uw_region2_id)) {
+        params = @{@"auth_key":[LJKHelper getAuth_key],@"uwe[active]":@"1",@"uwe[name]":@"私人订制",@"uwe[region1_id]":self.registerModel.uw_region1_id,@"uwe[region1_weight]":@"10",@"uwe[price_min]":self.registerModel.uw_price_min,@"uwe[price_max]":self.registerModel.uw_price_max,@"uwe[price_rank_weight]":@"10",@"uwe[bus_stop_weight]":self.registerModel.uw_bus_stop_weight,@"uwe[hospital_weight]":self.registerModel.uw_hospital_weight,@"uwe[shop_weight]":self.registerModel.uw_shop_weight,@"uwe[school_weight]":self.registerModel.uw_school_weight,@"uwe[env_weight]":self.registerModel.uw_env_weight};
+    } else {
+        params = @{@"auth_key":[LJKHelper getAuth_key],@"uwe[active]":@"1",@"uwe[name]":@"私人订制",@"uwe[region1_id]":self.registerModel.uw_region1_id,@"uwe[region1_weight]":@"10",@"uwe[region2_id]":self.registerModel.uw_region2_id,@"uwe[region2_weight]":@"10",@"uwe[price_min]":self.registerModel.uw_price_min,@"uwe[price_max]":self.registerModel.uw_price_max,@"uwe[price_rank_weight]":@"10",@"uwe[bus_stop_weight]":self.registerModel.uw_bus_stop_weight,@"uwe[hospital_weight]":self.registerModel.uw_hospital_weight,@"uwe[shop_weight]":self.registerModel.uw_shop_weight,@"uwe[school_weight]":self.registerModel.uw_school_weight,@"uwe[env_weight]":self.registerModel.uw_env_weight};
+    }
+    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/save-user-weight" parameters:params method:POST callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject)) {
+            [SVProgressHUD dismiss];
+            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_id"]];
+            if (self.registerModel.firstEnter) {
+                self.view.window.rootViewController = [[YJTabBarSystemController alloc] init];
+                [self.view removeFromSuperview];
+            } else {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:@"houseTypeKey"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 @end

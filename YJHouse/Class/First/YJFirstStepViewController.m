@@ -8,6 +8,7 @@
 
 #import "YJFirstStepViewController.h"
 #import "YJSecondStepViewController.h"
+#import "YJRegisterModel.h"
 @interface YJFirstStepViewController ()
 @property (weak, nonatomic) IBOutlet UIView *viewZ;
 @property (weak, nonatomic) IBOutlet UIView *viewB;
@@ -22,6 +23,10 @@
     self.viewB.backgroundColor = [[UIColor ex_colorFromHexRGB:@"A746E8"] colorWithAlphaComponent:0.4];
     self.navigationBar.hidden = YES;
 }
+- (IBAction)dismissAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
@@ -45,6 +50,14 @@
 
 - (IBAction)nextClick:(id)sender {
     YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+    YJRegisterModel *model = [[YJRegisterModel alloc] init];
+    model.firstEnter = self.firstEnter;
+    if (self.viewZ.hidden == YES) {
+        model.zufang = NO;
+    } else {
+        model.zufang = YES;
+    }
+    vc.registerModel = model;
     PushController(vc);
 }
 

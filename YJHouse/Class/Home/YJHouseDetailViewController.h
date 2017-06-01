@@ -17,7 +17,9 @@ typedef enum {
 @interface YJHouseDetailViewController : YJBaseViewController
 
 @property (nonatomic,copy) NSNumber *site_id;
-@property (nonatomic,copy) NSString *uid;
+@property (nonatomic,copy) NSString *house_id;
 @property (nonatomic,assign) purchaseType type;
+@property (nonatomic,strong) NSArray *tags;//配套设施
+@property (nonatomic,copy) NSString *score;
 
 @end

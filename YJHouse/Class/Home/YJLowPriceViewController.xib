@@ -208,7 +208,7 @@
                 <constraint firstItem="j10-sG-1FL" firstAttribute="centerX" secondItem="fGj-4u-tOc" secondAttribute="centerX" id="xTA-7j-5x7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="545" y="88"/>
+            <point key="canvasLocation" x="676" y="89"/>
         </view>
     </objects>
     <resources>

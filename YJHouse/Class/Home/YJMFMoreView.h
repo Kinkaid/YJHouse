@@ -11,7 +11,6 @@
 @protocol YJMFSortDelegate <NSObject>
 
 - (void)mfSortWithParams:(NSDictionary *)params;
-
 @end
 
 

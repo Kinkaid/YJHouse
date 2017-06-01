@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,16 +16,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xUs-MS-FWD">
                         <rect key="frame" x="12" y="0.0" width="296" height="76.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_add" translatesAutoresizingMaskIntoConstraints="NO" id="fhV-yP-bxB">
-                                <rect key="frame" x="128" y="18" width="40" height="40"/>
+                                <rect key="frame" x="135" y="25" width="26" height="26"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="Cxa-Vm-xyd"/>
+                                    <constraint firstAttribute="width" constant="26" id="Cxa-Vm-xyd"/>
                                     <constraint firstAttribute="width" secondItem="fhV-yP-bxB" secondAttribute="height" multiplier="1:1" id="hQa-1k-SRF"/>
                                 </constraints>
                             </imageView>
@@ -49,7 +49,7 @@
                     <constraint firstItem="xUs-MS-FWD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="pl8-O3-4Id"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="31" y="111.5"/>
+            <point key="canvasLocation" x="30" y="128"/>
         </tableViewCell>
     </objects>
     <resources>

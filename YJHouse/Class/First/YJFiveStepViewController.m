@@ -9,11 +9,13 @@
 #import "YJFiveStepViewController.h"
 #import "YJFiveStepCollectionViewCell.h"
 #define kCellId @"YJFiveStepCollectionViewCell"
+#import "YJTabBarSystemController.h"
 @interface YJFiveStepViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic,strong) NSMutableArray *picAry;
 @property (nonatomic,strong) NSMutableArray *titleAry;
 @property (nonatomic,strong) NSMutableArray *selectAry;
+@property (nonatomic,strong) NSMutableArray *selectValueAry;
 
 @end
 
@@ -29,9 +31,21 @@
     self.picAry = [@[] mutableCopy];
     self.titleAry = [@[] mutableCopy];
     self.selectAry = [@[] mutableCopy];
+    self.selectValueAry = [@[] mutableCopy];
     [self.picAry addObjectsFromArray:@[@"icon_xyj",@"icon_c",@"icon_bx",@"icon_wl",@"icon_ds",@"icon_rsq",@"icon_kt",@"icon_trq",@"icon_jj"]];
     [self.titleAry addObjectsFromArray:@[@"洗衣机",@"床",@"冰箱",@"网络",@"电视",@"热水器",@"空调",@"天然气",@"家具"]];
-    [self.selectAry addObjectsFromArray:@[@(NO),@(NO),@(NO),@(NO),@(NO),@(NO),@(NO),@(NO),@(NO)]];
+    [self.selectValueAry addObjectsFromArray:@[@(11),@(2),@(13),@(5),@(17),@(7),@(3),@(23),@(19)]];
+    if ([self.registerModel.uw_prime integerValue] ==0) {
+        [self.selectAry addObjectsFromArray:@[@(NO),@(NO),@(NO),@(NO),@(NO),@(NO),@(NO),@(NO),@(NO)]];
+        return;
+    }
+    for (int i=0; i<self.selectValueAry.count; i++) {
+        if ([self.registerModel.uw_prime integerValue] % [self.selectValueAry[i] intValue]) {
+            [self.selectAry addObject:@(NO)];
+        } else {
+            [self.selectAry addObject:@(YES)];
+        }
+    }
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -68,7 +82,54 @@
 }
 
 - (IBAction)nextStepClick:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    long long value = 1;
+    for (int i=0; i<self.selectAry.count; i++) {
+        if ([self.selectAry[i] boolValue]) {
+            value = value * [self.selectValueAry[i] integerValue];
+        }
+    }
+    if (value == 1) {
+        [YJApplicationUtil alertHud:@"请至少选择一项" afterDelay:1];
+        return;
+    }
+    self.registerModel.uw_prime = [NSString stringWithFormat:@"%lld",value];
+    [SVProgressHUD show];
+    if (ISEMPTY([LJKHelper getAuth_key])) {
+        [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/signup" parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
+            if (!ISEMPTY(responseObject) ||ISEMPTY(responseObject[@"result"])) {
+                [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
+                [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+                [self submitUserPrivateCustom];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    } else {
+        [self submitUserPrivateCustom];
+    }
 }
-
+- (void)submitUserPrivateCustom {
+    NSDictionary *params;
+    if (ISEMPTY(self.registerModel.uw_region2_id)) {
+        params = @{@"auth_key":[LJKHelper getAuth_key],@"uwz[active]":@"1",@"uwz[name]":@"私人订制",@"uwz[region1_id]":self.registerModel.uw_region1_id,@"uwz[region1_weight]":@"10",@"uwz[price_min]":self.registerModel.uw_price_min,@"uwz[price_max]":self.registerModel.uw_price_max,@"uwz[price_rank_weight]":@"10",@"uwz[bus_stop_weight]":self.registerModel.uw_bus_stop_weight,@"uwz[hospital_weight]":self.registerModel.uw_hospital_weight,@"uwz[shop_weight]":self.registerModel.uw_shop_weight,@"uwz[school_weight]":self.registerModel.uw_school_weight,@"uwz[env_weight]":self.registerModel.uw_env_weight,@"uwz[prime]":self.registerModel.uw_prime};
+    } else {
+        params = @{@"auth_key":[LJKHelper getAuth_key],@"uwz[active]":@"1",@"uwz[name]":@"私人订制",@"uwz[region1_id]":self.registerModel.uw_region1_id,@"uwz[region1_weight]":@"10",@"uwz[region2_id]":self.registerModel.uw_region2_id,@"uwz[region2_weight]":@"10",@"uwz[price_min]":self.registerModel.uw_price_min,@"uwz[price_max]":self.registerModel.uw_price_max,@"uwz[price_rank_weight]":@"10",@"uwz[bus_stop_weight]":self.registerModel.uw_bus_stop_weight,@"uwz[hospital_weight]":self.registerModel.uw_hospital_weight,@"uwz[shop_weight]":self.registerModel.uw_shop_weight,@"uwz[school_weight]":self.registerModel.uw_school_weight,@"uwz[env_weight]":self.registerModel.uw_env_weight,@"uwz[prime]":self.registerModel.uw_prime};
+    }
+    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/save-user-weight" parameters:params method:POST callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject)) {
+            [SVProgressHUD dismiss];
+            [LJKHelper saveZufangWeight_id:responseObject[@"result"][@"weight_id"]];
+            if (self.registerModel.firstEnter) {
+                self.view.window.rootViewController = [[YJTabBarSystemController alloc] init];
+                [self.view removeFromSuperview];
+            } else {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@"houseTypeKey"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
 @end

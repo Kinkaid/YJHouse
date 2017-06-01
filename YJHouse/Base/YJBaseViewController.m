@@ -20,7 +20,7 @@
 - (UIView *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, 64)];
-        _navigationBar.backgroundColor = [UIColor ex_colorFromHexRGB:@"BD00E9"];
+        _navigationBar.backgroundColor = [UIColor ex_colorFromHexRGB:@"A646E8"];
         [self.view addSubview:_navigationBar];
         [self.view bringSubviewToFront:_navigationBar];
     }
@@ -53,6 +53,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.navigationController.navigationBar setBarTintColor:[UIColor ex_colorFromHexRGB:@"A746E8"]];
     self.navigationController.navigationBar.tintColor = [UIColor ex_colorFromHexRGB:@"FFFFFF"];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
@@ -63,10 +64,16 @@
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
     }
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.isVisible = YES;
+}
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    self.isVisible = NO;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     self.firstDisplay = NO;
+    [YJGIFAnimationView hideInView:self.view];
     [SVProgressHUD dismiss];
 }
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -82,12 +89,13 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.navigationBar);
         make.centerY.equalTo(self.navigationBar).with.offset(10);
+        make.size.mas_equalTo(CGSizeMake(APP_SCREEN_WIDTH - 120, 20));
     }];
     [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.navigationBar);
-        make.top.equalTo(self.navigationBar).with.offset(20);
-        make.height.mas_equalTo(44);
-        make.width.mas_equalTo(44);
+        make.top.equalTo(self.navigationBar).with.offset(17);
+        make.height.mas_equalTo(50);
+        make.width.mas_equalTo(70);
     }];
     
 }

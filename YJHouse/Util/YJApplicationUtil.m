@@ -23,6 +23,7 @@
 + (void)alertHud:(NSString *)text afterDelay:(NSTimeInterval)delay {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.label.text = [NSString stringWithFormat:@"%@",text];
+    hud.label.numberOfLines = 0;
     hud.mode = MBProgressHUDModeText;
     [hud hideAnimated:YES afterDelay:delay];
 }

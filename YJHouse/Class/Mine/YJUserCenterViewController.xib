@@ -12,9 +12,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YJUserCenterViewController">
             <connections>
+                <outlet property="headerImg" destination="wVb-0M-sA2" id="ySL-Hi-HZq"/>
                 <outlet property="headerView" destination="qpc-ei-ecj" id="iDs-YJ-xdB"/>
                 <outlet property="shareView" destination="b3L-i0-ZHb" id="WB6-b5-TLD"/>
                 <outlet property="tableView" destination="aLa-td-iXK" id="bJf-3b-QOU"/>
+                <outlet property="userName" destination="wGf-1y-hDg" id="qpg-HW-gJv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -39,15 +41,16 @@
                 <constraint firstAttribute="bottom" secondItem="aLa-td-iXK" secondAttribute="bottom" constant="49" id="iTh-qx-A9i"/>
                 <constraint firstItem="aLa-td-iXK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="u0E-hk-mOA"/>
             </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="qpc-ei-ecj">
             <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_userCenterBg" translatesAutoresizingMaskIntoConstraints="NO" id="k9D-vq-jHW">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_userCenterBg" translatesAutoresizingMaskIntoConstraints="NO" id="k9D-vq-jHW">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
                 </imageView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_defaultHeader" translatesAutoresizingMaskIntoConstraints="NO" id="wVb-0M-sA2">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_header_1" translatesAutoresizingMaskIntoConstraints="NO" id="wVb-0M-sA2">
                     <rect key="frame" x="137" y="75" width="100" height="100"/>
                     <color key="backgroundColor" red="0.86274509803921573" green="0.88235294117647056" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -97,12 +100,12 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEP-LU-4Uf">
-                    <rect key="frame" x="63" y="96.5" width="24" height="24"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEP-LU-4Uf">
+                    <rect key="frame" x="63" y="96.5" width="22" height="22"/>
                     <color key="backgroundColor" red="1" green="0.47058823529411764" blue="0.47058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="KEP-LU-4Uf" secondAttribute="height" multiplier="1:1" id="G1R-Mu-YzD"/>
-                        <constraint firstAttribute="width" constant="24" id="c5f-iV-76r"/>
+                        <constraint firstAttribute="width" constant="22" id="c5f-iV-76r"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -146,7 +149,7 @@
                 <constraint firstItem="ThC-Vf-RbN" firstAttribute="leading" secondItem="qpc-ei-ecj" secondAttribute="leading" constant="41" id="znt-3n-cz4"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="70.5" y="128"/>
+            <point key="canvasLocation" x="408" y="185"/>
         </view>
         <view contentMode="scaleToFill" id="b3L-i0-ZHb">
             <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
@@ -181,7 +184,6 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="cancelAction:" destination="-1" eventType="touchUpInside" id="ECd-HY-DXk"/>
-                        <action selector="messageCenterAction:" destination="-1" eventType="touchUpInside" id="MID-MT-UzG"/>
                     </connections>
                 </button>
                 <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aM9-Le-2w7">
@@ -290,7 +292,7 @@
         <image name="icon_QQZone" width="30" height="30"/>
         <image name="icon_WX" width="30" height="30"/>
         <image name="icon_WXZone" width="30" height="30"/>
-        <image name="icon_defaultHeader" width="58" height="69"/>
+        <image name="icon_header_1" width="101" height="101"/>
         <image name="icon_message" width="35" height="33"/>
         <image name="icon_setting" width="35" height="35"/>
         <image name="icon_userCenterBg" width="375" height="250"/>

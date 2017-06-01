@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YJSecondStepViewController">
             <connections>
+                <outlet property="backBtn" destination="wel-Xb-s16" id="doU-EO-qwk"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -43,7 +44,7 @@
                     </constraints>
                 </imageView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fih-ZJ-nJY">
-                    <rect key="frame" x="17" y="223" width="340" height="246"/>
+                    <rect key="frame" x="17" y="210.5" width="340" height="246"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_map_layer" translatesAutoresizingMaskIntoConstraints="NO" id="YGx-ib-Pj9">
                             <rect key="frame" x="0.0" y="0.0" width="340" height="246"/>
@@ -390,16 +391,40 @@
                         <constraint firstItem="avf-du-H4a" firstAttribute="leading" secondItem="2wU-bB-hZ4" secondAttribute="trailing" id="zDK-Z2-qUm"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="杭州" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cMA-lN-h2a">
+                    <rect key="frame" x="172" y="484.5" width="31" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.18431372549019609" green="0.16078431372549018" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" alpha="0.60000002384185791" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wel-Xb-s16">
+                    <rect key="frame" x="20" y="20" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="3va-QW-JK3"/>
+                        <constraint firstAttribute="width" secondItem="wel-Xb-s16" secondAttribute="height" multiplier="1:1" id="ves-Fv-DBN"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                    <state key="normal" title="×">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="backAction:" destination="-1" eventType="touchUpInside" id="bya-zn-8g0"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="XPf-gT-Mta" secondAttribute="bottom" constant="35" id="1na-qN-qDz"/>
                 <constraint firstAttribute="trailing" secondItem="XPf-gT-Mta" secondAttribute="trailing" constant="20" id="4po-zk-fhk"/>
+                <constraint firstItem="wel-Xb-s16" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="MdW-k7-Txa"/>
                 <constraint firstItem="hOH-dc-BRL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TDx-uv-UP4"/>
+                <constraint firstItem="cMA-lN-h2a" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Wo1-NM-fki"/>
                 <constraint firstItem="XPf-gT-Mta" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Wu8-FY-g0n"/>
+                <constraint firstItem="fih-ZJ-nJY" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="XYb-d1-L9n"/>
                 <constraint firstItem="fih-ZJ-nJY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="dNl-Bp-hS5"/>
-                <constraint firstItem="fih-ZJ-nJY" firstAttribute="top" secondItem="hOH-dc-BRL" secondAttribute="bottom" constant="74" id="ifB-s5-3F4"/>
+                <constraint firstItem="cMA-lN-h2a" firstAttribute="top" secondItem="YGx-ib-Pj9" secondAttribute="bottom" constant="28" id="h6N-2K-uZ8"/>
                 <constraint firstItem="hOH-dc-BRL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="88" id="jYa-ek-WUl"/>
+                <constraint firstItem="wel-Xb-s16" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="nOG-hM-2zu"/>
             </constraints>
             <point key="canvasLocation" x="33.5" y="54.5"/>
         </view>

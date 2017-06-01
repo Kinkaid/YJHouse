@@ -12,6 +12,8 @@
 @interface YJThirdStepViewController ()<TTRangeSliderDelegate>
 @property (nonatomic,strong)TTRangeSlider *slider;
 @property (nonatomic,strong)NSMutableArray *priceSectionAry;
+@property (weak, nonatomic) IBOutlet UILabel *unitLabel;
+
 @end
 
 @implementation YJThirdStepViewController
@@ -31,9 +33,9 @@
         _slider.handleColor = [UIColor ex_colorFromHexRGB:@"B100FC"];
         _slider.maxValue = 4;
         _slider.minValue = 0;
-        _slider.selectedMinimum = 0;
-        _slider.selectedMaximum = 3;
         _slider.delegate = self;
+        _slider.selectedMaximum = 3;
+        _slider.selectedMinimum = 0;
         [self.view addSubview:_slider];
     }
     return _slider;
@@ -44,7 +46,29 @@
     self.slider.step = 1;
     self.navigationBar.hidden = YES;
     self.priceSectionAry = [@[] mutableCopy];
-    [self.priceSectionAry addObjectsFromArray:@[@"0",@"150",@"300",@"500",@"不限"]];
+    if (self.registerModel.zufang) {
+        [self.priceSectionAry addObjectsFromArray:@[@"0",@"1500",@"3000",@"5000",@"不限"]];
+        self.unitLabel.text = @"单位:元";
+    } else {
+        [self.priceSectionAry addObjectsFromArray:@[@"0",@"150",@"300",@"500",@"不限"]];
+        self.unitLabel.text = @"单位:万元";
+    }
+    if (self.registerModel.uw_price_max !=0) {
+        self.slider.selectedMaximum = 4;
+        for (int i=0; i<self.priceSectionAry.count; i++) {
+            if ([self.priceSectionAry[i] integerValue] == [self.registerModel.uw_price_min integerValue]) {
+                if (i!=4) {
+                    self.slider.selectedMinimum = i;
+                }
+                
+            }
+            if ([self.priceSectionAry[i] integerValue] == [self.registerModel.uw_price_max integerValue]) {
+                if (i!=0) {
+                    self.slider.selectedMaximum = i;
+                } 
+            }
+        }
+    }
     for (int i=0; i<_priceSectionAry.count; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40 , 20)];
         label.text = _priceSectionAry[i];
@@ -62,16 +86,29 @@
     }
 }
 - (void)rangeSlider:(TTRangeSlider *)sender didChangeSelectedMinimumValue:(float)selectedMinimum andMaximumValue:(float)selectedMaximum {
-    
-    if (selectedMinimum == selectedMaximum) {
-        self.slider.selectedMinimum = selectedMaximum - 1;
-    }
+//    if (selectedMinimum == selectedMaximum &&selectedMinimum != 0) {
+//        self.slider.selectedMinimum = selectedMaximum - 1;
+//    }
+//    if (selectedMinimum == 0) {
+//        self.slider.selectedMaximum !=0;
+//    }
 }
 - (IBAction)nextAction:(id)sender {
-//    int min = self.slider.selectedMinimum;
-//    int max = self.slider.selectedMaximum;
-//    [YJApplicationUtil alertHud:[NSString stringWithFormat:@"%@ - %@",self.priceSectionAry[min],self.priceSectionAry[max]] afterDelay:1];
+    if (self.slider.selectedMinimum == self.slider.selectedMaximum) {
+        [YJApplicationUtil alertHud:@"请正确设置价格区间" afterDelay:1];
+    }
     YJFourthStepViewController *vc = [[YJFourthStepViewController alloc] init];
+    int min = self.slider.selectedMinimum;
+    int max = self.slider.selectedMaximum;
+    self.registerModel.uw_price_min = self.priceSectionAry[min];
+    if (max == 4) {
+        self.registerModel.uw_price_max = @"99999";
+    } else {
+        self.registerModel.uw_price_max = self.priceSectionAry[max];
+    }
+    self.registerModel.uw_price_rank_weight = @"10";
+    vc.registerModel = self.registerModel;
+    vc.edit = self.edit;
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

@@ -8,9 +8,11 @@
 
 #import "YJPersonInfoViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "YJSystemHeaderViewController.h"
+#import "YJNickEditViewController.h"
 @interface YJPersonInfoViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *headerImg;
-@property (weak, nonatomic) IBOutlet UITextField *nickTextField;
+@property (weak, nonatomic) IBOutlet UILabel *nickLabel;
 @property (nonatomic,strong) UIImagePickerController *picker;
 @end
 
@@ -27,12 +29,24 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [self setTitle:@"我的个人信息"];
+    [self.headerImg sd_setImageWithURL:[NSURL URLWithString:[LJKHelper getUserHeaderUrl]] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
+    self.nickLabel.text = [LJKHelper getUserName];
 }
 
 - (IBAction)headerImgAction:(id)sender {
-    UIActionSheet * act =[[UIActionSheet alloc]initWithTitle:@"请选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册",@"相机",@"挑选推荐头像", nil];
-    [act showInView:self.view];
+    UIButton *btn = sender;
+    if (btn.tag == 1) {
+        UIActionSheet * act =[[UIActionSheet alloc]initWithTitle:@"请选择图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册",@"相机",@"挑选推荐头像", nil];
+        [act showInView:self.view];
+    } else {
+        YJNickEditViewController *vc = [[YJNickEditViewController alloc] init];
+        vc.nickName = self.nickLabel.text;
+        [vc returnNickName:^(NSString *nickName) {
+            self.nickLabel.text = nickName;
+        }];
+        PushController(vc);
+    }
 }
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
@@ -60,7 +74,12 @@
             break;
             case 2:
         {
-        
+            YJSystemHeaderViewController *vc = [[YJSystemHeaderViewController alloc] init];
+            [vc returnHeaderImgBlock:^(UIImage *headerImg) {
+                [SVProgressHUD show];
+                [self postHeaderImg:headerImg];
+            }];
+            PushController(vc);
         }
             break;
         default:
@@ -71,6 +90,40 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 //    NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     UIImage *userImage = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-    self.headerImg.image = userImage;
+    [self postHeaderImg:userImage];
 }
+- (void)postHeaderImg:(UIImage *)img {
+    [SVProgressHUD showWithStatus:@"正在上传"];
+    AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
+    sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"multipart/form-data",
+                                                             @"text/html",
+                                                             @"image/jpeg",
+                                                             @"image/png",
+                                                             @"application/octet-stream",
+                                                             @"text/json",
+                                                             nil];
+    [sessionManager POST:@"https://ksir.tech/you/frontend/web/app/user/set-avatar" parameters:@{@"auth_key":[LJKHelper getAuth_key]} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        // 上传文件
+        UIImage *image = self.headerImg.image;
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *str = [formatter stringFromDate:[NSDate date]];
+        NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+        
+        [formData appendPartWithFileData:imageData name:@"avatar_image" fileName:fileName mimeType:@"image/jpg"];
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (responseObject) {
+            self.headerImg.image = img;
+            [SVProgressHUD showSuccessWithStatus:@"上传成功"];
+            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://ksir.tech%@",[responseObject[@"result"] lastObject]]];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+    }];
+}
+
+
 @end

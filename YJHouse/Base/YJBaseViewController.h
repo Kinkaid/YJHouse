@@ -14,6 +14,7 @@
 @property (nonatomic,strong)UIView *navigationBar;
 @property (nonatomic,strong)UIButton *backButton;
 @property (nonatomic, strong)UILabel *titleLabel;
+@property (nonatomic, assign)BOOL isVisible;
 
 - (void)isHiddenBackButton:(BOOL)isHidden;
 - (void)setNavigationBarColor:(UIColor *)color;

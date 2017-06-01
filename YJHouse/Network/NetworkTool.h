@@ -23,9 +23,15 @@ typedef enum {
 /**
  创建请求方法
  */
+//- (void)requestWithURLString: (NSString *)URLString
+//                  parameters: (NSDictionary *)parameters
+//                      method: (ReqeustWay)method
+//                    callBack: (void(^)(id responseObject))callBack;
+
 - (void)requestWithURLString: (NSString *)URLString
                   parameters: (NSDictionary *)parameters
                       method: (ReqeustWay)method
-                    callBack: (void(^)(id responseObject))callBack;
+                    callBack: (void(^)(id responseObject))callBack
+                       error:(void(^)(NSError *error))failure;
 
 @end

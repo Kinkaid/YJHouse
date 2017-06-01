@@ -35,7 +35,19 @@
         [YJApplicationUtil alertHud:@"请输入意见反馈信息" afterDelay:1];
         return;
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    UIButton *btn =[self.view viewWithTag:self.lastSelectBtnTag];
+    NSString *reasonStr = [NSString stringWithFormat:@"【%@】",btn.titleLabel.text];
+    [reasonStr stringByAppendingString:self.feedbackTextView.text];
+    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/feedback" parameters:@{@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject[@"result"])) {
+            if ([responseObject[@"result"] isEqualToString:@"success"]) {
+                [YJApplicationUtil alertHud:@"意见反馈成功" afterDelay:1];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }
+    } error:^(NSError *error) {
+        
+    }];
 }
 - (void)initWithBtn {
     for (int i=1; i<=4; i++) {

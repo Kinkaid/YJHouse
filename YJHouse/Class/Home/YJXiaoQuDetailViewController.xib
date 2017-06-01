@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,10 +16,13 @@
                 <outlet property="age" destination="ihi-u1-3L7" id="3Ny-xf-y4H"/>
                 <outlet property="avg_price" destination="0P3-T8-Yc5" id="dyg-28-KXI"/>
                 <outlet property="bus_stop_count" destination="tKe-c3-m69" id="hzX-s5-FfH"/>
+                <outlet property="collectionBtn" destination="6BN-fq-nWR" id="yee-6n-veC"/>
                 <outlet property="contentView" destination="71Y-FG-J2A" id="0Rv-BZ-5Lo"/>
+                <outlet property="dislikeBtn" destination="a67-fm-8lb" id="jeg-GU-9y8"/>
                 <outlet property="ershou_in" destination="Lfe-fa-sbB" id="9Wy-yY-dBu"/>
                 <outlet property="green_rate" destination="mpk-wq-tPH" id="wG2-6f-WU9"/>
                 <outlet property="hospital_count" destination="KJT-at-AYR" id="WX8-Ep-bgS"/>
+                <outlet property="likeBtn" destination="ja6-5S-TDD" id="h6G-oy-3t2"/>
                 <outlet property="main_img" destination="CCK-71-Bu6" id="WEu-gS-tjj"/>
                 <outlet property="name" destination="iPi-rV-4vZ" id="9LZ-1c-aK2"/>
                 <outlet property="plate" destination="DBU-Ua-aa4" id="D6A-pA-vd9"/>
@@ -29,7 +32,12 @@
                 <outlet property="scoreLabel" destination="pm7-72-GCJ" id="2z6-L4-6BW"/>
                 <outlet property="scoreView" destination="I4u-nb-Duk" id="aZa-6s-9xt"/>
                 <outlet property="scrollView" destination="8D6-TS-2O5" id="v9b-Jn-yVQ"/>
+                <outlet property="selectView" destination="9Op-iN-qnl" id="KqB-Wo-hJD"/>
                 <outlet property="shop_count" destination="VJt-DJ-SZE" id="WHZ-sy-aFv"/>
+                <outlet property="showView" destination="5w5-Wa-18F" id="eHN-a9-VxK"/>
+                <outlet property="tjershouLabel" destination="E5v-SS-qb2" id="cFJ-D0-zrj"/>
+                <outlet property="tjzfLabel" destination="ww6-zp-nkB" id="jgX-Zn-oIN"/>
+                <outlet property="toScoreBtn" destination="rvF-BK-oLJ" id="f5J-F5-61R"/>
                 <outlet property="total_family" destination="7LA-yB-3Ca" id="UVY-GK-8pv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="volume" destination="P4D-QI-htK" id="1tO-xw-qTk"/>
@@ -44,7 +52,7 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8D6-TS-2O5">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="621"/>
                 </scrollView>
-                <button opaque="NO" alpha="0.60000002384185791" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3cl-zS-QKP">
+                <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3cl-zS-QKP">
                     <rect key="frame" x="8" y="29" width="28" height="28"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -65,33 +73,39 @@
                     <rect key="frame" x="0.0" y="621" width="375" height="46"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_gotoBuy" translatesAutoresizingMaskIntoConstraints="NO" id="4yM-gV-mVT">
-                            <rect key="frame" x="175" y="0.0" width="200" height="46"/>
+                            <rect key="frame" x="235" y="0.0" width="140" height="46"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="200" id="V0q-T8-oAM"/>
+                                <constraint firstAttribute="width" constant="140" id="V0q-T8-oAM"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享给朋友" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Viw-yu-ii8">
-                            <rect key="frame" x="258" y="12" width="97" height="23"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                            <rect key="frame" x="283" y="14" width="82" height="19.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5w5-Wa-18F">
-                            <rect key="frame" x="0.0" y="0.0" width="175" height="46"/>
+                            <rect key="frame" x="0.0" y="0.0" width="235" height="46"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rvF-BK-oLJ">
-                                    <rect key="frame" x="0.0" y="13" width="87.5" height="20"/>
+                                    <rect key="frame" x="0.0" y="13" width="117.5" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title=" 98%" image="icon_you">
+                                    <state key="normal" title=" 0%" image="icon_you">
                                         <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="toSelectAction:" destination="-1" eventType="touchUpInside" id="Xi1-5t-W69"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6BN-fq-nWR">
-                                    <rect key="frame" x="87.5" y="13" width="87.5" height="21"/>
+                                    <rect key="frame" x="117.5" y="13" width="117.5" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title=" 5" image="icon_dislike">
+                                    <state key="normal" title=" 0" image="icon_dislike">
                                         <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="collectionAction:" destination="-1" eventType="touchUpInside" id="g0p-ZH-iYn"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -105,22 +119,28 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Op-iN-qnl">
-                            <rect key="frame" x="0.0" y="46" width="175" height="46"/>
+                            <rect key="frame" x="0.0" y="46" width="235" height="46"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ja6-5S-TDD">
-                                    <rect key="frame" x="0.0" y="4" width="87.5" height="38"/>
+                                    <rect key="frame" x="0.0" y="4" width="117.5" height="38"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="38" id="ZSI-0J-4oy"/>
                                     </constraints>
-                                    <state key="normal" title=" 28" image="icon_agree">
+                                    <state key="normal" title=" 0" image="icon_agree">
                                         <color key="titleColor" red="0.65490196079999996" green="0.27450980390000002" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="likeAction:" destination="-1" eventType="touchUpInside" id="l7h-mp-pZl"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a67-fm-8lb">
-                                    <rect key="frame" x="87.5" y="4" width="87.5" height="38"/>
-                                    <state key="normal" title=" 16" image="icon_disagree">
+                                    <rect key="frame" x="117.5" y="4" width="117.5" height="38"/>
+                                    <state key="normal" title=" 0" image="icon_disagree">
                                         <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="dislikeAction:" destination="-1" eventType="touchUpInside" id="SC7-ob-9G4"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -142,7 +162,7 @@
                         <constraint firstItem="4yM-gV-mVT" firstAttribute="top" secondItem="V6C-g7-Adn" secondAttribute="top" id="Fst-yg-nBw"/>
                         <constraint firstAttribute="bottom" secondItem="5w5-Wa-18F" secondAttribute="bottom" id="PR9-nh-FZk"/>
                         <constraint firstItem="9Op-iN-qnl" firstAttribute="top" secondItem="V6C-g7-Adn" secondAttribute="top" constant="46" id="UWA-gp-UfB"/>
-                        <constraint firstItem="Viw-yu-ii8" firstAttribute="trailing" secondItem="4yM-gV-mVT" secondAttribute="trailing" constant="-20" id="XFJ-6V-QWd"/>
+                        <constraint firstItem="Viw-yu-ii8" firstAttribute="trailing" secondItem="4yM-gV-mVT" secondAttribute="trailing" constant="-10" id="XFJ-6V-QWd"/>
                         <constraint firstItem="9Op-iN-qnl" firstAttribute="leading" secondItem="V6C-g7-Adn" secondAttribute="leading" id="Zca-N4-bcO"/>
                         <constraint firstItem="Viw-yu-ii8" firstAttribute="centerY" secondItem="4yM-gV-mVT" secondAttribute="centerY" id="aCh-oQ-MXt"/>
                         <constraint firstItem="5w5-Wa-18F" firstAttribute="leading" secondItem="V6C-g7-Adn" secondAttribute="leading" id="g0x-kN-Gui"/>

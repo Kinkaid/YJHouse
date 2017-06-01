@@ -23,11 +23,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-//    YJFirstStepViewController *vc= [[YJFirstStepViewController alloc] init];
-//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-//    self.window.rootViewController = nav;
-    self.tabBar = [[YJTabBarSystemController alloc] init];
-    self.window.rootViewController = self.tabBar;
+    if (ISEMPTY([LJKHelper getZufangWeight_id]) && ISEMPTY([LJKHelper getErshouWeight_id])) {
+        YJFirstStepViewController *vc= [[YJFirstStepViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        self.window.rootViewController = nav;
+        vc.firstEnter = YES;
+    } else {
+        self.tabBar = [[YJTabBarSystemController alloc] init];
+        self.window.rootViewController = self.tabBar;
+    }
     [self.window makeKeyAndVisible];
     [self setShareSDK];
     return YES;

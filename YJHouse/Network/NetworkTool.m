@@ -23,15 +23,14 @@
                   parameters: (NSDictionary *)parameters
                       method: (ReqeustWay)method
                     callBack: (void (^)(id))callBack {
+    self.requestSerializer.timeoutInterval = 10.0f;
     //判断请求方法是GET还是POST
     if (method == GET) {
         //调用AFN框架的方法
         [self GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            //如果请求成功，则回调responseObject
             callBack(responseObject);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            //如果请求失败，控制台打印错误信息
-            NSLog(@"%@",error);
+            
         }];
     }
     
@@ -39,9 +38,40 @@
         [self POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             callBack(responseObject);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSLog(@"%@",error);
         }];
     }
 }
 
+- (void)requestWithURLString: (NSString *)URLString
+                  parameters: (NSDictionary *)parameters
+                      method: (ReqeustWay)method
+                    callBack: (void(^)(id responseObject))callBack
+                       error:(void(^)(NSError *error))failure {
+    self.requestSerializer.timeoutInterval = 10.0f;
+    //判断请求方法是GET还是POST
+    if (method == GET) {
+        //调用AFN框架的方法
+        [self GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            callBack(responseObject);
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            failure(error);
+            if (error.code == -1001) {
+                [YJRequestTimeoutUtil showRequestErrorView];
+            }
+        }];
+    }
+    
+    if (method == POST) {
+        [self POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            callBack(responseObject);
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            failure(error);
+            if (error.code == -1001) {
+                [YJRequestTimeoutUtil showRequestErrorView];
+            }
+        }];
+    }
+
+   
+}
 @end

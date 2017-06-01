@@ -12,7 +12,7 @@
 
 - (void)priceSortByTag:(NSInteger)tag;
 - (void)priceSortWithMinPrice:(NSString *)minPrice maxPrice:(NSString *)maxPrice;
-
+- (void)hiddenPriceView;
 @end
 
 @interface YJPriceView : UIView

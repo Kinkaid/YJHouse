@@ -39,14 +39,36 @@
     }];
 }
 - (void)commitAction {
-    NSMutableArray *resonAry = [@[] mutableCopy];
+    NSMutableArray *reasonAry = [@[] mutableCopy];
     for (int i= 1; i<=5; i++) {
         UIButton *button = [self.view viewWithTag:i];
         if (button.selected ==  YES) {
-            [resonAry addObject:button.titleLabel.text];
+            [reasonAry addObject:button.titleLabel.text];
         }
     }
-    YJLog(@"%@",resonAry);
+    if (reasonAry.count == 0 &&ISEMPTY(self.otherReasonTextView.text)) {
+        return;
+    }
+    NSMutableString *reasonStr = [@"" mutableCopy];
+    if (!ISEMPTY(reasonAry)) {
+        for (int i=0; i<reasonAry.count; i++) {
+            [reasonStr stringByAppendingString:reasonAry[i]];
+        }
+    }
+    if (!ISEMPTY(self.otherReasonTextView.text)) {
+        [reasonStr stringByAppendingString:self.otherReasonTextView.text];
+    }
+    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/report" parameters:@{@"site":self.site,@"id":self.ID,@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject[@"result"])) {
+            if ([responseObject[@"result"] isEqualToString:@"success"]) {
+                [YJApplicationUtil alertHud:@"举报成功" afterDelay:1];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
 }
 - (IBAction)selectReasonAction:(id)sender {
     UIButton *btn = sender;

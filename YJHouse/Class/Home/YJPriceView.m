@@ -17,8 +17,10 @@ WDNoCopyTextField *eTextField;
 @implementation YJPriceView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.layer.borderWidth = 0.5;
+        self.layer.borderColor = [UIColor ex_colorFromHexRGB:@"D8D8D8"].CGColor;
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-        UIView *tapView = [[UIView alloc] initWithFrame:CGRectMake(0, 280, APP_SCREEN_WIDTH,self.frame.size.height - 280)];
+        UIView *tapView = [[UIView alloc] initWithFrame:CGRectMake(0, 280, APP_SCREEN_WIDTH,APP_SCREEN_HEIGHT - 280)];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick)];
         [tapView addGestureRecognizer:tap];
         [self addSubview:tapView];
@@ -32,7 +34,7 @@ WDNoCopyTextField *eTextField;
         for (int i=0; i<7; i++) {
             if (i>0) {
                 UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 40*i, APP_SCREEN_WIDTH, 1)];
-                lineView.backgroundColor = [UIColor ex_colorFromHexRGB:@"D8D8D8"];
+                lineView.backgroundColor = [UIColor ex_colorFromHexRGB:@"EDEDED"];
                 [contentView addSubview:lineView];
             }
             if (i<6) {
@@ -71,16 +73,17 @@ WDNoCopyTextField *eTextField;
         [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
         confirmBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         confirmBtn.layer.cornerRadius = 3;
-        confirmBtn.layer.borderWidth = 1;
-        confirmBtn.layer.borderColor = [UIColor ex_colorFromHexRGB:@"A746E8"].CGColor;
-        [confirmBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+        confirmBtn.backgroundColor = [UIColor ex_colorFromHexRGB:@"A646E8"];
+        [confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [confirmBtn addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:confirmBtn];
     }
     return self;
 }
+
 - (void)tapClick {
     self.hidden = YES;
+    [self.delegate hiddenPriceView];
 }
 - (void)setHouseType:(YJHouseType)houseType {
     switch (houseType) {
@@ -91,6 +94,8 @@ WDNoCopyTextField *eTextField;
                 btn.selected = NO;
                 [btn setTitle:[NSString stringWithFormat:@"%@",zufangAry[i-1]] forState:UIControlStateNormal];
             }
+            bTextField.placeholder = @"最低价格(元)";
+            eTextField.placeholder = @"最高价格(元)";
         }
             break;
         case houseBuy:
@@ -100,6 +105,8 @@ WDNoCopyTextField *eTextField;
                 btn.selected = NO;
                 [btn setTitle:[NSString stringWithFormat:@"%@",maifangAry[i-1]] forState:UIControlStateNormal];
             }
+            bTextField.placeholder = @"最低价格(万)";
+            eTextField.placeholder = @"最高价格(万)";
         }
             break;
         case xiaoquRent:
@@ -109,6 +116,8 @@ WDNoCopyTextField *eTextField;
                 btn.selected = NO;
                 [btn setTitle:[NSString stringWithFormat:@"%@",xqZufangAry[i-1]] forState:UIControlStateNormal];
             }
+            bTextField.placeholder = @"最低价格(元)";
+            eTextField.placeholder = @"最高价格(元)";
         }
             break;
         case xiaoquBuy:
@@ -118,6 +127,8 @@ WDNoCopyTextField *eTextField;
                 btn.selected = NO;
                 [btn setTitle:[NSString stringWithFormat:@"%@",xqMaifangAry[i-1]] forState:UIControlStateNormal];
             }
+            bTextField.placeholder = @"最低价格(万)";
+            eTextField.placeholder = @"最高价格(万)";
         }
             break;
         default:

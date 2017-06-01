@@ -11,6 +11,7 @@
 @interface YJHouseListModel : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic,copy) id area;
+@property (nonatomic,copy) id house_id;
 @property (nonatomic,copy) NSString *main_img;
 @property (nonatomic,copy) NSString *name;
 @property (nonatomic,copy) NSString *plate;

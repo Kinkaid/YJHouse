@@ -38,7 +38,10 @@
              @"total_family":@"total_family",
              @"update_time":@"update_time",
              @"volume":@"volume",
-             @"zufang_in":@"zufang_in"
+             @"zufang_in":@"zufang_in",
+             @"good":@"good",
+             @"bad":@"bad",
+             @"site":@"site"
              };
 }
 

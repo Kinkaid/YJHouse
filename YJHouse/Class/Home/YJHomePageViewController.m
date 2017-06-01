@@ -19,9 +19,11 @@
 #import "YJMFMoreView.h"
 #import "YJZFMoreView.h"
 #import "YJHouseListModel.h"
+#import "YJSecondStepViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
+static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
 static NSString *const houseTypeKey = @"houseTypeKey";
-@interface YJHomePageViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate,YJMFSortDelegate,YJZFSortDelegate>
+@interface YJHomePageViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate,YJMFSortDelegate,YJZFSortDelegate,YJRequestTimeoutDelegate>
 @property (weak, nonatomic) IBOutlet UIView *navView;
 @property (nonatomic,assign) BOOL zufang;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -45,13 +47,17 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 @property (nonatomic,copy) NSString *minPrice;
 @property (nonatomic,copy) NSString *maxPrice;
 @property (nonatomic,strong) NSDictionary *mfParams;
+@property (nonatomic,assign) NSInteger sortTapLastTime;
 @end
 
 @implementation YJHomePageViewController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (YJPriceView *)priceView {
     if (!_priceView) {
-        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, self.view.frame.size.height - 100)];
+        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100 - 49)];
         _priceView.hidden = YES;
         _priceView.delegate = self;
         _priceView.houseType = houseBuy;
@@ -61,7 +67,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJAddressView *)addressView {
     if (!_addressView) {
-        _addressView = [[YJAddressView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH,self.view.frame.size.height - 100)];
+        _addressView = [[YJAddressView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH,APP_SCREEN_HEIGHT - 100 - 49)];
         _addressView.delegate = self;
         _addressView.hidden = YES;
         [self.view addSubview:_addressView];
@@ -70,7 +76,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJSortView *)sortView {
     if (!_sortView) {
-        _sortView = [[YJSortView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, self.view.frame.size.height - 100)];
+        _sortView = [[YJSortView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100 - 49)];
         _sortView.hidden = YES;
         _sortView.delegate = self;
         _sortView.sortType = houseType;
@@ -80,7 +86,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJMFMoreView *)mfMoreView {
     if (!_mfMoreView) {
-        _mfMoreView = [[YJMFMoreView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, self.view.frame.size.height - 100 - 49)];
+        _mfMoreView = [[YJMFMoreView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100 - 49)];
         _mfMoreView.hidden = YES;
         _mfMoreView.delegate = self;
         [self.view addSubview:_mfMoreView];
@@ -89,7 +95,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJZFMoreView *)zfMoreView {
     if (!_zfMoreView) {
-        _zfMoreView = [[YJZFMoreView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, self.view.frame.size.height - 100)];
+        _zfMoreView = [[YJZFMoreView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100 - 49)];
         _zfMoreView.hidden = YES;
         _zfMoreView.delegate = self;
         [self.view addSubview:_zfMoreView];
@@ -98,11 +104,14 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [YJRequestTimeoutUtil shareInstance].delegate = self;
+    [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
     self.navigationBar.hidden = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHomeData) name:kReloadHomeDataNotif object:nil];
     [self registerTableView];
+    self.sortTapLastTime = 51;
     [self.view bringSubviewToFront:self.topView];
     [self registerRefresh];
-    [SVProgressHUD show];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
         self.zufang = YES;
         self.priceView.houseType = houseRent;
@@ -113,6 +122,33 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         [self initWithBtnWithType:0];
     }
     [self loadHomeData];
+}
+#pragma mark -YJRequestTimeoutDelegate 
+- (void)requestTimeoutAction {
+    if (self.isVisible) {
+        [self loadHomeData];
+    }
+}
+- (void)reloadHomeData {
+    self.mfParams = nil;
+    self.sortKey = @"";
+    self.regionID = @"";
+    self.maxPrice = 0;
+    [self.mfMoreView initWithMFBtn];
+    [self.zfMoreView initWithZFBtn];
+    [self.addressView refreshTabelView];
+    [self.sortView initWithSortBtn];
+    [self initWithSortBtn];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
+        self.zufang = YES;
+        self.priceView.houseType = houseRent;
+        [self initWithBtnWithType:1];
+    } else {
+        self.zufang = NO;
+        self.priceView.houseType = houseBuy;
+        [self initWithBtnWithType:0];
+    }
+    [self.tableView.mj_header beginRefreshing];
 }
 - (void)initWithBtnWithType:(NSInteger)type {
     UIButton *typeBtn = [self.view viewWithTag:103];
@@ -139,7 +175,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)registerRefresh {
     __weak typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        weakSelf.homePage = 1;
+        weakSelf.homePage = 0;
         [weakSelf loadHomeData];
     }];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
@@ -153,15 +189,14 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.66 +150 +46);
     [self.tableView setTableHeaderView:self.headerView];
     self.navView.backgroundColor = [[UIColor ex_colorFromHexRGB:@"FF0000"] colorWithAlphaComponent:0];
-    self.homePage = 1;
+    self.homePage = 0;
     self.homeHouseAry = [@[] mutableCopy];
 }
 
 - (void)loadHomeData {
     __weak typeof(self)weakSelf = self;
     NSMutableDictionary *params = [@{} mutableCopy];
-    [params setValue:@(1) forKey:@"user_id"];
-    [params setValue:@(1) forKey:@"active"];
+    [params setValue:[LJKHelper getAuth_key] forKey:@"auth_key"];
     [params setValue:@(self.homePage) forKey:@"page"];
     if (self.regionID.length > 1) {
         if (self.plateID.length > 1) {
@@ -185,14 +220,21 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     NSString *url;
     if (self.zufang) {
         url = @"https://ksir.tech/you/frontend/web/app/zufang/custom-list";
+        if (!ISEMPTY([LJKHelper getZufangWeight_id])) {
+            [params setObject:[LJKHelper getZufangWeight_id] forKey:@"weight_id"];
+        }
     } else {
         url = @"https://ksir.tech/you/frontend/web/app/ershou/custom-list";
+        if (!ISEMPTY([LJKHelper getErshouWeight_id])) {
+            [params setObject:[LJKHelper getErshouWeight_id] forKey:@"weight_id"];
+        }
     }
     [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:GET callBack:^(id responseObject) {
-        if (weakSelf.homePage == 1) {
+        if (weakSelf.homePage == 0) {
             [weakSelf.homeHouseAry removeAllObjects];
             [weakSelf.tableView.mj_header endRefreshing];
             [SVProgressHUD dismiss];
+            [YJGIFAnimationView hideInView:self.view];
         }
         NSArray *ary = responseObject[@"result"];
         for (int i = 0; i<ary.count; i++) {
@@ -206,6 +248,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             [weakSelf.tableView.mj_footer endRefreshing];
         }
         [weakSelf.tableView reloadData];
+    } error:^(NSError *error) {
+        
     }];
 }
 
@@ -232,9 +276,11 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     YJHouseListModel *model = self.homeHouseAry[indexPath.row];
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id =model.site;
-    vc.uid = model.uid;
+    vc.score = model.total_score;
+    vc.house_id = model.house_id;
     if (model.zufang) {
         vc.type = type_zufang;
+        vc.tags = [model.tags componentsSeparatedByString:@";"];
     } else {
         vc.type = type_maifang;
     }
@@ -258,37 +304,57 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [self.mfMoreView initWithMFBtn];
     [self.zfMoreView initWithZFBtn];
     [self.addressView refreshTabelView];
+    [self.sortView initWithSortBtn];
+    [self.klcManager dismiss:YES];
     UIButton *selectBtn = sender;
-    [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
     UIButton *typeBtn = [self.view viewWithTag:103];
     if (selectBtn.tag == 101) {
         if ([typeBtn.titleLabel.text isEqualToString:@"租房"]) {
-            [self.klcManager dismiss:YES];
             return;
         }
-        [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
-        UIButton *btn = [self.popupView viewWithTag:102];
-        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
-        self.zufang = YES;
-        self.priceView.houseType = houseRent;
-        [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:houseTypeKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        if (!ISEMPTY([LJKHelper getZufangWeight_id])) {
+            [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+            [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
+            UIButton *btn = [self.popupView viewWithTag:102];
+            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+            self.zufang = YES;
+            self.priceView.houseType = houseRent;
+            [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:houseTypeKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } else {
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = YES;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:nav animated:YES completion:nil];
+            return;
+        }
+
     } else if (selectBtn.tag == 102){
         if ([typeBtn.titleLabel.text  isEqualToString:@"买房"]) {
             [self.klcManager dismiss:YES];
             return;
         }
-        [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
-        UIButton *btn = (UIButton *)[self.popupView viewWithTag:101];
-        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
-        self.zufang = NO;
-        self.priceView.houseType = houseBuy;
-        [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:houseTypeKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        if (!ISEMPTY([LJKHelper getErshouWeight_id])) {
+            [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+            [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
+            UIButton *btn = (UIButton *)[self.popupView viewWithTag:101];
+            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+            self.zufang = NO;
+            self.priceView.houseType = houseBuy;
+            [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:houseTypeKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } else {
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = NO;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:nav animated:YES completion:nil];
+            return;
+        }
     }
     [self initWithSortBtn];
-    self.homePage = 1;
-    [self.klcManager dismiss:YES];
+    self.homePage = 0;
     [SVProgressHUD show];
     [self loadHomeData];
 }
@@ -317,36 +383,167 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 
 - (IBAction)sortAction:(id)sender {
+    UIButton *lastBtn = [self.view viewWithTag:self.sortTapLastTime];
+    UIButton *lastBtn1 = [self.view viewWithTag:self.sortTapLastTime+4];
+    switch (self.sortTapLastTime) {
+        case 51:
+        {
+            if (ISEMPTY(self.regionID)) {
+                [lastBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+                [lastBtn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+            }
+            [UIView animateWithDuration:0.2 animations:^{
+                lastBtn.imageView.transform = CGAffineTransformMakeRotation(0);
+                lastBtn1.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
+            break;
+        case 52:
+        {
+            if (ISEMPTY(self.maxPrice)) {
+                [lastBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+                [lastBtn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+            }
+            [UIView animateWithDuration:0.2 animations:^{
+                lastBtn.imageView.transform = CGAffineTransformMakeRotation(0);
+                lastBtn1.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
+            break;
+        case 53:
+        {
+            if (ISEMPTY(self.sortKey)) {
+                [lastBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+                [lastBtn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+            }
+            [UIView animateWithDuration:0.2 animations:^{
+                lastBtn.imageView.transform = CGAffineTransformMakeRotation(0);
+                lastBtn1.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
+            break;
+        case 54:
+        {
+            if (ISEMPTY(self.mfParams)) {
+                [lastBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+                [lastBtn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+            }
+            [UIView animateWithDuration:0.2 animations:^{
+                lastBtn.imageView.transform = CGAffineTransformMakeRotation(0);
+                lastBtn1.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
+            break;
+        default:
+            break;
+    }
     UIButton *button = sender;
     if (button.tag < 55) {
       [self.tableView setContentOffset:CGPointMake(0, APP_SCREEN_WIDTH *0.66 +150 + 6 - 64)];
     }
     if (button.tag == 51 || button.tag == 55) {
+        UIButton *btn51= [self.view viewWithTag:51];
+        UIButton *btn55= [self.view viewWithTag:55];
+        self.sortTapLastTime = 51;
+        if (self.addressView.hidden == YES) {
+            [btn51 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [btn55 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [UIView animateWithDuration:0.2 animations:^{
+                btn51.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+                btn55.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+            }];
+        } else {
+            [UIView animateWithDuration:0.2 animations:^{
+                btn51.imageView.transform = CGAffineTransformMakeRotation(0);
+                btn55.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
         self.priceView.hidden = YES;
         self.sortView.hidden = YES;
         self.mfMoreView.hidden = YES;
         self.zfMoreView.hidden = YES;
         self.addressView.hidden = !self.addressView.hidden;
     } else if (button.tag == 52 ||button.tag == 56){
+        self.sortTapLastTime = 52;
+        UIButton *btn52= [self.view viewWithTag:52];
+        UIButton *btn56= [self.view viewWithTag:56];
+        if (self.priceView.hidden == YES) {
+            [btn52 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [btn56 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [UIView animateWithDuration:0.2 animations:^{
+                btn52.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+                btn56.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+            }];
+        } else {
+            [UIView animateWithDuration:0.2 animations:^{
+                btn52.imageView.transform = CGAffineTransformMakeRotation(0);
+                btn56.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
         self.addressView.hidden = YES;
         self.sortView.hidden = YES;
         self.mfMoreView.hidden = YES;
         self.zfMoreView.hidden = YES;
         self.priceView.hidden = !self.priceView.hidden ;
     } else if (button.tag == 53 ||button.tag == 57){
+        self.sortTapLastTime = 53;
+        UIButton *btn53= [self.view viewWithTag:53];
+        UIButton *btn57= [self.view viewWithTag:57];
+        if (self.sortView.hidden == YES) {
+            [btn53 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [btn57 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [UIView animateWithDuration:0.2 animations:^{
+                btn53.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+                btn57.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+            }];
+        } else {
+            [UIView animateWithDuration:0.2 animations:^{
+                btn53.imageView.transform = CGAffineTransformMakeRotation(0);
+                btn57.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
         self.addressView.hidden = YES;
         self.priceView.hidden = YES;
         self.mfMoreView.hidden = YES;
         self.zfMoreView.hidden = YES;
         self.sortView.hidden = !self.sortView.hidden;
     } else if (button.tag == 54 ||button.tag == 58){
+        self.sortTapLastTime = 54;
         self.addressView.hidden = YES;
         self.priceView.hidden = YES;
         self.sortView.hidden = YES;
         UIButton *btn = [self.view viewWithTag:103];
+        UIButton *btn54= [self.view viewWithTag:54];
+        UIButton *btn58= [self.view viewWithTag:58];
         if ([btn.titleLabel.text isEqualToString:@"租房"]) {
+            if (self.zfMoreView.hidden == YES) {
+                [btn54 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+                [btn58 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+                [UIView animateWithDuration:0.2 animations:^{
+                    btn54.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+                    btn58.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+                }];
+            } else {
+                [UIView animateWithDuration:0.2 animations:^{
+                    btn54.imageView.transform = CGAffineTransformMakeRotation(0);
+                    btn58.imageView.transform = CGAffineTransformMakeRotation(0);
+                }];
+            }
             self.zfMoreView.hidden = !self.zfMoreView.hidden;
         } else {
+            if (self.mfMoreView.hidden == YES) {
+                [btn54 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+                [btn58 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+                [UIView animateWithDuration:0.2 animations:^{
+                    btn54.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+                    btn58.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+                }];
+            } else {
+                [UIView animateWithDuration:0.2 animations:^{
+                    btn54.imageView.transform = CGAffineTransformMakeRotation(0);
+                    btn58.imageView.transform = CGAffineTransformMakeRotation(0);
+                }];
+            }
             self.mfMoreView.hidden = !self.mfMoreView.hidden;
         }
     }
@@ -365,21 +562,32 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         vc.isLowPrice = NO;
         PushController(vc);
     }
-    
 }
 
 
 #pragma mark -scrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    self.navView.backgroundColor = [[UIColor ex_colorFromHexRGB:@"A746E8"] colorWithAlphaComponent:(scrollView.contentOffset.y /128.0)];
-    if (scrollView.contentOffset.y >= APP_SCREEN_WIDTH *0.66 +150 + 6 - 64) {
+    self.priceView.hidden = YES;
+    self.sortView.hidden = YES;
+    self.mfMoreView.hidden = YES;
+    self.zfMoreView.hidden = YES;
+    self.addressView.hidden = YES;
+    self.navView.backgroundColor = [[UIColor ex_colorFromHexRGB:@"A646E8"] colorWithAlphaComponent:(scrollView.contentOffset.y /128.0)];
+    if (scrollView.contentOffset.y >= APP_SCREEN_WIDTH *0.66 +150 + 6 - 63) {
         self.topView.hidden = NO;
         self.titleView.hidden = NO;
+        self.titleView.subviews[0].alpha = (scrollView.contentOffset.y - (APP_SCREEN_WIDTH *0.66 +150 + 6 - 64)) / 64.0;
         self.searchBtn.hidden = NO;
     } else {
         self.topView.hidden = YES;
         self.titleView.hidden = YES;
         self.searchBtn.hidden = YES;
+    }
+    
+    if (scrollView.contentOffset.y < 0) {
+        self.navView.hidden = YES;
+    } else {
+        self.navView.hidden = NO;
     }
 }
 
@@ -387,11 +595,15 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)addressTAPActionWithRegion:(NSString *)regionID andPlate:(NSString *)plateID {
     UIButton *btn1 = [self.view viewWithTag:51];
     UIButton *btn2 = [self.view viewWithTag:55];
-    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     self.regionID =  regionID;
     self.plateID = plateID;
-    self.homePage = 1;
+    self.homePage = 0;
     [SVProgressHUD show];
     [self loadHomeData];
 }
@@ -402,6 +614,10 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     UIButton *btn2 = [self.view viewWithTag:57];
     [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     switch (tag) {
         case 1:
         {
@@ -437,7 +653,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             break;
     }
     [SVProgressHUD show];
-    self.homePage = 1;
+    self.homePage = 0;
     [self loadHomeData];
 }
 
@@ -447,6 +663,10 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     UIButton *btn2 = [self.view viewWithTag:56];
     [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     switch (tag) {
         case 1:
         {
@@ -518,7 +738,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         default:
             break;
     }
-    self.homePage = 1;
+    self.homePage = 0;
     [SVProgressHUD show];
     [self loadHomeData];
 }
@@ -527,9 +747,13 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     UIButton *btn2 = [self.view viewWithTag:55];
     [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     self.minPrice = minPrice;
     self.maxPrice = maxPrice;
-    self.homePage = 1;
+    self.homePage = 0;
     [SVProgressHUD show];
     [self loadHomeData];
 }
@@ -538,10 +762,22 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)mfSortWithParams:(NSDictionary *)params {
     UIButton *btn1 = [self.view viewWithTag:54];
     UIButton *btn2 = [self.view viewWithTag:58];
-    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    if (ISEMPTY(params)) {
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    } else {
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+    if (ISEMPTY(self.mfParams)&&ISEMPTY(params)) {
+        return;
+    }
     self.mfParams = params;
-    self.homePage = 1;
+    self.homePage = 0;
     [SVProgressHUD show];
     [self loadHomeData];
 }
@@ -550,16 +786,73 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     UIButton *btn1 = [self.view viewWithTag:54];
     UIButton *btn2 = [self.view viewWithTag:58];
     if (ISEMPTY(params)) {
-        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
     } else {
         [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
         [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     }
-    
-    self.homePage = 1;
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+    if (ISEMPTY(self.mfParams)&&ISEMPTY(params)) {
+        return;
+    }
+    self.homePage = 0;
     [SVProgressHUD show];
     self.mfParams = params;
     [self loadHomeData];
 }
+- (void)hiddenAddressView {
+    UIButton *btn1 = [self.view viewWithTag:51];
+    UIButton *btn2 = [self.view viewWithTag:55];
+    if (ISEMPTY(self.regionID)) {
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+}
+- (void)hiddenPriceView {
+    UIButton *btn1 = [self.view viewWithTag:52];
+    UIButton *btn2 = [self.view viewWithTag:56];
+    if (ISEMPTY(self.maxPrice)) {
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+}
+- (void)hiddenSortView {
+    UIButton *btn1 = [self.view viewWithTag:53];
+    UIButton *btn2 = [self.view viewWithTag:57];
+    if (ISEMPTY(self.sortValue)) {
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+}
+- (void)hiddenMFMoreView {
+    UIButton *btn1 = [self.view viewWithTag:54];
+    UIButton *btn2 = [self.view viewWithTag:58];
+    if (ISEMPTY(self.mfParams)) {
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        btn1.imageView.transform = CGAffineTransformMakeRotation(0);
+        btn2.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+}
+
+
+
 @end

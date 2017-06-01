@@ -7,7 +7,10 @@
 //
 
 #import "YJBaseViewController.h"
-
+#import "YJRegisterModel.h"
 @interface YJSecondStepViewController : YJBaseViewController
+
+@property (nonatomic,strong) YJRegisterModel *registerModel;
+@property (nonatomic,assign) BOOL edit;
 
 @end

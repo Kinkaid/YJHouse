@@ -15,7 +15,7 @@
 #import "YJAddressView.h"
 #import "YJPriceView.h"
 #import "YJSortView.h"
-@interface YJXiaoQuListViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate>
+@interface YJXiaoQuListViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate,YJRequestTimeoutDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *xiaoquAry;
 @property (nonatomic,assign) NSInteger xiaoquPage;
@@ -62,28 +62,30 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    [YJRequestTimeoutUtil shareInstance].delegate = self;
+    [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
     self.navigationBar.hidden = YES;
     self.priceView.houseType = xiaoquBuy;
     self.sortView.sortType = xiaoquType;
     [self registerTableView];
     [self registerRefresh];
-    [SVProgressHUD show];
     [self loadXiaoquListData];
     
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
+
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:cellId bundle:nil] forCellReuseIdentifier:cellId];
-    self.xiaoquPage = 1;
+    self.xiaoquPage = 0;
     self.xiaoquAry = [@[] mutableCopy];
 }
+
 - (void)registerRefresh {
     __weak typeof(self) weakSelf = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        weakSelf.xiaoquPage = 1;
+        weakSelf.xiaoquPage = 0;
         [weakSelf loadXiaoquListData];
     }];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
@@ -91,27 +93,34 @@
         [weakSelf loadXiaoquListData];
     }];
 }
+
+- (void)requestTimeoutAction {
+    if (self.isVisible) {
+        [self loadXiaoquListData];
+    }
+}
+
 - (void)loadXiaoquListData {
     __weak typeof(self) weakSelf = self;
     NSMutableDictionary *params = [@{} mutableCopy];
     [params setValue:@(self.xiaoquPage) forKey:@"page"];
     if (self.regionID.length > 1) {
         if (self.plateID.length > 1) {
-            [params setValue:self.plateID forKey:@"plate_id"];
+            [params setValue:self.plateID forKey:@"xq[palte_id]"];
         }
-        [params setValue:self.regionID forKey:@"region_id"];
+        [params setValue:self.regionID forKey:@"xq[region_id]"];
     }
     if (self.sortKey.length) {
         [params setValue:self.sortValue forKey:self.sortKey];
     }
     if (!ISEMPTY(self.maxPrice)) {
-        [params setObject:@([self.minPrice integerValue]) forKey:@"min_price"];
-        [params setObject:@([self.maxPrice integerValue]) forKey:@"max_price"];
+        [params setObject:@([self.minPrice integerValue]) forKey:@"xq[price_min]"];
+        [params setObject:@([self.maxPrice integerValue]) forKey:@"xq[price_max]"];
     }
-    
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/xiaoqu/list" parameters:params method:GET callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"http://ksir.tech/you/frontend/web/app/xiaoqu/list?auth_key=%@",[LJKHelper getAuth_key]] parameters:params method:GET callBack:^(id responseObject) {
         if (responseObject) {
-            if (weakSelf.xiaoquPage == 1) {
+            [YJGIFAnimationView hideInView:self.view];
+            if (weakSelf.xiaoquPage == 0) {
                 [weakSelf.xiaoquAry removeAllObjects];
             }
             NSArray *ary = responseObject[@"result"];
@@ -126,10 +135,10 @@
             }
             [weakSelf.tableView.mj_header endRefreshing];
             [weakSelf.tableView reloadData];
-            [SVProgressHUD dismiss];
         }
-       
- }];
+    } error:^(NSError *error) {
+        
+    }];
 }
 - (IBAction)backAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -153,7 +162,8 @@
 
 - (IBAction)searchAction:(id)sender {//搜索
     YJSearchViewController *vc= [[YJSearchViewController alloc] init];
-    PushController(vc);
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 100;
@@ -183,7 +193,7 @@
     [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
     self.regionID =  regionID;
     self.plateID = plateID;
-    self.xiaoquPage = 1;
+    self.xiaoquPage = 0;
     [SVProgressHUD show];
     [self loadXiaoquListData];
 
@@ -202,47 +212,47 @@
         case 2:
         {
             self.minPrice = 0;
-            self.maxPrice = @"1.0";
+            self.maxPrice = @"10000";
         }
             break;
         case 3:
         {
-            self.minPrice = @"1.0";
-            self.maxPrice = @"1.5";
+            self.minPrice = @"10000";
+            self.maxPrice = @"15000";
             
         }
             break;
         case 4:
         {
-            self.minPrice = @"1.5";
-            self.maxPrice = @"2.0";
+            self.minPrice = @"15000";
+            self.maxPrice = @"20000";
         }
             break;
         case 5:
         {
-            self.minPrice = @"2.0";
-            self.maxPrice = @"2.5";
+            self.minPrice = @"20000";
+            self.maxPrice = @"25000";
         }
             break;
         case 6:
         {
-            self.minPrice = @"2.5";
-            self.maxPrice = @"3.0";
+            self.minPrice = @"25000";
+            self.maxPrice = @"30000";
         }
             break;
         default:
             break;
     }
-    self.xiaoquPage = 1;
+    self.xiaoquPage = 0;
     [SVProgressHUD show];
     [self loadXiaoquListData];
 }
 - (void)priceSortWithMinPrice:(NSString *)minPrice maxPrice:(NSString *)maxPrice {
     UIButton *btn = [self.view viewWithTag:56];
     [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-    self.minPrice = minPrice;
-    self.maxPrice = maxPrice;
-    self.xiaoquPage = 1;
+    self.minPrice = [NSString stringWithFormat:@"%ld",[minPrice integerValue] *10000];
+    self.maxPrice = [NSString stringWithFormat:@"%ld",[maxPrice integerValue] *10000];
+    self.xiaoquPage = 0;
     [SVProgressHUD show];
     [self loadXiaoquListData];
 }
@@ -259,25 +269,25 @@
             break;
         case 2:
         {
-            self.sortKey = @"order[price]";
+            self.sortKey = @"order[avg_price]";
             self.sortValue = @"0";
         }
             break;
         case 3:
         {
-            self.sortKey = @"order[price]";
+            self.sortKey = @"order[avg_price]";
             self.sortValue = @"1";
         }
             break;
         case 4:
         {
-            self.sortKey = @"order[area]";
+            self.sortKey = @"order[age]";
             self.sortValue = @"0";
         }
             break;
         case 5:
         {
-            self.sortKey = @"order[area]";
+            self.sortKey = @"order[age]";
             self.sortValue = @"1";
         }
             break;
@@ -285,7 +295,7 @@
             break;
     }
     [SVProgressHUD show];
-    self.xiaoquPage = 1;
+    self.xiaoquPage = 0;
     [self loadXiaoquListData];
 }
 

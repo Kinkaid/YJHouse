@@ -17,12 +17,16 @@
 #import "YJCollectionRentViewController.h"
 #import "KLCPopup.h"
 #import "WDShareUtil.h"
+#import "YJLoadingAnimationView.h"
+#import "WDAboutUsViewController.h"
 @interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic,strong) NSMutableArray *titleAry;
 @property (nonatomic,strong) KLCPopup *klcManager;
 @property (strong, nonatomic) IBOutlet UIView *shareView;
+@property (weak, nonatomic) IBOutlet UIImageView *headerImg;
+@property (weak, nonatomic) IBOutlet UILabel *userName;
 
 @end
 
@@ -30,12 +34,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.navigationBar.hidden = YES;
     [self registerTableView];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationBar.hidden = YES;
+    [self.headerImg sd_setImageWithURL:[NSURL URLWithString:[LJKHelper getUserHeaderUrl]] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
+    self.userName.text = [LJKHelper getUserName];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -47,8 +52,9 @@
 }
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kcellIdentifier bundle:nil] forCellReuseIdentifier:kcellIdentifier];
-    self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.67);
-    [self.tableView setTableHeaderView:self.headerView];
+      self.headerView.frame = CGRectMake(0, -APP_SCREEN_WIDTH *0.67, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.67);
+    self.tableView.contentInset = UIEdgeInsetsMake(APP_SCREEN_WIDTH *0.67, 0, 0, 0);
+    [self.tableView addSubview:self.headerView];
     self.titleAry = [NSMutableArray arrayWithObjects:
        @[@{@"title":@"我的收藏",@"img":@"icon_collection"},
          @{@"title":@"我收藏的租房",@"img":@""},
@@ -123,7 +129,8 @@
         switch (indexPath.row) {
             case 0:
             {
-            
+                WDAboutUsViewController *vc = [[WDAboutUsViewController alloc] init];
+                PushController(vc);
             }
                 break;
             case 1:
@@ -150,6 +157,16 @@
                 break;
         }
     }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if ((-scrollView.contentOffset.y) > APP_SCREEN_WIDTH *0.67) {
+        [self stretchHeaderView:-scrollView.contentOffset.y];
+    } else {
+        [self stretchHeaderView:APP_SCREEN_WIDTH *0.67];
+    }
+}
+- (void)stretchHeaderView:(CGFloat)headerHeight {
+    self.headerView.frame = CGRectMake(0, -headerHeight, APP_SCREEN_WIDTH, headerHeight);
 }
 #pragma mark - IBActions
 
