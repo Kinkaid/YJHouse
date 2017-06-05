@@ -27,7 +27,8 @@
              @"uw_shop_weight":@"uw_shop_weight",
              @"uw_school_weight":@"uw_school_weight",
              @"uw_env_weight":@"uw_env_weight",
-             @"uw_prime":@"uw_prime"
+             @"uw_prime":@"uw_prime",
+             @"weight_id":@"weight_id"
              };
 }
 

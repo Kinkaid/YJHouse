@@ -25,6 +25,7 @@
 @property (nonatomic,copy) NSString *page;
 @property (nonatomic,copy) NSString *good;
 @property (nonatomic,copy) NSString *bad;
+@property (nonatomic,copy) NSString *favourite_count;
 @property (nonatomic,copy) id parking;
 @property (nonatomic,copy) NSString *plate;
 @property (nonatomic,copy) id plate_id;

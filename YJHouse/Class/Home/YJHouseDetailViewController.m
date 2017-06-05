@@ -16,7 +16,7 @@
 #import "YJHouseListModel.h"
 #import "YJXiaoquDetailModel.h"
 #import "YJXiaoQuDetailViewController.h"
-#import "KLCPopup.h"
+#import "YJHouseInfoDetailViewController.h"
 @interface YJHouseDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
@@ -71,14 +71,15 @@
 
 @property (weak, nonatomic) IBOutlet UIView *sellInfoView;
 @property (weak, nonatomic) IBOutlet UIView *supportingFacilitiesView;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sellInfoViewHeight;
 
 @property (nonatomic,strong) YJHouseDetailModel *houseModel;
 @property (nonatomic,strong) YJXiaoquDetailModel *xiaoquDetailModel;
 
 @property (nonatomic,strong) NSMutableArray *recommandList;
-@property (nonatomic,strong) KLCPopup *popManager;
 
-
+@property (nonatomic,strong) NSMutableArray *houseSellInfoAry;
 
 @end
 
@@ -87,7 +88,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
-    self.navigationBar.hidden = YES;
+    self.navigationBar.alpha = 0;
+    [self setTitle:@"房源详情"];
     [self registerTableView];
     [self loadHouseDetailData];
 }
@@ -102,18 +104,36 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 - (void)initWithHeaderView {
+    self.houseSellInfoAry= [@[] mutableCopy];
     NSMutableString *introduction = [@"" mutableCopy];
     if (!ISEMPTY(self.houseModel.around)) {
-        [introduction appendString:[NSString stringWithFormat:@"        %@\n",self.houseModel.around]];
+        [introduction appendString:[NSString stringWithFormat:@"        %@",self.houseModel.around]];
+        [self.houseSellInfoAry addObject:@{@"content":[NSString stringWithFormat:@"        %@",self.houseModel.around],@"title":@"周边"}];
     }
-    if (!ISEMPTY(self.houseModel.introduction)) {
-        [introduction appendString:[NSString stringWithFormat:@"        %@\n",self.houseModel.introduction]];
+    if (ISEMPTY(self.houseModel.around)) { //周边配套
+        if (!ISEMPTY(self.houseModel.introduction)) {
+            [introduction appendString:[NSString stringWithFormat:@"        %@",self.houseModel.introduction]];
+            [self.houseSellInfoAry addObject:@{@"content":[NSString stringWithFormat:@"        %@",self.houseModel.introduction],@"title":@"介绍"}];
+        }
+    } else {
+        if (!ISEMPTY(self.houseModel.introduction)) {
+            [introduction appendString:[NSString stringWithFormat:@"\n        %@",self.houseModel.introduction]];
+            [self.houseSellInfoAry addObject:@{@"content":[NSString stringWithFormat:@"        %@",self.houseModel.introduction],@"title":@"介绍"}];
+        }
     }
-    if (!ISEMPTY(self.houseModel.point)) {
-          [introduction appendString:[NSString stringWithFormat:@"        %@",self.houseModel.point]];
+    if (ISEMPTY(introduction)) {
+        if (!ISEMPTY(self.houseModel.point)) {
+            [introduction appendString:[NSString stringWithFormat:@"        %@",self.houseModel.point]];
+            [self.houseSellInfoAry addObject:@{@"content":[NSString stringWithFormat:@"        %@",self.houseModel.point],@"title":@"卖点"}];
+        }
+    } else {
+        if (!ISEMPTY(self.houseModel.point)) {
+            [introduction appendString:[NSString stringWithFormat:@"\n        %@",self.houseModel.point]];
+            [self.houseSellInfoAry addObject:@{@"content":[NSString stringWithFormat:@"        %@",self.houseModel.point],@"title":@"卖点"}];
+        }
     }
     self.popTextView.text = introduction;
-    NSMutableAttributedString *scoreStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",self.score]];
+    NSMutableAttributedString *scoreStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.1f",[self.score floatValue]]];
     [scoreStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:24] range:NSMakeRange(0, [self.score floatValue] >=100.0 ? 3:2)];
     [scoreStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:16] range:NSMakeRange([self.score floatValue] >=100?3:2,2)];
     self.houseScoreLabel.attributedText = scoreStr;
@@ -142,10 +162,18 @@
             self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 80 + 12 + 250 + 12 + 50);
         } else {
             self.sellInfoView.hidden = NO;
-            self.sellInfoConstraint.constant = 154;
-            self.locationTonConstraint.constant = 376;
             self.sellInfo.text = introduction;
-            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 210 + 12 + 80 + 12 + 250 + 12 + 50);
+            self.sellInfoConstraint.constant = 154;
+            if ([LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] >58) {
+                self.locationTonConstraint.constant = 376;
+                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 210 + 12 + 80 + 12 + 250 + 12 + 50);
+            } else {
+                UIButton *btn = [self.sellInfoView viewWithTag:1];
+                btn.hidden = YES;
+                self.locationTonConstraint.constant = 166 +71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12;
+                self.sellInfoViewHeight.constant = 71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12;
+                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12 + 12 + 80 + 12 + 250 + 12 + 50);
+            }
         }
     } else {
         _supportingFacilitiesView.hidden = YES;
@@ -167,9 +195,9 @@
     __weak typeof(self) weakSelf = self;
     NSString *url ;
     if (self.type == type_zufang) {
-        url = @"https://ksir.tech/you/frontend/web/app/zufang/item-info";
+        url = @"https://youjar.com/you/frontend/web/app/zufang/item-info";
     } else {
-        url = @"https://ksir.tech/you/frontend/web/app/ershou/item-info";
+        url = @"https://youjar.com/you/frontend/web/app/ershou/item-info";
     }
     [[NetworkTool sharedTool] requestWithURLString:url parameters:@{@"site_id":self.site_id,@"id":self.house_id,@"auth_key":[LJKHelper getAuth_key]} method:GET callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
@@ -295,7 +323,7 @@
     NSMutableAttributedString *stairsRatioStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"梯户比:%@",ISEMPTY(self.houseModel.stairs_ratio)?@"暂无":self.houseModel.stairs_ratio]];
     [stairsRatioStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 4)];
     self.stairsRatio.attributedText = stairsRatioStr;
-    
+    self.addressLabel.text = [NSString stringWithFormat:@"地址:%@-%@-%@",self.houseModel.region,self.houseModel.plate,self.xiaoquDetailModel.address];
     
     [self.likeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.good] forState:UIControlStateNormal];
     [self.dislikeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.bad] forState:UIControlStateNormal];
@@ -328,7 +356,7 @@
         [des appendString:[NSString stringWithFormat:@"绿化率达%@%% ",self.xiaoquDetailModel.green_rate]];
     }
     if ([des isEqualToString:@"附近有"]) {
-        des = @"暂无小区介绍";
+        des = [NSMutableString stringWithString:@"暂无小区信息"];
     }
     self.communityInfoLabel.text = des;
 }
@@ -366,6 +394,8 @@
     }
     PushController(vc);
 }
+
+
 #pragma mark - IBActions
 - (IBAction)backAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -377,10 +407,9 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)moreFetureAction:(id)sender {//更多特色
-    self.popView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH - 60, (APP_SCREEN_WIDTH - 60) *0.618);
-    self.popManager = [KLCPopup popupWithContentView:self.popView];
-    self.popManager.shouldDismissOnBackgroundTouch = YES;
-    [self.popManager show];
+    YJHouseInfoDetailViewController *vc= [[YJHouseInfoDetailViewController alloc] init];
+    vc.infoAry = self.houseSellInfoAry;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)villageInfoAction:(id)sender {//小区信息
     YJXiaoQuDetailViewController *vc = [[YJXiaoQuDetailViewController alloc] init];
@@ -399,21 +428,21 @@
     NSString *url;
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":self.site_id,@"id":self.house_id};
     if (self.collectionBtn.selected) {
-        url = @"https://ksir.tech/you/frontend/web/app/user/cancel-favourite";
+        url = @"https://youjar.com/you/frontend/web/app/user/cancel-favourite";
     } else {
-        url = @"https://ksir.tech/you/frontend/web/app/user/set-favourite";
+        url = @"https://youjar.com/you/frontend/web/app/user/set-favourite";
     }
     [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:POST callBack:^(id responseObject) {
-        if ([responseObject[@"result"] isEqualToString:@"success"]) {
-            if (weakSelf.collectionBtn.selected) {
-                [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_dislike"] forState:UIControlStateNormal];
-                [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] - 1] forState:UIControlStateNormal];
-            } else {
-                [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
-                [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] + 1] forState:UIControlStateNormal];
+            if ([responseObject[@"result"] isEqualToString:@"success"]) {
+                if (weakSelf.collectionBtn.selected) {
+                    [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_dislike"] forState:UIControlStateNormal];
+                    [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] - 1] forState:UIControlStateNormal];
+                } else {
+                    [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
+                    [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] + 1] forState:UIControlStateNormal];
+                }
+                weakSelf.collectionBtn.selected = !self.collectionBtn.selected;
             }
-            weakSelf.collectionBtn.selected = !self.collectionBtn.selected;
-        }
     } error:^(NSError *error) {
         
     }];
@@ -435,7 +464,7 @@
         return;
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.house_id,@"site":self.site_id,@"eva":@"1"};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [self.likeBtn setTitle:[NSString stringWithFormat:@" %d",[self.likeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
             [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];
@@ -460,7 +489,7 @@
         return;
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.house_id,@"site":self.site_id,@"eva":@"-1"};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [self.dislikeBtn setTitle:[NSString stringWithFormat:@" %d",[self.dislikeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
             [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];
@@ -479,6 +508,10 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.imgScrollView) {
         self.pageControl.currentPage = self.imgScrollView.contentOffset.x / APP_SCREEN_WIDTH;
+    } else {
+        self.navigationBar.alpha = (scrollView.contentOffset.y - 64) / 64.0;
     }
 }
+
+
 @end

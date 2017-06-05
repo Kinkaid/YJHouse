@@ -30,4 +30,6 @@
 @property (nonatomic,copy) NSString *decoration;
 @property (nonatomic,copy) NSString *tags;
 @property (nonatomic,assign) BOOL zufang;
+@property (nonatomic,copy) NSString *content;
+@property (nonatomic,copy) id state;
 @end

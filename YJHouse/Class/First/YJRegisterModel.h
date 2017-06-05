@@ -28,4 +28,5 @@
 @property (nonatomic,copy) NSString* uw_school_weight;
 @property (nonatomic,copy) NSString* uw_env_weight;
 @property (nonatomic,copy) NSString* uw_prime;
+@property (nonatomic,copy) NSString *weight_id;
 @end

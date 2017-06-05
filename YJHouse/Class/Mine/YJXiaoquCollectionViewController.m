@@ -7,27 +7,44 @@
 //
 
 #import "YJXiaoquCollectionViewController.h"
-#import "YJXiaoQuViewCell.h"
+#import "YJXiaoquCollectionViewCell.h"
 #import "YJXiaoQuDetailViewController.h"
-#define cellId @"YJXiaoQuViewCell"
-@interface YJXiaoquCollectionViewController ()<UITableViewDelegate,UITableViewDataSource>
+#define cellId @"YJXiaoquCollectionViewCell"
+#import "YJNoSearchDataView.h"
+#import "YJRemarkViewController.h"
+@interface YJXiaoquCollectionViewController ()<UITableViewDelegate,UITableViewDataSource,YJRequestTimeoutDelegate,YJRemarkActionDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,assign) NSInteger xiaoquPage;
 @property (nonatomic,strong) NSMutableArray *xiaoquAry;
-
+@property (nonatomic,strong) YJNoSearchDataView *noSearchResultView;
 @end
 
 @implementation YJXiaoquCollectionViewController
 
+
+- (YJNoSearchDataView *)noSearchResultView {
+    if (!_noSearchResultView) {
+        _noSearchResultView = [[YJNoSearchDataView alloc] initWithFrame:CGRectMake(0, 64, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 64)];
+        [self.view addSubview:_noSearchResultView];
+        _noSearchResultView.content = @"暂无收藏小区";
+    }
+    return _noSearchResultView;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [YJRequestTimeoutUtil shareInstance].delegate = self;
+    [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
     [self setTitle:@"收藏的小区"];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self registerTableView];
     [self registerRefresh];
     [self loadXiaoquListData];
 }
-
+- (void)requestTimeoutAction {
+    if (self.isVisible) {
+        [self loadXiaoquListData];
+    }
+}
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:cellId bundle:nil] forCellReuseIdentifier:cellId];
     self.xiaoquPage = 0;
@@ -47,14 +64,20 @@
 - (void)loadXiaoquListData {
     __weak typeof(self) weakSelf = self;
     NSDictionary *params = @{@"page":@(self.xiaoquPage),@"limit":@"20",@"type":@"3",@"auth_key":[LJKHelper getAuth_key]};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/get-favourite" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/get-favourite" parameters:params method:POST callBack:^(id responseObject) {
         if (responseObject) {
             if (weakSelf.xiaoquPage == 0) {
+                [YJGIFAnimationView hideInView:self.view];
                 [weakSelf.xiaoquAry removeAllObjects];
+                if (![responseObject[@"result"] count]) {
+                    self.noSearchResultView.hidden = NO;
+                }
             }
             NSArray *ary = responseObject[@"result"];
             for (int i=0; i<ary.count; i++) {
-                YJXiaoquModel *model = [MTLJSONAdapter modelOfClass:[YJXiaoquModel class] fromJSONDictionary:ary[i] error:nil];
+                YJXiaoquModel *model = [MTLJSONAdapter modelOfClass:[YJXiaoquModel class] fromJSONDictionary:ary[i][@"info"] error:nil];
+                model.content =ary[i][@"content"];
+                model.state = ary[i][@"state"];
                 [weakSelf.xiaoquAry addObject:model];
             }
             if (ary.count<20) {
@@ -71,18 +94,29 @@
     }];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 138;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 8.0;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.xiaoquAry.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJXiaoQuViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
+    YJXiaoquCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
     if(!cell) {
-        cell = [[YJXiaoQuViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell = [[YJXiaoquCollectionViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
+    cell.deleagate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell showDataWithModel:self.xiaoquAry[indexPath.row]];
+    cell.cellRow = indexPath.section;
+    [cell showDataWithModel:self.xiaoquAry[indexPath.section]];
     return cell;
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,11 +131,11 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [SVProgressHUD show];
-        YJXiaoquModel *model = self.xiaoquAry[indexPath.row];
+        YJXiaoquModel *model = self.xiaoquAry[indexPath.section];
         NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":model.site,@"id":model.xqID};
-        [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/cancel-favourite" parameters:params method:POST callBack:^(id responseObject) {
+        [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/cancel-favourite" parameters:params method:POST callBack:^(id responseObject) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
-                [self.xiaoquAry removeObjectAtIndex:indexPath.row];
+                [self.xiaoquAry removeObjectAtIndex:indexPath.section];
                 [self.tableView reloadData];
                 [SVProgressHUD dismiss];
             }
@@ -111,8 +145,21 @@
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    YJXiaoQuDetailViewController *vc = [[YJXiaoQuDetailViewController alloc] init];
-//    PushController(vc);
+    YJXiaoQuDetailViewController *vc = [[YJXiaoQuDetailViewController alloc] init];
+    YJXiaoquModel *model = self.xiaoquAry[indexPath.section];
+    vc.xiaoquId = model.xqID;
+    PushController(vc);
 }
-
+- (void)remarkAction:(NSInteger)cellRow {
+    YJXiaoquModel *model = self.xiaoquAry[cellRow];
+    YJRemarkViewController *vc = [[YJRemarkViewController alloc] init];
+    vc.site = model.site;
+    vc.ID = model.xqID;
+    vc.content = ISEMPTY(model.content) ? @"" : model.content;
+    [vc returnContent:^(NSString *content) {
+        model.content = content;
+        [self.tableView reloadData];
+    }];
+    PushController(vc);
+}
 @end

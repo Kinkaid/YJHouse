@@ -14,6 +14,7 @@ typedef enum {
 } purchaseType;
 
 
+
 @interface YJHouseDetailViewController : YJBaseViewController
 
 @property (nonatomic,copy) NSNumber *site_id;

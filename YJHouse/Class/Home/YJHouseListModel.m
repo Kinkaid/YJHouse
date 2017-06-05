@@ -31,7 +31,9 @@
              @"toward":@"toward",
              @"zufang":@"zufang",
              @"tags":@"tags",
-             @"decoration":@"decoration"
+             @"decoration":@"decoration",
+             @"content":@"content",
+             @"state":@"state"
              };
 }
 

@@ -17,7 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.remarkTextView.text = self.content;
+    self.characterCountLabel.text = [NSString stringWithFormat:@"%ld/100",self.remarkTextView.text.length];
     [self setTitle:@"编辑备忘"];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"保存" forState:UIControlStateNormal];
@@ -35,14 +36,16 @@
     if (!self.remarkTextView.text.length) {
         return;
     }
-    NSDictionary *param = @{@"site":self.site,@"id":self.ID,@"auth_key":[LJKHelper getAuth_key]};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/set-remark" parameters:param method:POST callBack:^(id responseObject) {
-        [self.navigationController popViewControllerAnimated:YES];
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *param = @{@"site":self.site,@"id":self.ID,@"auth_key":[LJKHelper getAuth_key],@"content":self.remarkTextView.text};
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-remark" parameters:param method:POST callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject[@"result"])) {
+            weakSelf.contentBlock(weakSelf.remarkTextView.text);
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
     } error:^(NSError *error) {
         
     }];
-    
-    
 }
 - (void)returnContent:(returnRemarkBlock)block {
     self.contentBlock = block;

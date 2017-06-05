@@ -92,7 +92,7 @@
     UIImage *userImage = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     [self postHeaderImg:userImage];
 }
-- (void)postHeaderImg:(UIImage *)img {
+- (void)postHeaderImg:(UIImage *)image {
     [SVProgressHUD showWithStatus:@"正在上传"];
     AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
     sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"multipart/form-data",
@@ -102,9 +102,8 @@
                                                              @"application/octet-stream",
                                                              @"text/json",
                                                              nil];
-    [sessionManager POST:@"https://ksir.tech/you/frontend/web/app/user/set-avatar" parameters:@{@"auth_key":[LJKHelper getAuth_key]} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    [sessionManager POST:@"https://youjar.com/you/frontend/web/app/user/set-avatar" parameters:@{@"auth_key":[LJKHelper getAuth_key]} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         // 上传文件
-        UIImage *image = self.headerImg.image;
         NSData *imageData = UIImageJPEGRepresentation(image, 1);
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
@@ -114,9 +113,9 @@
         [formData appendPartWithFileData:imageData name:@"avatar_image" fileName:fileName mimeType:@"image/jpg"];
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {
-            self.headerImg.image = img;
+            self.headerImg.image = image;
             [SVProgressHUD showSuccessWithStatus:@"上传成功"];
-            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://ksir.tech%@",[responseObject[@"result"] lastObject]]];
+            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
         } else {
             [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
         }

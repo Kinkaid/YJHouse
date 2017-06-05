@@ -7,6 +7,7 @@
 //
 
 #import "YJUserCenterViewController.h"
+#import <StoreKit/StoreKit.h>
 #import "YJUserCenterViewCell.h"
 #import "YJMessageCenterViewController.h"
 #define kcellIdentifier  @"YJUserCenterViewCell"
@@ -19,7 +20,7 @@
 #import "WDShareUtil.h"
 #import "YJLoadingAnimationView.h"
 #import "WDAboutUsViewController.h"
-@interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource,SKStoreProductViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic,strong) NSMutableArray *titleAry;
@@ -150,13 +151,36 @@
                 break;
             case 3:
             {
-                
+                //初始化控制器
+                SKStoreProductViewController *storeProductViewContorller = [[SKStoreProductViewController alloc] init];
+                //设置代理请求为当前控制器本身
+                storeProductViewContorller.delegate = self;
+                //加载一个新的视图展示
+                [storeProductViewContorller loadProductWithParameters:
+                 //appId唯一的
+                 @{SKStoreProductParameterITunesItemIdentifier : @"1214131720"} completionBlock:^(BOOL result, NSError *error) {
+                     //block回调
+                     if(error){
+                         NSLog(@"error %@ with userInfo %@",error,[error userInfo]);
+                     }else{
+                         //模态弹出appstore
+                         [self presentViewController:storeProductViewContorller animated:YES completion:^{
+                             
+                         }
+                          ];
+                     }
+                 }];
             }
                 break;
             default:
                 break;
         }
     }
+}
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if ((-scrollView.contentOffset.y) > APP_SCREEN_WIDTH *0.67) {
@@ -196,7 +220,7 @@
             break;
         case 15:
         {
-            
+            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[@"http://upload.wadao.com/fx/cc_logo/20170401/eddc0a05b94037e81011e62c87b64faa.png"] withUrl:@"http://m.wadao.com/fx/926" withTitle:@"测试QQ分享title" withContent:@"测试QQ分享content"];
         }
             break;
         default:

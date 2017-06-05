@@ -21,6 +21,9 @@
     
     __weak IBOutlet UIImageView *_img2;
     
+    __weak IBOutlet UILabel *_content;
+    
+    __weak IBOutlet UIView *_xiajiaView;
 }
 
 - (void)awakeFromNib {
@@ -74,6 +77,20 @@
                 label.hidden = YES;
             }
         }
+    }
+    if (!ISEMPTY(model.content)) {
+        _content.text =[NSString stringWithFormat:@"  %@", model.content];
+        _content.textAlignment = NSTextAlignmentLeft;
+    } else {
+        _content.text =@"添加备注";
+        _content.textAlignment = NSTextAlignmentCenter;
+    }
+    if ([model.state boolValue]) {
+        _xiajiaView.hidden = YES;
+        _score.hidden = NO;
+    } else {
+        _xiajiaView.hidden = NO;
+        _score.hidden = YES;
     }
 }
 @end

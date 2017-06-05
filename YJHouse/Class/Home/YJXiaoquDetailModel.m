@@ -41,7 +41,8 @@
              @"zufang_in":@"zufang_in",
              @"good":@"good",
              @"bad":@"bad",
-             @"site":@"site"
+             @"site":@"site",
+             @"favourite_count":@"favourite_count"
              };
 }
 

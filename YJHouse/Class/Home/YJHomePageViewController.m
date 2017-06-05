@@ -219,12 +219,12 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     }
     NSString *url;
     if (self.zufang) {
-        url = @"https://ksir.tech/you/frontend/web/app/zufang/custom-list";
+        url = @"https://youjar.com/you/frontend/web/app/zufang/custom-list";
         if (!ISEMPTY([LJKHelper getZufangWeight_id])) {
             [params setObject:[LJKHelper getZufangWeight_id] forKey:@"weight_id"];
         }
     } else {
-        url = @"https://ksir.tech/you/frontend/web/app/ershou/custom-list";
+        url = @"https://youjar.com/you/frontend/web/app/ershou/custom-list";
         if (!ISEMPTY([LJKHelper getErshouWeight_id])) {
             [params setObject:[LJKHelper getErshouWeight_id] forKey:@"weight_id"];
         }
@@ -290,17 +290,23 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (IBAction)scanTypeAction:(id)sender {
     self.klcManager = [KLCPopup popupWithContentView:self.popupView];
     [self.klcManager showAtCenter:CGPointMake(40, 100) inView:self.view];
-    self.priceView.hidden = YES;
-    self.addressView.hidden = YES;
-    self.sortView.hidden = YES;
-    self.zfMoreView.hidden = YES;
-    self.mfMoreView.hidden = YES;
 }
 - (IBAction)selectType:(id)sender {
     self.mfParams = nil;
     self.sortKey = @"";
     self.regionID = @"";
     self.maxPrice = 0;
+    self.priceView.hidden = YES;
+    self.addressView.hidden = YES;
+    self.sortView.hidden = YES;
+    self.zfMoreView.hidden = YES;
+    self.mfMoreView.hidden = YES;
+    UIButton *lastBtn = [self.view viewWithTag:self.sortTapLastTime];
+    UIButton *lastBtn1 = [self.view viewWithTag:self.sortTapLastTime+4];
+    [UIView animateWithDuration:0.2 animations:^{
+        lastBtn.imageView.transform = CGAffineTransformMakeRotation(0);
+        lastBtn1.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     [self.mfMoreView initWithMFBtn];
     [self.zfMoreView initWithZFBtn];
     [self.addressView refreshTabelView];
@@ -549,6 +555,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     }
 }
 - (IBAction)xiaoquAction:(id)sender {
+    __weak typeof(self) weakSelf = self;
     UIButton *btn = sender;
     if (btn.tag == 1) {
         YJXiaoQuListViewController *vc = [[YJXiaoQuListViewController alloc] init];
@@ -556,10 +563,16 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     } else if (btn.tag == 2) {
         YJLowPriceViewController *vc= [[YJLowPriceViewController alloc] init];
         vc.isLowPrice = YES;
+        vc.houseTypeBlock = ^{
+            [weakSelf reloadHomeData];
+        };
         PushController(vc);
     }else if (btn.tag == 3) {
         YJLowPriceViewController *vc= [[YJLowPriceViewController alloc] init];
         vc.isLowPrice = NO;
+        vc.houseTypeBlock = ^{
+            [weakSelf reloadHomeData];
+        };
         PushController(vc);
     }
 }

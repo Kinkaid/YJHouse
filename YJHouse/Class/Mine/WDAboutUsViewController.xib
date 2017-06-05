@@ -32,14 +32,14 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="helloyoujia@126.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CX4-14-4ly">
-                    <rect key="frame" x="120" y="460" width="135.5" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello@youjar.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CX4-14-4ly">
+                    <rect key="frame" x="131" y="460" width="113.5" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_email" translatesAutoresizingMaskIntoConstraints="NO" id="55J-ih-HDW">
-                    <rect key="frame" x="76" y="457.5" width="20" height="21"/>
+                    <rect key="frame" x="87" y="457.5" width="20" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="55J-ih-HDW" secondAttribute="height" multiplier="49:50" id="IOM-X0-rrj"/>
                         <constraint firstAttribute="width" constant="20" id="Wqs-pU-0BU"/>

@@ -8,7 +8,9 @@
 
 #import "YJNoSearchDataView.h"
 
-@implementation YJNoSearchDataView
+@implementation YJNoSearchDataView{
+    UILabel *label;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -16,13 +18,15 @@
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake((APP_SCREEN_WIDTH - 196) / 2.0, 100, 196, 145)];
         img.image = [UIImage imageNamed:@"icon_noSearchResult"];
         [self addSubview:img];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 250, APP_SCREEN_WIDTH, 30)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 250, APP_SCREEN_WIDTH, 30)];
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor ex_colorFromHexRGB:@"B3B3B3"];
         label.font = [UIFont systemFontOfSize:22];
-        label.text = @"没有任何搜索结果";
         [self addSubview:label];
     }
     return self;
+}
+- (void)setContent:(NSString *)content {
+    label.text = content;
 }
 @end

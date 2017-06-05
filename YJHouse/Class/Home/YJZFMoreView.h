@@ -11,6 +11,7 @@
 @protocol YJZFSortDelegate <NSObject>
 
 - (void)zfSortWithParams:(NSDictionary *)params;
+@optional
 - (void)hiddenMFMoreView;
 @end
 

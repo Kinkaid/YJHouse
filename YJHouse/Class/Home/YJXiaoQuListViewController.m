@@ -28,6 +28,7 @@
 @property (nonatomic,copy) NSString *sortValue;
 @property (nonatomic,copy) NSString *minPrice;
 @property (nonatomic,copy) NSString *maxPrice;
+@property (nonatomic,assign) NSInteger sortTapLastTime;
 @end
 
 @implementation YJXiaoQuListViewController
@@ -65,6 +66,7 @@
     [YJRequestTimeoutUtil shareInstance].delegate = self;
     [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
     self.navigationBar.hidden = YES;
+    self.sortTapLastTime = 55;
     self.priceView.houseType = xiaoquBuy;
     self.sortView.sortType = xiaoquType;
     [self registerTableView];
@@ -117,8 +119,9 @@
         [params setObject:@([self.minPrice integerValue]) forKey:@"xq[price_min]"];
         [params setObject:@([self.maxPrice integerValue]) forKey:@"xq[price_max]"];
     }
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"http://ksir.tech/you/frontend/web/app/xiaoqu/list?auth_key=%@",[LJKHelper getAuth_key]] parameters:params method:GET callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/xiaoqu/list?auth_key=%@",[LJKHelper getAuth_key]] parameters:params method:GET callBack:^(id responseObject) {
         if (responseObject) {
+            [SVProgressHUD dismiss];
             [YJGIFAnimationView hideInView:self.view];
             if (weakSelf.xiaoquPage == 0) {
                 [weakSelf.xiaoquAry removeAllObjects];
@@ -137,23 +140,90 @@
             [weakSelf.tableView reloadData];
         }
     } error:^(NSError *error) {
-        
     }];
 }
 - (IBAction)backAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)sortAction:(id)sender {
+    UIButton *lastBtn = [self.view viewWithTag:self.sortTapLastTime];
+    switch (self.sortTapLastTime) {
+        case 55:
+        {
+            if (ISEMPTY(self.regionID)) {
+                [lastBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+            }
+            [UIView animateWithDuration:0.2 animations:^{
+                lastBtn.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
+            break;
+        case 56:
+        {
+            if (ISEMPTY(self.maxPrice)) {
+                [lastBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+            }
+            [UIView animateWithDuration:0.2 animations:^{
+                lastBtn.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
+            break;
+        case 57:
+        {
+            if (ISEMPTY(self.sortKey)) {
+                [lastBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+            }
+            [UIView animateWithDuration:0.2 animations:^{
+                lastBtn.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
+            break;
+        default:
+            break;
+    }
     UIButton *button = sender;
     if (button.tag == 55) {
+        self.sortTapLastTime = 55;
+        if (self.addressView.hidden == YES) {
+            [button setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [UIView animateWithDuration:0.2 animations:^{
+                button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+            }];
+        } else {
+            [UIView animateWithDuration:0.2 animations:^{
+                button.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
         self.priceView.hidden = YES;
         self.sortView.hidden = YES;
         self.addressView.hidden = !self.addressView.hidden;
     } else if (button.tag == 56){
+        self.sortTapLastTime = 56;
+        if (self.priceView.hidden == YES) {
+            [button setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [UIView animateWithDuration:0.2 animations:^{
+                button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+            }];
+        } else {
+            [UIView animateWithDuration:0.2 animations:^{
+                button.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
         self.addressView.hidden = YES;
         self.sortView.hidden = YES;
         self.priceView.hidden = !self.priceView.hidden ;
     } else if (button.tag == 57){
+        self.sortTapLastTime = 57;
+        if (self.sortView.hidden == YES) {
+            [button setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [UIView animateWithDuration:0.2 animations:^{
+                button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
+            }];
+        } else {
+            [UIView animateWithDuration:0.2 animations:^{
+                button.imageView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
         self.addressView.hidden = YES;
         self.priceView.hidden = YES;
         self.sortView.hidden = !self.sortView.hidden;
@@ -191,6 +261,9 @@
 - (void)addressTAPActionWithRegion:(NSString *)regionID andPlate:(NSString *)plateID {
     UIButton *btn = [self.view viewWithTag:55];
     [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        btn.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     self.regionID =  regionID;
     self.plateID = plateID;
     self.xiaoquPage = 0;
@@ -202,6 +275,9 @@
 - (void)priceSortByTag:(NSInteger)tag {
     UIButton *btn = [self.view viewWithTag:56];
     [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        btn.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     switch (tag) {
         case 1:
         {
@@ -250,6 +326,9 @@
 - (void)priceSortWithMinPrice:(NSString *)minPrice maxPrice:(NSString *)maxPrice {
     UIButton *btn = [self.view viewWithTag:56];
     [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        btn.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     self.minPrice = [NSString stringWithFormat:@"%ld",[minPrice integerValue] *10000];
     self.maxPrice = [NSString stringWithFormat:@"%ld",[maxPrice integerValue] *10000];
     self.xiaoquPage = 0;
@@ -260,6 +339,9 @@
 - (void)sortByTag:(NSInteger)tag {
     UIButton *btn = [self.view viewWithTag:57];
     [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        btn.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
     switch (tag) {
         case 1:
         {
@@ -298,7 +380,34 @@
     self.xiaoquPage = 0;
     [self loadXiaoquListData];
 }
+- (void)hiddenAddressView {
+    UIButton *btn = [self.view viewWithTag:55];
+    if (ISEMPTY(self.regionID)) {
+        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        btn.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+}
+- (void)hiddenPriceView {
+    UIButton *btn = [self.view viewWithTag:56];
+    if (ISEMPTY(self.maxPrice)) {
+        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        btn.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+}
 
+- (void)hiddenSortView {
+    UIButton *btn = [self.view viewWithTag:57];
+    if (ISEMPTY(self.sortValue)) {
+        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        btn.imageView.transform = CGAffineTransformMakeRotation(0);
+    }];
+}
 
 
 

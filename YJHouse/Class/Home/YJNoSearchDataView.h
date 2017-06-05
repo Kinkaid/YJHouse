@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface YJNoSearchDataView : UIView
-
+@property (nonatomic,copy) NSString *content;
 @end

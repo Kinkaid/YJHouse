@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YJHouseDetailViewController">
             <connections>
+                <outlet property="addressLabel" destination="Frn-Oy-k9V" id="i6f-Dx-clz"/>
                 <outlet property="averagePriceLabel" destination="wHI-JN-YOC" id="wXM-A7-r3E"/>
                 <outlet property="collectionBtn" destination="NAa-av-Swa" id="eq8-Hj-uEl"/>
                 <outlet property="communityAveragePriceLabel" destination="Hma-CI-TxB" id="BOG-Xu-CDZ"/>
@@ -45,6 +46,7 @@
                 <outlet property="sellInfo" destination="DmC-Ex-F9a" id="UhG-8X-DBP"/>
                 <outlet property="sellInfoConstraint" destination="KJK-Bo-7we" id="7R8-5H-Whs"/>
                 <outlet property="sellInfoView" destination="MjZ-iO-Gxn" id="vbS-15-862"/>
+                <outlet property="sellInfoViewHeight" destination="09Z-3N-Smk" id="AHs-EX-lED"/>
                 <outlet property="shoujiaOrjunjiaLabel" destination="tN2-Cn-toR" id="3wV-o2-DfZ"/>
                 <outlet property="showView" destination="6gl-l2-Mwb" id="JHm-Qt-5ma"/>
                 <outlet property="sketchTimeLabel" destination="M6D-bG-daA" id="0Zt-hg-LFh"/>
@@ -70,7 +72,7 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q7h-kz-jeS">
-                    <rect key="frame" x="8" y="29" width="28" height="28"/>
+                    <rect key="frame" x="18" y="29" width="28" height="28"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="28" id="lnD-E8-Zvg"/>
@@ -232,7 +234,7 @@
                 <constraint firstAttribute="trailing" secondItem="Lhv-qg-3sX" secondAttribute="trailing" id="Zdp-QU-4xD"/>
                 <constraint firstItem="erN-2o-J0p" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="erc-vl-jna"/>
                 <constraint firstItem="erN-2o-J0p" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="jH0-0x-63s"/>
-                <constraint firstItem="Q7h-kz-jeS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="mdz-on-Kkf"/>
+                <constraint firstItem="Q7h-kz-jeS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="18" id="mdz-on-Kkf"/>
                 <constraint firstItem="Lhv-qg-3sX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ni8-1H-Eby"/>
                 <constraint firstAttribute="trailing" secondItem="erN-2o-J0p" secondAttribute="trailing" id="zV0-fk-Qc9"/>
             </constraints>
@@ -269,10 +271,10 @@
                     <rect key="frame" x="0.0" y="247.5" width="375" height="180"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9.25" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B7e-Bs-vYs">
-                            <rect key="frame" x="290" y="12" width="52" height="52"/>
+                            <rect key="frame" x="294" y="12" width="48" height="48"/>
                             <color key="backgroundColor" red="0.92156862745098034" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="52" id="V3K-fF-GOc"/>
+                                <constraint firstAttribute="width" constant="48" id="V3K-fF-GOc"/>
                                 <constraint firstAttribute="width" secondItem="B7e-Bs-vYs" secondAttribute="height" multiplier="1:1" id="hQh-HH-cwZ"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -280,12 +282,12 @@
                             <nil key="highlightedColor"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="26"/>
+                                    <integer key="value" value="24"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="西溪水岸花园环境优美交通方便附近有各大娱乐设施" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ys-wQ-wlt">
-                            <rect key="frame" x="12" y="15" width="266" height="38.5"/>
+                            <rect key="frame" x="12" y="15" width="270" height="38.5"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="38.5" id="a3x-Vr-xVF"/>
                             </constraints>
@@ -689,7 +691,7 @@
                             <color key="textColor" red="0.29411764709999999" green="0.29411764709999999" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7i-QR-duz">
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7i-QR-duz">
                             <rect key="frame" x="18" y="141.5" width="339" height="48"/>
                             <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -860,7 +862,7 @@
                             <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小区信息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hqh-Pd-0cQ">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小区介绍" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hqh-Pd-0cQ">
                             <rect key="frame" x="18" y="164" width="65.5" height="19.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.29411764709999999" green="0.29411764709999999" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>

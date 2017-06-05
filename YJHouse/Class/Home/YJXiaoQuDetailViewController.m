@@ -69,19 +69,19 @@
 }
 - (void)loadXiaoquDetail {
     __weak typeof(self)weakSelf = self;
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/xiaoqu/item-info" parameters:@{@"id":self.xiaoquId,@"auth_key":[LJKHelper getAuth_key]} method:GET callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/xiaoqu/item-info" parameters:@{@"id":self.xiaoquId,@"auth_key":[LJKHelper getAuth_key]} method:GET callBack:^(id responseObject) {
         [YJGIFAnimationView hideInView:self.view];
       if (responseObject[@"result"] && ISEMPTY(responseObject[@"error"])) {
-          if ([responseObject[@"result"][@"favourite"] intValue] ==0) {
+          if ([responseObject[@"result"][@"evaluate"] intValue] ==0) {
               self.dislikeBtn.selected = NO;
               self.likeBtn.selected = NO;
           } else {
               self.dislikeBtn.selected = YES;
               self.likeBtn.selected = YES;
           }
-          if ([responseObject[@"result"][@"evaluate"] intValue] == 1) {
+          if ([responseObject[@"result"][@"favourite"] intValue] == 1) {
               self.collectionBtn.selected = YES;
-            [self.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
+              [self.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
           } else {
               self.collectionBtn.selected = NO;
           }
@@ -144,31 +144,35 @@
     CGFloat total = ([self.model.good floatValue] + [self.model.bad floatValue]);
     CGFloat ratio = [self.model.good floatValue] / (total == 0 ?1:total) * 100;
     [self.toScoreBtn setTitle:[NSString stringWithFormat:@"%.0f%%",ratio] forState:UIControlStateNormal];
+    [self.collectionBtn setTitle:[NSString stringWithFormat:@"%@",self.model.favourite_count] forState:UIControlStateNormal];
     [SVProgressHUD dismiss];
     
 }
 - (IBAction)collectionAction:(id)sender {
+    __weak typeof(self) weakSelf = self;
     NSString *url;
     if (self.collectionBtn.selected) {
-        url =@"https://ksir.tech/you/frontend/web/app/user/cancel-favourite";
+        url =@"https://youjar.com/you/frontend/web/app/user/cancel-favourite";
     } else {
-        url = @"https://ksir.tech/you/frontend/web/app/user/set-favourite";
+        url = @"https://youjar.com/you/frontend/web/app/user/set-favourite";
+    }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":self.model.site,@"id":self.xiaoquId};
     [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:POST callBack:^(id responseObject) {
-        if ([responseObject[@"result"] isEqualToString:@"success"]) {
-            if (self.collectionBtn.selected) {
-                [self.collectionBtn setImage:[UIImage imageNamed:@"icon_dislike"] forState:UIControlStateNormal];
-                [self.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[self.collectionBtn.titleLabel.text intValue] - 1] forState:UIControlStateNormal];
-            } else {
-                [self.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
-                [self.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[self.collectionBtn.titleLabel.text intValue] + 1] forState:UIControlStateNormal];
+        if (!ISEMPTY(responseObject[@"result"])) {
+            if ([responseObject[@"result"] isEqualToString:@"success"]) {
+                if (weakSelf.collectionBtn.selected) {
+                    [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_dislike"] forState:UIControlStateNormal];
+                    [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] - 1] forState:UIControlStateNormal];
+                } else {
+                    [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
+                    [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] + 1] forState:UIControlStateNormal];
+                }
+                weakSelf.collectionBtn.selected = !self.collectionBtn.selected;
             }
-            self.collectionBtn.selected = !self.collectionBtn;
         }
     } error:^(NSError *error) {
         
     }];
-    }
 }
 - (IBAction)toSelectAction:(id)sender {
     [UIView animateWithDuration:0.4 animations:^{
@@ -191,7 +195,7 @@
         return;
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.xiaoquId,@"site":self.model.site,@"eva":@"1"};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [self.likeBtn setTitle:[NSString stringWithFormat:@" %d",[self.likeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
             [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];
@@ -216,7 +220,7 @@
         return;
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.xiaoquId,@"site":self.model.site,@"eva":@"-1"};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [self.dislikeBtn setTitle:[NSString stringWithFormat:@" %d",[self.dislikeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
             [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];

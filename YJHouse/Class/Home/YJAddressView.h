@@ -11,6 +11,7 @@
 @protocol YJAddressClickDelegate <NSObject>
 
 - (void)addressTAPActionWithRegion:(NSString *)regionID andPlate:(NSString *)plateID;
+@optional
 - (void)hiddenAddressView;
 @end
 

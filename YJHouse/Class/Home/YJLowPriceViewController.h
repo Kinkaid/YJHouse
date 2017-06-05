@@ -7,8 +7,9 @@
 //
 
 #import "YJBaseViewController.h"
-
+typedef void(^returnHouseOperationType)(void);
 @interface YJLowPriceViewController : YJBaseViewController
 
 @property (nonatomic,assign) BOOL isLowPrice;
+@property (nonatomic,strong) returnHouseOperationType houseTypeBlock;
 @end

@@ -12,6 +12,7 @@
 
 - (void)priceSortByTag:(NSInteger)tag;
 - (void)priceSortWithMinPrice:(NSString *)minPrice maxPrice:(NSString *)maxPrice;
+@optional
 - (void)hiddenPriceView;
 @end
 

@@ -35,6 +35,12 @@
 		302E7EE91E94D25A00BFCA41 /* YJRemarkViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302E7EE71E94D25A00BFCA41 /* YJRemarkViewController.xib */; };
 		302E7EED1E94DD7900BFCA41 /* YJFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302E7EEB1E94DD7900BFCA41 /* YJFeedbackViewController.m */; };
 		302E7EEE1E94DD7900BFCA41 /* YJFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302E7EEC1E94DD7900BFCA41 /* YJFeedbackViewController.xib */; };
+		3032C1581EDFDA94006C998C /* YJHouseInfoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3032C1561EDFDA94006C998C /* YJHouseInfoDetailViewController.m */; };
+		3032C1591EDFDA94006C998C /* YJHouseInfoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3032C1571EDFDA94006C998C /* YJHouseInfoDetailViewController.xib */; };
+		3032C15D1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3032C15B1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.m */; };
+		3032C15E1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3032C15C1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.xib */; };
+		3032C1621EE13CC8006C998C /* YJXiaoquCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3032C1601EE13CC8006C998C /* YJXiaoquCollectionViewCell.m */; };
+		3032C1631EE13CC8006C998C /* YJXiaoquCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3032C1611EE13CC8006C998C /* YJXiaoquCollectionViewCell.xib */; };
 		30513D8F1E9FA2F000FFCB3E /* YJPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30513D8E1E9FA2F000FFCB3E /* YJPriceView.m */; };
 		30565FD11EADAD020038A873 /* WDNoCopyTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30565FD01EADAD020038A873 /* WDNoCopyTextField.m */; };
 		30565FD41EADC87A0038A873 /* YJFourthStepPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 30565FD31EADC8790038A873 /* YJFourthStepPreview.m */; };
@@ -93,6 +99,7 @@
 		30B66C731ED7C1430096E0D2 /* YJLoadingAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B66C721ED7C1430096E0D2 /* YJLoadingAnimationView.m */; };
 		30B702771E6D87E20007528D /* YJUserCenterViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B702751E6D87E20007528D /* YJUserCenterViewCell.m */; };
 		30B702781E6D87E20007528D /* YJUserCenterViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30B702761E6D87E20007528D /* YJUserCenterViewCell.xib */; };
+		30BBBEC61EE2F5250073CA11 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30BBBEC51EE2F5250073CA11 /* StoreKit.framework */; };
 		30CF7E291E9BAD7D00AA277B /* YJLowPriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CF7E271E9BAD7D00AA277B /* YJLowPriceViewController.m */; };
 		30CF7E2A1E9BAD7D00AA277B /* YJLowPriceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30CF7E281E9BAD7D00AA277B /* YJLowPriceViewController.xib */; };
 		30CF7E2D1E9BB04B00AA277B /* YJHouseListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CF7E2C1E9BB04B00AA277B /* YJHouseListModel.m */; };
@@ -216,6 +223,15 @@
 		302E7EEC1E94DD7900BFCA41 /* YJFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJFeedbackViewController.xib; sourceTree = "<group>"; };
 		302E7EEF1E94EC0800BFCA41 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		302E7EF01E94EC0800BFCA41 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		3032C1551EDFDA94006C998C /* YJHouseInfoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJHouseInfoDetailViewController.h; sourceTree = "<group>"; };
+		3032C1561EDFDA94006C998C /* YJHouseInfoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJHouseInfoDetailViewController.m; sourceTree = "<group>"; };
+		3032C1571EDFDA94006C998C /* YJHouseInfoDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJHouseInfoDetailViewController.xib; sourceTree = "<group>"; };
+		3032C15A1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJHouseInfoDetailViewCell.h; sourceTree = "<group>"; };
+		3032C15B1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJHouseInfoDetailViewCell.m; sourceTree = "<group>"; };
+		3032C15C1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJHouseInfoDetailViewCell.xib; sourceTree = "<group>"; };
+		3032C15F1EE13CC8006C998C /* YJXiaoquCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJXiaoquCollectionViewCell.h; sourceTree = "<group>"; };
+		3032C1601EE13CC8006C998C /* YJXiaoquCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJXiaoquCollectionViewCell.m; sourceTree = "<group>"; };
+		3032C1611EE13CC8006C998C /* YJXiaoquCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJXiaoquCollectionViewCell.xib; sourceTree = "<group>"; };
 		30513D8D1E9FA2F000FFCB3E /* YJPriceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJPriceView.h; sourceTree = "<group>"; };
 		30513D8E1E9FA2F000FFCB3E /* YJPriceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJPriceView.m; sourceTree = "<group>"; };
 		30565FCF1EADAD020038A873 /* WDNoCopyTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDNoCopyTextField.h; sourceTree = "<group>"; };
@@ -321,6 +337,7 @@
 		30B702741E6D87E20007528D /* YJUserCenterViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJUserCenterViewCell.h; sourceTree = "<group>"; };
 		30B702751E6D87E20007528D /* YJUserCenterViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJUserCenterViewCell.m; sourceTree = "<group>"; };
 		30B702761E6D87E20007528D /* YJUserCenterViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJUserCenterViewCell.xib; sourceTree = "<group>"; };
+		30BBBEC51EE2F5250073CA11 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		30CF7E261E9BAD7D00AA277B /* YJLowPriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJLowPriceViewController.h; sourceTree = "<group>"; };
 		30CF7E271E9BAD7D00AA277B /* YJLowPriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJLowPriceViewController.m; sourceTree = "<group>"; };
 		30CF7E281E9BAD7D00AA277B /* YJLowPriceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJLowPriceViewController.xib; sourceTree = "<group>"; };
@@ -421,6 +438,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30BBBEC61EE2F5250073CA11 /* StoreKit.framework in Frameworks */,
 				302E7ED51E94BCED00BFCA41 /* MobileCoreServices.framework in Frameworks */,
 				30E14AAF1E642B1700129DE0 /* ImageIO.framework in Frameworks */,
 				30E14AAD1E642AFB00129DE0 /* JavaScriptCore.framework in Frameworks */,
@@ -748,6 +766,9 @@
 				30B66C6C1ED295CE0096E0D2 /* YJMessageDetailViewCell.h */,
 				30B66C6D1ED295CE0096E0D2 /* YJMessageDetailViewCell.m */,
 				30B66C6E1ED295CE0096E0D2 /* YJMessageDetailViewCell.xib */,
+				3032C15F1EE13CC8006C998C /* YJXiaoquCollectionViewCell.h */,
+				3032C1601EE13CC8006C998C /* YJXiaoquCollectionViewCell.m */,
+				3032C1611EE13CC8006C998C /* YJXiaoquCollectionViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -774,6 +795,9 @@
 				30E14A5F1E61A44000129DE0 /* YJHouseDetailViewController.h */,
 				30E14A601E61A44000129DE0 /* YJHouseDetailViewController.m */,
 				30E14A611E61A44000129DE0 /* YJHouseDetailViewController.xib */,
+				3032C1551EDFDA94006C998C /* YJHouseInfoDetailViewController.h */,
+				3032C1561EDFDA94006C998C /* YJHouseInfoDetailViewController.m */,
+				3032C1571EDFDA94006C998C /* YJHouseInfoDetailViewController.xib */,
 				30E14A641E62C0EE00129DE0 /* YJReportAndFeedbackViewController.h */,
 				30E14A651E62C0EE00129DE0 /* YJReportAndFeedbackViewController.m */,
 				30E14A661E62C0EE00129DE0 /* YJReportAndFeedbackViewController.xib */,
@@ -833,6 +857,9 @@
 				306C2EA61EA4DDC8000AC5A3 /* YJMFMoreView.m */,
 				306C2EA81EA4DDEB000AC5A3 /* YJZFMoreView.h */,
 				306C2EA91EA4DDEB000AC5A3 /* YJZFMoreView.m */,
+				3032C15A1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.h */,
+				3032C15B1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.m */,
+				3032C15C1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -976,6 +1003,7 @@
 		B7F60B16A9B79B581CE8BD2D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30BBBEC51EE2F5250073CA11 /* StoreKit.framework */,
 				302E7ED41E94BCED00BFCA41 /* MobileCoreServices.framework */,
 				30E14AB01E642B2900129DE0 /* libsqlite3.0.tbd */,
 				30E14AAE1E642B1700129DE0 /* ImageIO.framework */,
@@ -1102,6 +1130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30E14A681E62C0EE00129DE0 /* YJReportAndFeedbackViewController.xib in Resources */,
+				3032C1591EDFDA94006C998C /* YJHouseInfoDetailViewController.xib in Resources */,
 				300BB42D1EA5F24D00432F8C /* YJFirstStepViewController.xib in Resources */,
 				301D1E201EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.xib in Resources */,
 				30EF719F1EA9EB420039B98E /* YJCollectionRentViewController.xib in Resources */,
@@ -1118,11 +1147,13 @@
 				30EF719A1EA9A4840039B98E /* YJFourthStepViewController.xib in Resources */,
 				30E14A971E6429FE00129DE0 /* ShareSDKUI.bundle in Resources */,
 				30E14AA21E6429FE00129DE0 /* README.txt in Resources */,
+				3032C1631EE13CC8006C998C /* YJXiaoquCollectionViewCell.xib in Resources */,
 				30B66C611ECE9B1D0096E0D2 /* YJSystemHeaderViewController.xib in Resources */,
 				30B66C6B1ED295010096E0D2 /* YJMessageDetailViewController.xib in Resources */,
 				30E2B6171E7FED0000221859 /* YJXiaoQuListViewController.xib in Resources */,
 				30B29A381E9E3163007180F1 /* YJAddressViewCell.xib in Resources */,
 				30EF71901EA7AE620039B98E /* YJThirdStepViewController.xib in Resources */,
+				3032C15E1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.xib in Resources */,
 				30E14A941E6429FE00129DE0 /* ShareSDKConfigFile.bundle in Resources */,
 				302E7EDA1E94BF6200BFCA41 /* YJXiaoquCollectionViewController.xib in Resources */,
 				305F627C1E7196AB00754DAA /* YJMessageCenterCell.xib in Resources */,
@@ -1235,6 +1266,7 @@
 				30B66C651ECE9B400096E0D2 /* YJSystemHeaderCollectionViewCell.m in Sources */,
 				30565FD41EADC87A0038A873 /* YJFourthStepPreview.m in Sources */,
 				30F2CEFD1E862F69000D42A3 /* YJXiaoQuDetailViewController.m in Sources */,
+				3032C15D1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.m in Sources */,
 				300BB4271EA5D87400432F8C /* YJHouseDetailModel.m in Sources */,
 				300372AF1E97CCBA005A7B37 /* YJXiaoquModel.m in Sources */,
 				300372AC1E97C28E005A7B37 /* YQFiveStarView.m in Sources */,
@@ -1248,9 +1280,11 @@
 				300372A31E9770BB005A7B37 /* NetworkTool.m in Sources */,
 				305F627B1E7196AB00754DAA /* YJMessageCenterCell.m in Sources */,
 				305CB87F1E56913300682F88 /* YJTabBarSystemController.m in Sources */,
+				3032C1581EDFDA94006C998C /* YJHouseInfoDetailViewController.m in Sources */,
 				302E7EE81E94D25A00BFCA41 /* YJRemarkViewController.m in Sources */,
 				302E7EE31E94C5C900BFCA41 /* YJCollectionSecondHandViewCell.m in Sources */,
 				305CB8921E5696E100682F88 /* YJImage.m in Sources */,
+				3032C1621EE13CC8006C998C /* YJXiaoquCollectionViewCell.m in Sources */,
 				30E14A5B1E606F9400129DE0 /* YJHistorySearchView.m in Sources */,
 				30D18CC91ED80D9800EE9ADA /* YJRequestTimeoutUtil.m in Sources */,
 				30E14A671E62C0EE00129DE0 /* YJReportAndFeedbackViewController.m in Sources */,

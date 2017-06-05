@@ -58,7 +58,7 @@
     if (!ISEMPTY(self.otherReasonTextView.text)) {
         [reasonStr stringByAppendingString:self.otherReasonTextView.text];
     }
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/report" parameters:@{@"site":self.site,@"id":self.ID,@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/report" parameters:@{@"site":self.site,@"id":self.ID,@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
                 [YJApplicationUtil alertHud:@"举报成功" afterDelay:1];

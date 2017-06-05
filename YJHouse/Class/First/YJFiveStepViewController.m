@@ -95,7 +95,7 @@
     self.registerModel.uw_prime = [NSString stringWithFormat:@"%lld",value];
     [SVProgressHUD show];
     if (ISEMPTY([LJKHelper getAuth_key])) {
-        [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/signup" parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
+        [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/signup" parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
             if (!ISEMPTY(responseObject) ||ISEMPTY(responseObject[@"result"])) {
                 [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
                 [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
@@ -115,18 +115,24 @@
     } else {
         params = @{@"auth_key":[LJKHelper getAuth_key],@"uwz[active]":@"1",@"uwz[name]":@"私人订制",@"uwz[region1_id]":self.registerModel.uw_region1_id,@"uwz[region1_weight]":@"10",@"uwz[region2_id]":self.registerModel.uw_region2_id,@"uwz[region2_weight]":@"10",@"uwz[price_min]":self.registerModel.uw_price_min,@"uwz[price_max]":self.registerModel.uw_price_max,@"uwz[price_rank_weight]":@"10",@"uwz[bus_stop_weight]":self.registerModel.uw_bus_stop_weight,@"uwz[hospital_weight]":self.registerModel.uw_hospital_weight,@"uwz[shop_weight]":self.registerModel.uw_shop_weight,@"uwz[school_weight]":self.registerModel.uw_school_weight,@"uwz[env_weight]":self.registerModel.uw_env_weight,@"uwz[prime]":self.registerModel.uw_prime};
     }
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/save-user-weight" parameters:params method:POST callBack:^(id responseObject) {
+    NSMutableDictionary *mParams = [NSMutableDictionary dictionaryWithDictionary:params];
+    if (self.edit) {
+        [mParams setObject:self.registerModel.weight_id forKey:@"weight_id"];
+    }
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/save-user-weight" parameters:mParams method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             [SVProgressHUD dismiss];
-            [LJKHelper saveZufangWeight_id:responseObject[@"result"][@"weight_id"]];
             if (self.registerModel.firstEnter) {
+                 [LJKHelper saveZufangWeight_id:responseObject[@"result"][@"weight_id"]];
+                [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@"houseTypeKey"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 self.view.window.rootViewController = [[YJTabBarSystemController alloc] init];
                 [self.view removeFromSuperview];
             } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
                 [self dismissViewControllerAnimated:YES completion:nil];
+                
             }
-            [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@"houseTypeKey"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
         }
     } error:^(NSError *error) {
         

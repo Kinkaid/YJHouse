@@ -19,4 +19,6 @@
 @property (nonatomic,copy) id score;
 @property (nonatomic,copy) id age;
 @property (nonatomic,copy) id site;
+@property (nonatomic,copy) id content;
+@property (nonatomic,copy) id state;
 @end

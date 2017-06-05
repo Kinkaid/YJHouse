@@ -38,7 +38,7 @@
     UIButton *btn =[self.view viewWithTag:self.lastSelectBtnTag];
     NSString *reasonStr = [NSString stringWithFormat:@"【%@】",btn.titleLabel.text];
     [reasonStr stringByAppendingString:self.feedbackTextView.text];
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/feedback" parameters:@{@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/feedback" parameters:@{@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
                 [YJApplicationUtil alertHud:@"意见反馈成功" afterDelay:1];

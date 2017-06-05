@@ -20,7 +20,9 @@
              @"region":@"region",
              @"score":@"score",
              @"age":@"age",
-             @"site":@"site"
+             @"site":@"site",
+             @"content":@"content",
+             @"state":@"state"
              };
 }
 

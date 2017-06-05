@@ -11,6 +11,7 @@
 @protocol YJSortDelegate <NSObject>
 
 - (void)sortByTag:(NSInteger)tag;
+@optional
 - (void)hiddenSortView;
 @end
 

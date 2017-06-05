@@ -31,6 +31,7 @@
         _noSearchResultView = [[YJNoSearchDataView alloc] initWithFrame:CGRectMake(0, 64, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 64)];
         [self.view addSubview:_noSearchResultView];
         [self.view bringSubviewToFront:self.searchView];
+        _noSearchResultView.content = @"没有搜索结果";
     }
     return _noSearchResultView;
 }

@@ -14,6 +14,7 @@ typedef void(^returnRemarkBlock)(NSString *content);
 
 @property (nonatomic,copy) NSString *site;
 @property (nonatomic,copy) NSString *ID;
+@property (nonatomic,copy) NSString *content;
 @property (nonatomic,strong) returnRemarkBlock contentBlock;
 
 - (void)returnContent:(returnRemarkBlock)block;

@@ -12,5 +12,6 @@
 
 @property (nonatomic,strong) YJRegisterModel *registerModel;
 @property (nonatomic,assign) BOOL edit;
+@property (nonatomic,assign) BOOL showBackBtn;
 
 @end

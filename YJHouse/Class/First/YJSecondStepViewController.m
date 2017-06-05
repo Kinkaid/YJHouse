@@ -24,7 +24,11 @@
     if (_edit == YES) {
         self.backBtn.hidden = NO;
     } else {
-        self.backBtn.hidden = YES;
+        if (self.showBackBtn) {
+            self.backBtn.hidden = NO;
+        } else {
+            self.backBtn.hidden = YES;
+        }
     }
     self.stateAry = [@[] mutableCopy];
     self.regionIdAry = [@[] mutableCopy];

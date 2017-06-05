@@ -16,7 +16,7 @@
 #define kCellIdentifier @"YJPricateCustomViewCell"
 #define kCellAddIdentifier @"YJPrivateAddViewCell"
 static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
-static NSString *const houseTypeKey = @"houseTypeKey";
+static NSString *const houseTypeKey = @"customHouseTypeKey";
 @interface YJPricateCustomViewController ()<UITableViewDelegate,UITableViewDataSource,YJPrivateCustomEditDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet KLCPopup *popupView;
@@ -32,13 +32,15 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 
 @implementation YJPricateCustomViewController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.hidden = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPrivateCustom) name:@"kEditPrivateCustomNotification" object:nil];
     [self registerTableView];
-}
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    [self registerRefresh];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
         self.zufang = YES;
         [self initWithBtnWithType:1];
@@ -46,9 +48,21 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         self.zufang = NO;
         [self initWithBtnWithType:0];
     }
+    [self loadData];
+}
+- (void)refreshPrivateCustom {
+    [self loadData];
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.headerImg sd_setImageWithURL:[NSURL URLWithString:[LJKHelper getUserHeaderUrl]] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
     self.headerName.text = [LJKHelper getUserName];
-    [self loadData];
+}
+- (void)registerRefresh {
+    __weak typeof(self) weakSelf = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadData];
+    }];
 }
 - (void)initWithBtnWithType:(NSInteger)type {
     UIButton *typeBtn = [self.view viewWithTag:103];
@@ -85,7 +99,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)loadData {
     [SVProgressHUD show];
     __weak typeof(self)weakSelf = self;
-    [[NetworkTool sharedTool] requestWithURLString:@"https://ksir.tech/you/frontend/web/app/user/user-info" parameters:@{@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/user-info" parameters:@{@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             [SVProgressHUD dismiss];
             [weakSelf.zufangPrivateAry removeAllObjects];
@@ -127,16 +141,17 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 [weakSelf.zufangPrivateAry addObject:zufangModel];
             }
             [weakSelf.tableView reloadData];
+            [weakSelf.tableView.mj_header endRefreshing];
         }
     } error:^(NSError *error) {
-        
+        [weakSelf.tableView.mj_header endRefreshing];
     }];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (self.zufang) {
-        return self.zufangPrivateAry.count+1;
+        return self.zufangPrivateAry.count < 10 ? self.zufangPrivateAry.count + 1:self.zufangPrivateAry.count;
     } else {
-        return self.ershouPrivateAry.count+1;
+        return self.ershouPrivateAry.count < 10 ? self.ershouPrivateAry.count + 1:self.ershouPrivateAry.count;
     }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -149,24 +164,39 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     return 19;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ((self.zufang && indexPath.section == self.zufangPrivateAry.count) ||(self.zufang == NO && indexPath.section == self.ershouPrivateAry.count) ) {
-        YJPrivateAddViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellAddIdentifier forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    } else {
-        YJPricateCustomViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-        if (!cell1) {
-            cell1 = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-        }
-        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell1.delegate = self;
-        cell1.cellSection = indexPath.section;
-        if (self.zufang) {
-            [cell1 showDataWithModel:self.zufangPrivateAry[indexPath.section]];
+    if (self.zufang) {
+        if (indexPath.section == self.zufangPrivateAry.count) {
+            YJPrivateAddViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellAddIdentifier forIndexPath:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
         } else {
-            [cell1 showDataWithModel:self.ershouPrivateAry[indexPath.section]];
+            YJPricateCustomViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+            if (!cell1) {
+                cell1 = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+            }
+            cell1.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell1.delegate = self;
+            cell1.cellSection = indexPath.section;
+            [cell1 showDataWithModel:self.zufangPrivateAry[indexPath.section]];
+            return cell1;
         }
-        return cell1;
+    } else {
+        if (indexPath.section == self.ershouPrivateAry.count) {
+            YJPrivateAddViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellAddIdentifier forIndexPath:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+        } else {
+            YJPricateCustomViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+            if (!cell1) {
+                cell1 = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+            }
+            cell1.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell1.delegate = self;
+            cell1.cellSection = indexPath.section;
+            [cell1 showDataWithModel:self.ershouPrivateAry[indexPath.section]];
+            return cell1;
+        }
+
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -178,13 +208,23 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.zufang) {
         if (indexPath.section < self.zufangPrivateAry.count) {
-            return YES;
+            YJPrivateModel *model = self.zufangPrivateAry[indexPath.section];
+            if (model.selected) {
+                return NO;
+            } else {
+               return YES;
+            }
         } else {
             return NO;
         }
     } else {
         if (indexPath.section < self.ershouPrivateAry.count) {
-            return YES;
+            YJPrivateModel *model = self.ershouPrivateAry[indexPath.section];
+            if (model.selected) {
+                return NO;
+            } else {
+                return YES;
+            }
         } else {
             return NO;
         }
@@ -217,9 +257,11 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 [self.tableView reloadData];
             });
         } else {
-            YJFirstStepViewController *vc = [[YJFirstStepViewController alloc] init];
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = self.zufang;
+            vc.showBackBtn = YES;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-            vc.firstEnter = NO;
             [self presentViewController:nav animated:YES completion:nil];
         }
     } else {
@@ -252,6 +294,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
             vc.registerModel = [[YJRegisterModel alloc] init];
             vc.registerModel.zufang = self.zufang;
+            vc.showBackBtn = YES;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             [self presentViewController:nav animated:YES completion:nil];
         }
@@ -261,7 +304,32 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     return UITableViewCellEditingStyleDelete;
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.tableView reloadData];
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        YJPrivateModel *model;
+        if (self.zufang) {
+            model = self.zufangPrivateAry[indexPath.section];
+        } else {
+            model = self.ershouPrivateAry[indexPath.section];
+        }
+        __weak typeof(self)weakSelf = self;
+        [SVProgressHUD show];
+        [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/cancel-weight" parameters:@{@"type":self.zufang?@"zufang":@"ershou",@"id":model.privateId,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+            if ([responseObject[@"result"] isEqualToString:@"success"]) {
+                [SVProgressHUD showSuccessWithStatus:@"删除成功"];
+                if (weakSelf.zufang) {
+                    [self.zufangPrivateAry removeObjectAtIndex:indexPath.section];
+                } else {
+                    [self.ershouPrivateAry removeObjectAtIndex:indexPath.section];
+                }
+                [weakSelf.tableView reloadData];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    }
+    
+    
+    
 }
 - (IBAction)selectType:(id)sender {
     self.klcManager = [KLCPopup popupWithContentView:self.popupView];
@@ -317,6 +385,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     vc.registerModel.uw_school_weight = model.school_weight;
     vc.registerModel.uw_env_weight = model.env_weight;
     vc.registerModel.uw_prime = model.prime;
+    vc.registerModel.weight_id = model.privateId;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:YES completion:nil];
 }
