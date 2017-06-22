@@ -13,7 +13,7 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
 #import "WeiboSDK.h"
-#import "YJFirstStepViewController.h"
+#import "YJFirstScrollViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -23,11 +23,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [NSThread sleepForTimeInterval:1];
     if (ISEMPTY([LJKHelper getZufangWeight_id]) && ISEMPTY([LJKHelper getErshouWeight_id])) {
-        YJFirstStepViewController *vc= [[YJFirstStepViewController alloc] init];
+        YJFirstScrollViewController *vc= [[YJFirstScrollViewController alloc] init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         self.window.rootViewController = nav;
-        vc.firstEnter = YES;
     } else {
         self.tabBar = [[YJTabBarSystemController alloc] init];
         self.window.rootViewController = self.tabBar;

@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="76.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JeW-p0-aSk">
@@ -64,21 +64,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_transport" translatesAutoresizingMaskIntoConstraints="NO" id="mJe-tr-tjw">
-                                <rect key="frame" x="252" y="34" width="26" height="24"/>
+                                <rect key="frame" x="252" y="34" width="26" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="26" id="7wf-aK-i7Y"/>
-                                    <constraint firstAttribute="height" constant="24" id="ISy-t8-Rle"/>
+                                    <constraint firstAttribute="height" constant="26" id="ISy-t8-Rle"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_env" translatesAutoresizingMaskIntoConstraints="NO" id="C1v-Fc-zrG">
-                                <rect key="frame" x="218" y="33" width="26" height="26"/>
+                                <rect key="frame" x="218" y="34" width="26" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="26" id="528-1h-0HC"/>
                                     <constraint firstAttribute="height" constant="26" id="nrX-Tg-ZuJ"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_school" translatesAutoresizingMaskIntoConstraints="NO" id="E0F-Su-Pbu">
-                                <rect key="frame" x="184" y="33" width="26" height="26"/>
+                                <rect key="frame" x="184" y="34" width="26" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="26" id="38i-0u-bne"/>
                                     <constraint firstAttribute="height" constant="26" id="P8t-Wm-Vxa"/>

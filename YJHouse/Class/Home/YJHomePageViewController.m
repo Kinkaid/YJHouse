@@ -20,6 +20,7 @@
 #import "YJZFMoreView.h"
 #import "YJHouseListModel.h"
 #import "YJSecondStepViewController.h"
+#import "YJMapViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
 static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
 static NSString *const houseTypeKey = @"houseTypeKey";
@@ -105,7 +106,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [YJRequestTimeoutUtil shareInstance].delegate = self;
-    [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
+    [SVProgressHUD show];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     self.navigationBar.hidden = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHomeData) name:kReloadHomeDataNotif object:nil];
     [self registerTableView];
@@ -234,12 +236,12 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             [weakSelf.homeHouseAry removeAllObjects];
             [weakSelf.tableView.mj_header endRefreshing];
             [SVProgressHUD dismiss];
-            [YJGIFAnimationView hideInView:self.view];
         }
         NSArray *ary = responseObject[@"result"];
         for (int i = 0; i<ary.count; i++) {
             YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i] error:nil];
             model.zufang = weakSelf.zufang;
+            model.topcut = @"";
             [weakSelf.homeHouseAry addObject:model];
         }
         if (ary.count<20) {
@@ -331,6 +333,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
             vc.registerModel = [[YJRegisterModel alloc] init];
             vc.registerModel.zufang = YES;
+            vc.showBackBtn = YES;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             [self presentViewController:nav animated:YES completion:nil];
             return;
@@ -352,6 +355,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             [[NSUserDefaults standardUserDefaults] synchronize];
         } else {
             YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.showBackBtn = YES;
             vc.registerModel = [[YJRegisterModel alloc] init];
             vc.registerModel.zufang = NO;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -573,6 +577,9 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         vc.houseTypeBlock = ^{
             [weakSelf reloadHomeData];
         };
+        PushController(vc);
+    }else if (btn.tag == 4) {
+        YJMapViewController *vc= [[YJMapViewController alloc] init];
         PushController(vc);
     }
 }

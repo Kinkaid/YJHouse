@@ -20,6 +20,7 @@
 #import "WDShareUtil.h"
 #import "YJLoadingAnimationView.h"
 #import "WDAboutUsViewController.h"
+#import "YJSettingViewController.h"
 @interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource,SKStoreProductViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
@@ -28,6 +29,8 @@
 @property (strong, nonatomic) IBOutlet UIView *shareView;
 @property (weak, nonatomic) IBOutlet UIImageView *headerImg;
 @property (weak, nonatomic) IBOutlet UILabel *userName;
+@property (weak, nonatomic) IBOutlet UILabel *mgsCount;
+@property (nonatomic,strong) NSMutableArray *msgCountAry;
 
 @end
 
@@ -36,12 +39,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.hidden = YES;
+    self.msgCountAry = [@[] mutableCopy];
     [self registerTableView];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.headerImg sd_setImageWithURL:[NSURL URLWithString:[LJKHelper getUserHeaderUrl]] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
     self.userName.text = [LJKHelper getUserName];
+    [self msgCount];
+}
+
+- (void)msgCount {
+    __weak typeof(self)weakSelf = self;
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/get-message-count" parameters:@{@"auth_key":[LJKHelper getAuth_key],@"time":ISEMPTY([LJKHelper getLastRequestMsgTime])?@"0":[LJKHelper getLastRequestMsgTime]} method:POST callBack:^(id responseObject) {
+        if ([responseObject[@"result"][@"total_count"] intValue]) {
+            weakSelf.mgsCount.hidden = NO;
+            weakSelf.mgsCount.text = [NSString stringWithFormat:@"%@",responseObject[@"result"][@"total_count"]];
+            [weakSelf.msgCountAry removeAllObjects];
+            [weakSelf.msgCountAry addObjectsFromArray:@[@([responseObject[@"result"][@"feedback"] intValue]),@([responseObject[@"result"][@"report"] intValue]),@([responseObject[@"result"][@"system"] intValue]),@([responseObject[@"result"][@"favourite_ershou"] intValue]),@([responseObject[@"result"][@"favourite_zufang"] intValue])]];
+        } else {
+            weakSelf.mgsCount.hidden = YES;
+            [weakSelf.msgCountAry removeAllObjects];
+            [weakSelf.msgCountAry addObjectsFromArray:@[@(0),@(0),@(0),@(0),@(0)]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -200,27 +223,27 @@
     switch (btn.tag) {
         case 11:
         {
-         [WDShareUtil shareTye:shareWXFriends withImageAry:@[@"http://upload.wadao.com/fx/cc_logo/20170401/eddc0a05b94037e81011e62c87b64faa.png"] withUrl:@"http://m.wadao.com/fx/926" withTitle:@"测试title" withContent:@"测试content"];
+         [WDShareUtil shareTye:shareWXFriends withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试title" withContent:@"测试content"];
         }
             break;
         case 12:
         {
-            [WDShareUtil shareTye:shareWXzone withImageAry:@[@"http://upload.wadao.com/fx/cc_logo/20170401/eddc0a05b94037e81011e62c87b64faa.png"] withUrl:@"http://m.wadao.com/fx/926" withTitle:@"测试微信title" withContent:@"测试微信content"];
+            [WDShareUtil shareTye:shareWXzone withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试微信title" withContent:@"测试微信content"];
         }
             break;
         case 13:
         {
-             [WDShareUtil shareTye:shareQQFriends withImageAry:@[@"http://test.wadao.com/uploads/fx/cc_logo/20170425/94e693e913f1b3c9b54b6a1819871e96.png"] withUrl:@"https://www.baidu.com" withTitle:@"高性价比房源信息" withContent:@"买房租房就上优家网"];
+             [WDShareUtil shareTye:shareQQFriends withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"高性价比房源信息" withContent:@"买房租房就上优家网"];
         }
             break;
         case 14:
         {
-             [WDShareUtil shareTye:shareQQzone withImageAry:@[@"http://upload.wadao.com/fx/cc_logo/20170401/eddc0a05b94037e81011e62c87b64faa.png"] withUrl:@"http://m.wadao.com/fx/926" withTitle:@"测试QQ分享title" withContent:@"测试QQ分享content"];
+             [WDShareUtil shareTye:shareQQzone withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试QQ分享title" withContent:@"测试QQ分享content"];
         }
             break;
         case 15:
         {
-            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[@"http://upload.wadao.com/fx/cc_logo/20170401/eddc0a05b94037e81011e62c87b64faa.png"] withUrl:@"http://m.wadao.com/fx/926" withTitle:@"测试QQ分享title" withContent:@"测试QQ分享content"];
+            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试QQ分享title" withContent:@"测试QQ分享content"];
         }
             break;
         default:
@@ -235,6 +258,11 @@
 
 - (IBAction)messageCenterAction:(id)sender {
     YJMessageCenterViewController *vc = [[YJMessageCenterViewController alloc] init];
+    vc.msgCount = self.msgCountAry;
+    PushController(vc);
+}
+- (IBAction)settingAction:(id)sender {
+    YJSettingViewController *vc = [[YJSettingViewController alloc] init];
     PushController(vc);
 }
 

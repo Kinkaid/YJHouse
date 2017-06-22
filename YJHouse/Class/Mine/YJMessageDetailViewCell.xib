@@ -89,7 +89,12 @@
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
-            <point key="canvasLocation" x="33" y="-78"/>
+            <connections>
+                <outlet property="_content" destination="3p5-Ws-36A" id="7IC-k4-Pn3"/>
+                <outlet property="_time" destination="flr-qN-woa" id="id2-4H-A5e"/>
+                <outlet property="_title" destination="HTl-aZ-chA" id="7qr-eQ-ApA"/>
+            </connections>
+            <point key="canvasLocation" x="51" y="-61"/>
         </tableViewCell>
     </objects>
 </document>

@@ -39,7 +39,11 @@
              @"stairs_ratio":@"stairs_ratio",
              @"around":@"around",
              @"introduction":@"introduction",
-             @"point":@"point"
+             @"point":@"point",
+             @"manager":@"manager",
+             @"manager_tel":@"manager_tel",
+             @"uid":@"uid",
+             @"tags":@"tags"
              };
 }
 

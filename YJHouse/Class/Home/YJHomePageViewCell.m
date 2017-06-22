@@ -22,6 +22,9 @@
     
     __weak IBOutlet UIImageView *_img2;
     
+    __weak IBOutlet UIView *_reducePriceView;
+    
+    __weak IBOutlet UILabel *_reduceRatioLabel;
 }
 
 - (void)awakeFromNib {
@@ -77,6 +80,14 @@
                 label.hidden = YES;
             }
         }
+    }
+    if (ISEMPTY(model.topcut)) {
+        _reducePriceView.hidden = YES;
+        _score.hidden = NO;
+    } else {
+        _reducePriceView.hidden = NO;
+        _score.hidden = YES;
+        _reduceRatioLabel.text = [NSString stringWithFormat:@"%.0f%%",[model.topcut floatValue] * (- 100)];
     }
 }
 @end

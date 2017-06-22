@@ -31,6 +31,10 @@
 + (NSString *)getErshouWeight_id;
 
 + (CGFloat)getDevicePlateform;
+
++ (void)saveLastRequestMsgTime:(NSString *)time;
++ (NSString *)getLastRequestMsgTime;
+
 @end
 
 

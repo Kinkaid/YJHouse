@@ -32,7 +32,7 @@
                         <outlet property="delegate" destination="-1" id="rB0-Z5-hHY"/>
                     </connections>
                 </tableView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_header_2" translatesAutoresizingMaskIntoConstraints="NO" id="EYZ-7d-jLc">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_header_2" translatesAutoresizingMaskIntoConstraints="NO" id="EYZ-7d-jLc">
                     <rect key="frame" x="135" y="60" width="104" height="104"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="104" id="bm0-Ty-2jm"/>
@@ -40,7 +40,7 @@
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="50"/>
+                            <integer key="value" value="52"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </imageView>

@@ -23,9 +23,6 @@
     self.viewB.backgroundColor = [[UIColor ex_colorFromHexRGB:@"A746E8"] colorWithAlphaComponent:0.4];
     self.navigationBar.hidden = YES;
 }
-- (IBAction)dismissAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];

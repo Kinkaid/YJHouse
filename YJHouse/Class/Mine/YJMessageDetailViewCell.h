@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YJMsgModel.h"
 @interface YJMessageDetailViewCell : UITableViewCell
+
+- (void)showDataWithModel:(YJMsgModel *)model;
 
 @end

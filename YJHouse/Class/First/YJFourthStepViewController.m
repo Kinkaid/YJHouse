@@ -138,7 +138,7 @@
         if (ISEMPTY([LJKHelper getAuth_key])) {
             [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/signup" parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
                 if (!ISEMPTY(responseObject) ||ISEMPTY(responseObject[@"result"])) {
-                    [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
+                    [LJKHelper saveUserName:[NSString stringWithFormat:@"yj_%@",responseObject[@"result"][@"user_info"][@"username"]]];
                     [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
                     [self submitUserPrivateCustom];
                 }
@@ -194,6 +194,12 @@
                 self.view.window.rootViewController = [[YJTabBarSystemController alloc] init];
                 [self.view removeFromSuperview];
             } else {
+                if (ISEMPTY([LJKHelper getErshouWeight_id])) {
+                   [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_id"]];
+                }
+                [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:@"houseTypeKey"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"kReloadHomeDataNotif" object:nil];
                  [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
                 [self dismissViewControllerAnimated:YES completion:nil];
             }

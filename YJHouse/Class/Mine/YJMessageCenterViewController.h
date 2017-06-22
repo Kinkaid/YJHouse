@@ -9,5 +9,5 @@
 #import "YJBaseViewController.h"
 
 @interface YJMessageCenterViewController : YJBaseViewController
-
+@property (nonatomic,strong) NSMutableArray *msgCount;
 @end

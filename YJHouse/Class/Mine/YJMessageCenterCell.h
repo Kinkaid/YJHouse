@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YJMsgModel.h"
 @interface YJMessageCenterCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIView *badgeView;
 
+- (void)showDataWithTitle:(NSString *)title content:(NSString *)content;
+- (void)showDataWithModel:(YJMsgModel *)model;
 @end

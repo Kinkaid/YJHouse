@@ -98,7 +98,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6BN-fq-nWR">
-                                    <rect key="frame" x="117.5" y="13" width="117.5" height="21"/>
+                                    <rect key="frame" x="117.5" y="12.5" width="117.5" height="22"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title=" 0" image="icon_dislike">
                                         <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
@@ -630,8 +630,8 @@
                                         <constraint firstAttribute="width" secondItem="3Le-P7-Ua3" secondAttribute="height" multiplier="1:1" id="VPX-Lv-otR"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐出租房：56" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ww6-zp-nkB">
-                                    <rect key="frame" x="56" y="10" width="125" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐出租房：0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ww6-zp-nkB">
+                                    <rect key="frame" x="56" y="10" width="114.5" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -642,17 +642,28 @@
                                     <color key="textColor" red="0.31372549019607843" green="0.31372549019607843" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Da-wJ-CLv" customClass="UIControl">
+                                    <rect key="frame" x="0.0" y="0.0" width="359" height="40"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <action selector="recomondAction:" destination="-1" eventType="touchUpInside" id="dqv-nl-WZh"/>
+                                    </connections>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="3Da-wJ-CLv" firstAttribute="top" secondItem="OpF-Lj-zLo" secondAttribute="top" id="6Xa-bN-suX"/>
                                 <constraint firstItem="3Le-P7-Ua3" firstAttribute="top" secondItem="OpF-Lj-zLo" secondAttribute="top" constant="6" id="Esb-A4-c2U"/>
                                 <constraint firstItem="3Le-P7-Ua3" firstAttribute="leading" secondItem="OpF-Lj-zLo" secondAttribute="leading" constant="16" id="FID-Am-Prh"/>
+                                <constraint firstAttribute="bottom" secondItem="3Da-wJ-CLv" secondAttribute="bottom" id="Gsh-et-5TW"/>
                                 <constraint firstItem="ww6-zp-nkB" firstAttribute="centerY" secondItem="3Le-P7-Ua3" secondAttribute="centerY" id="Xoo-b4-VE3"/>
                                 <constraint firstAttribute="trailing" secondItem="Blw-d3-nAB" secondAttribute="trailing" constant="12" id="dRj-PF-ubi"/>
                                 <constraint firstItem="Blw-d3-nAB" firstAttribute="centerY" secondItem="OpF-Lj-zLo" secondAttribute="centerY" id="hm0-hc-0go"/>
                                 <constraint firstAttribute="height" constant="40" id="j3W-Br-kRb"/>
                                 <constraint firstItem="ww6-zp-nkB" firstAttribute="leading" secondItem="3Le-P7-Ua3" secondAttribute="trailing" constant="12" id="jBs-Tb-tyX"/>
+                                <constraint firstAttribute="trailing" secondItem="3Da-wJ-CLv" secondAttribute="trailing" id="r95-y5-bYX"/>
                                 <constraint firstAttribute="bottom" secondItem="3Le-P7-Ua3" secondAttribute="bottom" constant="6" id="ypf-zo-qN0"/>
+                                <constraint firstItem="3Da-wJ-CLv" firstAttribute="leading" secondItem="OpF-Lj-zLo" secondAttribute="leading" id="z8r-7x-1mx"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
@@ -675,8 +686,8 @@
                                         <constraint firstAttribute="width" secondItem="iv8-vK-XsY" secondAttribute="height" multiplier="1:1" id="CVX-xC-H2w"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐二手房：56" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5v-SS-qb2">
-                                    <rect key="frame" x="56" y="10" width="125" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐二手房：0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5v-SS-qb2">
+                                    <rect key="frame" x="56" y="10" width="114.5" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -687,17 +698,28 @@
                                     <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XgC-1x-42K" customClass="UIControl">
+                                    <rect key="frame" x="0.0" y="0.0" width="359" height="40"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <action selector="recomondAction:" destination="-1" eventType="touchUpInside" id="ea9-22-bhA"/>
+                                    </connections>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="iv8-vK-XsY" secondAttribute="bottom" constant="6" id="6ul-Rc-MIp"/>
                                 <constraint firstAttribute="trailing" secondItem="9MX-c9-0N1" secondAttribute="trailing" constant="12" id="DLJ-ja-fHd"/>
+                                <constraint firstAttribute="bottom" secondItem="XgC-1x-42K" secondAttribute="bottom" id="EBr-BY-p9R"/>
                                 <constraint firstItem="E5v-SS-qb2" firstAttribute="leading" secondItem="iv8-vK-XsY" secondAttribute="trailing" constant="12" id="GLc-mp-N4k"/>
                                 <constraint firstAttribute="height" constant="40" id="LSt-rY-u3Q"/>
                                 <constraint firstItem="iv8-vK-XsY" firstAttribute="leading" secondItem="WKV-kU-R5T" secondAttribute="leading" constant="16" id="Or1-WF-8Md"/>
                                 <constraint firstItem="E5v-SS-qb2" firstAttribute="centerY" secondItem="iv8-vK-XsY" secondAttribute="centerY" id="PDL-6S-xGV"/>
+                                <constraint firstAttribute="trailing" secondItem="XgC-1x-42K" secondAttribute="trailing" id="YEs-2E-0bo"/>
+                                <constraint firstItem="XgC-1x-42K" firstAttribute="leading" secondItem="WKV-kU-R5T" secondAttribute="leading" id="gHV-Tk-tEt"/>
                                 <constraint firstItem="9MX-c9-0N1" firstAttribute="centerY" secondItem="WKV-kU-R5T" secondAttribute="centerY" id="kaz-fd-XIf"/>
                                 <constraint firstItem="iv8-vK-XsY" firstAttribute="top" secondItem="WKV-kU-R5T" secondAttribute="top" constant="6" id="mGT-D0-snl"/>
+                                <constraint firstItem="XgC-1x-42K" firstAttribute="top" secondItem="WKV-kU-R5T" secondAttribute="top" id="nJ4-Ay-qhm"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
@@ -760,7 +782,7 @@
         <image name="icon_agree" width="36" height="37"/>
         <image name="icon_back" width="22" height="22"/>
         <image name="icon_disagree" width="36" height="37"/>
-        <image name="icon_dislike" width="23" height="21"/>
+        <image name="icon_dislike" width="23" height="22"/>
         <image name="icon_gotoBuy" width="167" height="46"/>
         <image name="icon_homeheader" width="375" height="246"/>
         <image name="icon_sale_up" width="29" height="25"/>

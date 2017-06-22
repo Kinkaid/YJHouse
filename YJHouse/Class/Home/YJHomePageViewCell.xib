@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -116,11 +117,40 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </label>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="osc-ss-AI2">
+                        <rect key="frame" x="246" y="22" width="74" height="20"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_down_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="hjL-BJ-Vbg">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="hjL-BJ-Vbg" secondAttribute="height" multiplier="1:1" id="Dhv-ox-1vC"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8UT-D4-sVO">
+                                <rect key="frame" x="24" y="0.0" width="50" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.65098039220000004" green="0.27450980390000002" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8UT-D4-sVO" firstAttribute="centerY" secondItem="osc-ss-AI2" secondAttribute="centerY" id="Dup-H5-68u"/>
+                            <constraint firstItem="hjL-BJ-Vbg" firstAttribute="leading" secondItem="osc-ss-AI2" secondAttribute="leading" id="GPS-5Y-7GF"/>
+                            <constraint firstAttribute="trailing" secondItem="8UT-D4-sVO" secondAttribute="trailing" id="aYe-C1-8ry"/>
+                            <constraint firstAttribute="width" constant="74" id="jaK-Rk-bQF"/>
+                            <constraint firstItem="hjL-BJ-Vbg" firstAttribute="top" secondItem="osc-ss-AI2" secondAttribute="top" id="k0F-rx-JSg"/>
+                            <constraint firstItem="8UT-D4-sVO" firstAttribute="leading" secondItem="hjL-BJ-Vbg" secondAttribute="trailing" constant="4" id="muE-Qf-8TV"/>
+                            <constraint firstAttribute="height" constant="20" id="q3S-sY-q0l"/>
+                            <constraint firstAttribute="bottom" secondItem="hjL-BJ-Vbg" secondAttribute="bottom" id="yw1-Xi-HyI"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="rG3-1F-wiS" firstAttribute="centerY" secondItem="2V5-y5-6E8" secondAttribute="centerY" id="2Sa-js-UcH"/>
                     <constraint firstItem="eCq-Td-wno" firstAttribute="centerY" secondItem="Xyd-h2-XWn" secondAttribute="centerY" id="4is-yv-8kL"/>
                     <constraint firstItem="5wy-tk-duH" firstAttribute="leading" secondItem="NO4-R9-22k" secondAttribute="trailing" constant="6" id="6Zp-l2-KXo"/>
+                    <constraint firstAttribute="trailing" secondItem="osc-ss-AI2" secondAttribute="trailing" id="780-Z4-Tm3"/>
                     <constraint firstAttribute="trailing" secondItem="oxA-l6-nVR" secondAttribute="trailing" constant="16" id="7A4-aR-Vpt"/>
                     <constraint firstItem="4L2-UK-mXI" firstAttribute="top" secondItem="5wy-tk-duH" secondAttribute="bottom" constant="4" id="AIv-hb-1L3"/>
                     <constraint firstItem="Xyd-h2-XWn" firstAttribute="centerY" secondItem="rG3-1F-wiS" secondAttribute="centerY" id="BlW-jg-N2V"/>
@@ -141,6 +171,7 @@
                     <constraint firstItem="gxB-TU-7Sk" firstAttribute="leading" secondItem="NO4-R9-22k" secondAttribute="trailing" constant="8" id="elI-i8-RTc"/>
                     <constraint firstAttribute="bottom" secondItem="TrU-hO-Q0i" secondAttribute="bottom" id="esu-cl-0VT"/>
                     <constraint firstItem="4L2-UK-mXI" firstAttribute="leading" secondItem="NO4-R9-22k" secondAttribute="trailing" constant="6" id="fUw-4q-wv4"/>
+                    <constraint firstItem="osc-ss-AI2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="22" id="fyp-XG-539"/>
                     <constraint firstItem="NO4-R9-22k" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="g1q-L9-vsx"/>
                     <constraint firstItem="o6H-mg-7HR" firstAttribute="leading" secondItem="4L2-UK-mXI" secondAttribute="trailing" constant="6" id="ggK-ql-xd4"/>
                     <constraint firstItem="Xyd-h2-XWn" firstAttribute="leading" secondItem="rG3-1F-wiS" secondAttribute="trailing" constant="8" id="iuq-wH-PEw"/>
@@ -158,13 +189,16 @@
                 <outlet property="_main_img" destination="NO4-R9-22k" id="Xdr-W7-hGo"/>
                 <outlet property="_name" destination="gxB-TU-7Sk" id="F1e-gM-twG"/>
                 <outlet property="_price" destination="jVg-xz-BrW" id="gN2-ia-Xbb"/>
+                <outlet property="_reducePriceView" destination="osc-ss-AI2" id="Teh-t0-BPe"/>
+                <outlet property="_reduceRatioLabel" destination="8UT-D4-sVO" id="pCh-Jk-pIS"/>
                 <outlet property="_score" destination="cux-rY-dcI" id="yQk-vs-iO7"/>
                 <outlet property="_totalPrice" destination="oxA-l6-nVR" id="WkC-50-lUC"/>
             </connections>
-            <point key="canvasLocation" x="-110" y="84"/>
+            <point key="canvasLocation" x="-110" y="83.5"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="icon_down_arrow" width="19" height="20"/>
         <image name="icon_homeBetter" width="68" height="66"/>
         <image name="icon_location" width="19" height="19"/>
         <image name="icon_price" width="19" height="19"/>

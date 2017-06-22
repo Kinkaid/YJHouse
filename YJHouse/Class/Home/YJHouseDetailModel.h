@@ -37,5 +37,8 @@
 @property (nonatomic,copy) id around;
 @property (nonatomic,copy) id introduction;
 @property (nonatomic,copy) id point;
-
+@property (nonatomic,copy) id manager;
+@property (nonatomic,copy) id manager_tel;
+@property (nonatomic,copy) id uid;
+@property (nonatomic,copy) id tags;
 @end

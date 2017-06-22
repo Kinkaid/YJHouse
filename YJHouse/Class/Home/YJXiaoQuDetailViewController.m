@@ -10,7 +10,9 @@
 #import "YQFiveStarView.h"
 #import "YJXiaoquDetailModel.h"
 #import "YJDate.h"
-@interface YJXiaoQuDetailViewController ()<YJRequestTimeoutDelegate>
+#import "YJHouseListModel.h"
+#import "YJRecommondViewController.h"
+@interface YJXiaoQuDetailViewController ()<YJRequestTimeoutDelegate,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 
@@ -47,14 +49,19 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *dislikeBtn;
 @property (weak, nonatomic) IBOutlet UIView *showView;
+
+@property (nonatomic,strong) NSMutableArray *ershouAry;
+@property (nonatomic,strong) NSMutableArray *zufangAry;
+
 @end
 
 @implementation YJXiaoQuDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setTitle:@"小区详情"];
     [YJRequestTimeoutUtil shareInstance].delegate = self;
-    self.navigationBar.hidden = YES;
+    self.navigationBar.alpha = 0;
     [self setContentScrollView];
     [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
     [self loadXiaoquDetail];
@@ -73,21 +80,39 @@
         [YJGIFAnimationView hideInView:self.view];
       if (responseObject[@"result"] && ISEMPTY(responseObject[@"error"])) {
           if ([responseObject[@"result"][@"evaluate"] intValue] ==0) {
-              self.dislikeBtn.selected = NO;
-              self.likeBtn.selected = NO;
+              weakSelf.dislikeBtn.selected = NO;
+              weakSelf.likeBtn.selected = NO;
           } else {
-              self.dislikeBtn.selected = YES;
-              self.likeBtn.selected = YES;
+              weakSelf.dislikeBtn.selected = YES;
+              weakSelf.likeBtn.selected = YES;
           }
           if ([responseObject[@"result"][@"favourite"] intValue] == 1) {
-              self.collectionBtn.selected = YES;
-              [self.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
+              weakSelf.collectionBtn.selected = YES;
+              [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
           } else {
-              self.collectionBtn.selected = NO;
+              weakSelf.collectionBtn.selected = NO;
           }
+          weakSelf.ershouAry = [@[] mutableCopy];
+          weakSelf.zufangAry = [@[] mutableCopy];
+          if (!ISEMPTY(responseObject[@"result"][@"recommand"])) {
+              for (int i=0; i<[responseObject[@"result"][@"recommand"][@"ershou"] count]; i++) {
+                  YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:responseObject[@"result"][@"recommand"][@"ershou"][i] error:nil];
+                  model.zufang = NO;
+                  model.topcut = @"";
+                  [weakSelf.ershouAry addObject:model];
+              }
+              for (int j=0; j<[responseObject[@"result"][@"recommand"][@"zufang"] count]; j++) {
+                  YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:responseObject[@"result"][@"recommand"][@"zufang"][j] error:nil];
+                  model.zufang = YES;
+                  model.topcut = @"";
+                  [weakSelf.zufangAry addObject:model];
+              }
+          }
+          self.tjzfLabel.text = [NSString stringWithFormat:@"推荐租房：%lu",weakSelf.zufangAry.count];
+          self.tjershouLabel.text = [NSString stringWithFormat:@"推荐二手房：%lu",weakSelf.ershouAry.count];
           YJXiaoquDetailModel *model = [MTLJSONAdapter modelOfClass:[YJXiaoquDetailModel class] fromJSONDictionary:responseObject[@"result"][@"info"] error:nil];
           weakSelf.model = model;
-          [self fillDataWithModel];
+          [weakSelf fillDataWithModel];
       }
     } error:^(NSError *error) {
         
@@ -137,8 +162,6 @@
     self.bus_stop_count.attributedText = busCountStr;
     
     self.address.text = [NSString stringWithFormat:@"地址:%@-%@-%@",self.model.region,self.model.plate,self.model.name];
-    self.tjzfLabel.text = [NSString stringWithFormat:@"推荐租房：%@",self.model.zufang_in];
-    self.tjershouLabel.text = [NSString stringWithFormat:@"推荐二手房：%@",self.model.ershou_in];
     [self.likeBtn setTitle:[NSString stringWithFormat:@"%@",self.model.good] forState:UIControlStateNormal];
     [self.dislikeBtn setTitle:[NSString stringWithFormat:@"%@",self.model.bad] forState:UIControlStateNormal];
     CGFloat total = ([self.model.good floatValue] + [self.model.bad floatValue]);
@@ -147,6 +170,9 @@
     [self.collectionBtn setTitle:[NSString stringWithFormat:@"%@",self.model.favourite_count] forState:UIControlStateNormal];
     [SVProgressHUD dismiss];
     
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    self.navigationBar.alpha = (scrollView.contentOffset.y - 64) / 64.0;
 }
 - (IBAction)collectionAction:(id)sender {
     __weak typeof(self) weakSelf = self;
@@ -229,8 +255,27 @@
     } error:^(NSError *error) {
         
     }];
-    
 }
+
+- (IBAction)recomondAction:(id)sender {
+    UIButton *btn = sender;
+    YJRecommondViewController * vc= [[YJRecommondViewController alloc] init];
+    if (btn.tag == 1) {
+        if (!self.zufangAry.count) {
+            return;
+        }
+        vc.houseAry = self.zufangAry;
+        vc.mainTitle = @"推荐租房";
+    } else {
+        if (!self.ershouAry.count) {
+            return;
+        }
+        vc.houseAry = self.ershouAry;
+        vc.mainTitle = @"推荐二手房";
+    }
+    PushController(vc);
+}
+
 - (IBAction)shareAction:(id)sender {
     
 }

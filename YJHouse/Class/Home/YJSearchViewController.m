@@ -11,7 +11,10 @@
 #import "YJHomePageViewCell.h"
 #import "YJHistorySearchView.h"
 #import "YJNoSearchDataView.h"
+#import "YJHouseListModel.h"
+#import "YJHouseDetailViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
+static NSString *const houseTypeKey = @"houseTypeKey";
 @interface YJSearchViewController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource,KeyViewDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet KLCPopup *popupView;
@@ -20,6 +23,7 @@
 @property (nonatomic,strong) NSMutableArray *SearchAry;
 @property (nonatomic,strong) YJHistorySearchView *searchView;
 @property (nonatomic,strong) YJNoSearchDataView *noSearchResultView;
+@property (nonatomic,assign) BOOL zufang;
 
 @end
 
@@ -38,10 +42,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.hidden = YES;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
+        self.zufang = YES;
+        [self initWithBtnWithType:1];
+    } else {
+        self.zufang = NO;
+        [self initWithBtnWithType:0];
+    }
     [self registerTableView];
     [self setHistoryView];
 }
-
+- (void)initWithBtnWithType:(NSInteger)type {
+    UIButton *typeBtn = [self.view viewWithTag:3];
+    UIButton *btn1 = [self.popupView viewWithTag:1];
+    UIButton *btn2 = [self.popupView viewWithTag:2];
+    if (type == 1) {
+        [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+    } else {
+        [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+    }
+}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.searchBar resignFirstResponder];
@@ -86,21 +110,56 @@
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell showDataWithModel:self.SearchAry[indexPath.row]];
     return cell;
 }
 
-- (void)loadSearchData {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    YJHouseListModel *model = self.SearchAry[indexPath.row];
+    YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
+    vc.site_id =model.site;
+    vc.score = model.total_score;
+    vc.house_id = model.house_id;
+    if (model.zufang) {
+        vc.type = type_zufang;
+        vc.tags = [model.tags componentsSeparatedByString:@";"];
+    } else {
+        vc.type = type_maifang;
+    }
+    PushController(vc);
+}
+
+- (void)loadSearchData:(NSString *)searchKey {
+    [SVProgressHUD show];
     self.searchView.hidden = YES;
     [self.SearchAry removeAllObjects];
-    for (int i=0; i<arc4random() % 6; i++) {
-        [self.SearchAry addObject:@(i)];
-    }
-    if (self.SearchAry.count) {
-        self.noSearchResultView.hidden = YES;
+    NSString * url;
+    if (self.zufang) {
+        url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/zufang/custom-list?auth_key=%@&name[0]=%@",[LJKHelper getAuth_key],searchKey];
     } else {
-        self.noSearchResultView.hidden = NO;
+        url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/ershou/custom-list?auth_key=%@&name[0]=%@",[LJKHelper getAuth_key],searchKey];
     }
-    [self.tableView reloadData];
+    __weak typeof(self) weakSelf = self;
+    NSString * newUrl = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [[NetworkTool sharedTool] requestWithURLString:newUrl parameters:nil method:POST callBack:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        NSArray *ary = responseObject[@"result"];
+        [self.SearchAry removeAllObjects];
+        for (int i=0; i<ary.count; i++) {
+            YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i] error:nil];
+            model.zufang = self.zufang;
+            model.topcut = @"";
+            [self.SearchAry addObject:model];
+        }
+        if (self.SearchAry.count) {
+            self.noSearchResultView.hidden = YES;
+        } else {
+            self.noSearchResultView.hidden = NO;
+        }
+        [weakSelf.tableView reloadData];
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark IBActions
@@ -119,15 +178,22 @@
         [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
         UIButton *btn = [self.popupView viewWithTag:2];
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+        [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:houseTypeKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.zufang = YES;
     } else if (selectBtn.tag == 2){
         [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
         UIButton *btn = (UIButton *)[self.popupView viewWithTag:1];
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+        [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:houseTypeKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.zufang = NO;
     }
     [self.klcManager dismiss:YES];
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.searchBar resignFirstResponder];
+    
 }
 
 - (IBAction)cancelAction:(id)sender {
@@ -145,14 +211,14 @@
     [ary insertObject:self.searchBar.text atIndex:0];
     [userDefault setObject:ary forKey:@"historySearch"];
     [userDefault synchronize];
-    self.searchBar.text = @"";
     [self.searchBar resignFirstResponder];
     self.searchView.hidden = YES;
-    [self loadSearchData];
+    [self loadSearchData:self.searchBar.text];
+    self.searchBar.text = @"";
 }
 - (void)getKeyValue:(NSString *)str {
     [self.searchBar resignFirstResponder];
-    [self loadSearchData];
+    [self loadSearchData:str];
 
 }
 - (void)clickDeleKey {

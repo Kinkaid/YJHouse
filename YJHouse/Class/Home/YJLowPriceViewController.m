@@ -76,7 +76,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
     self.navigationBar.hidden = YES;
     self.sortTapLastTime = 55;
-    self.curTitle.text = self.isLowPrice ? @"今日白菜价":@"最新房源";
+    self.curTitle.text = self.isLowPrice ? @"今日白菜":@"最新房源";
     [self registerTableView];
     [self registerRefresh];
     if (self.isLowPrice) {
@@ -184,6 +184,9 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             for (int i=0; i<ary.count; i++) {
                 YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i] error:nil];
                 model.zufang = weakSelf.zufang;
+                if (!weakSelf.isLowPrice) {
+                    model.topcut = @"";
+                }
                 [weakSelf.lowPAry addObject:model];
             }
             if (ary.count<20) {
@@ -299,6 +302,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     }
     self.curPage = 0;
     [self initWithSortBtn];
+    [SVProgressHUD show];
     [self loadData];
     self.houseTypeBlock();
 }

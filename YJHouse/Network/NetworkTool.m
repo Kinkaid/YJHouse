@@ -55,9 +55,9 @@
             callBack(responseObject);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             failure(error);
-            if (error.code == -1001) {
+//            if (error.code == -1001) {
                 [YJRequestTimeoutUtil showRequestErrorView];
-            }
+//            }
         }];
     }
     
@@ -66,9 +66,9 @@
             callBack(responseObject);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             failure(error);
-            if (error.code == -1001) {
+//            if (error.code == -1001) {
                 [YJRequestTimeoutUtil showRequestErrorView];
-            }
+//            } 
         }];
     }
 

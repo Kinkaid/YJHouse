@@ -9,5 +9,5 @@
 #import "YJBaseViewController.h"
 
 @interface YJMessageDetailViewController : YJBaseViewController
-
+@property (nonatomic,copy) NSString *type;
 @end

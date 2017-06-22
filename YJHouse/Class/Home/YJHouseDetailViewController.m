@@ -56,6 +56,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *communityCompletionTimeLabel;//小区年代
 @property (weak, nonatomic) IBOutlet UILabel *communityTypeLabel;//小区类型
 @property (weak, nonatomic) IBOutlet UILabel *communityInfoLabel;//小区信息
+@property (weak, nonatomic) IBOutlet UILabel *manager;
+@property (weak, nonatomic) IBOutlet UILabel *managerTel;
+@property (weak, nonatomic) IBOutlet UILabel *uid;
 
 @property (weak, nonatomic) IBOutlet UIView *selectView;
 @property (weak, nonatomic) IBOutlet UIButton *toScoreBtn;
@@ -159,20 +162,20 @@
         if (ISEMPTY(introduction)) {
             self.sellInfoView.hidden = YES;
             self.locationTonConstraint.constant = 154;
-            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 80 + 12 + 250 + 12 + 50);
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
         } else {
             self.sellInfoView.hidden = NO;
             self.sellInfo.text = introduction;
             self.sellInfoConstraint.constant = 154;
             if ([LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] >58) {
                 self.locationTonConstraint.constant = 376;
-                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 210 + 12 + 80 + 12 + 250 + 12 + 50);
+                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 210 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
             } else {
                 UIButton *btn = [self.sellInfoView viewWithTag:1];
                 btn.hidden = YES;
                 self.locationTonConstraint.constant = 166 +71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12;
                 self.sellInfoViewHeight.constant = 71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12;
-                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12 + 12 + 80 + 12 + 250 + 12 + 50);
+                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
             }
         }
     } else {
@@ -180,13 +183,13 @@
         if (ISEMPTY(introduction)) {
             self.sellInfoView.hidden = YES;
             self.locationTonConstraint.constant = 12;
-            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 80 + 12 + 250 + 12 + 50);
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
         } else {
             self.sellInfoView.hidden = NO;
             self.sellInfoConstraint.constant = 12;
             self.locationTonConstraint.constant = 234;
             self.sellInfo.text = introduction;
-            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 210 + 12 + 80 + 12 + 250 + 12 + 50);
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 210 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
         }
     }
     [self.tableView setTableHeaderView:self.headerView];
@@ -237,6 +240,7 @@
                 }else {
                     model.zufang = NO;
                 }
+                model.topcut = @"";
                 [weakSelf.recommandList addObject:model];
                 [weakSelf.tableView reloadData];
             }
@@ -259,6 +263,39 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.66)];
         imageView.image = [UIImage imageNamed:@"icon_default_large"];
         [self.imgScrollView addSubview:imageView];
+    }
+    
+    if (ISEMPTY(self.houseModel.tags)) {
+            if (self.type == type_zufang) {
+                for (int i=1; i<3; i++) {
+                    UILabel *label = [self.headerView viewWithTag:i];
+                    label.hidden = NO;
+                    label.text = i == 1?@"随时看房":@"拎包入住";
+                }
+                for (int i=3; i<=5; i++) {
+                    UILabel *label = [self.headerView viewWithTag:i];
+                    label.hidden = YES;
+                }
+            } else {
+                UILabel *label = [self.headerView viewWithTag:1];
+                label.hidden = NO;
+                label.text = @"随时看房";
+                for (int i=2; i<=5; i++) {
+                    UILabel *label = [self.headerView viewWithTag:i];
+                    label.hidden = YES;
+                }
+            }
+    } else {
+        NSArray *tagsAry = [self.houseModel.tags componentsSeparatedByString:@";"];
+        for (int i=1; i<=5; i++) {
+            UILabel *label = [self.headerView viewWithTag:i];
+            if (i<=tagsAry.count) {
+                label.text = [NSString stringWithFormat:@" %@ ",tagsAry[i-1]];
+                label.hidden = NO;
+            } else {
+                label.hidden = YES;
+            }
+        }
     }
     self.sourceLabel.text = [NSString stringWithFormat:@"    房源:%@",self.houseModel.site_name];
     if (self.type == type_zufang) {
@@ -288,7 +325,7 @@
     }
     self.houseApartmentLayoutLabel.attributedText = houseApartmentLayoutStr;
     
-    NSMutableAttributedString *houseAreaStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f平",[self.houseModel.area floatValue]]];
+    NSMutableAttributedString *houseAreaStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d平",[self.houseModel.area intValue]]];
     [houseAreaStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(houseAreaStr.length-1, 1)];
     self.houseAreaLabel.attributedText = houseAreaStr;
     
@@ -323,6 +360,19 @@
     NSMutableAttributedString *stairsRatioStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"梯户比:%@",ISEMPTY(self.houseModel.stairs_ratio)?@"暂无":self.houseModel.stairs_ratio]];
     [stairsRatioStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 4)];
     self.stairsRatio.attributedText = stairsRatioStr;
+    
+    NSMutableAttributedString *managerStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"经纪人:%@",ISEMPTY(self.houseModel.manager)?@"暂无":self.houseModel.manager]];
+    [managerStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 4)];
+    self.manager.attributedText = managerStr;
+    
+    NSMutableAttributedString *managerTelStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"联系电话:%@",ISEMPTY(self.houseModel.manager_tel)?@"暂无":self.houseModel.manager_tel]];
+    [managerTelStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 5)];
+    self.managerTel.attributedText = managerTelStr;
+    
+    NSMutableAttributedString *uidStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"房源编号:%@",ISEMPTY(self.houseModel.uid)?@"暂无":self.houseModel.uid]];
+    [uidStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 5)];
+    self.uid.attributedText = uidStr;
+    
     self.addressLabel.text = [NSString stringWithFormat:@"地址:%@-%@-%@",self.houseModel.region,self.houseModel.plate,self.xiaoquDetailModel.address];
     
     [self.likeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.good] forState:UIControlStateNormal];

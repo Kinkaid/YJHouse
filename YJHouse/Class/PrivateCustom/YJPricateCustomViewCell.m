@@ -39,7 +39,7 @@
     if (_cellSection>=16) {
         _icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_private_%d",arc4random() % 16]];
     } else {
-        _icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_private_%ld",_cellSection]];
+        _icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_private_%ld",(long)_cellSection]];
     }
     if ([LJKHelper getDevicePlateform] == 4.0) {
         _priceLeftConstraints.constant = 6;

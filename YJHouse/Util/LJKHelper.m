@@ -85,6 +85,14 @@
         return 5.5;
     }
 }
++ (void)saveLastRequestMsgTime:(NSString *)time {
+    [[NSUserDefaults standardUserDefaults] setObject:time forKey:@"lastRequestMsgTime"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (NSString *)getLastRequestMsgTime {
+   return [[NSUserDefaults standardUserDefaults] objectForKey:@"lastRequestMsgTime"];
+}
+
 @end
 
 

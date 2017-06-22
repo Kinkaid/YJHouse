@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="headerImg" destination="wVb-0M-sA2" id="ySL-Hi-HZq"/>
                 <outlet property="headerView" destination="qpc-ei-ecj" id="iDs-YJ-xdB"/>
+                <outlet property="mgsCount" destination="KEP-LU-4Uf" id="IMf-S0-cNn"/>
                 <outlet property="shareView" destination="b3L-i0-ZHb" id="WB6-b5-TLD"/>
                 <outlet property="tableView" destination="aLa-td-iXK" id="bJf-3b-QOU"/>
                 <outlet property="userName" destination="wGf-1y-hDg" id="qpg-HW-gJv"/>
@@ -87,6 +88,9 @@
                         <constraint firstAttribute="width" constant="38" id="gdd-QW-YSZ"/>
                     </constraints>
                     <state key="normal" image="icon_setting"/>
+                    <connections>
+                        <action selector="settingAction:" destination="-1" eventType="touchUpInside" id="kAq-8N-24F"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf6-xV-LTh">
                     <rect key="frame" x="45" y="156.5" width="29" height="17"/>
@@ -100,7 +104,7 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEP-LU-4Uf">
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEP-LU-4Uf">
                     <rect key="frame" x="63" y="96.5" width="22" height="22"/>
                     <color key="backgroundColor" red="1" green="0.47058823529411764" blue="0.47058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -284,7 +288,7 @@
                 <constraint firstItem="RC2-mp-Ax8" firstAttribute="width" secondItem="vi7-R4-IJf" secondAttribute="width" id="zcJ-NO-g2V"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="375.5" y="-247.5"/>
+            <point key="canvasLocation" x="375.5" y="-248"/>
         </view>
     </objects>
     <resources>
