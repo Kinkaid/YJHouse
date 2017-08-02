@@ -36,7 +36,7 @@
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [btn setTitle:@"重新加载" forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:15];
-        btn.backgroundColor = [UIColor ex_colorFromHexRGB:@"BD00E9"];
+        btn.backgroundColor = MainColor;
         btn.layer.cornerRadius = 4;
         [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {

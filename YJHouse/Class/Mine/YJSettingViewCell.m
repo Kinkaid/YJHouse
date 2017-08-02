@@ -23,7 +23,7 @@
         [loadingView startAnimating];
         self.accessoryView = loadingView;
         
-        self.textLabel.text = @"清楚缓存";
+        self.textLabel.text = @"清除缓存";
         //        [self.textLabel setTextColor:[UIColor blueColor]];
         self.detailTextLabel.text = @"正在计算";
         

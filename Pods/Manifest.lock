@@ -14,7 +14,14 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - IQKeyboardManager (4.0.8)
+  - AMap3DMap (5.2.1):
+    - AMapFoundation (~> 1.3)
+  - AMapFoundation (1.4.0)
+  - AMapLocation (2.4.0):
+    - AMapFoundation (~> 1.4)
+  - AMapSearch (5.2.1):
+    - AMapFoundation (~> 1.2)
+  - IQKeyboardManager (4.0.10)
   - KLCPopup (1.0)
   - Mantle (2.1.0):
     - Mantle/extobjc (= 2.1.0)
@@ -30,6 +37,9 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - AMap3DMap
+  - AMapLocation
+  - AMapSearch
   - IQKeyboardManager
   - KLCPopup
   - Mantle
@@ -42,7 +52,11 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  IQKeyboardManager: 1a8189fa153bf09044355ee0ad36826f6767e7f7
+  AMap3DMap: 5a98d7c08d23a7f07853e7ee2fa7650057b75896
+  AMapFoundation: 458974f46a39df8407fd818ab83d2630d494c726
+  AMapLocation: 47b62b5381a66e4d0c2931b70ffde72682427896
+  AMapSearch: 4979b98adf56ed4dabe735435ed78d759ba0c21f
+  IQKeyboardManager: 593ee99b88381f4b9ccb22bd680f22606351bd41
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
@@ -52,6 +66,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   TTRangeSlider: 2f2ce4a33b32bb323c6575b9f5161c4664459c58
 
-PODFILE CHECKSUM: 6f9b81e9b10f508cd5c5f412d167b765c4bbcd5c
+PODFILE CHECKSUM: 413a60313f669e50705a0050c8d0f6c19e8301b7
 
 COCOAPODS: 1.1.1

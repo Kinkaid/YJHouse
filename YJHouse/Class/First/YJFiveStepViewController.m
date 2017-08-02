@@ -129,9 +129,7 @@
                 self.view.window.rootViewController = [[YJTabBarSystemController alloc] init];
                 [self.view removeFromSuperview];
             } else {
-                if (ISEMPTY([LJKHelper getZufangWeight_id])) {
-                    [LJKHelper saveZufangWeight_id:responseObject[@"result"][@"weight_id"]];
-                }
+                [LJKHelper saveZufangWeight_id:responseObject[@"result"][@"weight_id"]];
                 [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@"houseTypeKey"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"kReloadHomeDataNotif" object:nil];

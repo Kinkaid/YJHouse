@@ -20,7 +20,7 @@
 - (UIView *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, 64)];
-        _navigationBar.backgroundColor = [UIColor ex_colorFromHexRGB:@"A646E8"];
+        _navigationBar.backgroundColor = [UIColor ex_colorFromHexRGB:@"44A7FB"];
         [self.view addSubview:_navigationBar];
         [self.view bringSubviewToFront:_navigationBar];
     }
@@ -54,7 +54,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self.navigationController.navigationBar setBarTintColor:[UIColor ex_colorFromHexRGB:@"A746E8"]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor ex_colorFromHexRGB:@"44A7FB"]];
     self.navigationController.navigationBar.tintColor = [UIColor ex_colorFromHexRGB:@"FFFFFF"];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.hidden = YES;

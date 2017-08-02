@@ -20,7 +20,7 @@
 
 - (TTRangeSlider *)slider {
     if (!_slider) {
-        _slider = [[TTRangeSlider alloc] initWithFrame:CGRectMake(10, 249, APP_SCREEN_WIDTH-20, 30)];
+        _slider = [[TTRangeSlider alloc] initWithFrame:CGRectMake(16, 249, APP_SCREEN_WIDTH-32, 30)];
         _slider.hideLabels = YES;
         _slider.enableStep = YES;
         _slider.lineHeight = 6;
@@ -30,7 +30,7 @@
         _slider.handleBorderWidth = 8;
         _slider.handleDiameter = 24;
         _slider.selectedHandleDiameterMultiplier = 1.2;
-        _slider.handleColor = [UIColor ex_colorFromHexRGB:@"B100FC"];
+        _slider.handleColor = [UIColor ex_colorFromHexRGB:@"44A7FB"];
         _slider.maxValue = 4;
         _slider.minValue = 0;
         _slider.delegate = self;
@@ -73,9 +73,9 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40 , 20)];
         label.text = _priceSectionAry[i];
         if (i==0) {
-            label.center = CGPointMake(30, CGRectGetMaxY(self.slider.frame) +30);
+            label.center = CGPointMake(33, CGRectGetMaxY(self.slider.frame) +30);
         } else if (i == 4) {
-            label.center = CGPointMake(APP_SCREEN_WIDTH - 30, CGRectGetMaxY(self.slider.frame) +30);
+            label.center = CGPointMake(APP_SCREEN_WIDTH - 33, CGRectGetMaxY(self.slider.frame) +30);
         } else {
             label.center = CGPointMake(20+((APP_SCREEN_WIDTH - 40) / 4.0 *i), CGRectGetMaxY(self.slider.frame) +30);
         }

@@ -11,4 +11,7 @@ target :YJHouse do
      pod 'TTRangeSlider'
      pod 'IQKeyboardManager'
      pod 'SVProgressHUD'
+     pod 'AMap3DMap'
+     pod 'AMapSearch'
+     pod 'AMapLocation'
 end

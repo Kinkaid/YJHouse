@@ -23,6 +23,7 @@
                         <rect key="frame" x="12" y="8" width="21.5" height="21.5"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="MZk-gZ-FDt" secondAttribute="height" multiplier="1:1" id="NNN-y8-ud2"/>
+                            <constraint firstAttribute="width" constant="22" id="yYH-P5-dcG"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的收藏" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kFG-mz-Wen">
@@ -42,9 +43,8 @@
                 <constraints>
                     <constraint firstItem="kFG-mz-Wen" firstAttribute="leading" secondItem="MZk-gZ-FDt" secondAttribute="trailing" constant="12" id="9Ss-wv-g41"/>
                     <constraint firstItem="rPz-Tf-L8T" firstAttribute="leading" secondItem="kFG-mz-Wen" secondAttribute="leading" id="Nbo-hb-Np2"/>
+                    <constraint firstItem="MZk-gZ-FDt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="PNI-RO-POD"/>
                     <constraint firstAttribute="bottom" secondItem="rPz-Tf-L8T" secondAttribute="bottom" id="YXG-3k-DEr"/>
-                    <constraint firstItem="MZk-gZ-FDt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="acA-rw-FBx"/>
-                    <constraint firstAttribute="bottom" secondItem="MZk-gZ-FDt" secondAttribute="bottom" constant="8" id="byU-ra-GEG"/>
                     <constraint firstAttribute="trailing" secondItem="rPz-Tf-L8T" secondAttribute="trailing" id="eUB-J1-nMB"/>
                     <constraint firstItem="kFG-mz-Wen" firstAttribute="centerY" secondItem="MZk-gZ-FDt" secondAttribute="centerY" id="l7y-wc-nx5"/>
                     <constraint firstItem="MZk-gZ-FDt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="wmu-Wp-jjs"/>
@@ -52,6 +52,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="_img" destination="MZk-gZ-FDt" id="agU-hU-YxJ"/>
+                <outlet property="_lineView" destination="rPz-Tf-L8T" id="XCj-hR-bj9"/>
                 <outlet property="_title" destination="kFG-mz-Wen" id="Lh4-V3-q5z"/>
             </connections>
             <point key="canvasLocation" x="59" y="51"/>

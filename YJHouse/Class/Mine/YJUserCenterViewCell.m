@@ -12,6 +12,8 @@
   
     __weak IBOutlet UIImageView *_img;
     __weak IBOutlet UILabel *_title;
+    
+    __weak IBOutlet UIView *_lineView;
 }
 
 - (void)awakeFromNib {
@@ -41,6 +43,11 @@
         } else {
             _title.font = [UIFont systemFontOfSize:17];
         }
+    }
+    if ([dic[@"title"] isEqualToString:@"评分"] || [dic[@"title"] isEqualToString:@"我收藏的小区"]) {
+        _lineView.hidden = YES;
+    } else {
+        _lineView.hidden = NO;
     }
 }
 

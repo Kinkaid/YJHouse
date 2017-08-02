@@ -35,6 +35,8 @@
 + (void)saveLastRequestMsgTime:(NSString *)time;
 + (NSString *)getLastRequestMsgTime;
 
++ (UIImage*)imageFromView:(UIView*)view;
+
 @end
 
 

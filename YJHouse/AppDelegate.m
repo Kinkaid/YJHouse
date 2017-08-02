@@ -14,6 +14,7 @@
 #import "WXApi.h"
 #import "WeiboSDK.h"
 #import "YJFirstScrollViewController.h"
+#import <AMapFoundationKit/AMapFoundationKit.h>
 @interface AppDelegate ()
 
 @end
@@ -22,6 +23,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [AMapServices sharedServices].apiKey = @"76749794ed5a237799f5b7d7021bf745";
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [NSThread sleepForTimeInterval:1];
     if (ISEMPTY([LJKHelper getZufangWeight_id]) && ISEMPTY([LJKHelper getErshouWeight_id])) {
@@ -61,18 +63,18 @@
                                                                  {
                                                                      case SSDKPlatformTypeSinaWeibo:
                                                                          //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
-                                                                         [appInfo SSDKSetupSinaWeiboByAppKey:@"1385005150"
-                                                                                                   appSecret:@"76ceddc86e84a34cbb50490bfa96795c"
+                                                                         [appInfo SSDKSetupSinaWeiboByAppKey:wbAppKey
+                                                                                                   appSecret:wbAppSecret
                                                                                                  redirectUri:@"http://www.sharesdk.cn"
                                                                                                     authType:SSDKAuthTypeBoth];
                                                                          break;
                                                                      case SSDKPlatformTypeWechat:
-                                                                         [appInfo SSDKSetupWeChatByAppId:@"wx82472494379ca921"
-                                                                                               appSecret:@"eb5ed168a644f863d46d38ae43d3c703"];
+                                                                         [appInfo SSDKSetupWeChatByAppId:wxAppID
+                                                                                               appSecret:wxAppSecret];
                                                                          break;
                                                                      case SSDKPlatformTypeQQ:
-                                                                         [appInfo SSDKSetupQQByAppId:@"1105936467"
-                                                                                              appKey:@"EdCOPrpZsOW516qO"
+                                                                         [appInfo SSDKSetupQQByAppId:qqAppID
+                                                                                              appKey:qqAppKey
                                                                                             authType:SSDKAuthTypeBoth];
                                                                          break;
                                                                      default:

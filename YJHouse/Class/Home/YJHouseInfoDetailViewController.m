@@ -21,7 +21,9 @@
     [self setTitle:@"房源介绍"];
     [self registerTableView];
 }
-
+- (void)clickBackButtonAction {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifire bundle:nil] forCellReuseIdentifier:kCellIdentifire];
     [self.tableView reloadData];

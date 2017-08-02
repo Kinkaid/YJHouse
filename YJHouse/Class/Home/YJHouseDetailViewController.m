@@ -17,10 +17,13 @@
 #import "YJXiaoquDetailModel.h"
 #import "YJXiaoQuDetailViewController.h"
 #import "YJHouseInfoDetailViewController.h"
+#import "YJMapView.h"
+#import "YJMapDetailViewController.h"
 @interface YJHouseDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
-
+@property (weak, nonatomic) IBOutlet UIView *mapContainerView;
+@property (nonatomic,strong) YJMapView *mapView;
 @property (weak, nonatomic) IBOutlet UILabel *sourceLabel;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *imgScrollView;
@@ -142,9 +145,9 @@
     self.houseScoreLabel.attributedText = scoreStr;
     if (self.type == type_zufang) {
         _supportingFacilitiesView.hidden = NO;
-        NSArray *titleAry = @[@"电视",@"网络",@"冰箱",@"洗衣机",@"热水器",@"空调",@"燃气",@"床"];
-        NSArray *selectImgAry = @[@"icon_d_ds_s",@"icon_d_wl_s",@"icon_d_bx_s",@"icon_d_xyj_s",@"icon_d_rsq_s",@"icon_d_kt_s",@"icon_d_trq_s",@"icon_d_c_s"];
-        NSArray *notSelectimgAry = @[@"icon_d_ds",@"icon_d_wl",@"icon_d_bx",@"icon_d_xyj",@"icon_d_rsq",@"icon_d_kt",@"icon_d_trq",@"icon_d_c"];
+        NSArray *titleAry = @[@"电视",@"空调",@"冰箱",@"床",@"热水器",@"网络",@"燃气",@"洗衣机"];
+        NSArray *selectImgAry = @[@"icon_d_ds_s",@"icon_d_kt_s",@"icon_d_bx_s",@"icon_d_c_s",@"icon_d_rsq_s",@"icon_d_wl_s",@"icon_d_trq_s",@"icon_d_xyj_s"];
+        NSArray *notSelectimgAry = @[@"icon_d_ds",@"icon_d_kt",@"icon_d_bx",@"icon_d_c",@"icon_d_rsq",@"icon_d_wl",@"icon_d_trq",@"icon_d_xyj"];
         NSMutableArray * imgAry = [@[] mutableCopy];
         for (int i=0; i<titleAry.count; i++) {
             if ([self.tags containsObject:titleAry[i]]) {
@@ -154,7 +157,7 @@
             }
         }
         for (int i=0; i<8; i++) {
-            UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 8.0 *i, 64, APP_SCREEN_WIDTH / 8.0, APP_SCREEN_WIDTH / 8.0)];
+            UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake(16 + ((APP_SCREEN_WIDTH - 32)/ 8.0 *i), 64, (APP_SCREEN_WIDTH - 32)/ 8.0, (APP_SCREEN_WIDTH -32)/ 8.0)];
             imgV.image = [UIImage imageNamed:imgAry[i]];
             [self.supportingFacilitiesView addSubview:imgV];
         }
@@ -162,20 +165,20 @@
         if (ISEMPTY(introduction)) {
             self.sellInfoView.hidden = YES;
             self.locationTonConstraint.constant = 154;
-            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 200 + 12 + 250 + 12 + 50 + 132);
         } else {
             self.sellInfoView.hidden = NO;
             self.sellInfo.text = introduction;
             self.sellInfoConstraint.constant = 154;
             if ([LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] >58) {
                 self.locationTonConstraint.constant = 376;
-                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 210 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
+                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 210 + 12 + 200 + 12 + 250 + 12 + 50 + 132);
             } else {
                 UIButton *btn = [self.sellInfoView viewWithTag:1];
                 btn.hidden = YES;
                 self.locationTonConstraint.constant = 166 +71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12;
                 self.sellInfoViewHeight.constant = 71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12;
-                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
+                self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 130 + 12 + 71 +[LJKHelper textHeightFromTextString:introduction width:APP_SCREEN_WIDTH -36.0  fontSize:12] + 12 + 12 + 200 + 12 + 250 + 12 + 50 + 132);
             }
         }
     } else {
@@ -183,13 +186,13 @@
         if (ISEMPTY(introduction)) {
             self.sellInfoView.hidden = YES;
             self.locationTonConstraint.constant = 12;
-            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 200 + 12 + 250 + 12 + 50 + 132);
         } else {
             self.sellInfoView.hidden = NO;
             self.sellInfoConstraint.constant = 12;
             self.locationTonConstraint.constant = 234;
             self.sellInfo.text = introduction;
-            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 210 + 12 + 80 + 12 + 250 + 12 + 50 + 132);
+            self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH * 0.66 + 180 + 12 + 260 + 12 + 210 + 12 + 200 + 12 + 250 + 12 + 50 + 132);
         }
     }
     [self.tableView setTableHeaderView:self.headerView];
@@ -368,19 +371,43 @@
     NSMutableAttributedString *managerTelStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"联系电话:%@",ISEMPTY(self.houseModel.manager_tel)?@"暂无":self.houseModel.manager_tel]];
     [managerTelStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 5)];
     self.managerTel.attributedText = managerTelStr;
-    
+    if (!ISEMPTY(self.houseModel.manager_tel)) {
+        UILongPressGestureRecognizer *callTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(callTap)];
+        callTap.minimumPressDuration = 1;
+        [self.managerTel addGestureRecognizer:callTap];
+    }
     NSMutableAttributedString *uidStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"房源编号:%@",ISEMPTY(self.houseModel.uid)?@"暂无":self.houseModel.uid]];
     [uidStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 5)];
     self.uid.attributedText = uidStr;
-    
-    self.addressLabel.text = [NSString stringWithFormat:@"地址:%@-%@-%@",self.houseModel.region,self.houseModel.plate,self.xiaoquDetailModel.address];
+    if (!ISEMPTY(self.houseModel.uid)) {
+        UITapGestureRecognizer *houseIdTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(copyHouseCode)];
+        [self.managerTel addGestureRecognizer:houseIdTap];
+    }
+    self.addressLabel.text = [NSString stringWithFormat:@"      地址:%@-%@-%@",self.houseModel.region,self.houseModel.plate,self.xiaoquDetailModel.address];
+    self.mapView = [[YJMapView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, 200)];
+    [self.mapContainerView addSubview:self.mapView];
+    [self.mapContainerView sendSubviewToBack:self.mapView];
+    UIControl *mapSender = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, 200)];
+    mapSender.backgroundColor = [UIColor clearColor];
+    [mapSender addTarget:self action:@selector(mapClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.mapContainerView addSubview:mapSender];
+    NSString *address = [NSString stringWithFormat:@"http://restapi.amap.com/v3/geocode/geo?key=389880a06e3f893ea46036f030c94700&s=rsv3&city=35&address=浙江省杭州市%@%@%@",self.houseModel.region,self.houseModel.plate,self.xiaoquDetailModel.address];
+    NSString* encodedString = [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    __weak typeof(self)weakSelf = self;
+    [[NetworkTool sharedTool]requestWithURLString:encodedString parameters:nil method:GET callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject[@"geocodes"])) {
+            NSArray *ary = [responseObject[@"geocodes"][0][@"location"] componentsSeparatedByString:@","];
+            [weakSelf.mapView showLongitude:[ary[0] floatValue ]andLatitude:[ary[1] floatValue]];
+        }
+    } error:^(NSError *error) {
+    }];
     
     [self.likeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.good] forState:UIControlStateNormal];
     [self.dislikeBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.bad] forState:UIControlStateNormal];
-    [self.collectionBtn setTitle:[NSString stringWithFormat:@"%@",self.houseModel.favourite_count] forState:UIControlStateNormal];
+    [self.collectionBtn setTitle:[NSString stringWithFormat:@" %@",self.houseModel.favourite_count] forState:UIControlStateNormal];
     CGFloat total = ([self.houseModel.good floatValue] + [self.houseModel.bad floatValue]);
     CGFloat ratio = [self.houseModel.good floatValue] / (total == 0 ?1:total) * 100;
-    [self.toScoreBtn setTitle:[NSString stringWithFormat:@"%.0f%%",ratio] forState:UIControlStateNormal];
+    [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",ratio] forState:UIControlStateNormal];
     //小区信息
     [self.communityImg sd_setImageWithURL:[NSURL URLWithString:self.xiaoquDetailModel.main_img] placeholderImage:[UIImage imageNamed:@"icon_placeholder"]];
     self.communityNameLabel.text = self.xiaoquDetailModel.name;
@@ -409,6 +436,11 @@
         des = [NSMutableString stringWithString:@"暂无小区信息"];
     }
     self.communityInfoLabel.text = des;
+}
+- (void)mapClick {
+    YJMapDetailViewController *vc = [[YJMapDetailViewController alloc] init];
+    vc.address = [NSString stringWithFormat:@"%@%@%@",self.houseModel.region,self.houseModel.plate,self.xiaoquDetailModel.address];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -444,8 +476,24 @@
     }
     PushController(vc);
 }
-
-
+- (void)copyHouseCode {
+    UIPasteboard *board = [UIPasteboard generalPasteboard];
+    board.string = self.houseModel.uid;
+    [YJApplicationUtil alertHud:@"房源编号复制成功" afterDelay:1];
+}
+- (void)callTap {
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",self.houseModel.manager_tel];
+    //            NSLog(@"str======%@",str);
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"拨打电话:%@",self.houseModel.manager_tel] preferredStyle:UIAlertControllerStyleAlert];
+//    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//    }]];
+//    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        [UIApplication sharedApplication] openURL:<#(nonnull NSURL *)#>
+//
+//    }]];
+//    [self presentViewController:alertController animated:YES completion:nil];
+}
 #pragma mark - IBActions
 - (IBAction)backAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -498,6 +546,24 @@
     }];
 }
 - (IBAction)shareAction:(id)sender {
+    [self shareFriendWithImg:[LJKHelper imageFromView:self.view]];
+}
+-(void)shareFriendWithImg:(UIImage *)shareImg {
+    UIActivityViewController *activityViewController =[[UIActivityViewController alloc] initWithActivityItems:@[shareImg] applicationActivities:nil];
+    //去除多余的分享模块
+    activityViewController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePrint,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList,UIActivityTypePostToFlickr,UIActivityTypePostToVimeo,UIActivityTypePostToTencentWeibo,UIActivityTypeOpenInIBooks];
+    //初始化Block回调方法,此回调方法是在iOS8之后出的，代替了之前的方法
+    UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError)
+    {
+        if (completed) {
+            [YJApplicationUtil alertHud:@"分享成功" afterDelay:1];
+        }
+    };
+    activityViewController.completionWithItemsHandler = myBlock;
+    if (activityViewController) {
+        [self presentViewController:activityViewController animated:TRUE completion:^{
+        }];
+    }
     
 }
 - (IBAction)likeAction:(id)sender {
@@ -541,8 +607,8 @@
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.house_id,@"site":self.site_id,@"eva":@"-1"};
     [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
-            [self.dislikeBtn setTitle:[NSString stringWithFormat:@" %d",[self.dislikeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
-            [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];
+            [self.dislikeBtn setTitle:[NSString stringWithFormat:@"  %d",[self.dislikeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
+            [self.toScoreBtn setTitle:[NSString stringWithFormat:@"  %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];
             self.dislikeBtn.selected = YES;
         }
     } error:^(NSError *error) {
@@ -562,6 +628,7 @@
         self.navigationBar.alpha = (scrollView.contentOffset.y - 64) / 64.0;
     }
 }
+
 
 
 @end

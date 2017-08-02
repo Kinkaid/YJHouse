@@ -233,6 +233,7 @@
 - (IBAction)searchAction:(id)sender {//搜索
     YJSearchViewController *vc= [[YJSearchViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    vc.isXiaoquSearch = YES;
     [self presentViewController:nav animated:YES completion:nil];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

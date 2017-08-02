@@ -113,8 +113,8 @@
         cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
         cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
         cell.textLabel.text = _dataAry[indexPath.row][@"province"];
-        cell.textLabel.highlightedTextColor = [UIColor ex_colorFromHexRGB:@"A746E8"];
-        cell.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"A746E8"];
+        cell.textLabel.highlightedTextColor = MainColor;
+        cell.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"44A7FB"];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:15];
         return cell;
@@ -129,7 +129,7 @@
         cell.textLabel.text = _dataAry[_itemOneSel][@"children"][indexPath.row][@"name"];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:15];
-        cell.textLabel.highlightedTextColor = [UIColor ex_colorFromHexRGB:@"A746E8"];
+        cell.textLabel.highlightedTextColor = MainColor;
         cell.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"333333"];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         return cell;
@@ -141,7 +141,7 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
         cell.selectedBackgroundView.backgroundColor = [UIColor ex_colorFromHexRGB:@"FAFAFA"];
-        cell.textLabel.highlightedTextColor = [UIColor ex_colorFromHexRGB:@"A746E8"];
+        cell.textLabel.highlightedTextColor = MainColor;
         cell.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"333333"];
         cell.textLabel.font = [UIFont systemFontOfSize:15];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;

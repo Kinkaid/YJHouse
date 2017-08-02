@@ -12,10 +12,13 @@
 #import "YJDate.h"
 #import "YJHouseListModel.h"
 #import "YJRecommondViewController.h"
+#import "YJMapView.h"
+#import "YJMapDetailViewController.h"
 @interface YJXiaoQuDetailViewController ()<YJRequestTimeoutDelegate,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
-
+@property (weak, nonatomic) IBOutlet UIView *mapContainerView;
+@property (nonatomic,strong) YJMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIImageView *main_img;
 @property (weak, nonatomic) IBOutlet UILabel *region;
 @property (weak, nonatomic) IBOutlet UILabel *name;
@@ -59,9 +62,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationBar.alpha = 0;
     [self setTitle:@"小区详情"];
     [YJRequestTimeoutUtil shareInstance].delegate = self;
-    self.navigationBar.alpha = 0;
     [self setContentScrollView];
     [YJGIFAnimationView showInView:self.view frame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
     [self loadXiaoquDetail];
@@ -78,7 +81,7 @@
     __weak typeof(self)weakSelf = self;
     [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/xiaoqu/item-info" parameters:@{@"id":self.xiaoquId,@"auth_key":[LJKHelper getAuth_key]} method:GET callBack:^(id responseObject) {
         [YJGIFAnimationView hideInView:self.view];
-      if (responseObject[@"result"] && ISEMPTY(responseObject[@"error"])) {
+      if (responseObject[@"result"]) {
           if ([responseObject[@"result"][@"evaluate"] intValue] ==0) {
               weakSelf.dislikeBtn.selected = NO;
               weakSelf.likeBtn.selected = NO;
@@ -119,8 +122,8 @@
     }];
 }
 - (void)setContentScrollView {
-    self.scrollView.contentSize = CGSizeMake(0, 897 + APP_SCREEN_WIDTH *0.7);
-    self.contentView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 897 + APP_SCREEN_WIDTH *0.7);
+    self.scrollView.contentSize = CGSizeMake(0, 997 + APP_SCREEN_WIDTH *0.7);
+    self.contentView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 997 + APP_SCREEN_WIDTH *0.7);
     [self.scrollView addSubview:self.contentView];
 }
 - (void)fillDataWithModel {
@@ -137,7 +140,7 @@
     self.ershou_in.text = [NSString stringWithFormat:@"二手房在售:%@",self.model.ershou_in];
     self.zufang_in.text = [NSString stringWithFormat:@"  出租房在租:%@",self.model.zufang_in];
     self.total_family.text = [NSString stringWithFormat:@"  总户数:%@",self.model.total_family];
-    self.green_rate.text = [NSString stringWithFormat:@"绿化率:%@",self.model.green_rate];
+    self.green_rate.text = [NSString stringWithFormat:@"绿化率:%.0f%%",[self.model.green_rate floatValue] * 100.0];
     
     NSMutableAttributedString *schoolCountStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"附近有%@所学校",self.model.school_count]];
     [schoolCountStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(3, [self.model.school_count isKindOfClass:[NSString class]]?[self.model.school_count length]:[self.model.school_count stringValue].length)];
@@ -161,15 +164,37 @@
     [busCountStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"FFC177"] range:NSMakeRange(3, [self.model.bus_stop_count isKindOfClass:[NSString class]]?[self.model.bus_stop_count length]:[self.model.bus_stop_count stringValue].length)];
     self.bus_stop_count.attributedText = busCountStr;
     
-    self.address.text = [NSString stringWithFormat:@"地址:%@-%@-%@",self.model.region,self.model.plate,self.model.name];
+    self.address.text = [NSString stringWithFormat:@"      地址:%@-%@-%@",self.model.region,self.model.plate,self.model.name];
+    self.mapView = [[YJMapView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, 200)];
+    [self.mapContainerView addSubview:self.mapView];
+    [self.mapContainerView sendSubviewToBack:self.mapView];
+    UIControl *mapSender = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, 200)];
+    mapSender.backgroundColor = [UIColor clearColor];
+    [mapSender addTarget:self action:@selector(mapClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.mapContainerView addSubview:mapSender];
+    NSString *address = [NSString stringWithFormat:@"http://restapi.amap.com/v3/geocode/geo?key=389880a06e3f893ea46036f030c94700&s=rsv3&city=35&address=浙江省杭州市%@%@%@",self.model.region,self.model.plate,self.model.name];
+    NSString* encodedString = [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    __weak typeof(self)weakSelf = self;
+    [[NetworkTool sharedTool]requestWithURLString:encodedString parameters:nil method:GET callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject[@"geocodes"])) {
+            NSArray *ary = [responseObject[@"geocodes"][0][@"location"] componentsSeparatedByString:@","];
+            [weakSelf.mapView showLongitude:[ary[0] floatValue ]andLatitude:[ary[1] floatValue]];
+        }
+    } error:^(NSError *error) {
+    }];
     [self.likeBtn setTitle:[NSString stringWithFormat:@"%@",self.model.good] forState:UIControlStateNormal];
     [self.dislikeBtn setTitle:[NSString stringWithFormat:@"%@",self.model.bad] forState:UIControlStateNormal];
     CGFloat total = ([self.model.good floatValue] + [self.model.bad floatValue]);
     CGFloat ratio = [self.model.good floatValue] / (total == 0 ?1:total) * 100;
-    [self.toScoreBtn setTitle:[NSString stringWithFormat:@"%.0f%%",ratio] forState:UIControlStateNormal];
-    [self.collectionBtn setTitle:[NSString stringWithFormat:@"%@",self.model.favourite_count] forState:UIControlStateNormal];
+    [self.toScoreBtn setTitle:[NSString stringWithFormat:@"  %.0f%%",ratio] forState:UIControlStateNormal];
+    [self.collectionBtn setTitle:[NSString stringWithFormat:@"  %@",self.model.favourite_count] forState:UIControlStateNormal];
     [SVProgressHUD dismiss];
     
+}
+- (void)mapClick {
+    YJMapDetailViewController *vc = [[YJMapDetailViewController alloc] init];
+    vc.address = [NSString stringWithFormat:@"%@%@%@",self.model.region,self.model.plate,self.model.name];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     self.navigationBar.alpha = (scrollView.contentOffset.y - 64) / 64.0;

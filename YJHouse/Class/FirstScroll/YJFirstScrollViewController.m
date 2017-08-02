@@ -30,10 +30,8 @@
         img.image = [UIImage imageNamed:imgAry[i]];
         [self.scrollView addSubview:img];
         if (i == imgAry.count-1) {
-            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 2 - 60, APP_SCREEN_HEIGHT - 120, 120, 36)];
-            btn.backgroundColor = [UIColor ex_colorFromHexRGB:@"A646E8"];
-            [btn setTitle:@"点击进入" forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            UIControl *btn = [[UIControl alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 2 - 60, APP_SCREEN_HEIGHT - 160, 120, 160)];
+            btn.backgroundColor = [UIColor clearColor];
             img.userInteractionEnabled = YES;
             [img addSubview:btn];
             [btn addTarget:self action:@selector(clickEnter) forControlEvents:UIControlEventTouchUpInside];

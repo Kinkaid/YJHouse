@@ -12,6 +12,10 @@
 #import "YJHistorySearchView.h"
 #import "YJNoSearchDataView.h"
 #import "YJHouseListModel.h"
+#import "YJXiaoQuViewCell.h"
+#import "YJXiaoquModel.h"
+#import "YJXiaoQuDetailViewController.h"
+#define cellId @"YJXiaoQuViewCell"
 #import "YJHouseDetailViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
 static NSString *const houseTypeKey = @"houseTypeKey";
@@ -20,7 +24,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 @property (strong, nonatomic) IBOutlet KLCPopup *popupView;
 @property (nonatomic,strong) KLCPopup *klcManager;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) NSMutableArray *SearchAry;
+@property (nonatomic,strong) NSMutableArray *searchAry;
 @property (nonatomic,strong) YJHistorySearchView *searchView;
 @property (nonatomic,strong) YJNoSearchDataView *noSearchResultView;
 @property (nonatomic,assign) BOOL zufang;
@@ -42,12 +46,17 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.hidden = YES;
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
-        self.zufang = YES;
-        [self initWithBtnWithType:1];
+    if (self.isXiaoquSearch) {
+        UIButton *typeBtn = [self.view viewWithTag:3];
+        typeBtn.hidden = YES;
     } else {
-        self.zufang = NO;
-        [self initWithBtnWithType:0];
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
+            self.zufang = YES;
+            [self initWithBtnWithType:1];
+        } else {
+            self.zufang = NO;
+            [self initWithBtnWithType:0];
+        }
     }
     [self registerTableView];
     [self setHistoryView];
@@ -81,16 +90,26 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     self.searchView.label.text = @"历史搜索";
     self.searchView.delegate = self;
     [self.view addSubview:self.searchView];
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    NSArray *array = [userDefault objectForKey:@"historySearch"];
-    [self.searchView KeyViewH:array];
-
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
+    if (self.isXiaoquSearch) {
+        NSString *filePath = [path stringByAppendingPathComponent:@"historySearch_xiaoqu.plist"];
+        NSArray *array = [NSArray arrayWithContentsOfFile:filePath];
+        [self.searchView KeyViewH:array];
+    } else {
+        NSString *filePath = [path stringByAppendingPathComponent:@"historySearch_house.plist"];
+        NSArray *array = [NSArray arrayWithContentsOfFile:filePath];
+        [self.searchView KeyViewH:array];
+    }
 }
 
 - (void)registerTableView {
-    [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
+    if (self.isXiaoquSearch) {
+        [self.tableView registerNib:[UINib nibWithNibName:cellId bundle:nil] forCellReuseIdentifier:cellId];
+    } else {
+        [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
+    }
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.SearchAry = [@[] mutableCopy];
+    self.searchAry = [@[] mutableCopy];
 }
 
 #pragma mark - tableViewDelegate
@@ -98,63 +117,92 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.SearchAry.count;
+    return self.searchAry.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 97;
+    return self.isXiaoquSearch ? 100:97;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJHomePageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-    if (!cell) {
-        cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell showDataWithModel:self.SearchAry[indexPath.row]];
-    return cell;
+    if (self.isXiaoquSearch) {
+        YJXiaoQuViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
+        if(!cell) {
+            cell = [[YJXiaoQuViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell showDataWithModel:self.searchAry[indexPath.row]];
+        return cell;
+    } else {
+        YJHomePageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+        if (!cell) {
+            cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell showDataWithModel:self.searchAry[indexPath.row]];
+        return cell;
+       }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJHouseListModel *model = self.SearchAry[indexPath.row];
-    YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
-    vc.site_id =model.site;
-    vc.score = model.total_score;
-    vc.house_id = model.house_id;
-    if (model.zufang) {
-        vc.type = type_zufang;
-        vc.tags = [model.tags componentsSeparatedByString:@";"];
-    } else {
-        vc.type = type_maifang;
+    if (self.isXiaoquSearch) {
+        YJXiaoQuDetailViewController *vc = [[YJXiaoQuDetailViewController alloc] init];
+        YJXiaoquModel *model = self.searchAry[indexPath.row];
+        vc.xiaoquId = model.xqID;
+        PushController(vc);
+    }  else {
+        YJHouseListModel *model = self.searchAry[indexPath.row];
+        YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
+        vc.site_id =model.site;
+        vc.score = model.total_score;
+        vc.house_id = model.house_id;
+        if (model.zufang) {
+            vc.type = type_zufang;
+            vc.tags = [model.tags componentsSeparatedByString:@";"];
+        } else {
+            vc.type = type_maifang;
+        }
+        PushController(vc);
     }
-    PushController(vc);
 }
 
 - (void)loadSearchData:(NSString *)searchKey {
     [SVProgressHUD show];
     self.searchView.hidden = YES;
-    [self.SearchAry removeAllObjects];
+    [self.searchAry removeAllObjects];
     NSString * url;
-    if (self.zufang) {
-        url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/zufang/custom-list?auth_key=%@&name[0]=%@",[LJKHelper getAuth_key],searchKey];
+    if (self.isXiaoquSearch) {
+         url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/xiaoqu/list?auth_key=%@&xq[name]=%@",[LJKHelper getAuth_key],searchKey];
     } else {
-        url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/ershou/custom-list?auth_key=%@&name[0]=%@",[LJKHelper getAuth_key],searchKey];
+        if (self.zufang) {
+            url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/zufang/custom-list?auth_key=%@&name[0]=%@",[LJKHelper getAuth_key],searchKey];
+        } else {
+            url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/ershou/custom-list?auth_key=%@&name[0]=%@",[LJKHelper getAuth_key],searchKey];
+        }
     }
     __weak typeof(self) weakSelf = self;
-    NSString * newUrl = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    NSString * newUrl = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString * newUrl = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     [[NetworkTool sharedTool] requestWithURLString:newUrl parameters:nil method:POST callBack:^(id responseObject) {
         [SVProgressHUD dismiss];
         NSArray *ary = responseObject[@"result"];
-        [self.SearchAry removeAllObjects];
-        for (int i=0; i<ary.count; i++) {
-            YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i] error:nil];
-            model.zufang = self.zufang;
-            model.topcut = @"";
-            [self.SearchAry addObject:model];
-        }
-        if (self.SearchAry.count) {
-            self.noSearchResultView.hidden = YES;
+        [weakSelf.searchAry removeAllObjects];
+        if (weakSelf.isXiaoquSearch) {
+            for (int i=0; i<ary.count; i++) {
+                YJXiaoquModel *model = [MTLJSONAdapter modelOfClass:[YJXiaoquModel class] fromJSONDictionary:ary[i] error:nil];
+                [weakSelf.searchAry addObject:model];
+            }
         } else {
-            self.noSearchResultView.hidden = NO;
+            for (int i=0; i<ary.count; i++) {
+                YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i] error:nil];
+                model.zufang = weakSelf.zufang;
+                model.topcut = @"";
+                [weakSelf.searchAry addObject:model];
+            }
+        }
+        if (weakSelf.searchAry.count) {
+            weakSelf.noSearchResultView.hidden = YES;
+        } else {
+            weakSelf.noSearchResultView.hidden = NO;
         }
         [weakSelf.tableView reloadData];
     } error:^(NSError *error) {
@@ -205,12 +253,26 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 #pragma mark UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    NSArray * history = [userDefault objectForKey:@"historySearch"];
-    NSMutableArray *ary = [[NSMutableArray alloc] initWithArray:history];
-    [ary insertObject:self.searchBar.text atIndex:0];
-    [userDefault setObject:ary forKey:@"historySearch"];
-    [userDefault synchronize];
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
+    if (self.isXiaoquSearch) {
+        NSString *filePath = [path stringByAppendingPathComponent:@"historySearch_xiaoqu.plist"];
+        NSArray *history = [NSArray arrayWithContentsOfFile:filePath];
+        NSMutableArray *ary = [[NSMutableArray alloc] initWithArray:history];
+        if ([ary containsObject:self.searchBar.text]) {
+            [ary removeObject:self.searchBar.text];
+        }
+        [ary insertObject:self.searchBar.text atIndex:0];
+        [ary writeToFile:filePath atomically:YES];
+    } else {
+        NSString *filePath = [path stringByAppendingPathComponent:@"historySearch_house.plist"];
+        NSArray *history = [NSArray arrayWithContentsOfFile:filePath];
+        NSMutableArray *ary = [[NSMutableArray alloc] initWithArray:history];
+        if ([ary containsObject:self.searchBar.text]) {
+            [ary removeObject:self.searchBar.text];
+        }
+        [ary insertObject:self.searchBar.text atIndex:0];
+        [ary writeToFile:filePath atomically:YES];
+    }
     [self.searchBar resignFirstResponder];
     self.searchView.hidden = YES;
     [self loadSearchData:self.searchBar.text];
@@ -222,9 +284,14 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 
 }
 - (void)clickDeleKey {
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setObject:@[] forKey:@"historySearch"];
-    [userDefault synchronize];
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
+    if (self.isXiaoquSearch) {
+        NSString *filePath = [path stringByAppendingPathComponent:@"historySearch_xiaoqu.plist"];
+        [@[] writeToFile:filePath atomically:YES];
+    } else{
+        NSString *filePath = [path stringByAppendingPathComponent:@"historySearch_house.plist"];
+        [@[] writeToFile:filePath atomically:YES];
+    }
     [self.searchView removeAllKey];
 }
 

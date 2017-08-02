@@ -158,12 +158,12 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     UIButton *btn2 = [self.popupView viewWithTag:102];
     if (type == 1) {
         [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
-        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
         [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
     } else {
         [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
         [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
-        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
     }
 }
 - (void)viewDidAppear:(BOOL)animated {
@@ -293,6 +293,12 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     self.klcManager = [KLCPopup popupWithContentView:self.popupView];
     [self.klcManager showAtCenter:CGPointMake(40, 100) inView:self.view];
 }
+- (IBAction)mapAction:(id)sender {
+    YJMapViewController *vc =[[YJMapViewController alloc] init];
+    PushController(vc);
+}
+
+
 - (IBAction)selectType:(id)sender {
     self.mfParams = nil;
     self.sortKey = @"";
@@ -321,7 +327,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             return;
         }
         if (!ISEMPTY([LJKHelper getZufangWeight_id])) {
-            [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+            [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
             [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
             UIButton *btn = [self.popupView viewWithTag:102];
             [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
@@ -345,7 +351,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             return;
         }
         if (!ISEMPTY([LJKHelper getErshouWeight_id])) {
-            [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
+            [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
             [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
             UIButton *btn = (UIButton *)[self.popupView viewWithTag:101];
             [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
@@ -456,8 +462,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         UIButton *btn55= [self.view viewWithTag:55];
         self.sortTapLastTime = 51;
         if (self.addressView.hidden == YES) {
-            [btn51 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
-            [btn55 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [btn51 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+            [btn55 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
             [UIView animateWithDuration:0.2 animations:^{
                 btn51.imageView.transform = CGAffineTransformMakeRotation(M_PI);
                 btn55.imageView.transform = CGAffineTransformMakeRotation(M_PI);
@@ -478,8 +484,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         UIButton *btn52= [self.view viewWithTag:52];
         UIButton *btn56= [self.view viewWithTag:56];
         if (self.priceView.hidden == YES) {
-            [btn52 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
-            [btn56 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [btn52 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+            [btn56 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
             [UIView animateWithDuration:0.2 animations:^{
                 btn52.imageView.transform = CGAffineTransformMakeRotation(M_PI);
                 btn56.imageView.transform = CGAffineTransformMakeRotation(M_PI);
@@ -500,8 +506,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         UIButton *btn53= [self.view viewWithTag:53];
         UIButton *btn57= [self.view viewWithTag:57];
         if (self.sortView.hidden == YES) {
-            [btn53 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
-            [btn57 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [btn53 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+            [btn57 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
             [UIView animateWithDuration:0.2 animations:^{
                 btn53.imageView.transform = CGAffineTransformMakeRotation(M_PI);
                 btn57.imageView.transform = CGAffineTransformMakeRotation(M_PI);
@@ -527,8 +533,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         UIButton *btn58= [self.view viewWithTag:58];
         if ([btn.titleLabel.text isEqualToString:@"租房"]) {
             if (self.zfMoreView.hidden == YES) {
-                [btn54 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
-                [btn58 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+                [btn54 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+                [btn58 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
                 [UIView animateWithDuration:0.2 animations:^{
                     btn54.imageView.transform = CGAffineTransformMakeRotation(M_PI);
                     btn58.imageView.transform = CGAffineTransformMakeRotation(M_PI);
@@ -542,8 +548,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             self.zfMoreView.hidden = !self.zfMoreView.hidden;
         } else {
             if (self.mfMoreView.hidden == YES) {
-                [btn54 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
-                [btn58 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+                [btn54 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+                [btn58 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
                 [UIView animateWithDuration:0.2 animations:^{
                     btn54.imageView.transform = CGAffineTransformMakeRotation(M_PI);
                     btn58.imageView.transform = CGAffineTransformMakeRotation(M_PI);
@@ -592,7 +598,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     self.mfMoreView.hidden = YES;
     self.zfMoreView.hidden = YES;
     self.addressView.hidden = YES;
-    self.navView.backgroundColor = [[UIColor ex_colorFromHexRGB:@"A646E8"] colorWithAlphaComponent:(scrollView.contentOffset.y /128.0)];
+    self.navView.backgroundColor = [[UIColor ex_colorFromHexRGB:@"44A7FB"] colorWithAlphaComponent:(scrollView.contentOffset.y /128.0)];
     if (scrollView.contentOffset.y >= APP_SCREEN_WIDTH *0.66 +150 + 6 - 63) {
         self.topView.hidden = NO;
         self.titleView.hidden = NO;
@@ -615,8 +621,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)addressTAPActionWithRegion:(NSString *)regionID andPlate:(NSString *)plateID {
     UIButton *btn1 = [self.view viewWithTag:51];
     UIButton *btn2 = [self.view viewWithTag:55];
-    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         btn1.imageView.transform = CGAffineTransformMakeRotation(0);
         btn2.imageView.transform = CGAffineTransformMakeRotation(0);
@@ -632,8 +638,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)sortByTag:(NSInteger)tag {
     UIButton *btn1 = [self.view viewWithTag:53];
     UIButton *btn2 = [self.view viewWithTag:57];
-    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         btn1.imageView.transform = CGAffineTransformMakeRotation(0);
         btn2.imageView.transform = CGAffineTransformMakeRotation(0);
@@ -681,8 +687,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)priceSortByTag:(NSInteger)tag {
     UIButton *btn1 = [self.view viewWithTag:52];
     UIButton *btn2 = [self.view viewWithTag:56];
-    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         btn1.imageView.transform = CGAffineTransformMakeRotation(0);
         btn2.imageView.transform = CGAffineTransformMakeRotation(0);
@@ -763,10 +769,10 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [self loadHomeData];
 }
 - (void)priceSortWithMinPrice:(NSString *)minPrice maxPrice:(NSString *)maxPrice {
-    UIButton *btn1 = [self.view viewWithTag:51];
-    UIButton *btn2 = [self.view viewWithTag:55];
-    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    UIButton *btn1 = [self.view viewWithTag:52];
+    UIButton *btn2 = [self.view viewWithTag:56];
+    [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+    [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         btn1.imageView.transform = CGAffineTransformMakeRotation(0);
         btn2.imageView.transform = CGAffineTransformMakeRotation(0);
@@ -786,8 +792,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
         [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
     } else {
-        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
     }
     [UIView animateWithDuration:0.2 animations:^{
         btn1.imageView.transform = CGAffineTransformMakeRotation(0);
@@ -809,8 +815,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
         [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
     } else {
-        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
-        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateNormal];
     }
     [UIView animateWithDuration:0.2 animations:^{
         btn1.imageView.transform = CGAffineTransformMakeRotation(0);

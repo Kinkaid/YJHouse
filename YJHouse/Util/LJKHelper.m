@@ -93,6 +93,15 @@
    return [[NSUserDefaults standardUserDefaults] objectForKey:@"lastRequestMsgTime"];
 }
 
++ (UIImage*)imageFromView:(UIView*)view {
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, view.layer.contentsScale * 3.0);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+
 @end
 
 

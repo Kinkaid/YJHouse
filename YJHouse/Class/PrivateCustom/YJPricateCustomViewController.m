@@ -16,7 +16,7 @@
 #define kCellIdentifier @"YJPricateCustomViewCell"
 #define kCellAddIdentifier @"YJPrivateAddViewCell"
 static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
-static NSString *const houseTypeKey = @"customHouseTypeKey";
+static NSString *const houseTypeKey = @"houseTypeKey";
 @interface YJPricateCustomViewController ()<UITableViewDelegate,UITableViewDataSource,YJPrivateCustomEditDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet KLCPopup *popupView;
@@ -41,13 +41,6 @@ static NSString *const houseTypeKey = @"customHouseTypeKey";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPrivateCustom) name:@"kEditPrivateCustomNotification" object:nil];
     [self registerTableView];
     [self registerRefresh];
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
-        self.zufang = YES;
-        [self initWithBtnWithType:1];
-    } else {
-        self.zufang = NO;
-        [self initWithBtnWithType:0];
-    }
     [self loadData];
 }
 - (void)refreshPrivateCustom {
@@ -57,6 +50,13 @@ static NSString *const houseTypeKey = @"customHouseTypeKey";
     [super viewWillAppear:animated];
     [self.headerImg sd_setImageWithURL:[NSURL URLWithString:[LJKHelper getUserHeaderUrl]] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
     self.headerName.text = [LJKHelper getUserName];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
+        self.zufang = YES;
+        [self initWithBtnWithType:1];
+    } else {
+        self.zufang = NO;
+        [self initWithBtnWithType:0];
+    }
 }
 - (void)registerRefresh {
     __weak typeof(self) weakSelf = self;
@@ -77,6 +77,7 @@ static NSString *const houseTypeKey = @"customHouseTypeKey";
         [btn1 setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
         [btn2 setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
     }
+    [self.tableView reloadData];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -269,7 +270,6 @@ static NSString *const houseTypeKey = @"customHouseTypeKey";
             YJPrivateModel *sModel = self.ershouPrivateAry[indexPath.section];
             if (sModel.selected) {
                 [YJApplicationUtil alertHud:@"正在使用该定制" afterDelay:1];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kReloadHomeDataNotif object:nil];
                 return;
             }
             [SVProgressHUD show];
@@ -327,9 +327,6 @@ static NSString *const houseTypeKey = @"customHouseTypeKey";
             
         }];
     }
-    
-    
-    
 }
 - (IBAction)selectType:(id)sender {
     self.klcManager = [KLCPopup popupWithContentView:self.popupView];
@@ -339,7 +336,11 @@ static NSString *const houseTypeKey = @"customHouseTypeKey";
     UIButton *selectBtn = sender;
     [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
     UIButton *typeBtn = [self.view viewWithTag:103];
+    [self.klcManager dismiss:YES];
     if (selectBtn.tag == 101) {
+        if ([typeBtn.titleLabel.text isEqualToString:@"租房"]) {
+            return;
+        }
         [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
         UIButton *btn = [self.popupView viewWithTag:102];
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
@@ -347,6 +348,9 @@ static NSString *const houseTypeKey = @"customHouseTypeKey";
         [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:houseTypeKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else if (selectBtn.tag == 102){
+        if ([typeBtn.titleLabel.text isEqualToString:@"买房"]) {
+            return;
+        }
         [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
         UIButton *btn = (UIButton *)[self.popupView viewWithTag:101];
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
@@ -354,7 +358,7 @@ static NSString *const houseTypeKey = @"customHouseTypeKey";
         [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:houseTypeKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    [self.klcManager dismiss:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kReloadHomeDataNotif object:nil];
     [self.tableView reloadData];
 }
 

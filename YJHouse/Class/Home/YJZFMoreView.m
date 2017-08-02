@@ -38,7 +38,7 @@ CGFloat btnWidth1;
             btn.frame = CGRectMake(20 + (i % 4 * (12 + btnWidth1)), i / 4  * 36 + 44, btnWidth1, 22);
             [btn setTitle:faceAry1[i] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"ACABBF"] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"BD00E9"] forState:UIControlStateSelected];
+            [btn setTitleColor:MainColor forState:UIControlStateSelected];
             btn.titleLabel.font = [UIFont systemFontOfSize:11];
             btn.layer.borderWidth = 1;
             btn.tag = i+1;
@@ -59,12 +59,12 @@ CGFloat btnWidth1;
             btn.frame = CGRectMake(20 + (i % 4 * (12 + btnWidth1)), i / 4  * 36 + 44 + 120, btnWidth1, 22);
             [btn setTitle:sAry1[i] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"ACABBF"] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"BD00E9"] forState:UIControlStateSelected];
+            [btn setTitleColor:MainColor forState:UIControlStateSelected];
             btn.titleLabel.font = [UIFont systemFontOfSize:11];
             btn.layer.borderWidth = 1;
             btn.tag = i+6;
             btn.selected = NO;
-            btn.layer.borderColor = [UIColor ex_colorFromHexRGB:@"ACABBF"].CGColor;
+            btn.layer.borderColor = [UIColor ex_colorFromHexRGB:@"44A7FB"].CGColor;
             [contentView addSubview:btn];
             [btn addTarget:self action:@selector(tagSelectClick:) forControlEvents:UIControlEventTouchUpInside];
         }
@@ -73,7 +73,7 @@ CGFloat btnWidth1;
         [contentView addSubview:confirmBtn];
         [confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
-        confirmBtn.backgroundColor = [UIColor ex_colorFromHexRGB:@"A646E8"];
+        confirmBtn.backgroundColor = MainColor;
         confirmBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [confirmBtn addTarget:self action:@selector(confirmAction) forControlEvents:UIControlEventTouchUpInside];
         confirmBtn.layer.cornerRadius = 4;
@@ -88,7 +88,7 @@ CGFloat btnWidth1;
 - (void)tagSelectClick:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (sender.selected) {
-        sender.layer.borderColor = [UIColor ex_colorFromHexRGB:@"BD00E9"].CGColor;
+        sender.layer.borderColor = [UIColor ex_colorFromHexRGB:@"44A7FB"].CGColor;
     } else {
         sender.layer.borderColor = [UIColor ex_colorFromHexRGB:@"ACABBF"].CGColor;
     }

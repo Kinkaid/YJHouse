@@ -194,8 +194,8 @@
                 self.view.window.rootViewController = [[YJTabBarSystemController alloc] init];
                 [self.view removeFromSuperview];
             } else {
-                if (ISEMPTY([LJKHelper getErshouWeight_id])) {
-                   [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_id"]];
+                if (!self.edit) {
+                    [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_id"]];
                 }
                 [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:@"houseTypeKey"];
                 [[NSUserDefaults standardUserDefaults] synchronize];

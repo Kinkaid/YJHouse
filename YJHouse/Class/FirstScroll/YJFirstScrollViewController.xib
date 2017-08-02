@@ -30,7 +30,7 @@
                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="wKI-RM-ugB">
                     <rect key="frame" x="152" y="592" width="71" height="37"/>
                     <color key="pageIndicatorTintColor" red="0.60784313729999995" green="0.62745098040000002" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <color key="currentPageIndicatorTintColor" red="0.65098039215686276" green="0.27450980392156865" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="currentPageIndicatorTintColor" red="0.26666666666666666" green="0.65490196078431373" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </pageControl>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

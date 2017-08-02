@@ -54,10 +54,10 @@
     
     if (model.selected) {
         _icon.layer.borderColor = [UIColor ex_colorFromHexRGB:@"39343F"].CGColor;
-        _bgView.backgroundColor = [UIColor ex_colorFromHexRGB:@"9829FA"];
+        _bgView.backgroundColor = MainColor;
         
     } else {
-        _icon.layer.borderColor = [UIColor ex_colorFromHexRGB:@"9829FA"].CGColor;
+        _icon.layer.borderColor = [UIColor ex_colorFromHexRGB:@"44A7FB"].CGColor;
         _bgView.backgroundColor = [UIColor ex_colorFromHexRGB:@"39343F"];
     }
     if ([model.bus_stop_weight intValue] == 5) {

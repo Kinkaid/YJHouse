@@ -39,11 +39,11 @@ WDNoCopyTextField *eTextField;
             }
             if (i<6) {
                 UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-                btn.frame = CGRectMake(self.frame.size.width / 2.0 - 90, 40 * i +2, 180, 36);
+                btn.frame = CGRectMake(0, 40 * i +2, self.frame.size.width, 36);
                 btn.tag = i+1;
           
                 [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"595959"] forState:UIControlStateNormal];
-                [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateSelected];
+                [btn setTitleColor:MainColor forState:UIControlStateSelected];
                 btn.titleLabel.font = [UIFont systemFontOfSize:15];
                 [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
                 [contentView addSubview:btn];
@@ -69,11 +69,11 @@ WDNoCopyTextField *eTextField;
         eTextField.textAlignment = NSTextAlignmentCenter;
         [self addSubview:eTextField];
         UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        confirmBtn.frame = CGRectMake(self.frame.size.width - 75, 245, 60, 30);
+        confirmBtn.frame = CGRectMake(APP_SCREEN_WIDTH - 75, 245, 60, 30);
         [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
         confirmBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         confirmBtn.layer.cornerRadius = 3;
-        confirmBtn.backgroundColor = [UIColor ex_colorFromHexRGB:@"A646E8"];
+        confirmBtn.backgroundColor = MainColor;
         [confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [confirmBtn addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:confirmBtn];

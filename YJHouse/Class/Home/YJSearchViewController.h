@@ -10,4 +10,6 @@
 
 @interface YJSearchViewController : YJBaseViewController
 
+@property (nonatomic,assign) BOOL isXiaoquSearch;
+
 @end

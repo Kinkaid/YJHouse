@@ -36,7 +36,7 @@ CGFloat btnWidth;
             btn.frame = CGRectMake(20 + (i % 4 * (12 + btnWidth)), i / 4  * 36 + 50, btnWidth, 22);
             [btn setTitle:faceAry[i] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"ACABBF"] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"BD00E9"] forState:UIControlStateSelected];
+            [btn setTitleColor:MainColor forState:UIControlStateSelected];
             btn.titleLabel.font = [UIFont systemFontOfSize:11];
             btn.layer.borderWidth = 1;
             btn.tag = i+1;
@@ -57,7 +57,7 @@ CGFloat btnWidth;
             btn.frame = CGRectMake(20 + (i % 4 * (12 + btnWidth)), i / 4  * 36 + 44 + 120, btnWidth, 22);
             [btn setTitle:sAry[i] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"ACABBF"] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"BD00E9"] forState:UIControlStateSelected];
+            [btn setTitleColor:MainColor forState:UIControlStateSelected];
             btn.titleLabel.font = [UIFont systemFontOfSize:11];
             btn.layer.borderWidth = 1;
             btn.tag = i+5;
@@ -78,7 +78,7 @@ CGFloat btnWidth;
             btn.frame = CGRectMake(20 + (i % 4 * (12 + btnWidth)), i / 4  * 36 + 44 + 120 *2, btnWidth, 22);
             [btn setTitle:oAry[i] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"ACABBF"] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"BD00E9"] forState:UIControlStateSelected];
+            [btn setTitleColor:MainColor forState:UIControlStateSelected];
             btn.titleLabel.font = [UIFont systemFontOfSize:11];
             btn.layer.borderWidth = 1;
             btn.tag = i+13;
@@ -99,7 +99,7 @@ CGFloat btnWidth;
             btn.frame = CGRectMake(20 + (i % 4 * (12 + btnWidth)), i / 4  * 36 + 44 + 120 *3, btnWidth, 22);
             [btn setTitle:floorAry[i] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"ACABBF"] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"BD00E9"] forState:UIControlStateSelected];
+            [btn setTitleColor:MainColor forState:UIControlStateSelected];
             btn.titleLabel.font = [UIFont systemFontOfSize:11];
             btn.layer.borderWidth = 1;
             btn.tag = i+18;
@@ -117,7 +117,7 @@ CGFloat btnWidth;
         confirmBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [confirmBtn addTarget:self action:@selector(confirmAction) forControlEvents:UIControlEventTouchUpInside];
         confirmBtn.layer.cornerRadius = 4;
-        confirmBtn.backgroundColor = [UIColor ex_colorFromHexRGB:@"A646E8"];
+        confirmBtn.backgroundColor = MainColor;
         valueAry = [NSArray arrayWithObjects:@"2",@"3",@"5",@"7",@"0-50",@"50-70",@"70-90",@"90-120",@"120-140",@"140-160",@"160-200",@"-200",@"5",@"10",@"15",@"20",@"-20",@"1",@"2",@"3", nil];
     }
     return self;
@@ -136,7 +136,7 @@ CGFloat btnWidth;
         sender.selected = !sender.selected;
     }
     if (sender.selected) {
-        sender.layer.borderColor = [UIColor ex_colorFromHexRGB:@"BD00E9"].CGColor;
+        sender.layer.borderColor = [UIColor ex_colorFromHexRGB:@"44A7FB"].CGColor;
     } else {
         sender.layer.borderColor = [UIColor ex_colorFromHexRGB:@"ACABBF"].CGColor;
     }

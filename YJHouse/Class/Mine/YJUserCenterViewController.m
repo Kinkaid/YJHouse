@@ -21,6 +21,7 @@
 #import "YJLoadingAnimationView.h"
 #import "WDAboutUsViewController.h"
 #import "YJSettingViewController.h"
+#import "WDLoginViewController.h"
 @interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource,SKStoreProductViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
@@ -76,7 +77,7 @@
 }
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kcellIdentifier bundle:nil] forCellReuseIdentifier:kcellIdentifier];
-      self.headerView.frame = CGRectMake(0, -APP_SCREEN_WIDTH *0.67, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.67);
+    self.headerView.frame = CGRectMake(0, -APP_SCREEN_WIDTH *0.67, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.67);
     self.tableView.contentInset = UIEdgeInsetsMake(APP_SCREEN_WIDTH *0.67, 0, 0, 0);
     [self.tableView addSubview:self.headerView];
     self.titleAry = [NSMutableArray arrayWithObjects:
@@ -98,16 +99,20 @@
     return [self.titleAry[section] count];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 38;
+    if (indexPath.section == 0 &&indexPath.row == 0) {
+        return 40;
+    }
+    return 50;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0.01;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 2) {
+    if (section == 0) {
+        return 14;
+    } else {
         return 0.01;
     }
-    return 6;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     YJUserCenterViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kcellIdentifier forIndexPath:indexPath];
@@ -165,11 +170,12 @@
                 break;
             case 2:
             {
-                self.shareView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 150);
-                self.klcManager = [KLCPopup popupWithContentView:self.shareView];
-                self.klcManager.showType = KLCPopupShowTypeSlideInFromBottom;
-                self.klcManager.dismissType = KLCPopupDismissTypeSlideOutToBottom;
-                [self.klcManager showAtCenter:CGPointMake(APP_SCREEN_WIDTH / 2.0, APP_SCREEN_HEIGHT - 75) inView:self.view];
+//                self.shareView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 150);
+//                self.klcManager = [KLCPopup popupWithContentView:self.shareView];
+//                self.klcManager.showType = KLCPopupShowTypeSlideInFromBottom;
+//                self.klcManager.dismissType = KLCPopupDismissTypeSlideOutToBottom;
+//                [self.klcManager showAtCenter:CGPointMake(APP_SCREEN_WIDTH / 2.0, APP_SCREEN_HEIGHT - 75) inView:self.view];
+                [self shareFriendWithImg:[UIImage imageNamed:@"yj_download"]];
             }
                 break;
             case 3:
@@ -181,7 +187,7 @@
                 //加载一个新的视图展示
                 [storeProductViewContorller loadProductWithParameters:
                  //appId唯一的
-                 @{SKStoreProductParameterITunesItemIdentifier : @"1214131720"} completionBlock:^(BOOL result, NSError *error) {
+                 @{SKStoreProductParameterITunesItemIdentifier : @"1241832323"} completionBlock:^(BOOL result, NSError *error) {
                      //block回调
                      if(error){
                          NSLog(@"error %@ with userInfo %@",error,[error userInfo]);
@@ -223,7 +229,7 @@
     switch (btn.tag) {
         case 11:
         {
-         [WDShareUtil shareTye:shareWXFriends withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试title" withContent:@"测试content"];
+         [WDShareUtil shareTye:shareWXFriends withImageAry:@[[UIImage imageNamed:@"icon_agree"]] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试title" withContent:@"测试content"];
         }
             break;
         case 12:
@@ -250,7 +256,24 @@
             break;
     }
 }
-
+-(void)shareFriendWithImg:(UIImage *)shareImg {
+    UIActivityViewController *activityViewController =[[UIActivityViewController alloc] initWithActivityItems:@[shareImg] applicationActivities:nil];
+    //去除多余的分享模块
+    activityViewController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePrint,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList,UIActivityTypePostToFlickr,UIActivityTypePostToVimeo,UIActivityTypePostToTencentWeibo,UIActivityTypeOpenInIBooks];
+    //初始化Block回调方法,此回调方法是在iOS8之后出的，代替了之前的方法
+    UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError)
+    {
+        if (completed) {
+            [YJApplicationUtil alertHud:@"分享成功" afterDelay:1];
+        }
+    };
+    activityViewController.completionWithItemsHandler = myBlock;
+    if (activityViewController) {
+        [self presentViewController:activityViewController animated:TRUE completion:^{
+        }];
+    }
+    
+}
 
 - (IBAction)cancelAction:(id)sender {
     [self.klcManager dismiss:YES];
@@ -267,7 +290,11 @@
 }
 
 - (IBAction)userHeaderClick:(id)sender {
-    YJPersonInfoViewController *vc = [[YJPersonInfoViewController alloc] init];
-    PushController(vc);
+//    YJPersonInfoViewController *vc = [[YJPersonInfoViewController alloc] init];
+//    PushController(vc);
+    WDLoginViewController *vc = [[WDLoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
+
 }
 @end

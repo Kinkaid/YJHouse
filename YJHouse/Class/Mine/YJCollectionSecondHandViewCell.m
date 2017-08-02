@@ -71,7 +71,7 @@
         for (int i=1; i<=4; i++) {
             UILabel *label = [self viewWithTag:i];
             if (i<=tagsAry.count) {
-                label.text = tagsAry[i-1];
+                label.text = [NSString stringWithFormat:@"  %@  ",tagsAry[i-1]];
                 label.hidden = NO;
             } else {
                 label.hidden = YES;

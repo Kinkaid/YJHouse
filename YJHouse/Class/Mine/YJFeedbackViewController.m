@@ -35,10 +35,7 @@
         [YJApplicationUtil alertHud:@"请输入意见反馈信息" afterDelay:1];
         return;
     }
-    UIButton *btn =[self.view viewWithTag:self.lastSelectBtnTag];
-    NSString *reasonStr = [NSString stringWithFormat:@"【%@】",btn.titleLabel.text];
-    [reasonStr stringByAppendingString:self.feedbackTextView.text];
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/feedback" parameters:@{@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/feedback" parameters:@{@"content":self.feedbackTextView.text,@"type":@(self.lastSelectBtnTag),@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
                 [YJApplicationUtil alertHud:@"意见反馈成功" afterDelay:1];
@@ -56,7 +53,7 @@
             btn.selected = YES;
             self.lastSelectBtnTag = 1;
         }
-        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateSelected];
+        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"44A7FB"] forState:UIControlStateSelected];
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"4C4B4B"] forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:@"icon_solid_circle"] forState:UIControlStateSelected];
         [btn setImage:[UIImage imageNamed:@"icon_hollow_circle"] forState:UIControlStateNormal];

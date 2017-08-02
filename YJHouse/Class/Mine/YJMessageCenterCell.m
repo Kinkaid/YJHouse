@@ -12,6 +12,7 @@
 
     __weak IBOutlet UILabel *_title;
     __weak IBOutlet UILabel *_content;
+    __weak IBOutlet UIView *_lineView;
 }
 
 - (void)awakeFromNib {
@@ -24,10 +25,7 @@
 
     // Configure the view for the selected state
 }
-- (void)showDataWithTitle:(NSString *)title content:(NSString *)content {
-    _title.text = title;
-    _content.text = content;
-}
+
 - (void)showDataWithModel:(YJMsgModel *)model {
     _title.text = model.title;
     _content.text = model.content;
@@ -35,6 +33,11 @@
         self.badgeView.hidden = NO;
     } else {
         self.badgeView.hidden = YES;
+    }
+    if ([_title.text isEqualToString:@"租房推荐"]) {
+        _lineView.hidden = YES;
+    } else {
+        _lineView.hidden = NO;
     }
 }
 
