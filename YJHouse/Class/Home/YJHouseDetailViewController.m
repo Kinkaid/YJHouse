@@ -201,9 +201,10 @@
     __weak typeof(self) weakSelf = self;
     NSString *url ;
     if (self.type == type_zufang) {
-        url = @"https://youjar.com/you/frontend/web/app/zufang/item-info";
+        
+        url = [NSString stringWithFormat:@"%@/zufang/item-info",Server_url];
     } else {
-        url = @"https://youjar.com/you/frontend/web/app/ershou/item-info";
+        url = [NSString stringWithFormat:@"%@/ershou/item-info",Server_url];
     }
     [[NetworkTool sharedTool] requestWithURLString:url parameters:@{@"site_id":self.site_id,@"id":self.house_id,@"auth_key":[LJKHelper getAuth_key]} method:GET callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
@@ -526,9 +527,9 @@
     NSString *url;
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":self.site_id,@"id":self.house_id};
     if (self.collectionBtn.selected) {
-        url = @"https://youjar.com/you/frontend/web/app/user/cancel-favourite";
+        url = [NSString stringWithFormat:@"%@/user/cancel-favourite",Server_url];
     } else {
-        url = @"https://youjar.com/you/frontend/web/app/user/set-favourite";
+        url = [NSString stringWithFormat:@"%@/user/set-favourite",Server_url];
     }
     [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:POST callBack:^(id responseObject) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
@@ -580,7 +581,7 @@
         return;
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.house_id,@"site":self.site_id,@"eva":@"1"};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-evaluate",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [self.likeBtn setTitle:[NSString stringWithFormat:@" %d",[self.likeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
             [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];
@@ -605,7 +606,7 @@
         return;
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.house_id,@"site":self.site_id,@"eva":@"-1"};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-evaluate",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [self.dislikeBtn setTitle:[NSString stringWithFormat:@"  %d",[self.dislikeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
             [self.toScoreBtn setTitle:[NSString stringWithFormat:@"  %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];

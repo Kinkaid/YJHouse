@@ -102,7 +102,7 @@
                                                              @"application/octet-stream",
                                                              @"text/json",
                                                              nil];
-    [sessionManager POST:@"https://youjar.com/you/frontend/web/app/user/set-avatar" parameters:@{@"auth_key":[LJKHelper getAuth_key]} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    [sessionManager POST:[NSString stringWithFormat:@"%@/user/set-avatar",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key]} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         // 上传文件
         NSData *imageData = UIImageJPEGRepresentation(image, 1);
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

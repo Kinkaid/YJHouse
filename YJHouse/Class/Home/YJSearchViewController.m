@@ -171,12 +171,12 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [self.searchAry removeAllObjects];
     NSString * url;
     if (self.isXiaoquSearch) {
-         url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/xiaoqu/list?auth_key=%@&xq[name]=%@",[LJKHelper getAuth_key],searchKey];
+         url = [NSString stringWithFormat:@"%@/xiaoqu/list?auth_key=%@&xq[name]=%@",Server_url,[LJKHelper getAuth_key],searchKey];
     } else {
         if (self.zufang) {
-            url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/zufang/custom-list?auth_key=%@&name[0]=%@",[LJKHelper getAuth_key],searchKey];
+            url = [NSString stringWithFormat:@"%@/zufang/custom-list?auth_key=%@&name[0]=%@",Server_url,[LJKHelper getAuth_key],searchKey];
         } else {
-            url = [NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/ershou/custom-list?auth_key=%@&name[0]=%@",[LJKHelper getAuth_key],searchKey];
+            url = [NSString stringWithFormat:@"%@/ershou/custom-list?auth_key=%@&name[0]=%@",Server_url,[LJKHelper getAuth_key],searchKey];
         }
     }
     __weak typeof(self) weakSelf = self;

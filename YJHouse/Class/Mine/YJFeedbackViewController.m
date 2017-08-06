@@ -35,7 +35,7 @@
         [YJApplicationUtil alertHud:@"请输入意见反馈信息" afterDelay:1];
         return;
     }
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/feedback" parameters:@{@"content":self.feedbackTextView.text,@"type":@(self.lastSelectBtnTag),@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/feedback",Server_url] parameters:@{@"content":self.feedbackTextView.text,@"type":@(self.lastSelectBtnTag),@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
                 [YJApplicationUtil alertHud:@"意见反馈成功" afterDelay:1];

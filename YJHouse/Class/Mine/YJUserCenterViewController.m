@@ -52,7 +52,7 @@
 
 - (void)msgCount {
     __weak typeof(self)weakSelf = self;
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/get-message-count" parameters:@{@"auth_key":[LJKHelper getAuth_key],@"time":ISEMPTY([LJKHelper getLastRequestMsgTime])?@"0":[LJKHelper getLastRequestMsgTime]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/get-message-count",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key],@"time":ISEMPTY([LJKHelper getLastRequestMsgTime])?@"0":[LJKHelper getLastRequestMsgTime]} method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"][@"total_count"] intValue]) {
             weakSelf.mgsCount.hidden = NO;
             weakSelf.mgsCount.text = [NSString stringWithFormat:@"%@",responseObject[@"result"][@"total_count"]];

@@ -9,6 +9,9 @@
 #import "YJRegisterViewController.h"
 
 @interface YJRegisterViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *tips;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+
 
 @end
 
@@ -16,22 +19,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    if (self.isForgetPW) {
+        self.tips.text = @"请填写邮箱进行找回密码";
+        [self setTitle:@"忘记密码"];
+    } else {
+        [self setTitle:@"注册账号"];
+    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)confirmAction:(id)sender {
+    if (![self.emailTextField.text containsString:@"@"]) {
+        [YJApplicationUtil alertHud:@"请输入正确的邮箱地址" afterDelay:1];
+        return;
+    }
+    NSDictionary *params = @{@"email":self.emailTextField.text};
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:params method:POST callBack:^(id responseObject) {
+        
+        
+    } error:^(NSError *error) {
+        
+    }];
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

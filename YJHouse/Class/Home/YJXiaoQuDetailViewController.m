@@ -202,10 +202,11 @@
 - (IBAction)collectionAction:(id)sender {
     __weak typeof(self) weakSelf = self;
     NSString *url;
+    
     if (self.collectionBtn.selected) {
-        url =@"https://youjar.com/you/frontend/web/app/user/cancel-favourite";
+        url = [NSString stringWithFormat:@"%@/user/cancel-favourite",Server_url];
     } else {
-        url = @"https://youjar.com/you/frontend/web/app/user/set-favourite";
+        url = [NSString stringWithFormat:@"%@/user/set-favourite",Server_url];
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":self.model.site,@"id":self.xiaoquId};
     [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:POST callBack:^(id responseObject) {
@@ -246,7 +247,7 @@
         return;
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.xiaoquId,@"site":self.model.site,@"eva":@"1"};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-evaluate",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [self.likeBtn setTitle:[NSString stringWithFormat:@" %d",[self.likeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
             [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];
@@ -271,7 +272,7 @@
         return;
     }
     NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"id":self.xiaoquId,@"site":self.model.site,@"eva":@"-1"};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-evaluate" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-evaluate",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [self.dislikeBtn setTitle:[NSString stringWithFormat:@" %d",[self.dislikeBtn.titleLabel.text intValue] +1] forState:UIControlStateNormal];
             [self.toScoreBtn setTitle:[NSString stringWithFormat:@" %.0f%%",([self.likeBtn.titleLabel.text floatValue] / ([self.dislikeBtn.titleLabel.text floatValue] +[self.likeBtn.titleLabel.text floatValue])) * 100] forState:UIControlStateNormal];

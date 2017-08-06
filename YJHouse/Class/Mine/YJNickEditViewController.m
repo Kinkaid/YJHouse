@@ -30,7 +30,7 @@
 - (void)commitAction {
     if (self.nickTextField.text.length) {
         [SVProgressHUD show];
-        [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-nickname" parameters:@{@"nickname":self.nickTextField.text,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-nickname",Server_url] parameters:@{@"nickname":self.nickTextField.text,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
             if (responseObject[@"result"]) {
                 [SVProgressHUD dismiss];
                 self.nBlock(self.nickTextField.text);

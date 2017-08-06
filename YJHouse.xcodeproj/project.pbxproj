@@ -331,6 +331,7 @@
 		306C2EA61EA4DDC8000AC5A3 /* YJMFMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJMFMoreView.m; sourceTree = "<group>"; };
 		306C2EA81EA4DDEB000AC5A3 /* YJZFMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJZFMoreView.h; sourceTree = "<group>"; };
 		306C2EA91EA4DDEB000AC5A3 /* YJZFMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJZFMoreView.m; sourceTree = "<group>"; };
+		30772C631F36B9B700E884F4 /* GlobalNetDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalNetDefine.h; sourceTree = "<group>"; };
 		307A35FF1F15C52A00C7566D /* YJMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJMapView.h; sourceTree = "<group>"; };
 		307A36001F15C52A00C7566D /* YJMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJMapView.m; sourceTree = "<group>"; };
 		307A36021F174C3100C7566D /* YJMapDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJMapDetailViewController.h; sourceTree = "<group>"; };
@@ -760,6 +761,7 @@
 			children = (
 				300372A11E9770BB005A7B37 /* NetworkTool.h */,
 				300372A21E9770BB005A7B37 /* NetworkTool.m */,
+				30772C631F36B9B700E884F4 /* GlobalNetDefine.h */,
 			);
 			path = Network;
 			sourceTree = "<group>";

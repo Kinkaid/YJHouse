@@ -64,7 +64,7 @@
 - (void)loadXiaoquListData {
     __weak typeof(self) weakSelf = self;
     NSDictionary *params = @{@"page":@(self.xiaoquPage),@"limit":@"20",@"type":@"3",@"auth_key":[LJKHelper getAuth_key]};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/get-favourite" parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-favourite",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if (responseObject) {
             if (weakSelf.xiaoquPage == 0) {
                 [YJGIFAnimationView hideInView:self.view];
@@ -133,7 +133,7 @@
         [SVProgressHUD show];
         YJXiaoquModel *model = self.xiaoquAry[indexPath.section];
         NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":model.site,@"id":model.xqID};
-        [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/cancel-favourite" parameters:params method:POST callBack:^(id responseObject) {
+        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/cancel-favourite",Server_url] parameters:params method:POST callBack:^(id responseObject) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
                 [self.xiaoquAry removeObjectAtIndex:indexPath.section];
                 [self.tableView reloadData];

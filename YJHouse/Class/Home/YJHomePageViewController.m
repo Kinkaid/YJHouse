@@ -219,14 +219,15 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     if (!ISEMPTY(self.mfParams)) {
         [params setValuesForKeysWithDictionary:self.mfParams];
     }
+//    http://104.194.67.102
     NSString *url;
     if (self.zufang) {
-        url = @"https://youjar.com/you/frontend/web/app/zufang/custom-list";
+        url = [NSString stringWithFormat:@"%@/zufang/custom-list",Server_url];
         if (!ISEMPTY([LJKHelper getZufangWeight_id])) {
             [params setObject:[LJKHelper getZufangWeight_id] forKey:@"weight_id"];
         }
     } else {
-        url = @"https://youjar.com/you/frontend/web/app/ershou/custom-list";
+        url = [NSString stringWithFormat:@"%@/ershou/custom-list",Server_url];
         if (!ISEMPTY([LJKHelper getErshouWeight_id])) {
             [params setObject:[LJKHelper getErshouWeight_id] forKey:@"weight_id"];
         }

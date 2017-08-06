@@ -162,15 +162,15 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     NSString *url;
     if (self.isLowPrice) {
         if (self.zufang == YES) {
-            url = @"https://youjar.com/you/frontend/web/app/zufang/topcut";
+            url = [NSString stringWithFormat:@"%@/zufang/topcut",Server_url];
         } else {
-            url = @"https://youjar.com/you/frontend/web/app/ershou/topcut";
+            url = [NSString stringWithFormat:@"%@/ershou/topcut",Server_url];
         }
     } else {
         if (self.zufang == YES) {
-            url = @"https://youjar.com/you/frontend/web/app/zufang/newest";
+            url = [NSString stringWithFormat:@"%@/zufang/newest",Server_url];
         } else {
-            url = @"https://youjar.com/you/frontend/web/app/ershou/newest";
+            url = [NSString stringWithFormat:@"%@/ershou/newest",Server_url];
         }
     }
     [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:GET callBack:^(id responseObject) {

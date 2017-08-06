@@ -100,7 +100,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)loadData {
     [SVProgressHUD show];
     __weak typeof(self)weakSelf = self;
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/user-info" parameters:@{@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/user-info",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             [SVProgressHUD dismiss];
             [weakSelf.zufangPrivateAry removeAllObjects];

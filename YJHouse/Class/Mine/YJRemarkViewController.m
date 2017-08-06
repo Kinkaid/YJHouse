@@ -38,7 +38,7 @@
     }
     __weak typeof(self) weakSelf = self;
     NSDictionary *param = @{@"site":self.site,@"id":self.ID,@"auth_key":[LJKHelper getAuth_key],@"content":self.remarkTextView.text};
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/set-remark" parameters:param method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-remark",Server_url] parameters:param method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
             weakSelf.contentBlock(weakSelf.remarkTextView.text);
             [weakSelf.navigationController popViewControllerAnimated:YES];

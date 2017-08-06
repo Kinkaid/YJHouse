@@ -119,7 +119,7 @@
         [params setObject:@([self.minPrice integerValue]) forKey:@"xq[price_min]"];
         [params setObject:@([self.maxPrice integerValue]) forKey:@"xq[price_max]"];
     }
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"https://youjar.com/you/frontend/web/app/xiaoqu/list?auth_key=%@",[LJKHelper getAuth_key]] parameters:params method:GET callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/xiaoqu/list?auth_key=%@",Server_url,[LJKHelper getAuth_key]] parameters:params method:GET callBack:^(id responseObject) {
         if (responseObject) {
             [SVProgressHUD dismiss];
             [YJGIFAnimationView hideInView:self.view];

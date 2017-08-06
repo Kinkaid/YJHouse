@@ -25,4 +25,5 @@
 #import "YJLoadingAnimationView.h"
 #import "YJGIFAnimationView.h"
 #import "YJRequestTimeoutUtil.h"
+#import "GlobalNetDefine.h"
 #endif /* PrefixHeader_pch */
