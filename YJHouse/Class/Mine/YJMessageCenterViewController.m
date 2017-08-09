@@ -9,6 +9,7 @@
 #import "YJMessageCenterViewController.h"
 #import "YJMessageCenterCell.h"
 #import "YJMessageDetailViewController.h"
+#import "YJHouseRecommendViewController.h"
 #define kCellIdentifier @"YJMessageCenterCell"
 @interface YJMessageCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -37,7 +38,7 @@
         YJMsgModel *model = [[YJMsgModel alloc] init];
         model.content = contentAry[i];
         model.title = titleAry[i];
-        model.count = [self.msgCount[i] intValue];
+//        model.count = [self.msgCount[i] intValue];
         [self.contentAry addObject:model];
     }
     [self.tableView reloadData];
@@ -58,39 +59,39 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJMessageDetailViewController *vc = [[YJMessageDetailViewController alloc] init];
-    switch (indexPath.row) {
-        case 0:
-        {
-            vc.type = @"6";
+    YJHouseRecommendViewController *vcR = [[YJHouseRecommendViewController alloc] init];
+    if (indexPath.row == 0) {
+        vcR.type = @"6";
+        PushController(vcR);
+    } else if (indexPath.row == 1){
+        vcR.type = @"7";
+        PushController(vcR);
+    } else {
+        YJMessageDetailViewController *vc = [[YJMessageDetailViewController alloc] init];
+        switch (indexPath.row) {
+            case 2:
+            {
+                vc.type = @"1";
+            }
+                break;
+            case 3:
+            {
+                vc.type = @"5";
+            }
+                break;
+            case 4:
+            {
+                vc.type = @"4";
+            }
+                break;
+            default:
+                break;
         }
-            break;
-        case 1:
-        {
-            vc.type = @"7";
-        }
-            break;
-        case 2:
-        {
-            vc.type = @"3";
-        }
-            break;
-        case 3:
-        {
-            vc.type = @"4";
-        }
-            break;
-        case 4:
-        {
-            vc.type = @"5";
-        }
-            break;
-        default:
-            break;
+        YJMsgModel *model = self.contentAry[indexPath.row];
+        model.count = 0;
+        [self.tableView reloadData];
+        PushController(vc);
     }
-    YJMsgModel *model = self.contentAry[indexPath.row];
-    model.count = 0;
-    [self.tableView reloadData];
-    PushController(vc);
+
 }
 @end

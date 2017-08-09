@@ -79,7 +79,7 @@
 }
 - (void)loadXiaoquDetail {
     __weak typeof(self)weakSelf = self;
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/xiaoqu/item-info" parameters:@{@"id":self.xiaoquId,@"auth_key":[LJKHelper getAuth_key]} method:GET callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/xiaoqu/item-info",Server_url] parameters:@{@"id":self.xiaoquId,@"auth_key":[LJKHelper getAuth_key]} method:GET callBack:^(id responseObject) {
         [YJGIFAnimationView hideInView:self.view];
       if (responseObject[@"result"]) {
           if ([responseObject[@"result"][@"evaluate"] intValue] ==0) {

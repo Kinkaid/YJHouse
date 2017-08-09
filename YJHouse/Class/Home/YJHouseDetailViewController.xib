@@ -169,7 +169,7 @@
                                         <constraint firstAttribute="height" constant="38" id="6qc-a1-dSh"/>
                                     </constraints>
                                     <state key="normal" title=" 0" image="icon_agree">
-                                        <color key="titleColor" red="0.65490196079999996" green="0.27450980390000002" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleColor" red="0.26666666666666666" green="0.65490196078431373" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="likeAction:" destination="-1" eventType="touchUpInside" id="3Pr-Z9-T5f"/>

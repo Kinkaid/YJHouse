@@ -101,7 +101,14 @@
     return image;
 }
 
-
++ (BOOL)thirdLoginSuccess {
+    NSString *thridLoginTag = [[NSUserDefaults standardUserDefaults] objectForKey:@"third_login_success"];
+    if ([thridLoginTag isEqualToString:@"1"]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 @end
 
 

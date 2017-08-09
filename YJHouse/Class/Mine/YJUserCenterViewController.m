@@ -52,7 +52,7 @@
 
 - (void)msgCount {
     __weak typeof(self)weakSelf = self;
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/get-message-count",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key],@"time":ISEMPTY([LJKHelper getLastRequestMsgTime])?@"0":[LJKHelper getLastRequestMsgTime]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-count",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key],@"time":ISEMPTY([LJKHelper getLastRequestMsgTime])?@"0":[LJKHelper getLastRequestMsgTime]} method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"][@"total_count"] intValue]) {
             weakSelf.mgsCount.hidden = NO;
             weakSelf.mgsCount.text = [NSString stringWithFormat:@"%@",responseObject[@"result"][@"total_count"]];
@@ -272,7 +272,6 @@
         [self presentViewController:activityViewController animated:TRUE completion:^{
         }];
     }
-    
 }
 
 - (IBAction)cancelAction:(id)sender {
@@ -290,11 +289,13 @@
 }
 
 - (IBAction)userHeaderClick:(id)sender {
-//    YJPersonInfoViewController *vc = [[YJPersonInfoViewController alloc] init];
-//    PushController(vc);
-    WDLoginViewController *vc = [[WDLoginViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:nav animated:YES completion:nil];
-
+    if ([LJKHelper thirdLoginSuccess]) {
+        YJPersonInfoViewController *vc = [[YJPersonInfoViewController alloc] init];
+        PushController(vc);
+    } else {
+        WDLoginViewController *vc = [[WDLoginViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 @end

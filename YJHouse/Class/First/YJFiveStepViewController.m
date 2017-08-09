@@ -95,7 +95,7 @@
     self.registerModel.uw_prime = [NSString stringWithFormat:@"%lld",value];
     [SVProgressHUD show];
     if (ISEMPTY([LJKHelper getAuth_key])) {
-        [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/signup" parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
+        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
             if (!ISEMPTY(responseObject) ||ISEMPTY(responseObject[@"result"])) {
                 [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
                 [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
@@ -119,7 +119,7 @@
     if (self.edit) {
         [mParams setObject:self.registerModel.weight_id forKey:@"weight_id"];
     }
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/save-user-weight" parameters:mParams method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/save-user-weight",Server_url] parameters:mParams method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             [SVProgressHUD dismiss];
             if (self.registerModel.firstEnter) {

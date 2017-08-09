@@ -219,7 +219,6 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     if (!ISEMPTY(self.mfParams)) {
         [params setValuesForKeysWithDictionary:self.mfParams];
     }
-//    http://104.194.67.102
     NSString *url;
     if (self.zufang) {
         url = [NSString stringWithFormat:@"%@/zufang/custom-list",Server_url];
@@ -394,9 +393,10 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [btn58 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
 }
 - (IBAction)searchAction:(id)sender {//搜索
-    YJSearchViewController *vc= [[YJSearchViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:nav animated:YES completion:nil];
+//    YJSearchViewController *vc= [[YJSearchViewController alloc] init];
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+//    [self presentViewController:nav animated:YES completion:nil];
+    [self showNewUserTipsView];
 }
 
 - (IBAction)sortAction:(id)sender {
@@ -880,6 +880,32 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     }];
 }
 
-
-
+- (void)showNewUserTipsView {
+    UIView *tipsView = [[UIView alloc] initWithFrame:self.view.frame];
+    UIImageView *img1 = [[UIImageView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH - 120 - 50, APP_SCREEN_WIDTH *0.66+76 - 70, 120, 64)];
+    img1.image = [UIImage imageNamed:@"icon_tips1"];
+    [tipsView addSubview:img1];
+    UIImageView *img2 = [[UIImageView alloc] initWithFrame:CGRectMake((APP_SCREEN_WIDTH - 6.0) / 3 * 2 +6, APP_SCREEN_WIDTH *0.66+76, (APP_SCREEN_WIDTH - 6.0) / 3, 74)];
+    img2.image = [UIImage imageNamed:@"icon_tips2"];
+    [tipsView addSubview:img2];
+    UIImageView *img21 = [[UIImageView alloc] initWithFrame:CGRectMake((APP_SCREEN_WIDTH - 6.0) / 3 + 3, APP_SCREEN_WIDTH *0.66+76, (APP_SCREEN_WIDTH - 6.0) / 3, 74)];
+    img21.image = [UIImage imageNamed:@"icon_tips2"];
+    [tipsView addSubview:img21];
+    
+    UIImageView *img4 = [[UIImageView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 2.0 - 50, APP_SCREEN_WIDTH *0.66 + 76 + 74 + 2, 120, 56)];
+    img4.image = [UIImage imageNamed:@"icon_tips3"];
+    [tipsView addSubview:img4];
+    
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 2.0 - 50, APP_SCREEN_HEIGHT - 49-40-35, 100, 35)];
+    [btn setBackgroundImage:[UIImage imageNamed:@"icon_tips4"] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[UIImage imageNamed:@"icon_tips4"] forState:UIControlStateSelected];
+    [tipsView addSubview:btn];
+    [btn addTarget:self action:@selector(dismissAction) forControlEvents:UIControlEventTouchUpInside];
+    self.klcManager = [KLCPopup popupWithContentView:tipsView];
+    self.klcManager.dimmedMaskAlpha = 0.6;
+    [self.klcManager show];
+}
+- (void)dismissAction {
+    [self.klcManager dismiss:YES];
+}
 @end

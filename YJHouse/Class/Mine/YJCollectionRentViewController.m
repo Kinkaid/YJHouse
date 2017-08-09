@@ -125,7 +125,7 @@
         [SVProgressHUD show];
         YJHouseListModel *model = self.rentAry[indexPath.section];
         NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":model.site,@"id":model.house_id};
-        [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/cancel-favourite" parameters:params method:POST callBack:^(id responseObject) {
+        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/cancel-favourite",Server_url] parameters:params method:POST callBack:^(id responseObject) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
                 [self.rentAry removeObjectAtIndex:indexPath.section];
                 [self.tableView reloadData];

@@ -133,10 +133,9 @@
         [self setupSort:btn.titleLabel.text tag:i];
     }
     if (self.registerModel.zufang == NO) {
-        //接口调试
         [SVProgressHUD show];
         if (ISEMPTY([LJKHelper getAuth_key])) {
-            [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/signup" parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
+            [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
                 if (!ISEMPTY(responseObject) ||ISEMPTY(responseObject[@"result"])) {
                     [LJKHelper saveUserName:[NSString stringWithFormat:@"yj_%@",responseObject[@"result"][@"user_info"][@"username"]]];
                     [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
@@ -154,7 +153,6 @@
         vc.registerModel = self.registerModel;
         vc.edit = self.edit;
         PushController(vc);
-
     }
 }
 - (void)setupSort:(NSString *)title tag:(NSInteger)tag {
@@ -186,13 +184,18 @@
     if (self.edit) {
         [mParams setObject:self.registerModel.weight_id forKey:@"weight_id"];
     }
-    [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/save-user-weight" parameters:mParams method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/save-user-weight",Server_url] parameters:mParams method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             [SVProgressHUD dismiss];
             if (self.registerModel.firstEnter) {
-                [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_id"]];
-                self.view.window.rootViewController = [[YJTabBarSystemController alloc] init];
-                [self.view removeFromSuperview];
+                if (!ISEMPTY(responseObject[@"result"])) {
+                    [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_id"]];
+                    self.view.window.rootViewController = [[YJTabBarSystemController alloc] init];
+                    [self.view removeFromSuperview];
+                } else {
+                    [YJApplicationUtil alertHud:responseObject[@"error"] afterDelay:1];
+                }
+                
             } else {
                 if (!self.edit) {
                     [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_id"]];

@@ -313,7 +313,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         }
         __weak typeof(self)weakSelf = self;
         [SVProgressHUD show];
-        [[NetworkTool sharedTool] requestWithURLString:@"https://youjar.com/you/frontend/web/app/user/cancel-weight" parameters:@{@"type":self.zufang?@"zufang":@"ershou",@"id":model.privateId,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/cancel-weight",Server_url] parameters:@{@"type":self.zufang?@"zufang":@"ershou",@"id":model.privateId,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
                 [SVProgressHUD showSuccessWithStatus:@"删除成功"];
                 if (weakSelf.zufang) {

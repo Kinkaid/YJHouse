@@ -37,6 +37,9 @@
 
 + (UIImage*)imageFromView:(UIView*)view;
 
++ (BOOL)thirdLoginSuccess;
+
+
 @end
 
 

@@ -64,7 +64,7 @@
 - (void)loadMsgData {
     __weak typeof(self)weakSelf = self;
     NSDictionary *params = @{@"page":@(self.page),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/get-message-count",Server_url] parameters:params method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-list",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             if (weakSelf.page == 0) {
                 [YJGIFAnimationView hideInView:self.view];
