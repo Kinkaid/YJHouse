@@ -27,14 +27,12 @@
          第二个参数: 行间距
          第三个参数: 属性字典 可以设置字体大小
          */
-        NSDictionary *dict = @{NSFontAttributeName:[UIFont systemFontOfSize:size]};
-        CGRect rect = [text boundingRectWithSize:CGSizeMake(textWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine attributes:dict context:nil];
-        return rect.size.height;
+    CGRect rect = [text boundingRectWithSize:CGSizeMake(textWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:size]} context:nil];
+    return rect.size.height;
 }
 
 //获取iOS版本号
 + (double)getCurrentIOS {
-    
     return [[[UIDevice currentDevice] systemVersion] doubleValue];
 }
 

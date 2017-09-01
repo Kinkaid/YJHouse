@@ -10,8 +10,8 @@
 #define GlobalNetDefine_h
 
 
-//#define Server_url                     @"https://youjar.com/you/frontend/web/app"
-#define Server_url                     @"http://104.194.67.102/you/frontend/web/app"
+#define Server_url                     @"https://www.youjar.com/app"
+//#define Server_url                     @"http://104.194.67.102/app"
 
 
 #endif /* GlobalNetDefine_h */

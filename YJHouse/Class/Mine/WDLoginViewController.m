@@ -10,9 +10,10 @@
 #import <ShareSDK/ShareSDK.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "YJRegisterViewController.h"
-@interface WDLoginViewController ()
+@interface WDLoginViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *accountTF;
 @property (weak, nonatomic) IBOutlet UITextField *pwTF;
+
 
 @end
 
@@ -20,16 +21,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    UIButton *accountBtn = [self.view viewWithTag:1];
+    UIButton *pwBtn = [self.view viewWithTag:2];
+    [accountBtn setImage:[UIImage imageNamed:@"icon_login_account"] forState:UIControlStateNormal];
+    [accountBtn setImage:[UIImage imageNamed:@"icon_login_account_select"] forState:UIControlStateSelected];
+    [pwBtn setImage:[UIImage imageNamed:@"icon_login_pw"] forState:UIControlStateNormal];
+    [pwBtn setImage:[UIImage imageNamed:@"icon_login_pw_select"] forState:UIControlStateSelected];
+    self.accountTF.delegate = self;
+    self.pwTF.delegate = self;
     self.navigationBar.hidden = YES;
 }
-- (IBAction)loginByWX:(id)sender {
+- (IBAction)loginByQQ:(id)sender {
     if([QQApiInterface isQQInstalled]){
         [ShareSDK getUserInfo:SSDKPlatformTypeQQ
                onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
          {
              if (state == SSDKResponseStateSuccess) {
-                 NSDictionary *params = @{@"type":@"1",@"tuid":user.uid,@"content":[self dataTojsonString:@{@"nickname":user.nickname,@"icon":user.icon}],@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+                 NSDictionary *params = @{@"type":@"1",@"tuid":user.uid,@"content":@{@"nickname":user.nickname,@"icon":user.icon},@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
                  [self thirdLogin:params nick:user.nickname icon:user.icon];
              } else {
                  [YJApplicationUtil alertHud:@"QQ授权失败，请重新尝试" afterDelay:1];
@@ -49,7 +57,7 @@
 //             NSLog(@"%@",user.credential);
 //             NSLog(@"token=%@",user.credential.token);
 //             NSLog(@"nickname=%@",user.nickname);
-             NSDictionary *params = @{@"type":@"2",@"tuid":user.uid,@"content":[self dataTojsonString:@{@"nickname":user.nickname,@"icon":user.icon}],@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+             NSDictionary *params = @{@"type":@"2",@"tuid":user.uid,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
              [self thirdLogin:params nick:user.nickname icon:user.icon];
          } else {
              [YJApplicationUtil alertHud:@"微博授权失败，请重新尝试" afterDelay:1];
@@ -106,6 +114,23 @@
 - (IBAction)dismissAction:(id)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
-
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField == self.accountTF) {
+        UIButton *accountBtn = [self.view viewWithTag:1];
+        accountBtn.selected = YES;
+    } else if(textField == self.pwTF) {
+        UIButton *pwBtn = [self.view viewWithTag:2];
+        pwBtn.selected = YES;
+    }
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == self.accountTF) {
+        UIButton *accountBtn = [self.view viewWithTag:1];
+        accountBtn.selected = NO;
+    } else if(textField == self.pwTF) {
+        UIButton *pwBtn = [self.view viewWithTag:2];
+        pwBtn.selected = NO;
+    }
+}
 
 @end

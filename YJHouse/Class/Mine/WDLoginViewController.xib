@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -56,9 +56,12 @@
                                 <constraint firstAttribute="height" constant="45" id="Emq-y6-Lzs"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ovj-w9-oa4">
+                        <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZHJ-Na-r0W">
                             <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ovj-w9-oa4">
+                            <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="Ovj-w9-oa4" secondAttribute="height" multiplier="1:1" id="plK-FK-ahJ"/>
                             </constraints>
@@ -77,9 +80,12 @@
                                 <constraint firstAttribute="height" constant="45" id="J4f-Zw-a1G"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" multipleTouchEnabled="YES" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MRN-J5-GcS">
+                        <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="usH-co-vmV">
                             <rect key="frame" x="0.0" y="47" width="45" height="45"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <button opaque="NO" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MRN-J5-GcS">
+                            <rect key="frame" x="0.0" y="47" width="45" height="45"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="MRN-J5-GcS" secondAttribute="height" multiplier="1:1" id="zmk-QO-DbF"/>
                             </constraints>
@@ -105,14 +111,22 @@
                         <constraint firstItem="8sK-vZ-vq1" firstAttribute="leading" secondItem="MRN-J5-GcS" secondAttribute="trailing" constant="8" id="KLD-fh-tW0"/>
                         <constraint firstItem="Ovj-w9-oa4" firstAttribute="leading" secondItem="p1H-eu-bqh" secondAttribute="leading" id="LSy-n1-LtW"/>
                         <constraint firstItem="MRN-J5-GcS" firstAttribute="bottom" secondItem="eiA-V4-GCW" secondAttribute="bottom" id="MZo-SE-RHH"/>
+                        <constraint firstItem="usH-co-vmV" firstAttribute="bottom" secondItem="MRN-J5-GcS" secondAttribute="bottom" id="OVQ-bM-dTP"/>
                         <constraint firstAttribute="trailing" secondItem="eiA-V4-GCW" secondAttribute="trailing" id="S9D-wK-9xM"/>
                         <constraint firstItem="MRN-J5-GcS" firstAttribute="leading" secondItem="eiA-V4-GCW" secondAttribute="leading" id="SN5-W0-s6W"/>
+                        <constraint firstItem="ZHJ-Na-r0W" firstAttribute="bottom" secondItem="Ovj-w9-oa4" secondAttribute="bottom" id="SSO-d8-3Vz"/>
+                        <constraint firstItem="usH-co-vmV" firstAttribute="leading" secondItem="MRN-J5-GcS" secondAttribute="leading" id="T3p-fd-5vd"/>
+                        <constraint firstItem="usH-co-vmV" firstAttribute="trailing" secondItem="MRN-J5-GcS" secondAttribute="trailing" id="dKx-zC-0NS"/>
                         <constraint firstItem="8sK-vZ-vq1" firstAttribute="bottom" secondItem="eiA-V4-GCW" secondAttribute="bottom" id="doD-gj-BTb"/>
+                        <constraint firstItem="ZHJ-Na-r0W" firstAttribute="leading" secondItem="Ovj-w9-oa4" secondAttribute="leading" id="i4g-z8-amY"/>
                         <constraint firstAttribute="bottom" secondItem="eiA-V4-GCW" secondAttribute="bottom" id="isE-4R-1wV"/>
+                        <constraint firstItem="ZHJ-Na-r0W" firstAttribute="top" secondItem="Ovj-w9-oa4" secondAttribute="top" id="jQL-t4-oJc"/>
                         <constraint firstItem="p1H-eu-bqh" firstAttribute="top" secondItem="Gdm-et-FbE" secondAttribute="top" id="mDo-Nq-IGa"/>
                         <constraint firstItem="MRN-J5-GcS" firstAttribute="top" secondItem="eiA-V4-GCW" secondAttribute="top" id="nIE-wT-3ej"/>
                         <constraint firstItem="8sK-vZ-vq1" firstAttribute="top" secondItem="eiA-V4-GCW" secondAttribute="top" id="o1F-yS-OpP"/>
+                        <constraint firstItem="ZHJ-Na-r0W" firstAttribute="trailing" secondItem="Ovj-w9-oa4" secondAttribute="trailing" id="o7V-bg-txd"/>
                         <constraint firstAttribute="trailing" secondItem="p1H-eu-bqh" secondAttribute="trailing" id="psH-uq-cWL"/>
+                        <constraint firstItem="usH-co-vmV" firstAttribute="top" secondItem="MRN-J5-GcS" secondAttribute="top" id="rOx-5F-q57"/>
                         <constraint firstAttribute="height" constant="92" id="umI-O9-l2q"/>
                     </constraints>
                 </view>
@@ -162,7 +176,7 @@
                     <rect key="frame" x="227.5" y="603" width="40" height="40"/>
                     <state key="normal" backgroundImage="icon_login_qq"/>
                     <connections>
-                        <action selector="loginByWX:" destination="-1" eventType="touchUpInside" id="fGC-Gi-okB"/>
+                        <action selector="loginByQQ:" destination="-1" eventType="touchUpInside" id="boU-VN-sjV"/>
                     </connections>
                 </button>
             </subviews>

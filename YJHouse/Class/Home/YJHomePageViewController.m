@@ -294,8 +294,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [self.klcManager showAtCenter:CGPointMake(40, 100) inView:self.view];
 }
 - (IBAction)mapAction:(id)sender {
-    YJMapViewController *vc =[[YJMapViewController alloc] init];
-    PushController(vc);
+//    YJMapViewController *vc =[[YJMapViewController alloc] init];
+//    PushController(vc);
 }
 
 
@@ -393,10 +393,10 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [btn58 setTitleColor:[UIColor ex_colorFromHexRGB:@"8A8A8A"] forState:UIControlStateNormal];
 }
 - (IBAction)searchAction:(id)sender {//搜索
-//    YJSearchViewController *vc= [[YJSearchViewController alloc] init];
-//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-//    [self presentViewController:nav animated:YES completion:nil];
-    [self showNewUserTipsView];
+    YJSearchViewController *vc= [[YJSearchViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
+//    [self showNewUserTipsView];
 }
 
 - (IBAction)sortAction:(id)sender {

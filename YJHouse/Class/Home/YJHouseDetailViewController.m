@@ -19,6 +19,7 @@
 #import "YJHouseInfoDetailViewController.h"
 #import "YJMapView.h"
 #import "YJMapDetailViewController.h"
+#import "YJHouseCommentViewController.h"
 @interface YJHouseDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
@@ -543,11 +544,14 @@
                 weakSelf.collectionBtn.selected = !self.collectionBtn.selected;
             }
     } error:^(NSError *error) {
-        
     }];
 }
 - (IBAction)shareAction:(id)sender {
-    [self shareFriendWithImg:[LJKHelper imageFromView:self.view]];
+//    [self shareFriendWithImg:[LJKHelper imageFromView:self.view]];
+    YJHouseCommentViewController *vc = [[YJHouseCommentViewController alloc] init];
+    vc.house_id = self.house_id;
+    vc.site_id = self.site_id;
+    PushController(vc);
 }
 -(void)shareFriendWithImg:(UIImage *)shareImg {
     UIActivityViewController *activityViewController =[[UIActivityViewController alloc] initWithActivityItems:@[shareImg] applicationActivities:nil];

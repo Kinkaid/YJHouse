@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -131,7 +131,7 @@
                                         <constraint firstAttribute="height" constant="38" id="ZSI-0J-4oy"/>
                                     </constraints>
                                     <state key="normal" title=" 0" image="icon_agree">
-                                        <color key="titleColor" red="0.65490196079999996" green="0.27450980390000002" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleColor" red="0.26666666666666666" green="0.65490196078431373" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="likeAction:" destination="-1" eventType="touchUpInside" id="l7h-mp-pZl"/>
@@ -169,7 +169,7 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="4yM-gV-mVT" firstAttribute="leading" secondItem="9Op-iN-qnl" secondAttribute="trailing" id="1ZI-8d-OZo"/>
+                        <constraint firstItem="9Op-iN-qnl" firstAttribute="trailing" secondItem="5w5-Wa-18F" secondAttribute="trailing" id="CN7-a7-YMu"/>
                         <constraint firstItem="4yM-gV-mVT" firstAttribute="top" secondItem="V6C-g7-Adn" secondAttribute="top" id="Fst-yg-nBw"/>
                         <constraint firstAttribute="trailing" secondItem="06e-3j-7RM" secondAttribute="trailing" id="J33-u0-Uty"/>
                         <constraint firstAttribute="bottom" secondItem="5w5-Wa-18F" secondAttribute="bottom" id="PR9-nh-FZk"/>

@@ -341,24 +341,43 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         if ([typeBtn.titleLabel.text isEqualToString:@"租房"]) {
             return;
         }
-        [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
-        UIButton *btn = [self.popupView viewWithTag:102];
-        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
-        self.zufang = YES;
-        [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:houseTypeKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        if (!self.zufangPrivateAry.count) {
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = YES;
+            vc.showBackBtn = YES;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:nav animated:YES completion:nil];
+        } else {
+            [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
+            UIButton *btn = [self.popupView viewWithTag:102];
+            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+            self.zufang = YES;
+            [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:houseTypeKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kReloadHomeDataNotif object:nil];
+        }
     } else if (selectBtn.tag == 102){
         if ([typeBtn.titleLabel.text isEqualToString:@"买房"]) {
             return;
         }
-        [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
-        UIButton *btn = (UIButton *)[self.popupView viewWithTag:101];
-        [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
-        self.zufang = NO;
-        [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:houseTypeKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        if (!self.ershouPrivateAry.count) {
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = NO;
+            vc.showBackBtn = YES;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:nav animated:YES completion:nil];
+        } else {
+            [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
+            UIButton *btn = (UIButton *)[self.popupView viewWithTag:101];
+            [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
+            self.zufang = NO;
+            [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:houseTypeKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kReloadHomeDataNotif object:nil];
+        }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:kReloadHomeDataNotif object:nil];
     [self.tableView reloadData];
 }
 
