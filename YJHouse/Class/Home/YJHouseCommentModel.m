@@ -23,7 +23,8 @@
              @"username":@"username",
              @"height":@"height",
              @"good":@"good",
-             @"bad":@"bad"
+             @"bad":@"bad",
+             @"eva":@"eva"
              };
 }
 

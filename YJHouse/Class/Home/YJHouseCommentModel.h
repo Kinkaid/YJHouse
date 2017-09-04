@@ -22,5 +22,6 @@
 @property (nonatomic,assign) CGFloat height;
 @property (nonatomic,assign) id good;
 @property (nonatomic,assign) id bad;
+@property (nonatomic,assign) id eva;
 
 @end

@@ -64,6 +64,11 @@
     [self.delegate sectionHeaderAction:self.section];
 }
 - (void)showDataWithModel:(YJHouseCommentModel *)model {
+    if ([model.eva boolValue]) {
+        _favBtn.selected = YES;
+    } else {
+        _favBtn.selected = NO;
+    }
     [_favBtn setTitle:[NSString stringWithFormat:@"%d",[model.good intValue]] forState:UIControlStateNormal];
     _favBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     CGSize size = [[NSString stringWithFormat:@"%d",[model.good intValue]] sizeWithAttributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12]}];

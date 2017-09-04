@@ -326,14 +326,18 @@ static NSString * const kYJHeaderId = @"header";
 }
 - (void)commentLikeAction:(UIButton *)sender section:(NSInteger)section{
     self.selectModel = self.commentAry[section][0];
-    if (ISEMPTY(self.selectModel.commentID)) {
+    if (ISEMPTY(self.selectModel.commentID)||[self.selectModel.eva boolValue]) {
         return;
     }
     [[NetworkTool sharedTool]requestWithURLString:[NSString stringWithFormat:@"%@/user/evaluate-comment",Server_url] parameters:@{@"id":self.selectModel.commentID,@"eva":@"1",@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject[@"error"])) {
+            [YJApplicationUtil alertHud:responseObject[@"error"] afterDelay:1];
+            return ;
+        }
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             self.selectModel.good = [NSString stringWithFormat:@"%d",[self.selectModel.good intValue]+1];
+            self.selectModel.eva = @(1);
             [self.tableView reloadSections:[[NSIndexSet alloc]initWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
-            sender.selected = YES;
         }
     } error:^(NSError *error) {
     }];
@@ -357,11 +361,16 @@ static NSString * const kYJHeaderId = @"header";
         case 2:
         {
             self.selectModel = self.commentAry[self.selectSelection][0];
-            if (ISEMPTY(self.selectModel.commentID)) {
+            if (ISEMPTY(self.selectModel.commentID)||[self.selectModel.eva boolValue]) {
                 [self.popupManager dismiss:NO];
                 return;
             }
             [[NetworkTool sharedTool]requestWithURLString:[NSString stringWithFormat:@"%@/user/evaluate-comment",Server_url] parameters:@{@"id":self.selectModel.commentID,@"eva":@"1",@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+                if (!ISEMPTY(responseObject[@"error"])) {
+                    [YJApplicationUtil alertHud:responseObject[@"error"] afterDelay:1];
+                    [self.popupManager dismiss:NO];
+                    return ;
+                }
                 if ([responseObject[@"result"] isEqualToString:@"success"]) {
                     [self.likeBtn setTitle:[NSString stringWithFormat:@"顶 (%d)",[self.selectModel.good intValue]+1] forState:UIControlStateNormal];
                     [self.popupManager dismiss:NO];
@@ -375,14 +384,20 @@ static NSString * const kYJHeaderId = @"header";
         case 3:
         {
             self.selectModel = self.commentAry[self.selectSelection][0];
-            if (ISEMPTY(self.selectModel.commentID)) {
+            if (ISEMPTY(self.selectModel.commentID) || [[self.selectModel.eva stringValue] isEqualToString:@"0"] || [self.selectModel.eva boolValue]) {
                 [self.popupManager dismiss:NO];
                 return;
             }
             [[NetworkTool sharedTool]requestWithURLString:[NSString stringWithFormat:@"%@/user/evaluate-comment",Server_url] parameters:@{@"id":self.selectModel.commentID,@"eva":@"0",@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+                if (!ISEMPTY(responseObject[@"error"])) {
+                    [YJApplicationUtil alertHud:responseObject[@"error"] afterDelay:1];
+                    [self.popupManager dismiss:NO];
+                    return ;
+                }
                 if ([responseObject[@"result"] isEqualToString:@"success"]) {
                         [self.dislikeBtn setTitle:[NSString stringWithFormat:@"踩 (%d)",[self.selectModel.bad intValue]+1] forState:UIControlStateNormal];
                     self.selectModel.bad = [NSString stringWithFormat:@"%d",[self.selectModel.bad intValue]+1];
+                    self.selectModel.eva = @(0);
                     [self.popupManager dismiss:NO];
                     [self.tableView reloadSections:[[NSIndexSet alloc]initWithIndex:self.selectSelection] withRowAnimation:UITableViewRowAnimationAutomatic];
                 }
