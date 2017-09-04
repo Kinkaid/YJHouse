@@ -105,41 +105,43 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             [SVProgressHUD dismiss];
             [weakSelf.zufangPrivateAry removeAllObjects];
             [weakSelf.ershouPrivateAry removeAllObjects];
-            for (int i=0; i<[responseObject[@"result"][@"weight_ershou"] count]; i++) {
-                YJPrivateModel *ershouModel = [MTLJSONAdapter modelOfClass:[YJPrivateModel class] fromJSONDictionary:responseObject[@"result"][@"weight_ershou"][i] error:nil];
-                [weakSelf.regionDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-                    if ([obj integerValue] == [ershouModel.region1_id integerValue]) {
-                        ershouModel.region1_name = key;
+            if (ISEMPTY(responseObject[@"error"])) {
+                for (int i=0; i<[responseObject[@"result"][@"weight_ershou"] count]; i++) {
+                    YJPrivateModel *ershouModel = [MTLJSONAdapter modelOfClass:[YJPrivateModel class] fromJSONDictionary:responseObject[@"result"][@"weight_ershou"][i] error:nil];
+                    [weakSelf.regionDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                        if ([obj integerValue] == [ershouModel.region1_id integerValue]) {
+                            ershouModel.region1_name = key;
+                        }
+                        if ([obj integerValue] == [ershouModel.region2_id integerValue]) {
+                            ershouModel.region2_name = key;
+                        }
+                    }];
+                    if ([ershouModel.privateId integerValue] == [[LJKHelper getErshouWeight_id] integerValue]) {
+                        ershouModel.selected = YES;
+                    } else {
+                        ershouModel.selected = NO;
                     }
-                    if ([obj integerValue] == [ershouModel.region2_id integerValue]) {
-                        ershouModel.region2_name = key;
-                    }
-                }];
-                if ([ershouModel.privateId integerValue] == [[LJKHelper getErshouWeight_id] integerValue]) {
-                    ershouModel.selected = YES;
-                } else {
-                    ershouModel.selected = NO;
+                    ershouModel.zufang = NO;
+                    [weakSelf.ershouPrivateAry addObject:ershouModel];
                 }
-                ershouModel.zufang = NO;
-                [weakSelf.ershouPrivateAry addObject:ershouModel];
-            }
-            for (int j=0; j<[responseObject[@"result"][@"weight_zufang"] count]; j++) {
-                YJPrivateModel *zufangModel = [MTLJSONAdapter modelOfClass:[YJPrivateModel class] fromJSONDictionary:responseObject[@"result"][@"weight_zufang"][j] error:nil];
-                [weakSelf.regionDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-                    if ([obj integerValue] == [zufangModel.region1_id integerValue]) {
-                        zufangModel.region1_name = key;
+                for (int j=0; j<[responseObject[@"result"][@"weight_zufang"] count]; j++) {
+                    YJPrivateModel *zufangModel = [MTLJSONAdapter modelOfClass:[YJPrivateModel class] fromJSONDictionary:responseObject[@"result"][@"weight_zufang"][j] error:nil];
+                    [weakSelf.regionDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                        if ([obj integerValue] == [zufangModel.region1_id integerValue]) {
+                            zufangModel.region1_name = key;
+                        }
+                        if ([obj integerValue] == [zufangModel.region2_id integerValue]) {
+                            zufangModel.region2_name = key;
+                        }
+                    }];
+                    if ([zufangModel.privateId integerValue] == [[LJKHelper getZufangWeight_id] integerValue]) {
+                        zufangModel.selected = YES;
+                    } else {
+                        zufangModel.selected = NO;
                     }
-                    if ([obj integerValue] == [zufangModel.region2_id integerValue]) {
-                        zufangModel.region2_name = key;
-                    }
-                }];
-                if ([zufangModel.privateId integerValue] == [[LJKHelper getZufangWeight_id] integerValue]) {
-                    zufangModel.selected = YES;
-                } else {
-                    zufangModel.selected = NO;
+                    zufangModel.zufang = YES;
+                    [weakSelf.zufangPrivateAry addObject:zufangModel];
                 }
-                zufangModel.zufang = YES;
-                [weakSelf.zufangPrivateAry addObject:zufangModel];
             }
             [weakSelf.tableView reloadData];
             [weakSelf.tableView.mj_header endRefreshing];

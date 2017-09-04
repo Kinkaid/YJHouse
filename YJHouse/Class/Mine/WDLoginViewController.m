@@ -37,7 +37,7 @@
                onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
          {
              if (state == SSDKResponseStateSuccess) {
-                 NSDictionary *params = @{@"type":@"1",@"tuid":user.uid,@"content":@{@"nickname":user.nickname,@"icon":user.icon},@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+                 NSDictionary *params = @{@"type":@"1",@"tuid":user.uid,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
                  [self thirdLogin:params nick:user.nickname icon:user.icon];
              } else {
                  [YJApplicationUtil alertHud:@"QQ授权失败，请重新尝试" afterDelay:1];
@@ -66,27 +66,83 @@
 }
 - (void)thirdLogin:(NSDictionary *)params nick:(NSString *)nick icon:(NSString *)icon {
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:params method:POST callBack:^(id responseObject) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"third_login_success"];
-        [LJKHelper saveUserName:nick];
-        [LJKHelper saveUserHeader:icon];
         [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+        if (!ISEMPTY(responseObject[@"result"][@"weight_ershou"])) {
+            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_ershou"][0][@"id"]];
+        }
+        if (!ISEMPTY(responseObject[@"result"][@"weight_zufang"])) {
+            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_zufang"][0][@"id"]];
+        }
+        [self saveNickName:nick];
+        [self postHeaderImg:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:icon]]]];
+        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"third_login_success"];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } error:^(NSError *error) {
-        
     }];
 }
 
 - (IBAction)loginAction:(id)sender {
+    if (ISEMPTY(self.accountTF.text)||ISEMPTY(self.pwTF.text)) {
+        return;
+    }
     NSDictionary *params = @{@"email":self.accountTF.text,@"password":self.pwTF.text,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:params method:POST callBack:^(id responseObject) {
+    [SVProgressHUD show];
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/user-info",Server_url] parameters:params method:POST callBack:^(id responseObject) {
+        [SVProgressHUD dismiss];
         [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"third_login_success"];
-        [LJKHelper saveUserName:[NSString stringWithFormat:@"yj_%@",responseObject[@"result"][@"user_info"][@"username"]]];
+        if (!ISEMPTY(responseObject[@"result"][@"weight_ershou"])) {
+            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_ershou"][0][@"id"]];
+        }
+        if (!ISEMPTY(responseObject[@"result"][@"weight_zufang"])) {
+            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_zufang"][0][@"id"]];
+        }
         [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+        [LJKHelper saveUserName:[NSString stringWithFormat:@"yj_%@",responseObject[@"result"][@"user_info"][@"username"]]];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    } error:^(NSError *error) {
+        [SVProgressHUD dismiss];
+    }];
+}
+- (void)saveNickName:(NSString *)nickName {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-nickname",Server_url] parameters:@{@"nickname":nickName,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        if (responseObject[@"result"]) {
+            [LJKHelper saveUserName:nickName];
+        }
     } error:^(NSError *error) {
         
     }];
 }
+- (void)postHeaderImg:(UIImage *)image {
+    [SVProgressHUD showWithStatus:@"正在上传"];
+    AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
+    sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"multipart/form-data",
+                                                                @"text/html",
+                                                                @"image/jpeg",
+                                                                @"image/png",
+                                                                @"application/octet-stream",
+                                                                @"text/json",
+                                                                nil];
+    [sessionManager POST:[NSString stringWithFormat:@"%@/user/set-avatar",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key]} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        // 上传文件
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *str = [formatter stringFromDate:[NSDate date]];
+        NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+        
+        [formData appendPartWithFileData:imageData name:@"avatar_image" fileName:fileName mimeType:@"image/jpg"];
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (responseObject) {
+            [SVProgressHUD showSuccessWithStatus:@"上传成功"];
+            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+    }];
+}
+
 - (IBAction)ForgetPWAction:(id)sender {
     YJRegisterViewController *vc = [[YJRegisterViewController alloc] init];
     vc.isForgetPW = YES;

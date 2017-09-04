@@ -19,9 +19,9 @@
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = [UIColor whiteColor];
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(13, 0, APP_SCREEN_WIDTH - 26, 1)];
-        lineView.backgroundColor = [UIColor ex_colorFromHexRGB:@"D7D7D7"];
-        [self addSubview:lineView];
+//        _lineView = [[UIView alloc] initWithFrame:CGRectMake(13, self.frame.size.height - 1, APP_SCREEN_WIDTH - 26, 1)];
+//        _lineView.backgroundColor = [UIColor ex_colorFromHexRGB:@"D7D7D7"];
+//        [self addSubview:_lineView];
         _headerImg = [[UIImageView alloc] initWithFrame:CGRectMake(16, 23, 42, 42)];
         _headerImg.userInteractionEnabled = YES;
         _headerImg.image = [UIImage imageNamed:@"icon_header_8"];
@@ -34,12 +34,11 @@
         [self addSubview:_nickLabel];
         _favBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _favBtn.frame = CGRectMake(APP_SCREEN_WIDTH - 100, 26, 80, 20);
-//        [_favBtn setTitle:[NSString stringWithFormat:@"888"] forState:UIControlStateNormal];
-//        [_favBtn setTitle:[NSString stringWithFormat:@"889"] forState:UIControlStateSelected];
+        
         [_favBtn setImage:[UIImage imageNamed:@"icon_comment_diszan"] forState:UIControlStateNormal];
         [_favBtn setImage:[UIImage imageNamed:@"icon_comment_zan"] forState:UIControlStateSelected];
         [_favBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"888888"] forState:UIControlStateNormal];
-        [_favBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 60, 0, 0)];
+        [_favBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 60, 4, 0)];
         [_favBtn addTarget:self action:@selector(zanAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_favBtn];
         _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 51, 200, 13)];
@@ -65,11 +64,10 @@
     [self.delegate sectionHeaderAction:self.section];
 }
 - (void)showDataWithModel:(YJHouseCommentModel *)model {
-    [_favBtn setTitle:[NSString stringWithFormat:@"%@",model.good] forState:UIControlStateNormal];
-    [_favBtn setTitle:[NSString stringWithFormat:@"%d",[model.good intValue] +1] forState:UIControlStateSelected];
+    [_favBtn setTitle:[NSString stringWithFormat:@"%d",[model.good intValue]] forState:UIControlStateNormal];
     _favBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    CGSize size = [[NSString stringWithFormat:@"%@",model.good] sizeWithAttributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12]}];
-    [_favBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 6 - size.width, 0, 0)];
+    CGSize size = [[NSString stringWithFormat:@"%d",[model.good intValue]] sizeWithAttributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+    [_favBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 16 - size.width, 0, 0)];
     _content.frame = CGRectMake(75, 80, APP_SCREEN_WIDTH - 95, model.height);
     _nickLabel.text = model.username;
     _content.text = model.comment;

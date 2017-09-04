@@ -14,7 +14,7 @@
 #import "YJAddressView.h"
 #import "YJPriceView.h"
 #import "YJSortView.h"
-#import "YJFirstStepViewController.h"
+#import "YJSecondStepViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
 static NSString *const houseTypeKey = @"houseTypeKey";
 @interface YJLowPriceViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate,YJRequestTimeoutDelegate>
@@ -271,9 +271,11 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:houseTypeKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }  else {
-            YJFirstStepViewController *vc = [[YJFirstStepViewController alloc] init];
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = YES;
+            vc.showBackBtn = YES;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-            vc.firstEnter = NO;
             [self presentViewController:nav animated:YES completion:nil];
             return;
         }
@@ -293,9 +295,11 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:houseTypeKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
         } else {
-            YJFirstStepViewController *vc = [[YJFirstStepViewController alloc] init];
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = NO;
+            vc.showBackBtn = YES;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-            vc.firstEnter = NO;
             [self presentViewController:nav animated:YES completion:nil];
             return;
         }

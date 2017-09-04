@@ -547,11 +547,7 @@
     }];
 }
 - (IBAction)shareAction:(id)sender {
-//    [self shareFriendWithImg:[LJKHelper imageFromView:self.view]];
-    YJHouseCommentViewController *vc = [[YJHouseCommentViewController alloc] init];
-    vc.house_id = self.house_id;
-    vc.site_id = self.site_id;
-    PushController(vc);
+    [self shareFriendWithImg:[LJKHelper imageFromView:self.view]];
 }
 -(void)shareFriendWithImg:(UIImage *)shareImg {
     UIActivityViewController *activityViewController =[[UIActivityViewController alloc] initWithActivityItems:@[shareImg] applicationActivities:nil];
@@ -620,6 +616,13 @@
         
     }];
 }
+- (IBAction)commentAction:(id)sender {
+    YJHouseCommentViewController *vc = [[YJHouseCommentViewController alloc] init];
+    vc.house_id = self.house_id;
+    vc.site_id = self.site_id;
+    PushController(vc);
+}
+
 - (IBAction)openUrl:(id)sender {
     YJWebViewController *vc = [[YJWebViewController alloc] init];
     vc.url = self.houseModel.page;

@@ -92,7 +92,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="195" height="46"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rvF-BK-oLJ">
-                                    <rect key="frame" x="0.0" y="13" width="97.5" height="20"/>
+                                    <rect key="frame" x="0.0" y="14.5" width="97.5" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="  0%" image="icon_you">
                                         <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
@@ -102,7 +102,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6BN-fq-nWR">
-                                    <rect key="frame" x="97.5" y="12.5" width="97.5" height="22"/>
+                                    <rect key="frame" x="97.5" y="15" width="97.5" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="  0" image="icon_dislike">
                                         <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
@@ -811,7 +811,7 @@
         <image name="icon_addrepic" width="140" height="20"/>
         <image name="icon_agree" width="36" height="37"/>
         <image name="icon_disagree" width="36" height="37"/>
-        <image name="icon_dislike" width="23" height="22"/>
+        <image name="icon_dislike" width="18" height="17"/>
         <image name="icon_gotoBuy" width="167" height="46"/>
         <image name="icon_homeheader" width="375" height="246"/>
         <image name="icon_location" width="19" height="19"/>
@@ -822,7 +822,7 @@
         <image name="icon_xq_scholl" width="46" height="28"/>
         <image name="icon_xq_shop" width="38" height="29"/>
         <image name="icon_xq_transport" width="36" height="37"/>
-        <image name="icon_you" width="21" height="20"/>
+        <image name="icon_you" width="18" height="17"/>
         <image name="white_back_icon" width="12" height="20"/>
     </resources>
 </document>

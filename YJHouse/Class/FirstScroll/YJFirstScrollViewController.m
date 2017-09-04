@@ -28,11 +28,15 @@
     for (int i=0; i<imgAry.count; i++) {
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH *i, 0, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT)];
         img.image = [UIImage imageNamed:imgAry[i]];
+        img.userInteractionEnabled = YES;
         [self.scrollView addSubview:img];
         if (i == imgAry.count-1) {
-            UIControl *btn = [[UIControl alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 2 - 60, APP_SCREEN_HEIGHT - 160, 120, 160)];
-            btn.backgroundColor = [UIColor clearColor];
-            img.userInteractionEnabled = YES;
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 2 - 60, APP_SCREEN_HEIGHT - 120, 120, 36)];
+            btn.layer.cornerRadius = 18;
+            btn.backgroundColor = MainColor;
+            [btn setTitle:@"立即体验" forState:UIControlStateNormal];
+            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            btn.titleLabel.font = [UIFont systemFontOfSize:15];
             [img addSubview:btn];
             [btn addTarget:self action:@selector(clickEnter) forControlEvents:UIControlEventTouchUpInside];
         }

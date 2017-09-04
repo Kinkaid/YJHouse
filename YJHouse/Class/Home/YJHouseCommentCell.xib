@@ -18,8 +18,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I3D-y9-u4t">
+                        <rect key="frame" x="75" y="0.0" width="235" height="43.5"/>
+                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhn-1j-5FN">
-                        <rect key="frame" x="75" y="0.0" width="225" height="43.5"/>
+                        <rect key="frame" x="85" y="0.0" width="215" height="43.5"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -28,9 +32,13 @@
                 </subviews>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
-                    <constraint firstItem="Yhn-1j-5FN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="75" id="CyN-zN-sEQ"/>
+                    <constraint firstItem="I3D-y9-u4t" firstAttribute="bottom" secondItem="Yhn-1j-5FN" secondAttribute="bottom" id="4ZF-O4-doX"/>
+                    <constraint firstItem="I3D-y9-u4t" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="75" id="6ob-1f-1ct"/>
+                    <constraint firstItem="Yhn-1j-5FN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="85" id="CyN-zN-sEQ"/>
+                    <constraint firstAttribute="trailing" secondItem="I3D-y9-u4t" secondAttribute="trailing" constant="10" id="MSv-KO-UQC"/>
                     <constraint firstItem="Yhn-1j-5FN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="WIb-Db-o2C"/>
                     <constraint firstAttribute="bottom" secondItem="Yhn-1j-5FN" secondAttribute="bottom" id="fre-pm-ohg"/>
+                    <constraint firstItem="I3D-y9-u4t" firstAttribute="top" secondItem="Yhn-1j-5FN" secondAttribute="top" id="hTi-Mu-H4O"/>
                     <constraint firstAttribute="trailing" secondItem="Yhn-1j-5FN" secondAttribute="trailing" constant="20" id="wZg-wv-ixd"/>
                 </constraints>
             </tableViewCellContentView>

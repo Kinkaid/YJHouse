@@ -35,7 +35,7 @@
         return;
     }
     [SVProgressHUD show];
-    NSDictionary *params = @{@"email":self.emailTextField.text};
+    NSDictionary *params = @{@"email":self.emailTextField.text,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
             if ([responseObject[@"result"] isKindOfClass:[NSArray class]]) {

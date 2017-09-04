@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -108,7 +108,7 @@
                             </connections>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="直达链接" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="59V-OK-bnQ">
-                            <rect key="frame" x="287" y="12" width="78" height="23"/>
+                            <rect key="frame" x="287" y="13.5" width="78" height="23"/>
                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -117,18 +117,34 @@
                             <rect key="frame" x="0.0" y="0.0" width="235" height="46"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BAN-2H-udr">
-                                    <rect key="frame" x="0.0" y="13" width="78.5" height="20"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title=" 0%" image="icon_you">
+                                    <rect key="frame" x="0.0" y="13" width="59" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="20" id="ckP-9V-aKU"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-4"/>
+                                    <state key="normal" title="0%" image="icon_you">
                                         <color key="titleColor" red="0.48627450980392156" green="0.51372549019607838" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="toSelectAction:" destination="-1" eventType="touchUpInside" id="sxv-8f-cJ1"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAa-av-Swa">
+                                    <rect key="frame" x="58.5" y="13" width="59" height="20"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-4"/>
+                                    <state key="normal" title="0" image="icon_dislike">
+                                        <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="collectionAction:" destination="-1" eventType="touchUpInside" id="AbS-Q4-9rM"/>
+                                    </connections>
+                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JDC-pY-ij3">
-                                    <rect key="frame" x="156.5" y="13" width="78.5" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <rect key="frame" x="118" y="13.5" width="58.5" height="20"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-4"/>
                                     <state key="normal" title=" 分享" image="icon_share">
                                         <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -136,27 +152,34 @@
                                         <action selector="shareAction:" destination="-1" eventType="touchUpInside" id="63g-fZ-h0r"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAa-av-Swa">
-                                    <rect key="frame" x="78.5" y="12.5" width="78" height="22"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title=" 0" image="icon_dislike">
-                                        <color key="titleColor" red="0.48627450979999998" green="0.51372549020000002" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2K-zl-bm2">
+                                    <rect key="frame" x="176.5" y="13.5" width="58.5" height="20"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-4"/>
+                                    <state key="normal" title=" 评论" image="icon_comment">
+                                        <color key="titleColor" red="0.48627450980392156" green="0.51372549019607838" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="collectionAction:" destination="-1" eventType="touchUpInside" id="AbS-Q4-9rM"/>
+                                        <action selector="commentAction:" destination="-1" eventType="touchUpInside" id="8xR-PY-9eq"/>
                                     </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="k2K-zl-bm2" firstAttribute="centerY" secondItem="JDC-pY-ij3" secondAttribute="centerY" id="05c-2f-SSu"/>
                                 <constraint firstItem="JDC-pY-ij3" firstAttribute="width" secondItem="NAa-av-Swa" secondAttribute="width" id="7wh-d5-NnV"/>
+                                <constraint firstItem="k2K-zl-bm2" firstAttribute="height" secondItem="JDC-pY-ij3" secondAttribute="height" id="FU2-mZ-DbL"/>
+                                <constraint firstItem="NAa-av-Swa" firstAttribute="height" secondItem="BAN-2H-udr" secondAttribute="height" id="OMH-pl-QbN"/>
                                 <constraint firstItem="NAa-av-Swa" firstAttribute="width" secondItem="BAN-2H-udr" secondAttribute="width" id="Pmk-NN-lCe"/>
+                                <constraint firstAttribute="trailing" secondItem="k2K-zl-bm2" secondAttribute="trailing" id="RJO-o0-nB4"/>
                                 <constraint firstItem="BAN-2H-udr" firstAttribute="centerY" secondItem="6gl-l2-Mwb" secondAttribute="centerY" id="Sp4-8K-vg1"/>
+                                <constraint firstItem="JDC-pY-ij3" firstAttribute="height" secondItem="NAa-av-Swa" secondAttribute="height" id="Xvu-ip-UIg"/>
+                                <constraint firstItem="k2K-zl-bm2" firstAttribute="leading" secondItem="JDC-pY-ij3" secondAttribute="trailing" id="but-4H-wR4"/>
                                 <constraint firstItem="BAN-2H-udr" firstAttribute="leading" secondItem="6gl-l2-Mwb" secondAttribute="leading" id="gUB-nU-hxk"/>
+                                <constraint firstItem="k2K-zl-bm2" firstAttribute="width" secondItem="JDC-pY-ij3" secondAttribute="width" id="gl2-ev-LX5"/>
                                 <constraint firstItem="JDC-pY-ij3" firstAttribute="leading" secondItem="NAa-av-Swa" secondAttribute="trailing" id="nct-Oc-Lb6"/>
                                 <constraint firstItem="NAa-av-Swa" firstAttribute="centerY" secondItem="BAN-2H-udr" secondAttribute="centerY" id="ohd-Pt-Xgb"/>
                                 <constraint firstItem="JDC-pY-ij3" firstAttribute="centerY" secondItem="NAa-av-Swa" secondAttribute="centerY" id="sGT-U4-yX5"/>
-                                <constraint firstAttribute="trailing" secondItem="JDC-pY-ij3" secondAttribute="trailing" id="sX3-bu-VS8"/>
                                 <constraint firstItem="NAa-av-Swa" firstAttribute="leading" secondItem="BAN-2H-udr" secondAttribute="trailing" id="tnA-KQ-5qA"/>
                             </constraints>
                         </view>
@@ -208,7 +231,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="TOU-JI-rwU" secondAttribute="bottom" id="27e-TJ-9Yg"/>
-                        <constraint firstItem="6gl-l2-Mwb" firstAttribute="top" secondItem="Lhv-qg-3sX" secondAttribute="top" id="3Yb-n7-zul"/>
+                        <constraint firstItem="6gl-l2-Mwb" firstAttribute="top" secondItem="Lhv-qg-3sX" secondAttribute="top" constant="0.10000000000000001" id="3Yb-n7-zul"/>
                         <constraint firstItem="7bU-QW-1gP" firstAttribute="trailing" secondItem="TOU-JI-rwU" secondAttribute="trailing" id="A0B-MV-xUM"/>
                         <constraint firstItem="7bU-QW-1gP" firstAttribute="bottom" secondItem="TOU-JI-rwU" secondAttribute="bottom" constant="1" id="EV8-Ah-tBr"/>
                         <constraint firstAttribute="trailing" secondItem="LSV-jE-v6S" secondAttribute="trailing" id="Kmz-QD-Yfn"/>
@@ -219,7 +242,7 @@
                         <constraint firstItem="ZQm-ZE-BCo" firstAttribute="leading" secondItem="Lhv-qg-3sX" secondAttribute="leading" id="Tm5-cD-I0i"/>
                         <constraint firstItem="LSV-jE-v6S" firstAttribute="leading" secondItem="Lhv-qg-3sX" secondAttribute="leading" id="V9t-S9-63a"/>
                         <constraint firstItem="TOU-JI-rwU" firstAttribute="leading" secondItem="ZQm-ZE-BCo" secondAttribute="trailing" id="W4Z-5o-QVJ"/>
-                        <constraint firstItem="59V-OK-bnQ" firstAttribute="centerY" secondItem="TOU-JI-rwU" secondAttribute="centerY" id="fIJ-gs-vFO"/>
+                        <constraint firstItem="59V-OK-bnQ" firstAttribute="centerY" secondItem="TOU-JI-rwU" secondAttribute="centerY" constant="2" id="fIJ-gs-vFO"/>
                         <constraint firstItem="7bU-QW-1gP" firstAttribute="leading" secondItem="TOU-JI-rwU" secondAttribute="leading" id="fcp-8U-Ild"/>
                         <constraint firstItem="ZQm-ZE-BCo" firstAttribute="top" secondItem="Lhv-qg-3sX" secondAttribute="top" constant="46" id="iuz-dc-UeK"/>
                         <constraint firstItem="59V-OK-bnQ" firstAttribute="trailing" secondItem="TOU-JI-rwU" secondAttribute="trailing" constant="-10" id="iy4-6C-TMk"/>
@@ -1089,14 +1112,15 @@
     <resources>
         <image name="icon_addrepic" width="140" height="20"/>
         <image name="icon_agree" width="36" height="37"/>
+        <image name="icon_comment" width="18" height="17"/>
         <image name="icon_disagree" width="36" height="37"/>
-        <image name="icon_dislike" width="23" height="22"/>
+        <image name="icon_dislike" width="18" height="17"/>
         <image name="icon_gotoBuy" width="167" height="46"/>
         <image name="icon_homeBetter" width="68" height="66"/>
         <image name="icon_location" width="19" height="19"/>
         <image name="icon_price" width="19" height="19"/>
-        <image name="icon_share" width="20" height="21"/>
-        <image name="icon_you" width="21" height="20"/>
+        <image name="icon_share" width="18" height="17"/>
+        <image name="icon_you" width="18" height="17"/>
         <image name="white_back_icon" width="12" height="20"/>
     </resources>
 </document>

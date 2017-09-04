@@ -7,11 +7,10 @@
 //
 
 #import "YJReportAndFeedbackViewController.h"
-
+#import "WDLoginViewController.h"
 @interface YJReportAndFeedbackViewController ()<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tipsLabel;
 @property (weak, nonatomic) IBOutlet UITextView *otherReasonTextView;
-
 @end
 
 @implementation YJReportAndFeedbackViewController
@@ -39,43 +38,48 @@
     }];
 }
 - (void)commitAction {
-    NSMutableArray *reasonAry = [@[] mutableCopy];
-    for (int i= 1; i<=5; i++) {
-        UIButton *button = [self.view viewWithTag:i];
-        if (button.selected ==  YES) {
-            [reasonAry addObject:button.titleLabel.text];
-        }
-    }
-    if (reasonAry.count == 0 &&ISEMPTY(self.otherReasonTextView.text)) {
-        return;
-    }
-    NSMutableString *reasonStr = [@"" mutableCopy];
-    if (!ISEMPTY(reasonAry)) {
-        for (int i=0; i<reasonAry.count; i++) {
-            [reasonStr stringByAppendingString:reasonAry[i]];
-        }
-    }
-    if (!ISEMPTY(self.otherReasonTextView.text)) {
-        [reasonStr stringByAppendingString:self.otherReasonTextView.text];
-    }
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/report",Server_url] parameters:@{@"site":self.site,@"id":self.ID,@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
-        if (!ISEMPTY(responseObject[@"result"])) {
-            if ([responseObject[@"result"] isEqualToString:@"success"]) {
-                [YJApplicationUtil alertHud:@"举报成功" afterDelay:1];
-                [self.navigationController popViewControllerAnimated:YES];
+    if ([LJKHelper thirdLoginSuccess]) {
+        NSMutableArray *reasonAry = [@[] mutableCopy];
+        for (int i= 1; i<=5; i++) {
+            UIButton *button = [self.view viewWithTag:i];
+            if (button.selected ==  YES) {
+                [reasonAry addObject:button.titleLabel.text];
             }
         }
-    } error:^(NSError *error) {
-        
-    }];
-    
+        if (reasonAry.count == 0 &&ISEMPTY(self.otherReasonTextView.text)) {
+            return;
+        }
+        NSMutableString *reasonStr = [@"" mutableCopy];
+        if (!ISEMPTY(reasonAry)) {
+            for (int i=0; i<reasonAry.count; i++) {
+                [reasonStr stringByAppendingString:reasonAry[i]];
+            }
+        }
+        if (!ISEMPTY(self.otherReasonTextView.text)) {
+            [reasonStr stringByAppendingString:self.otherReasonTextView.text];
+        }
+        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/report",Server_url] parameters:@{@"site":self.site,@"id":self.ID,@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+            if (!ISEMPTY(responseObject[@"result"])) {
+                if ([responseObject[@"result"] isEqualToString:@"success"]) {
+                    [YJApplicationUtil alertHud:@"举报成功" afterDelay:1];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    } else {
+        WDLoginViewController *vc = [[WDLoginViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 - (IBAction)selectReasonAction:(id)sender {
     UIButton *btn = sender;
     btn.selected = !btn.selected;
     if (btn.selected) {
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"FFFFFF"] forState:UIControlStateSelected];
-        [btn setBackgroundColor:[UIColor ex_colorFromHexRGB:@"A746E8"]];
+        [btn setBackgroundColor:[UIColor ex_colorFromHexRGB:@"44A7FB"]];
     } else {
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"4A4949"] forState:UIControlStateNormal];
         [btn setBackgroundColor:[UIColor ex_colorFromHexRGB:@"F5F5F5"]];

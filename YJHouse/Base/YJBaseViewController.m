@@ -39,6 +39,7 @@
 - (UIButton *)backButton {
     if (!_backButton) {
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _backButton.frame = CGRectMake(0, 20, 44, 44);
         [_backButton setImage:[UIImage imageNamed:@"white_back_icon"] forState:UIControlStateNormal];
         [_backButton addTarget:self action:@selector(clickBackButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [self.navigationBar addSubview:_backButton];
