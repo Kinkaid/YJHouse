@@ -34,7 +34,7 @@
     } else {
         self.badgeView.hidden = YES;
     }
-    if ([_title.text isEqualToString:@"租房推荐"]) {
+    if ([_title.text isEqualToString:@"评论回复"]) {
         _lineView.hidden = YES;
     } else {
         _lineView.hidden = NO;

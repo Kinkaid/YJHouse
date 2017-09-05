@@ -32,9 +32,9 @@
 - (void)registerTableView {
     self.contentAry = [@[] mutableCopy];
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
-    NSArray * titleAry = @[@"二手房推荐",@"租房推荐",@"系统消息",@"反馈",@"举报"];
-    NSArray * contentAry = @[@"查看收藏二手房降价和收藏小区新房源的最新资讯",@"查看收藏租房降价和收藏小区新房源的最新资讯",@"查看系统更新提醒",@"查看反馈消息",@"查看举报消息"];
-    for (int i=0; i<5; i++) {
+    NSArray * titleAry = @[@"二手房推荐",@"租房推荐",@"系统消息",@"反馈",@"举报",@"评论回复"];
+    NSArray * contentAry = @[@"查看收藏二手房降价和收藏小区新房源的最新资讯",@"查看收藏租房降价和收藏小区新房源的最新资讯",@"查看系统更新提醒",@"查看反馈消息",@"查看举报消息",@"查看评论回复"];
+    for (int i=0; i<6; i++) {
         YJMsgModel *model = [[YJMsgModel alloc] init];
         model.content = contentAry[i];
         model.title = titleAry[i];
@@ -82,6 +82,11 @@
             case 4:
             {
                 vc.type = @"4";
+            }
+                break;
+            case 5:
+            {
+                vc.type = @"3";
             }
                 break;
             default:
