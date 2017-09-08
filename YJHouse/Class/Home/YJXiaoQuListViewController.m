@@ -185,7 +185,7 @@
     if (button.tag == 55) {
         self.sortTapLastTime = 55;
         if (self.addressView.hidden == YES) {
-            [button setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [button setTitleColor:MainColor forState:UIControlStateNormal];
             [UIView animateWithDuration:0.2 animations:^{
                 button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             }];
@@ -200,7 +200,7 @@
     } else if (button.tag == 56){
         self.sortTapLastTime = 56;
         if (self.priceView.hidden == YES) {
-            [button setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [button setTitleColor:MainColor forState:UIControlStateNormal];
             [UIView animateWithDuration:0.2 animations:^{
                 button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             }];
@@ -215,7 +215,7 @@
     } else if (button.tag == 57){
         self.sortTapLastTime = 57;
         if (self.sortView.hidden == YES) {
-            [button setTitleColor:[UIColor ex_colorFromHexRGB:@"A646E8"] forState:UIControlStateNormal];
+            [button setTitleColor:MainColor forState:UIControlStateNormal];
             [UIView animateWithDuration:0.2 animations:^{
                 button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
             }];
@@ -261,7 +261,7 @@
 #pragma mark - 区域
 - (void)addressTAPActionWithRegion:(NSString *)regionID andPlate:(NSString *)plateID {
     UIButton *btn = [self.view viewWithTag:55];
-    [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [btn setTitleColor:MainColor forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         btn.imageView.transform = CGAffineTransformMakeRotation(0);
     }];
@@ -275,7 +275,7 @@
 #pragma mark - 均价
 - (void)priceSortByTag:(NSInteger)tag {
     UIButton *btn = [self.view viewWithTag:56];
-    [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [btn setTitleColor:MainColor forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         btn.imageView.transform = CGAffineTransformMakeRotation(0);
     }];
@@ -326,7 +326,7 @@
 }
 - (void)priceSortWithMinPrice:(NSString *)minPrice maxPrice:(NSString *)maxPrice {
     UIButton *btn = [self.view viewWithTag:56];
-    [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [btn setTitleColor:MainColor forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         btn.imageView.transform = CGAffineTransformMakeRotation(0);
     }];
@@ -339,7 +339,7 @@
 #pragma mark - 排序
 - (void)sortByTag:(NSInteger)tag {
     UIButton *btn = [self.view viewWithTag:57];
-    [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"A746E8"] forState:UIControlStateNormal];
+    [btn setTitleColor:MainColor forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         btn.imageView.transform = CGAffineTransformMakeRotation(0);
     }];
@@ -365,13 +365,13 @@
         case 4:
         {
             self.sortKey = @"order[age]";
-            self.sortValue = @"0";
+            self.sortValue = @"1";
         }
             break;
         case 5:
         {
             self.sortKey = @"order[age]";
-            self.sortValue = @"1";
+            self.sortValue = @"0";
         }
             break;
         default:

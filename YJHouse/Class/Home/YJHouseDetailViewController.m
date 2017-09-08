@@ -374,16 +374,18 @@
     [managerTelStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 5)];
     self.managerTel.attributedText = managerTelStr;
     if (!ISEMPTY(self.houseModel.manager_tel)) {
-        UILongPressGestureRecognizer *callTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(callTap)];
-        callTap.minimumPressDuration = 1;
+        UITapGestureRecognizer *callTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callTap)];
+        self.managerTel.userInteractionEnabled = YES;
         [self.managerTel addGestureRecognizer:callTap];
     }
     NSMutableAttributedString *uidStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"房源编号:%@",ISEMPTY(self.houseModel.uid)?@"暂无":self.houseModel.uid]];
     [uidStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"BABABA"] range:NSMakeRange(0, 5)];
     self.uid.attributedText = uidStr;
     if (!ISEMPTY(self.houseModel.uid)) {
-        UITapGestureRecognizer *houseIdTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(copyHouseCode)];
-        [self.managerTel addGestureRecognizer:houseIdTap];
+        UILongPressGestureRecognizer *houseIdTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(copyHouseCode)];
+        houseIdTap.minimumPressDuration = 1;
+        self.uid.userInteractionEnabled = YES;
+        [self.uid addGestureRecognizer:houseIdTap];
     }
     self.addressLabel.text = [NSString stringWithFormat:@"      地址:%@-%@-%@",self.houseModel.region,self.houseModel.plate,self.xiaoquDetailModel.address];
     self.mapView = [[YJMapView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, 200)];
@@ -484,17 +486,14 @@
     [YJApplicationUtil alertHud:@"房源编号复制成功" afterDelay:1];
 }
 - (void)callTap {
-    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",self.houseModel.manager_tel];
-    //            NSLog(@"str======%@",str);
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"拨打电话:%@",self.houseModel.manager_tel] preferredStyle:UIAlertControllerStyleAlert];
-//    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//    }]];
-//    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        [UIApplication sharedApplication] openURL:<#(nonnull NSURL *)#>
-//
-//    }]];
-//    [self presentViewController:alertController animated:YES completion:nil];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"拨打电话:%@",self.houseModel.manager_tel] preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSMutableString *str=[[NSMutableString alloc] initWithFormat:@"tel:%@",self.houseModel.manager_tel];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 #pragma mark - IBActions
 - (IBAction)backAction:(id)sender {
@@ -502,7 +501,7 @@
 }
 - (IBAction)reportAction:(id)sender { //举报
     YJReportAndFeedbackViewController *vc = [[YJReportAndFeedbackViewController alloc] init];
-    vc.site = (NSString *)self.site_id;
+    vc.siteId = self.site_id;
     vc.ID = self.house_id;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -565,7 +564,6 @@
         [self presentViewController:activityViewController animated:TRUE completion:^{
         }];
     }
-    
 }
 - (IBAction)likeAction:(id)sender {
     UIView *bottonView = [self.view viewWithTag:10];

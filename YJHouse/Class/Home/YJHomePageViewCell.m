@@ -25,6 +25,8 @@
     __weak IBOutlet UIView *_reducePriceView;
     
     __weak IBOutlet UILabel *_reduceRatioLabel;
+    
+    __weak IBOutlet UILabel *_oldPrice;
 }
 
 - (void)awakeFromNib {
@@ -84,10 +86,15 @@
     if (ISEMPTY(model.topcut)) {
         _reducePriceView.hidden = YES;
         _score.hidden = NO;
+        _oldPrice.hidden = YES;
     } else {
         _reducePriceView.hidden = NO;
+        _oldPrice.hidden = NO;
         _score.hidden = YES;
-        _reduceRatioLabel.text = [NSString stringWithFormat:@"%.0f%%",[model.topcut floatValue] * (- 100)];
+        _reduceRatioLabel.text = [NSString stringWithFormat:@"%.1f%%",[model.topcut floatValue] * (- 100)];
+        NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f万",[model.total_price floatValue] / (1.0+[model.topcut floatValue])]];
+        [mStr setAttributes:@{NSStrikethroughStyleAttributeName: @(NSUnderlineStyleSingle), NSBaselineOffsetAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0,mStr.length)];
+        _oldPrice.attributedText = mStr;
     }
 }
 @end

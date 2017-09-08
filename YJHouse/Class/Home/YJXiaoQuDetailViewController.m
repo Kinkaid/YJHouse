@@ -303,6 +303,24 @@
 }
 
 - (IBAction)shareAction:(id)sender {
-    
+    [self shareFriendWithImg:[LJKHelper imageFromView:self.view]];
+}
+
+-(void)shareFriendWithImg:(UIImage *)shareImg {
+    UIActivityViewController *activityViewController =[[UIActivityViewController alloc] initWithActivityItems:@[shareImg] applicationActivities:nil];
+    //去除多余的分享模块
+    activityViewController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePrint,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList,UIActivityTypePostToFlickr,UIActivityTypePostToVimeo,UIActivityTypePostToTencentWeibo,UIActivityTypeOpenInIBooks];
+    //初始化Block回调方法,此回调方法是在iOS8之后出的，代替了之前的方法
+    UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError)
+    {
+        if (completed) {
+            [YJApplicationUtil alertHud:@"分享成功" afterDelay:1];
+        }
+    };
+    activityViewController.completionWithItemsHandler = myBlock;
+    if (activityViewController) {
+        [self presentViewController:activityViewController animated:TRUE completion:^{
+        }];
+    }
 }
 @end

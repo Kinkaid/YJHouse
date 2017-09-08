@@ -97,8 +97,9 @@
     if (ISEMPTY([LJKHelper getAuth_key])) {
         [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:@{@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]} method:POST callBack:^(id responseObject) {
             if (!ISEMPTY(responseObject) ||ISEMPTY(responseObject[@"result"])) {
-                [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
+               [LJKHelper saveUserName:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"user_info"][@"user_id"]]];
                 [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+                [LJKHelper saveUserID:responseObject[@"result"][@"user_info"][@"user_id"]];
                 [self submitUserPrivateCustom];
             }
         } error:^(NSError *error) {

@@ -28,18 +28,27 @@
 }
 
 - (void)commitAction {
-    if (self.nickTextField.text.length) {
-        [SVProgressHUD show];
-        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-nickname",Server_url] parameters:@{@"nickname":self.nickTextField.text,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
-            if (responseObject[@"result"]) {
-                [SVProgressHUD dismiss];
-                self.nBlock(self.nickTextField.text);
-                [LJKHelper saveUserName:self.nickTextField.text];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        } error:^(NSError *error) {
-            
-        }];
+    NSString *regex = @"[A-Za-z0-9\u4e00-\u9fa5]{1,12}";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    if ([pred evaluateWithObject:self.nickTextField.text]) {
+        if (![self.nickTextField.text containsString:@"回复"]) {
+            [SVProgressHUD show];
+            [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-nickname",Server_url] parameters:@{@"nickname":self.nickTextField.text,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+                if (responseObject[@"result"]) {
+                    [SVProgressHUD dismiss];
+                    self.nBlock(self.nickTextField.text);
+                    [LJKHelper saveUserName:self.nickTextField.text];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            } error:^(NSError *error) {
+                
+            }];
+        } else {
+            [YJApplicationUtil alertHud:@"昵称不能包含【回复】两字" afterDelay:1];
+        }
+    } else {
+        [self.nickTextField resignFirstResponder];
+        [YJApplicationUtil alertHud:@"昵称不符合要求" afterDelay:1];
     }
 }
 - (void)returnNickName:(nickBlock)block {

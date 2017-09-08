@@ -25,7 +25,15 @@
 }
 - (void)showDataWithModel:(YJHouseCommentModel *)model {
     NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc]initWithString:model.comment];
-    [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"44A7FB"] range:NSMakeRange(0,[[[model.comment componentsSeparatedByString:@":"] firstObject] length])];
+    NSString *nickToNick = [[model.comment componentsSeparatedByString:@":"] firstObject];
+    if ([nickToNick containsString:@"回复"]) {
+        NSArray *ary = [nickToNick componentsSeparatedByString:@"回复"];
+        [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"44A7FB"] range:NSMakeRange(0,[ary[0] length])];
+        [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"44A7FB"] range:NSMakeRange([ary[0] length]+2,[[ary lastObject] length])];
+    } else {
+        [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor ex_colorFromHexRGB:@"44A7FB"] range:NSMakeRange(0,nickToNick.length)];
+    }
+
     _contentLabel.attributedText = attributedStr;
 }
 @end

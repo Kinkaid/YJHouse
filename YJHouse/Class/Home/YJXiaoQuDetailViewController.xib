@@ -88,6 +88,13 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NiJ-gc-byB" customClass="UIControl">
+                            <rect key="frame" x="195" y="0.0" width="180" height="46"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="shareAction:" destination="-1" eventType="touchUpInside" id="2DU-FY-3Et"/>
+                            </connections>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5w5-Wa-18F">
                             <rect key="frame" x="0.0" y="0.0" width="195" height="46"/>
                             <subviews>
@@ -170,12 +177,16 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="9Op-iN-qnl" firstAttribute="trailing" secondItem="5w5-Wa-18F" secondAttribute="trailing" id="CN7-a7-YMu"/>
+                        <constraint firstItem="NiJ-gc-byB" firstAttribute="trailing" secondItem="4yM-gV-mVT" secondAttribute="trailing" id="CZF-4B-eci"/>
                         <constraint firstItem="4yM-gV-mVT" firstAttribute="top" secondItem="V6C-g7-Adn" secondAttribute="top" id="Fst-yg-nBw"/>
+                        <constraint firstItem="NiJ-gc-byB" firstAttribute="top" secondItem="4yM-gV-mVT" secondAttribute="top" id="HPx-oE-S48"/>
+                        <constraint firstItem="NiJ-gc-byB" firstAttribute="bottom" secondItem="4yM-gV-mVT" secondAttribute="bottom" id="Ifs-q3-m4a"/>
                         <constraint firstAttribute="trailing" secondItem="06e-3j-7RM" secondAttribute="trailing" id="J33-u0-Uty"/>
                         <constraint firstAttribute="bottom" secondItem="5w5-Wa-18F" secondAttribute="bottom" id="PR9-nh-FZk"/>
                         <constraint firstItem="06e-3j-7RM" firstAttribute="top" secondItem="V6C-g7-Adn" secondAttribute="top" id="UP2-T8-9uM"/>
                         <constraint firstItem="9Op-iN-qnl" firstAttribute="top" secondItem="V6C-g7-Adn" secondAttribute="top" constant="46" id="UWA-gp-UfB"/>
                         <constraint firstItem="Viw-yu-ii8" firstAttribute="trailing" secondItem="4yM-gV-mVT" secondAttribute="trailing" constant="-20" id="XFJ-6V-QWd"/>
+                        <constraint firstItem="NiJ-gc-byB" firstAttribute="leading" secondItem="4yM-gV-mVT" secondAttribute="leading" id="Ybb-AV-ZM0"/>
                         <constraint firstItem="9Op-iN-qnl" firstAttribute="leading" secondItem="V6C-g7-Adn" secondAttribute="leading" id="Zca-N4-bcO"/>
                         <constraint firstItem="Viw-yu-ii8" firstAttribute="centerY" secondItem="4yM-gV-mVT" secondAttribute="centerY" id="aCh-oQ-MXt"/>
                         <constraint firstItem="5w5-Wa-18F" firstAttribute="leading" secondItem="V6C-g7-Adn" secondAttribute="leading" id="g0x-kN-Gui"/>

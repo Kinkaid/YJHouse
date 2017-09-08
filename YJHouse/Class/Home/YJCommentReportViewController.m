@@ -33,7 +33,7 @@
     [btn addTarget:self action:@selector(confirmSend:) forControlEvents:UIControlEventTouchUpInside];
 }
 - (void)confirmSend:(UIButton*)sender {
-    NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"type":@"2",@"id":self.commentID,@"content":[self.commentTV.text hasPrefix:@"详细描述..."] ? @"":self.commentTV.text};
+    NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"user_id":[LJKHelper getUserID],@"type":@"2",@"id":self.commentID,@"content":[self.commentTV.text hasPrefix:@"详细描述..."] ? @"":self.commentTV.text};
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/report",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if ([responseObject[@"result"] isEqualToString:@"success"]) {
             [YJApplicationUtil alertHud:@"举报成功" afterDelay:1];

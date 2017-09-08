@@ -173,12 +173,12 @@
                 break;
             case 2:
             {
-//                self.shareView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 150);
-//                self.klcManager = [KLCPopup popupWithContentView:self.shareView];
-//                self.klcManager.showType = KLCPopupShowTypeSlideInFromBottom;
-//                self.klcManager.dismissType = KLCPopupDismissTypeSlideOutToBottom;
-//                [self.klcManager showAtCenter:CGPointMake(APP_SCREEN_WIDTH / 2.0, APP_SCREEN_HEIGHT - 75) inView:self.view];
-                [self shareFriendWithImg:[UIImage imageNamed:@"yj_download"]];
+                self.shareView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 150);
+                self.klcManager = [KLCPopup popupWithContentView:self.shareView];
+                self.klcManager.showType = KLCPopupShowTypeSlideInFromBottom;
+                self.klcManager.dismissType = KLCPopupDismissTypeSlideOutToBottom;
+                [self.klcManager showAtCenter:CGPointMake(APP_SCREEN_WIDTH / 2.0, APP_SCREEN_HEIGHT - 75) inView:self.view];
+//                [self shareFriendWithImg:[UIImage imageNamed:@"yj_download"]];
             }
                 break;
             case 3:
@@ -232,27 +232,27 @@
     switch (btn.tag) {
         case 11:
         {
-         [WDShareUtil shareTye:shareWXFriends withImageAry:@[[UIImage imageNamed:@"icon_agree"]] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试title" withContent:@"测试content"];
+         [WDShareUtil shareTye:shareWXFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         case 12:
         {
-            [WDShareUtil shareTye:shareWXzone withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试微信title" withContent:@"测试微信content"];
+            [WDShareUtil shareTye:shareWXzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         case 13:
         {
-             [WDShareUtil shareTye:shareQQFriends withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"高性价比房源信息" withContent:@"买房租房就上优家网"];
+             [WDShareUtil shareTye:shareQQFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         case 14:
         {
-             [WDShareUtil shareTye:shareQQzone withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试QQ分享title" withContent:@"测试QQ分享content"];
+             [WDShareUtil shareTye:shareQQzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         case 15:
         {
-            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[@"https://youjar.com/you/frontend/web/upload/images/avatar/2017/14968439912815121.jpg"] withUrl:@"https://youjar.com/you/frontend/web/share/home" withTitle:@"测试QQ分享title" withContent:@"测试QQ分享content"];
+            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         default:

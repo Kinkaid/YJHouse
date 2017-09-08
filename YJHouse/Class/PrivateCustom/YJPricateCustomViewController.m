@@ -106,6 +106,10 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             [weakSelf.zufangPrivateAry removeAllObjects];
             [weakSelf.ershouPrivateAry removeAllObjects];
             if (ISEMPTY(responseObject[@"error"])) {
+                [LJKHelper saveUserName:[NSString stringWithFormat:@"%@",ISEMPTY(responseObject[@"result"][@"user_info"][@"nickname"])?responseObject[@"result"][@"user_info"][@"username"]:responseObject[@"result"][@"user_info"][@"nickname"]]];
+                if (!ISEMPTY(responseObject[@"result"][@"user_info"][@"avatar"])) {
+                    [LJKHelper saveUserHeader:responseObject[@"result"][@"user_info"][@"avatar"]];
+                }
                 for (int i=0; i<[responseObject[@"result"][@"weight_ershou"] count]; i++) {
                     YJPrivateModel *ershouModel = [MTLJSONAdapter modelOfClass:[YJPrivateModel class] fromJSONDictionary:responseObject[@"result"][@"weight_ershou"][i] error:nil];
                     [weakSelf.regionDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {

@@ -67,6 +67,7 @@
 - (void)thirdLogin:(NSDictionary *)params nick:(NSString *)nick icon:(NSString *)icon {
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+        [LJKHelper saveUserID:responseObject[@"result"][@"user_info"][@"user_id"]];
         if (!ISEMPTY(responseObject[@"result"][@"weight_ershou"])) {
             [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_ershou"][0][@"id"]];
         }
@@ -75,7 +76,7 @@
         }
         [self saveNickName:nick];
         [self postHeaderImg:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:icon]]]];
-        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"third_login_success"];
+        [LJKHelper saveThirdLoginState];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } error:^(NSError *error) {
     }];
@@ -89,7 +90,7 @@
     [SVProgressHUD show];
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/user-info",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         [SVProgressHUD dismiss];
-        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"third_login_success"];
+        [LJKHelper saveThirdLoginState];
         if (!ISEMPTY(responseObject[@"result"][@"weight_ershou"])) {
             [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_ershou"][0][@"id"]];
         }
@@ -97,7 +98,8 @@
             [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_zufang"][0][@"id"]];
         }
         [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
-        [LJKHelper saveUserName:[NSString stringWithFormat:@"yj_%@",responseObject[@"result"][@"user_info"][@"username"]]];
+        [LJKHelper saveUserID:responseObject[@"result"][@"user_info"][@"user_id"]];
+        [LJKHelper saveUserName:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"user_info"][@"username"]]];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } error:^(NSError *error) {
         [SVProgressHUD dismiss];
@@ -113,7 +115,6 @@
     }];
 }
 - (void)postHeaderImg:(UIImage *)image {
-    [SVProgressHUD showWithStatus:@"正在上传"];
     AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
     sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"multipart/form-data",
                                                                 @"text/html",
@@ -133,7 +134,6 @@
         [formData appendPartWithFileData:imageData name:@"avatar_image" fileName:fileName mimeType:@"image/jpg"];
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {
-            [SVProgressHUD showSuccessWithStatus:@"上传成功"];
             [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
         } else {
             [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
@@ -153,20 +153,7 @@
     vc.isForgetPW = NO;
     PushController(vc);
 }
-- (NSString*)dataTojsonString:(id)object {
-    NSString *jsonString = @"{}";
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization
-                        dataWithJSONObject:object
-                        options:NSJSONWritingPrettyPrinted error:&error];
-    if (! jsonData) {
-        NSLog(@"Got an error: %@", error);
-    } else {
-        jsonString = [[NSString alloc] initWithData:jsonData
-                                           encoding:NSUTF8StringEncoding];
-    }
-    return jsonString;
-}
+
 - (IBAction)dismissAction:(id)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }

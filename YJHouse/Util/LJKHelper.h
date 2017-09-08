@@ -29,6 +29,8 @@
 + (NSString *)getZufangWeight_id;
 + (void)saveErshouWeight_id:(NSString *)weight_id;
 + (NSString *)getErshouWeight_id;
++ (void)saveUserID:(NSString *)userID;
++ (NSString *)getUserID;
 
 + (CGFloat)getDevicePlateform;
 
@@ -37,6 +39,7 @@
 
 + (UIImage*)imageFromView:(UIView*)view;
 
++ (void)saveThirdLoginState;
 + (BOOL)thirdLoginSuccess;
 
 

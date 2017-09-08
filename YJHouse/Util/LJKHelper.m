@@ -37,42 +37,52 @@
 }
 
 + (void)saveUserHeader:(NSString *)userHeaderUrl {
-    [[NSUserDefaults standardUserDefaults] setObject:userHeaderUrl forKey:@"userHeaderUrl"];
+    [[NSUserDefaults standardUserDefaults] setObject:userHeaderUrl forKey:@"yj_userHeaderUrl"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 + (NSString *)getUserHeaderUrl {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"userHeaderUrl"];
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"yj_userHeaderUrl"];
 }
 
 + (void)saveUserName:(NSString *)userName {
-    [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"yj_username"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 + (NSString *)getUserName {
-   return [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+   return [[NSUserDefaults standardUserDefaults] objectForKey:@"yj_username"];
 }
 + (void)saveAuth_key:(NSString *)auth_key {
-    [[NSUserDefaults standardUserDefaults] setObject:auth_key forKey:@"auth_key"];
+    [[NSUserDefaults standardUserDefaults] setObject:auth_key forKey:@"yj_auth_key"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 + (NSString *)getAuth_key {
-   return [[NSUserDefaults standardUserDefaults] objectForKey:@"auth_key"];
+   return [[NSUserDefaults standardUserDefaults] objectForKey:@"yj_auth_key"];
 }
 
 + (void)saveZufangWeight_id:(NSString *)weight_id {
-    [[NSUserDefaults standardUserDefaults] setObject:weight_id forKey:@"zufang_weight_id"];
+    [[NSUserDefaults standardUserDefaults] setObject:weight_id forKey:@"yj_zufang_weight_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 + (NSString *)getZufangWeight_id {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"zufang_weight_id"];
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"yj_zufang_weight_id"];
 }
 + (void)saveErshouWeight_id:(NSString *)weight_id {
-    [[NSUserDefaults standardUserDefaults] setObject:weight_id forKey:@"ershou_weight_id"];
+    [[NSUserDefaults standardUserDefaults] setObject:weight_id forKey:@"yj_ershou_weight_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 + (NSString *)getErshouWeight_id {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"ershou_weight_id"];
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"yj_ershou_weight_id"];
 }
+
++ (void)saveUserID:(NSString *)userID {
+    [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"yj_userID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (NSString *)getUserID {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"yj_userID"];
+}
+
+
 + (CGFloat)getDevicePlateform {
     NSInteger width = [UIScreen mainScreen].applicationFrame.size.width;
     if (width == 320) {
@@ -98,9 +108,12 @@
     UIGraphicsEndImageContext();
     return image;
 }
-
++ (void)saveThirdLoginState {
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"yj_third_login_success"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 + (BOOL)thirdLoginSuccess {
-    NSString *thridLoginTag = [[NSUserDefaults standardUserDefaults] objectForKey:@"third_login_success"];
+    NSString *thridLoginTag = [[NSUserDefaults standardUserDefaults] objectForKey:@"yj_third_login_success"];
     if ([thridLoginTag isEqualToString:@"1"]) {
         return YES;
     } else {
