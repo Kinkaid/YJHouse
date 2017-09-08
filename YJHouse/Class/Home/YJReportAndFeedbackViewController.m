@@ -58,7 +58,7 @@
         if (!ISEMPTY(self.otherReasonTextView.text)) {
             [reasonStr stringByAppendingString:self.otherReasonTextView.text];
         }
-        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/report",Server_url] parameters:@{@"site":self.site,@"id":self.ID,@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/report",Server_url] parameters:@{@"site":self.siteId,@"type":@"1",@"id":self.ID,@"content":reasonStr,@"auth_key":[LJKHelper getAuth_key],@"user_id":[LJKHelper getUserID]} method:POST callBack:^(id responseObject) {
             if (!ISEMPTY(responseObject[@"result"])) {
                 if ([responseObject[@"result"] isEqualToString:@"success"]) {
                     [YJApplicationUtil alertHud:@"举报成功" afterDelay:1];

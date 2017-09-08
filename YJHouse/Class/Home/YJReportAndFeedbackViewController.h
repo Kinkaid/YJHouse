@@ -10,7 +10,7 @@
 
 @interface YJReportAndFeedbackViewController : YJBaseViewController
 
-@property (nonatomic,copy) NSString *site;
 @property (nonatomic,copy) NSString *ID;
+@property (nonatomic,copy) NSString *siteId;
 
 @end

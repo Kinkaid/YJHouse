@@ -161,7 +161,6 @@ static NSString * const kYJHeaderId = @"header";
                                 model.comment = [NSString stringWithFormat:@"%@:%@",model.username,model.comment];
                             } else {
                                 NSMutableString *str = [NSMutableString stringWithFormat:@"%@:%@",model.to,model.comment];
-                                [str insertString:@":" atIndex:[model.username length]];
                                 model.comment = str;
                             }
                         }
@@ -232,14 +231,13 @@ static NSString * const kYJHeaderId = @"header";
             if ([self.selectModel.username isEqualToString:sectionModel.username]) {
                 model.comment = [NSString stringWithFormat:@"%@:%@",[LJKHelper getUserName],content];
             } else {
-                model.comment = [NSString stringWithFormat:@"%@:回复%@:%@",[LJKHelper getUserName],self.selectModel.username,content];
+                model.comment = [NSString stringWithFormat:@"%@回复%@:%@",[LJKHelper getUserName],self.selectModel.username,content];
             }
             model.height = [LJKHelper textHeightFromTextString:model.comment width:APP_SCREEN_WIDTH - 105 fontSize:12];
             [self.commentAry[self.selectSelection] addObject:model];
             [self.tableView reloadData];
         }
     } error:^(NSError *error) {
-        
     }];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

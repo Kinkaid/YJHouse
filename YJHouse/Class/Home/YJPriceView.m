@@ -50,7 +50,7 @@ WDNoCopyTextField *eTextField;
             }
         }
         bTextField = [[WDNoCopyTextField alloc] initWithFrame:CGRectMake(15, 245, 90, 30)];
-        bTextField.keyboardType = UIKeyboardTypeNumberPad;
+        bTextField.keyboardType = UIKeyboardTypeDecimalPad;
         bTextField.placeholder = @"最低价格(万)";
         bTextField.borderStyle = UITextBorderStyleRoundedRect;
         bTextField.backgroundColor = [UIColor ex_colorFromHexRGB:@"F6F6F6"];
@@ -61,7 +61,7 @@ WDNoCopyTextField *eTextField;
         lineView.backgroundColor = [UIColor ex_colorFromHexRGB:@"D8D8D8"];
         [self addSubview:lineView];
         eTextField = [[WDNoCopyTextField alloc] initWithFrame:CGRectMake(125, 245, 90, 30)];
-        eTextField.keyboardType = UIKeyboardTypeNumberPad;
+        eTextField.keyboardType = UIKeyboardTypeDecimalPad;
         eTextField.placeholder = @"最高价格(万)";
         eTextField.borderStyle = UITextBorderStyleRoundedRect;
         eTextField.backgroundColor = [UIColor ex_colorFromHexRGB:@"F6F6F6"];
@@ -86,6 +86,8 @@ WDNoCopyTextField *eTextField;
     [self.delegate hiddenPriceView];
 }
 - (void)setHouseType:(YJHouseType)houseType {
+    bTextField.text = @"";
+    eTextField.text = @"";
     switch (houseType) {
         case houseRent:
         {
@@ -148,7 +150,7 @@ WDNoCopyTextField *eTextField;
 - (void)confirmAction:(UIButton *)sender {
     if (!bTextField.text.length || !eTextField.text.length) {
         return;
-    } else if([bTextField.text integerValue] >= [eTextField.text integerValue]){
+    } else if([bTextField.text floatValue] >= [eTextField.text floatValue]){
         [YJApplicationUtil alertHud:@"最低价格不能高于最高价格" afterDelay:1];
     } else {
         self.hidden = YES;
