@@ -14,5 +14,7 @@
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,copy) id time;
 @property (nonatomic,copy) id type;
-@property (nonatomic,copy) id msgId;
+@property (nonatomic,copy) id site;
+@property (nonatomic,copy) id tid;
+
 @end

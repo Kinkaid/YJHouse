@@ -35,7 +35,7 @@
         _slider.minValue = 0;
         _slider.delegate = self;
         _slider.selectedMaximum = 3;
-        _slider.selectedMinimum = 0;
+        _slider.selectedMinimum = 1;
         [self.view addSubview:_slider];
     }
     return _slider;

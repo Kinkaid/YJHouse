@@ -27,7 +27,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v1.0.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jxr-fs-Sek">
-                    <rect key="frame" x="161" y="264" width="42" height="20"/>
+                    <rect key="frame" x="166.5" y="264" width="42" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -62,7 +62,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Jxr-fs-Sek" firstAttribute="centerX" secondItem="xQB-W8-cDh" secondAttribute="centerX" constant="-6" id="FFK-cb-Ue0"/>
+                <constraint firstItem="Jxr-fs-Sek" firstAttribute="centerX" secondItem="xQB-W8-cDh" secondAttribute="centerX" id="FFK-cb-Ue0"/>
                 <constraint firstItem="9PJ-ri-GFL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="HIY-lw-cbk"/>
                 <constraint firstItem="Jxr-fs-Sek" firstAttribute="centerY" secondItem="xQB-W8-cDh" secondAttribute="centerY" constant="-60" id="Rmz-EV-tC9"/>
                 <constraint firstAttribute="trailing" secondItem="xQB-W8-cDh" secondAttribute="trailing" id="coO-Tu-Yrx"/>

@@ -82,17 +82,15 @@
                 }
             }
             NSArray *ary = responseObject[@"result"];
-            for (int i=0; i<ary.count; i++) {
-                for (int i = 0; i<ary.count; i++) {
-                    YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][@"content"] error:nil];
-                    if ([self.type isEqualToString:@"6"]) {
-                        model.zufang = NO;
-                    } else {
-                        model.zufang = YES;
-                    }
-                    model.topcut = @"";
-                    [weakSelf.homeHouseAry addObject:model];
+            for (int i = 0; i<ary.count; i++) {
+                YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][@"content"] error:nil];
+                if ([self.type isEqualToString:@"6"]) {
+                    model.zufang = NO;
+                } else {
+                    model.zufang = YES;
                 }
+                model.topcut = @"";
+                [weakSelf.homeHouseAry addObject:model];
             }
             if (ary.count<20) {
                 weakSelf.tableView.mj_footer.state = MJRefreshStateNoMoreData;

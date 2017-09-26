@@ -41,9 +41,13 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 @implementation YJLowPriceViewController
 
 
+- (void)dealloc {
+    
+    self.priceView = nil;
+}
 - (YJPriceView *)priceView {
     if (!_priceView) {
-        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, self.view.frame.size.height - 100)];
+        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH - 100)];
         _priceView.hidden = YES;
         _priceView.delegate = self;
         _priceView.houseType = houseBuy;

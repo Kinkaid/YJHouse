@@ -9,7 +9,8 @@
 #import "YJBaseViewController.h"
 
 @interface YJCommentReportViewController : YJBaseViewController
-
+@property (nonatomic,copy) NSNumber *site_id;
+@property (nonatomic,copy) NSString *house_id;
 @property (nonatomic,copy) NSString *comment;
 @property (nonatomic,copy) NSString *commentID;
 

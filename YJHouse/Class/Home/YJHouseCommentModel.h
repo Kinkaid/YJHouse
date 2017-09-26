@@ -23,5 +23,5 @@
 @property (nonatomic,assign) id good;
 @property (nonatomic,assign) id bad;
 @property (nonatomic,assign) id eva;
-
+@property (nonatomic,copy) NSString *avatar;
 @end

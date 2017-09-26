@@ -13,6 +13,7 @@
     __weak IBOutlet UILabel *_title;
     __weak IBOutlet UILabel *_content;
     __weak IBOutlet UIView *_lineView;
+    __weak IBOutlet UILabel *_badgeLabel;
 }
 
 - (void)awakeFromNib {
@@ -30,11 +31,13 @@
     _title.text = model.title;
     _content.text = model.content;
     if (model.count) {
-        self.badgeView.hidden = NO;
+        _badgeLabel.hidden = NO;
+        _badgeLabel.text = [NSString stringWithFormat:@"%d",model.count];
+        
     } else {
-        self.badgeView.hidden = YES;
+        _badgeLabel.hidden = YES;
     }
-    if ([_title.text isEqualToString:@"评论回复"]) {
+    if ([_title.text isEqualToString:@"系统消息"]) {
         _lineView.hidden = YES;
     } else {
         _lineView.hidden = NO;

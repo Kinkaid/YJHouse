@@ -144,7 +144,8 @@ static NSString * const kYJHeaderId = @"header";
 }
 - (void)loadCommentList {
     [SVProgressHUD show];
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-comment",Server_url] parameters:@{@"site":self.site_id,@"tid":self.house_id,@"page":@(self.curPage),@"limit":@"20",@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+    NSDictionary *params = @{@"site":self.site_id,@"tid":self.house_id,@"page":@(self.curPage),@"limit":@"20",@"auth_key":[LJKHelper getAuth_key]};
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-comment",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             if (self.curPage == 0) {
                 [self.tableView.mj_header endRefreshing];
@@ -167,8 +168,8 @@ static NSString * const kYJHeaderId = @"header";
                         model.height = [LJKHelper textHeightFromTextString:model.comment width:APP_SCREEN_WIDTH - 105.0 fontSize:12];
                     } else {
                         model.height = [LJKHelper textHeightFromTextString:model.comment width:APP_SCREEN_WIDTH - 95.0 fontSize:15];
+                        model.avatar =[NSString stringWithFormat:@"https://www.youjar.com%@",responseObject[i][0][@"avatar"]];
                     }
-                    
                     [mAry addObject:model];
                 }
                 [self.commentAry addObject:mAry];
@@ -185,6 +186,8 @@ static NSString * const kYJHeaderId = @"header";
             [SVProgressHUD dismiss];
         }
     } error:^(NSError *error) {
+        [YJApplicationUtil alertHud:@"评论列表错误" afterDelay:1];
+        [SVProgressHUD dismiss];
     }];
 }
 - (void)commentForHouse:(NSString *)content {
@@ -205,7 +208,8 @@ static NSString * const kYJHeaderId = @"header";
             model.comment = content;
             model.good = 0;
             model.bad = 0;
-            model.time = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSinceReferenceDate]];
+            model.avatar = [LJKHelper getUserHeaderUrl];
+            model.time = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]];
             model.height = [LJKHelper textHeightFromTextString:content width:APP_SCREEN_WIDTH - 95 fontSize:15];
             model.username = [LJKHelper getUserName];
             [self.commentAry insertObject:ary atIndex:0];

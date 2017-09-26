@@ -26,4 +26,5 @@
 #import "YJGIFAnimationView.h"
 #import "YJRequestTimeoutUtil.h"
 #import "GlobalNetDefine.h"
+#import "UITabBar+badge.h"
 #endif /* PrefixHeader_pch */

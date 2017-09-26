@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -34,8 +34,8 @@
                         <constraint firstAttribute="width" secondItem="Gxw-e8-fYX" secondAttribute="height" multiplier="1:1" id="fII-Tt-7rr"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <inset key="titleEdgeInsets" minX="-30" minY="5" maxX="0.0" maxY="-34"/>
-                    <inset key="imageEdgeInsets" minX="10" minY="-17" maxX="0.0" maxY="0.0"/>
+                    <inset key="titleEdgeInsets" minX="-33" minY="5" maxX="0.0" maxY="-34"/>
+                    <inset key="imageEdgeInsets" minX="8" minY="-17" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="医院" image="icon_hospital_step">
                         <color key="titleColor" red="0.24313725490196078" green="0.24313725490196078" blue="0.24313725490196078" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -47,7 +47,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <inset key="titleEdgeInsets" minX="-30" minY="5" maxX="0.0" maxY="-34"/>
-                    <inset key="imageEdgeInsets" minX="10" minY="-17" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="8" minY="-17" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="交通" image="icon_bus_step">
                         <color key="titleColor" red="0.24313725489999999" green="0.24313725489999999" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -59,7 +59,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <inset key="titleEdgeInsets" minX="-30" minY="5" maxX="0.0" maxY="-34"/>
-                    <inset key="imageEdgeInsets" minX="10" minY="-17" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="8" minY="-17" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="环境" image="icon_env_step">
                         <color key="titleColor" red="0.24313725489999999" green="0.24313725489999999" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -71,8 +71,8 @@
                         <constraint firstAttribute="width" constant="48" id="qhQ-GM-ecf"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <inset key="titleEdgeInsets" minX="-30" minY="5" maxX="0.0" maxY="-34"/>
-                    <inset key="imageEdgeInsets" minX="10" minY="-17" maxX="0.0" maxY="0.0"/>
+                    <inset key="titleEdgeInsets" minX="-31" minY="5" maxX="0.0" maxY="-34"/>
+                    <inset key="imageEdgeInsets" minX="8" minY="-17" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="商店" image="icon_shop_step">
                         <color key="titleColor" red="0.24313725489999999" green="0.24313725489999999" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -83,8 +83,8 @@
                         <constraint firstAttribute="width" constant="48" id="Nt0-0M-qSp"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <inset key="titleEdgeInsets" minX="-30" minY="5" maxX="0.0" maxY="-34"/>
-                    <inset key="imageEdgeInsets" minX="10" minY="-17" maxX="0.0" maxY="0.0"/>
+                    <inset key="titleEdgeInsets" minX="-34" minY="5" maxX="0.0" maxY="-34"/>
+                    <inset key="imageEdgeInsets" minX="6" minY="-17" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="学区" image="icon_school_step">
                         <color key="titleColor" red="0.24313725489999999" green="0.24313725489999999" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -180,13 +180,13 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_bus_step" width="30" height="31"/>
-        <image name="icon_env_step" width="30" height="27"/>
-        <image name="icon_hospital_step" width="30" height="30"/>
+        <image name="icon_bus_step" width="35" height="35"/>
+        <image name="icon_env_step" width="35" height="35"/>
+        <image name="icon_hospital_step" width="35" height="35"/>
         <image name="icon_next" width="60" height="20"/>
         <image name="icon_range" width="503" height="102"/>
-        <image name="icon_school_step" width="30" height="18"/>
-        <image name="icon_shop_step" width="30" height="23"/>
+        <image name="icon_school_step" width="35" height="35"/>
+        <image name="icon_shop_step" width="35" height="35"/>
         <image name="icon_third_bg" width="750" height="306"/>
     </resources>
 </document>

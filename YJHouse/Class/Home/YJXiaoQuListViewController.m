@@ -36,7 +36,7 @@
 
 - (YJPriceView *)priceView {
     if (!_priceView) {
-        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, self.view.frame.size.height - 100)];
+        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100)];
         _priceView.hidden = YES;
         _priceView.delegate = self;
         [self.view addSubview:_priceView];
@@ -330,8 +330,8 @@
     [UIView animateWithDuration:0.2 animations:^{
         btn.imageView.transform = CGAffineTransformMakeRotation(0);
     }];
-    self.minPrice = [NSString stringWithFormat:@"%ld",[minPrice integerValue] *10000];
-    self.maxPrice = [NSString stringWithFormat:@"%ld",[maxPrice integerValue] *10000];
+    self.minPrice = [NSString stringWithFormat:@"%.f",[minPrice floatValue] *10000];
+    self.maxPrice = [NSString stringWithFormat:@"%.f",[maxPrice floatValue] *10000];
     self.xiaoquPage = 0;
     [SVProgressHUD show];
     [self loadXiaoquListData];

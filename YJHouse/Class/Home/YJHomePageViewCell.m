@@ -91,8 +91,18 @@
         _reducePriceView.hidden = NO;
         _oldPrice.hidden = NO;
         _score.hidden = YES;
-        _reduceRatioLabel.text = [NSString stringWithFormat:@"%.1f%%",[model.topcut floatValue] * (- 100)];
-        NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f万",[model.total_price floatValue] / (1.0+[model.topcut floatValue])]];
+        if ([model.topcut floatValue] *(-100.0)>=10) {
+            _reduceRatioLabel.text = [NSString stringWithFormat:@"%.0f%%",[model.topcut floatValue] * (- 100)];
+        } else {
+            _reduceRatioLabel.text = [NSString stringWithFormat:@"%.1f%%",[model.topcut floatValue] * (- 100)];
+        }
+        NSMutableAttributedString *mStr;
+        if (model.zufang) {
+            mStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f元/月",[model.rent floatValue] / (1.0+[model.topcut floatValue])]];
+        } else {
+            mStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f万",[model.total_price floatValue] / (1.0+[model.topcut floatValue])]];
+        }
+
         [mStr setAttributes:@{NSStrikethroughStyleAttributeName: @(NSUnderlineStyleSingle), NSBaselineOffsetAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0,mStr.length)];
         _oldPrice.attributedText = mStr;
     }

@@ -27,7 +27,7 @@
     } else {
         if (sec == cellRow) {
             _headerImg.layer.borderWidth = 2;
-            _headerImg.layer.borderColor = [UIColor ex_colorFromHexRGB:@"9829FA"].CGColor;
+            _headerImg.layer.borderColor = [UIColor ex_colorFromHexRGB:@"44A7FB"].CGColor;
         } else {
             _headerImg.layer.borderWidth = 0;
             _headerImg.layer.borderColor = [UIColor ex_colorFromHexRGB:@"FFFFFF"].CGColor;

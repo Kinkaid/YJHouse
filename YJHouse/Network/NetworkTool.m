@@ -33,6 +33,7 @@
             if (error.code == -1001) {
                 [YJRequestTimeoutUtil showRequestErrorView];
             }
+            [SVProgressHUD dismiss];
         }];
     }
     if (method == POST) {
@@ -42,7 +43,8 @@
             failure(error);
             if (error.code == -1001) {
                 [YJRequestTimeoutUtil showRequestErrorView];
-            } 
+            }
+            [SVProgressHUD dismiss];
         }];
     }
 }

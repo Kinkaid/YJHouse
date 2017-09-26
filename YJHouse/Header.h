@@ -22,8 +22,10 @@
 
 #define wbAppKey @"1016940085"
 #define wbAppSecret @"c0b7808df96d41c5effed9ede7728cfd"
-#define wxAppID @"wx82472494379ca921"
-#define wxAppSecret @"eb5ed168a644f863d46d38ae43d3c703"
+
+#define wxAppID @"wx8c6a5706ca4e48db"
+#define wxAppSecret @"29acdc782046007b1bbe5d841adc64df"
+
 #define qqAppID @"1106304780"
 #define qqAppKey @"D5N5wr4GpTzzUP1z"
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -105,8 +105,8 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEP-LU-4Uf">
-                    <rect key="frame" x="63" y="83.5" width="22" height="22"/>
-                    <color key="backgroundColor" red="1" green="0.47058823529411764" blue="0.47058823529411764" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="67" y="83.5" width="22" height="22"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="KEP-LU-4Uf" secondAttribute="height" multiplier="1:1" id="G1R-Mu-YzD"/>
                         <constraint firstAttribute="width" constant="22" id="c5f-iV-76r"/>
@@ -130,7 +130,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Rf6-xV-LTh" firstAttribute="centerX" secondItem="ThC-Vf-RbN" secondAttribute="centerX" id="CxK-ev-FNX"/>
-                <constraint firstItem="KEP-LU-4Uf" firstAttribute="leading" secondItem="ThC-Vf-RbN" secondAttribute="trailing" constant="-16" id="DAu-hV-IMT"/>
+                <constraint firstItem="KEP-LU-4Uf" firstAttribute="leading" secondItem="ThC-Vf-RbN" secondAttribute="trailing" constant="-12" id="DAu-hV-IMT"/>
                 <constraint firstItem="k9D-vq-jHW" firstAttribute="top" secondItem="qpc-ei-ecj" secondAttribute="top" id="IlE-NC-RDG"/>
                 <constraint firstItem="dl2-5s-HBt" firstAttribute="centerY" secondItem="wVb-0M-sA2" secondAttribute="centerY" id="OIA-Wc-uKJ"/>
                 <constraint firstAttribute="trailing" secondItem="k9D-vq-jHW" secondAttribute="trailing" id="Y3v-st-QfZ"/>

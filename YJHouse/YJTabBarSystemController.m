@@ -51,8 +51,5 @@
     vc3.tabBarItem.selectedImage = [YJImage imageNameWithOriginalMode:[NSString stringWithFormat:@"home_tab_icon3_selec"]];
     vc3.tabBarItem.image = [YJImage imageNameWithOriginalMode:[NSString stringWithFormat:@"home_tab_icon3"]];
     [self addChildViewController:nav3];
-    
-
 }
-
 @end

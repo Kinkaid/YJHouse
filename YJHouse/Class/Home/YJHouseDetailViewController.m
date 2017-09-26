@@ -485,15 +485,21 @@
     board.string = self.houseModel.uid;
     [YJApplicationUtil alertHud:@"房源编号复制成功" afterDelay:1];
 }
+
 - (void)callTap {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"拨打电话:%@",self.houseModel.manager_tel] preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-    }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSMutableString *str=[[NSMutableString alloc] initWithFormat:@"tel:%@",self.houseModel.manager_tel];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-    }]];
-    [self presentViewController:alertController animated:YES completion:nil];
+    // 处理电话号码
+    NSString* sOriginPhoneNum = [NSString stringWithFormat:@"%@",self.houseModel.manager_tel]; // 中文分隔符－，导致无法拨打电话
+    NSMutableCharacterSet *charSet = [[NSMutableCharacterSet alloc] init];
+    [charSet formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+    [charSet formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
+    [charSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
+    NSArray *arrayWithNumbers = [sOriginPhoneNum componentsSeparatedByCharactersInSet:charSet];
+    NSString *numberStr = [arrayWithNumbers componentsJoinedByString:@""];
+    if (! numberStr) {
+        numberStr = @"";
+    }
+    NSString *url = [NSString stringWithFormat:@"tel:%@", numberStr];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 #pragma mark - IBActions
 - (IBAction)backAction:(id)sender {
@@ -634,7 +640,4 @@
         self.navigationBar.alpha = (scrollView.contentOffset.y - 64) / 64.0;
     }
 }
-
-
-
 @end

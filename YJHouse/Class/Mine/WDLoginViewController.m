@@ -27,6 +27,8 @@
     [accountBtn setImage:[UIImage imageNamed:@"icon_login_account_select"] forState:UIControlStateSelected];
     [pwBtn setImage:[UIImage imageNamed:@"icon_login_pw"] forState:UIControlStateNormal];
     [pwBtn setImage:[UIImage imageNamed:@"icon_login_pw_select"] forState:UIControlStateSelected];
+    [self.accountTF setValue:[UIColor darkGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.pwTF setValue:[UIColor darkGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
     self.accountTF.delegate = self;
     self.pwTF.delegate = self;
     self.navigationBar.hidden = YES;
@@ -37,7 +39,8 @@
                onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
          {
              if (state == SSDKResponseStateSuccess) {
-                 NSDictionary *params = @{@"type":@"1",@"tuid":user.uid,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+                 [SVProgressHUD show];
+                 NSDictionary *params = @{@"type":@"1",@"tuid":user.uid,@"username":user.nickname,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
                  [self thirdLogin:params nick:user.nickname icon:user.icon];
              } else {
                  [YJApplicationUtil alertHud:@"QQ授权失败，请重新尝试" afterDelay:1];
@@ -57,8 +60,11 @@
 //             NSLog(@"%@",user.credential);
 //             NSLog(@"token=%@",user.credential.token);
 //             NSLog(@"nickname=%@",user.nickname);
-             NSDictionary *params = @{@"type":@"2",@"tuid":user.uid,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
-             [self thirdLogin:params nick:user.nickname icon:user.icon];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [SVProgressHUD show];
+                 NSDictionary *params = @{@"type":@"2",@"tuid":user.uid,@"username":user.nickname,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+                 [self thirdLogin:params nick:user.nickname icon:user.icon];
+             });
          } else {
              [YJApplicationUtil alertHud:@"微博授权失败，请重新尝试" afterDelay:1];
          }
@@ -68,53 +74,78 @@
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
         [LJKHelper saveUserID:responseObject[@"result"][@"user_info"][@"user_id"]];
-        if (!ISEMPTY(responseObject[@"result"][@"weight_ershou"])) {
-            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_ershou"][0][@"id"]];
-        }
-        if (!ISEMPTY(responseObject[@"result"][@"weight_zufang"])) {
-            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_zufang"][0][@"id"]];
-        }
-        [self saveNickName:nick];
+        [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
+        [LJKHelper saveThirdLoginState];
+//        [self saveUserInfoWithNick:nick icon:icon];
         [self postHeaderImg:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:icon]]]];
-        [LJKHelper saveThirdLoginState];
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     } error:^(NSError *error) {
+        [YJApplicationUtil alertHud:@"第三方登录失败" afterDelay:1];
     }];
 }
-
-- (IBAction)loginAction:(id)sender {
-    if (ISEMPTY(self.accountTF.text)||ISEMPTY(self.pwTF.text)) {
-        return;
-    }
-    NSDictionary *params = @{@"email":self.accountTF.text,@"password":self.pwTF.text,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+- (void)saveUserInfoWithNick:(NSString *)nick icon:(NSString *)icon {
+    __weak typeof(self) weakSelf = self;
     [SVProgressHUD show];
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/user-info",Server_url] parameters:params method:POST callBack:^(id responseObject) {
-        [SVProgressHUD dismiss];
-        [LJKHelper saveThirdLoginState];
-        if (!ISEMPTY(responseObject[@"result"][@"weight_ershou"])) {
-            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_ershou"][0][@"id"]];
-        }
-        if (!ISEMPTY(responseObject[@"result"][@"weight_zufang"])) {
-            [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_zufang"][0][@"id"]];
-        }
-        [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
-        [LJKHelper saveUserID:responseObject[@"result"][@"user_info"][@"user_id"]];
-        [LJKHelper saveUserName:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"user_info"][@"username"]]];
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    } error:^(NSError *error) {
-        [SVProgressHUD dismiss];
-    }];
-}
-- (void)saveNickName:(NSString *)nickName {
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-nickname",Server_url] parameters:@{@"nickname":nickName,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
-        if (responseObject[@"result"]) {
-            [LJKHelper saveUserName:nickName];
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-username",Server_url] parameters:@{@"username":nick,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject[@"result"])) {
+            [LJKHelper saveUserName:nick];
+            [weakSelf postHeaderImg:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:icon]]]];
+        } else {
+            [weakSelf postHeaderImg:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:icon]]]];
         }
     } error:^(NSError *error) {
         
     }];
 }
+- (void)getUserInfo {
+    [SVProgressHUD show];
+//    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/user-info",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+//        if (!ISEMPTY(responseObject)) {
+//            if (ISEMPTY(responseObject[@"error"])) {
+//                [SVProgressHUD dismiss];
+//                if ([responseObject[@"result"][@"weight_ershou"] count]) {
+//                    [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_ershou"][0][@"id"]];
+//                }
+//                if ([responseObject[@"result"][@"weight_zufang"] count]) {
+//                    [LJKHelper saveZufangWeight_id:responseObject[@"result"][@"weight_zufang"][0][@"id"]];
+//                }
+//            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//        }
+//    } error:^(NSError *error) {
+//    }];
+}
+- (IBAction)loginAction:(id)sender {
+    if (ISEMPTY(self.accountTF.text)||ISEMPTY(self.pwTF.text)) {
+        return;
+    }
+    [SVProgressHUD show];
+    NSDictionary *params = @{@"email":self.accountTF.text,@"password":self.pwTF.text,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+    [SVProgressHUD show];
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/user-info",Server_url] parameters:params method:POST callBack:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        if (!ISEMPTY(responseObject[@"result"])) {
+            [LJKHelper saveThirdLoginState];
+            [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+            [LJKHelper saveUserID:responseObject[@"result"][@"user_info"][@"user_id"]];
+            [LJKHelper saveUserName:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"user_info"][@"username"]]];
+            if (ISEMPTY(responseObject[@"result"][@"user_info"][@"avatar"])) {
+                [self postHeaderImg:[UIImage imageNamed:[NSString stringWithFormat:@"icon_private_%d",arc4random()%16]]];
+            } else {
+                [self getUserInfo];
+            }
+        } else {
+            [YJApplicationUtil alertHud:responseObject[@"error"] afterDelay:1];
+        }
+
+    } error:^(NSError *error) {
+        [YJApplicationUtil alertHud:@"邮箱登录失败" afterDelay:1];
+        [SVProgressHUD dismiss];
+    }];
+}
+
 - (void)postHeaderImg:(UIImage *)image {
+    [SVProgressHUD show];
     AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
     sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"multipart/form-data",
                                                                 @"text/html",
@@ -135,8 +166,10 @@
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {
             [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
+            [self getUserInfo];
         } else {
             [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+            [self getUserInfo];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];

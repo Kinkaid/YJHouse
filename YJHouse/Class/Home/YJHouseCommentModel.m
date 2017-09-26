@@ -24,7 +24,8 @@
              @"height":@"height",
              @"good":@"good",
              @"bad":@"bad",
-             @"eva":@"eva"
+             @"eva":@"eva",
+             @"avatar":@"avatar"
              };
 }
 

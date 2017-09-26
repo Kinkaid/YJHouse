@@ -7,13 +7,11 @@
 //
 
 #import "YJPriceView.h"
-#import "WDNoCopyTextField.h"
 NSArray *zufangAry;
 NSArray *maifangAry;
 NSArray *xqZufangAry;
 NSArray *xqMaifangAry;
-WDNoCopyTextField *bTextField;
-WDNoCopyTextField *eTextField;
+
 @implementation YJPriceView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -49,25 +47,25 @@ WDNoCopyTextField *eTextField;
                 [contentView addSubview:btn];
             }
         }
-        bTextField = [[WDNoCopyTextField alloc] initWithFrame:CGRectMake(15, 245, 90, 30)];
-        bTextField.keyboardType = UIKeyboardTypeDecimalPad;
-        bTextField.placeholder = @"最低价格(万)";
-        bTextField.borderStyle = UITextBorderStyleRoundedRect;
-        bTextField.backgroundColor = [UIColor ex_colorFromHexRGB:@"F6F6F6"];
-        bTextField.font = [UIFont systemFontOfSize:12];
-        bTextField.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:bTextField];
+        self.bTextField = [[WDNoCopyTextField alloc] initWithFrame:CGRectMake(15, 245, 90, 30)];
+        self.bTextField.keyboardType = UIKeyboardTypeDecimalPad;
+        self.bTextField.placeholder = @"最低价格(万)";
+        self.bTextField.borderStyle = UITextBorderStyleRoundedRect;
+        self.bTextField.backgroundColor = [UIColor ex_colorFromHexRGB:@"F6F6F6"];
+        self.self.bTextField.font = [UIFont systemFontOfSize:12];
+        self.bTextField.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:self.bTextField];
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(110, 260, 10, 1)];
         lineView.backgroundColor = [UIColor ex_colorFromHexRGB:@"D8D8D8"];
         [self addSubview:lineView];
-        eTextField = [[WDNoCopyTextField alloc] initWithFrame:CGRectMake(125, 245, 90, 30)];
-        eTextField.keyboardType = UIKeyboardTypeDecimalPad;
-        eTextField.placeholder = @"最高价格(万)";
-        eTextField.borderStyle = UITextBorderStyleRoundedRect;
-        eTextField.backgroundColor = [UIColor ex_colorFromHexRGB:@"F6F6F6"];
-        eTextField.font = [UIFont systemFontOfSize:12];
-        eTextField.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:eTextField];
+        self.eTextField = [[WDNoCopyTextField alloc] initWithFrame:CGRectMake(125, 245, 90, 30)];
+        self.eTextField.keyboardType = UIKeyboardTypeDecimalPad;
+        self.eTextField.placeholder = @"最高价格(万)";
+        self.eTextField.borderStyle = UITextBorderStyleRoundedRect;
+        self.eTextField.backgroundColor = [UIColor ex_colorFromHexRGB:@"F6F6F6"];
+        self.eTextField.font = [UIFont systemFontOfSize:12];
+        self.eTextField.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:self.eTextField];
         UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         confirmBtn.frame = CGRectMake(APP_SCREEN_WIDTH - 75, 245, 60, 30);
         [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
@@ -86,8 +84,8 @@ WDNoCopyTextField *eTextField;
     [self.delegate hiddenPriceView];
 }
 - (void)setHouseType:(YJHouseType)houseType {
-    bTextField.text = @"";
-    eTextField.text = @"";
+    self.bTextField.text = @"";
+    self.eTextField.text = @"";
     switch (houseType) {
         case houseRent:
         {
@@ -96,8 +94,8 @@ WDNoCopyTextField *eTextField;
                 btn.selected = NO;
                 [btn setTitle:[NSString stringWithFormat:@"%@",zufangAry[i-1]] forState:UIControlStateNormal];
             }
-            bTextField.placeholder = @"最低价格(元)";
-            eTextField.placeholder = @"最高价格(元)";
+            self.bTextField.placeholder = @"最低价格(元)";
+            self.eTextField.placeholder = @"最高价格(元)";
         }
             break;
         case houseBuy:
@@ -107,8 +105,8 @@ WDNoCopyTextField *eTextField;
                 btn.selected = NO;
                 [btn setTitle:[NSString stringWithFormat:@"%@",maifangAry[i-1]] forState:UIControlStateNormal];
             }
-            bTextField.placeholder = @"最低价格(万)";
-            eTextField.placeholder = @"最高价格(万)";
+            self.bTextField.placeholder = @"最低价格(万)";
+            self.eTextField.placeholder = @"最高价格(万)";
         }
             break;
         case xiaoquRent:
@@ -118,8 +116,8 @@ WDNoCopyTextField *eTextField;
                 btn.selected = NO;
                 [btn setTitle:[NSString stringWithFormat:@"%@",xqZufangAry[i-1]] forState:UIControlStateNormal];
             }
-            bTextField.placeholder = @"最低价格(元)";
-            eTextField.placeholder = @"最高价格(元)";
+            self.bTextField.placeholder = @"最低价格(元)";
+            self.eTextField.placeholder = @"最高价格(元)";
         }
             break;
         case xiaoquBuy:
@@ -129,8 +127,8 @@ WDNoCopyTextField *eTextField;
                 btn.selected = NO;
                 [btn setTitle:[NSString stringWithFormat:@"%@",xqMaifangAry[i-1]] forState:UIControlStateNormal];
             }
-            bTextField.placeholder = @"最低价格(万)";
-            eTextField.placeholder = @"最高价格(万)";
+            self.bTextField.placeholder = @"最低价格(万)";
+            self.eTextField.placeholder = @"最高价格(万)";
         }
             break;
         default:
@@ -148,19 +146,19 @@ WDNoCopyTextField *eTextField;
     [self.delegate priceSortByTag:sender.tag];
 }
 - (void)confirmAction:(UIButton *)sender {
-    if (!bTextField.text.length || !eTextField.text.length) {
+    if (!self.bTextField.text.length || !self.eTextField.text.length) {
         return;
-    } else if([bTextField.text floatValue] >= [eTextField.text floatValue]){
+    } else if([self.bTextField.text floatValue] >= [self.eTextField.text floatValue]){
         [YJApplicationUtil alertHud:@"最低价格不能高于最高价格" afterDelay:1];
     } else {
         self.hidden = YES;
-        [bTextField resignFirstResponder];
-        [eTextField resignFirstResponder];
+        [self.bTextField resignFirstResponder];
+        [self.eTextField resignFirstResponder];
         for (int i=1; i<7; i++) {
             UIButton *btn = [self viewWithTag:i];
             btn.selected = NO;
         }
-        [self.delegate priceSortWithMinPrice:bTextField.text maxPrice:eTextField.text];
+        [self.delegate priceSortWithMinPrice:self.bTextField.text maxPrice:self.eTextField.text];
     }
 }
 @end

@@ -46,6 +46,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)refreshPrivateCustom {
     [self loadData];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.headerImg sd_setImageWithURL:[NSURL URLWithString:[LJKHelper getUserHeaderUrl]] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
@@ -106,12 +107,15 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             [weakSelf.zufangPrivateAry removeAllObjects];
             [weakSelf.ershouPrivateAry removeAllObjects];
             if (ISEMPTY(responseObject[@"error"])) {
-                [LJKHelper saveUserName:[NSString stringWithFormat:@"%@",ISEMPTY(responseObject[@"result"][@"user_info"][@"nickname"])?responseObject[@"result"][@"user_info"][@"username"]:responseObject[@"result"][@"user_info"][@"nickname"]]];
+                [LJKHelper saveUserName:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"user_info"][@"username"]]];
                 if (!ISEMPTY(responseObject[@"result"][@"user_info"][@"avatar"])) {
-                    [LJKHelper saveUserHeader:responseObject[@"result"][@"user_info"][@"avatar"]];
+                    [LJKHelper saveUserHeader:[NSString stringWithFormat:@"http://www.youjar.com%@",responseObject[@"result"][@"user_info"][@"avatar"]]];
                 }
                 for (int i=0; i<[responseObject[@"result"][@"weight_ershou"] count]; i++) {
                     YJPrivateModel *ershouModel = [MTLJSONAdapter modelOfClass:[YJPrivateModel class] fromJSONDictionary:responseObject[@"result"][@"weight_ershou"][i] error:nil];
+                    if (i == 0 && ISEMPTY([LJKHelper getErshouWeight_id])) {
+                        [LJKHelper saveErshouWeight_id:ershouModel.privateId];
+                    }
                     [weakSelf.regionDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
                         if ([obj integerValue] == [ershouModel.region1_id integerValue]) {
                             ershouModel.region1_name = key;
@@ -130,6 +134,9 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 }
                 for (int j=0; j<[responseObject[@"result"][@"weight_zufang"] count]; j++) {
                     YJPrivateModel *zufangModel = [MTLJSONAdapter modelOfClass:[YJPrivateModel class] fromJSONDictionary:responseObject[@"result"][@"weight_zufang"][j] error:nil];
+                    if (j == 0 && ISEMPTY([LJKHelper getZufangWeight_id])) {
+                        [LJKHelper saveZufangWeight_id:zufangModel.privateId];
+                    }
                     [weakSelf.regionDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
                         if ([obj integerValue] == [zufangModel.region1_id integerValue]) {
                             zufangModel.region1_name = key;
@@ -321,7 +328,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         [SVProgressHUD show];
         [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/cancel-weight",Server_url] parameters:@{@"type":self.zufang?@"zufang":@"ershou",@"id":model.privateId,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
             if ([responseObject[@"result"] isEqualToString:@"success"]) {
-                [SVProgressHUD showSuccessWithStatus:@"删除成功"];
+                [SVProgressHUD dismiss];
                 if (weakSelf.zufang) {
                     [self.zufangPrivateAry removeObjectAtIndex:indexPath.section];
                 } else {

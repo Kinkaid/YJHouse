@@ -139,7 +139,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7M-I2-Sfl">
-                    <rect key="frame" x="27" y="411" width="148" height="32"/>
+                    <rect key="frame" x="27" y="411" width="148" height="36"/>
                     <color key="backgroundColor" red="0.2666666667" green="0.65490196079999996" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="注册">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -149,10 +149,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEI-qo-vkg">
-                    <rect key="frame" x="210" y="411" width="148" height="32"/>
+                    <rect key="frame" x="210" y="411" width="148" height="36"/>
                     <color key="backgroundColor" red="0.26666666666666666" green="0.65490196078431373" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="32" id="5uS-3y-Tli"/>
+                        <constraint firstAttribute="height" constant="36" id="5uS-3y-Tli"/>
                     </constraints>
                     <state key="normal" title="登入">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -20,7 +20,6 @@
 
 @property (nonatomic,weak) id<YJSectionHeaderActionDelegate>delegate;
 @property (nonatomic,assign) NSInteger section;
-//@property (nonatomic,strong) UIView *lineView;
 - (void)showDataWithModel:(YJHouseCommentModel *)model;
 
 @end

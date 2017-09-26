@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GeTuiSdk.h"
 #import "YJTabBarSystemController.h"
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+// iOS10 及以上需导  UserNotifications.framework
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+#import <UserNotifications/UserNotifications.h>
+#endif
+@interface AppDelegate : UIResponder <UIApplicationDelegate, GeTuiSdkDelegate,UNUserNotificationCenterDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic)YJTabBarSystemController *tabBar;

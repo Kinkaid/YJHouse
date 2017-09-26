@@ -27,24 +27,24 @@
 
 - (void)showDataWithModel:(YJMsgModel *)model {
     switch ([model.type intValue]) {
-        case 0:
-        {
-          _title.text = @"客服消息";
-        }
-            break;
         case 1:
         {
-          _title.text = @"系统消息";
+            _title.text = @"系统消息";
         }
             break;
-        case 2:
+        case 4:
         {
-          _title.text = @"二手房推荐";
+            _title.text = @"用户举报";
         }
             break;
-        case 3:
+        case 5:
         {
-          _title.text = @"租房推荐";
+            _title.text = @"用户反馈";
+        }
+            break;
+        case 8:
+        {
+            _title.text = @"评论回复";
         }
             break;
         default:

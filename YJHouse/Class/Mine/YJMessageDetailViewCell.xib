@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -20,7 +20,7 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hU9-OY-I38">
                         <rect key="frame" x="6" y="24" width="308" height="6"/>
-                        <color key="backgroundColor" red="0.65490196079999996" green="0.27450980390000002" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.26666666666666666" green="0.65490196078431373" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="6" id="EKF-Fu-3PT"/>
                         </constraints>
@@ -29,7 +29,7 @@
                         <rect key="frame" x="6" y="0.0" width="308" height="30"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="房产资讯" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HTl-aZ-chA">
-                                <rect key="frame" x="23" y="7" width="53.5" height="16"/>
+                                <rect key="frame" x="12" y="7" width="53.5" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -41,12 +41,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.65490196078431373" green="0.27450980392156865" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.26666666666666666" green="0.65490196078431373" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="0ga-4I-2Wx"/>
                             <constraint firstItem="flr-qN-woa" firstAttribute="centerY" secondItem="Z4T-Ib-XLA" secondAttribute="centerY" id="4Rg-PZ-TOy"/>
                             <constraint firstItem="HTl-aZ-chA" firstAttribute="centerY" secondItem="Z4T-Ib-XLA" secondAttribute="centerY" id="eyw-6Z-JYc"/>
-                            <constraint firstItem="HTl-aZ-chA" firstAttribute="leading" secondItem="Z4T-Ib-XLA" secondAttribute="leading" constant="23" id="kGr-cy-ua6"/>
+                            <constraint firstItem="HTl-aZ-chA" firstAttribute="leading" secondItem="Z4T-Ib-XLA" secondAttribute="leading" constant="12" id="kGr-cy-ua6"/>
                             <constraint firstAttribute="trailing" secondItem="flr-qN-woa" secondAttribute="trailing" constant="17" id="zsy-tq-RYX"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -59,7 +59,7 @@
                         <rect key="frame" x="6" y="30" width="308" height="57.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="房产资讯详情房产资讯详情房产资讯详情房产资讯详情房产资讯详情房产资讯详情房产资讯详情房产资讯详情" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3p5-Ws-36A">
-                                <rect key="frame" x="4" y="0.0" width="300" height="57.5"/>
+                                <rect key="frame" x="4" y="0.0" width="300" height="49.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.29411764705882354" green="0.29411764705882354" blue="0.29411764705882354" alpha="1" colorSpace="calibratedRGB"/>
@@ -68,7 +68,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="3p5-Ws-36A" secondAttribute="bottom" id="KuN-KH-Bss"/>
+                            <constraint firstAttribute="bottom" secondItem="3p5-Ws-36A" secondAttribute="bottom" constant="8" id="KuN-KH-Bss"/>
                             <constraint firstItem="3p5-Ws-36A" firstAttribute="top" secondItem="ROD-b3-KCx" secondAttribute="top" id="W29-ev-kZ4"/>
                             <constraint firstItem="3p5-Ws-36A" firstAttribute="leading" secondItem="ROD-b3-KCx" secondAttribute="leading" constant="4" id="cwr-qT-6Qy"/>
                             <constraint firstAttribute="trailing" secondItem="3p5-Ws-36A" secondAttribute="trailing" constant="4" id="r8d-0G-vh8"/>

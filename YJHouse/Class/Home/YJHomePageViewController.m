@@ -105,6 +105,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadMsgCount];
     [YJRequestTimeoutUtil shareInstance].delegate = self;
     [SVProgressHUD show];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
@@ -130,6 +131,18 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     if (self.isVisible) {
         [self loadHomeData];
     }
+}
+- (void)loadMsgCount {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-count",Server_url] parameters:@{@"time":ISEMPTY([LJKHelper getLastRequestMsgTime])?@"0":[LJKHelper getLastRequestMsgTime],@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        if (ISEMPTY(responseObject[@"error"])) {
+            if ([responseObject[@"result"][@"total_count"] intValue]) {
+                [self.tabBarController.tabBar showBadgeOnItemIndex:2];
+            } else {
+                [self.tabBarController.tabBar hideBadgeOnItemIndex:2];
+            }
+        }
+    } error:^(NSError *error) {
+    }];
 }
 - (void)reloadHomeData {
     self.mfParams = nil;

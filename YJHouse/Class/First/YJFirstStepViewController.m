@@ -19,8 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewZ.backgroundColor = [[UIColor ex_colorFromHexRGB:@"A746E8"] colorWithAlphaComponent:0.4];
-    self.viewB.backgroundColor = [[UIColor ex_colorFromHexRGB:@"A746E8"] colorWithAlphaComponent:0.4];
+    self.viewZ.backgroundColor = [[UIColor ex_colorFromHexRGB:@"44A7FB"] colorWithAlphaComponent:0.4];
+    self.viewB.backgroundColor = [[UIColor ex_colorFromHexRGB:@"44A7FB"] colorWithAlphaComponent:0.4];
     self.navigationBar.hidden = YES;
 }
 
@@ -46,6 +46,10 @@
 }
 
 - (IBAction)nextClick:(id)sender {
+    if (self.viewB.hidden == YES && self.viewZ.hidden == YES) {
+        [YJApplicationUtil alertHud:@"请点击选择" afterDelay:1];
+        return;
+    }
     YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
     YJRegisterModel *model = [[YJRegisterModel alloc] init];
     model.firstEnter = self.firstEnter;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kVn-ZD-CG5" id="bDa-7V-dWZ">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="127.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_homeBetter" translatesAutoresizingMaskIntoConstraints="NO" id="AyY-Yi-4B6">
@@ -87,13 +87,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="824万" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d6c-DE-aE9">
-                        <rect key="frame" x="269" y="25" width="43" height="18"/>
+                        <rect key="frame" x="265" y="25" width="43" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="1" green="0.51372549020000002" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9.36" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRe-s4-NL7">
-                        <rect key="frame" x="276" y="49" width="36" height="36"/>
+                        <rect key="frame" x="272" y="49" width="36" height="36"/>
                         <color key="backgroundColor" red="0.99607843139999996" green="0.43137254899999999" blue="0.46666666670000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="36" id="0T5-Tv-Zwk"/>
@@ -155,7 +155,7 @@
                     <constraint firstItem="AyY-Yi-4B6" firstAttribute="top" secondItem="bDa-7V-dWZ" secondAttribute="top" constant="8" id="48G-Vu-TWU"/>
                     <constraint firstItem="ijh-zA-59V" firstAttribute="leading" secondItem="bDa-7V-dWZ" secondAttribute="leading" constant="8" id="6jc-JZ-aDP"/>
                     <constraint firstItem="DwY-pu-Q6P" firstAttribute="leading" secondItem="bDa-7V-dWZ" secondAttribute="leading" id="973-Cj-xb0"/>
-                    <constraint firstAttribute="trailing" secondItem="hRe-s4-NL7" secondAttribute="trailing" constant="8" id="9a4-Sl-E9W"/>
+                    <constraint firstAttribute="trailing" secondItem="hRe-s4-NL7" secondAttribute="trailing" constant="12" id="9a4-Sl-E9W"/>
                     <constraint firstItem="4tU-5D-Kpf" firstAttribute="leading" secondItem="AyY-Yi-4B6" secondAttribute="trailing" constant="6" id="AcW-Te-MqA"/>
                     <constraint firstItem="EHd-7f-4cI" firstAttribute="bottom" secondItem="AyY-Yi-4B6" secondAttribute="bottom" id="CfB-4a-dNd"/>
                     <constraint firstItem="4tU-5D-Kpf" firstAttribute="top" secondItem="I3a-sw-u2G" secondAttribute="bottom" constant="8" id="Cwi-Ec-6UA"/>
@@ -175,7 +175,7 @@
                     <constraint firstItem="IGP-La-UKi" firstAttribute="bottom" secondItem="ijh-zA-59V" secondAttribute="bottom" id="ccg-jX-1yK"/>
                     <constraint firstItem="8W7-XW-c6y" firstAttribute="top" secondItem="4tU-5D-Kpf" secondAttribute="bottom" id="cqs-rK-QEF"/>
                     <constraint firstItem="IGP-La-UKi" firstAttribute="leading" secondItem="ijh-zA-59V" secondAttribute="leading" id="gQ2-9z-wtC"/>
-                    <constraint firstAttribute="trailing" secondItem="d6c-DE-aE9" secondAttribute="trailing" constant="8" id="hbo-kD-Ch3"/>
+                    <constraint firstAttribute="trailing" secondItem="d6c-DE-aE9" secondAttribute="trailing" constant="12" id="hbo-kD-Ch3"/>
                     <constraint firstItem="qyw-50-FV7" firstAttribute="centerY" secondItem="EHd-7f-4cI" secondAttribute="centerY" id="iHv-m4-zZ7"/>
                     <constraint firstItem="EHd-7f-4cI" firstAttribute="leading" secondItem="AyY-Yi-4B6" secondAttribute="trailing" constant="8" id="mC7-XQ-u4x"/>
                     <constraint firstItem="DwY-pu-Q6P" firstAttribute="top" secondItem="bDa-7V-dWZ" secondAttribute="top" id="mvO-tP-lf2"/>

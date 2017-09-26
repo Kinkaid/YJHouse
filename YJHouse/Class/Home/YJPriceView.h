@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "WDNoCopyTextField.h"
 @protocol YJPriceSortDelegate <NSObject>
 
 - (void)priceSortByTag:(NSInteger)tag;
@@ -26,5 +26,7 @@ typedef enum : NSUInteger {
 } YJHouseType;
 
 @property (nonatomic,assign) YJHouseType houseType;
+@property (nonatomic,strong) WDNoCopyTextField *bTextField;
+@property (nonatomic,strong) WDNoCopyTextField *eTextField;
 @property (nonatomic,weak) id<YJPriceSortDelegate>delegate;
 @end

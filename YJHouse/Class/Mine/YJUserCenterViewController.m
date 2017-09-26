@@ -52,17 +52,26 @@
 
 - (void)msgCount {
     __weak typeof(self)weakSelf = self;
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-count",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key],@"time":ISEMPTY([LJKHelper getLastRequestMsgTime])?@"0":[LJKHelper getLastRequestMsgTime]} method:POST callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-count",Server_url] parameters:@{@"time":ISEMPTY([LJKHelper getLastRequestMsgTime])?@"0":[LJKHelper getLastRequestMsgTime],@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
         if (ISEMPTY(responseObject[@"error"])) {
             if ([responseObject[@"result"][@"total_count"] intValue]) {
+                [self.tabBarController.tabBar showBadgeOnItemIndex:2];
                 weakSelf.mgsCount.hidden = NO;
                 weakSelf.mgsCount.text = [NSString stringWithFormat:@"%@",responseObject[@"result"][@"total_count"]];
                 [weakSelf.msgCountAry removeAllObjects];
-                [weakSelf.msgCountAry addObjectsFromArray:@[@([responseObject[@"result"][@"feedback"] intValue]),@([responseObject[@"result"][@"report"] intValue]),@([responseObject[@"result"][@"system"] intValue]),@([responseObject[@"result"][@"favourite_ershou"] intValue]),@([responseObject[@"result"][@"favourite_zufang"] intValue])]];
+                [weakSelf.msgCountAry addObjectsFromArray:@[
+                                                            @([responseObject[@"result"][@"favourite_ershou"] intValue]),
+                                                            @([responseObject[@"result"][@"favourite_zufang"] intValue]),
+                                                            @([responseObject[@"result"][@"user_reply"] intValue] +[responseObject[@"result"][@"user_call"] intValue]),
+                                                            @([responseObject[@"result"][@"feedback"] intValue]),
+                                                            @([responseObject[@"result"][@"report"] intValue]),
+                                                            @([responseObject[@"result"][@"system"] intValue])
+                                                            ]];
             } else {
                 weakSelf.mgsCount.hidden = YES;
+                [self.tabBarController.tabBar hideBadgeOnItemIndex:2];
                 [weakSelf.msgCountAry removeAllObjects];
-                [weakSelf.msgCountAry addObjectsFromArray:@[@(0),@(0),@(0),@(0),@(0)]];
+                [weakSelf.msgCountAry addObjectsFromArray:@[@(0),@(0),@(0),@(0),@(0),@(0)]];
             }
         }
        
@@ -183,6 +192,7 @@
                 break;
             case 3:
             {
+                [SVProgressHUD show];
                 //初始化控制器
                 SKStoreProductViewController *storeProductViewContorller = [[SKStoreProductViewController alloc] init];
                 //设置代理请求为当前控制器本身
@@ -197,7 +207,7 @@
                      }else{
                          //模态弹出appstore
                          [self presentViewController:storeProductViewContorller animated:YES completion:^{
-                             
+                             [SVProgressHUD dismiss];
                          }
                           ];
                      }
@@ -232,27 +242,27 @@
     switch (btn.tag) {
         case 11:
         {
-         [WDShareUtil shareTye:shareWXFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+         [WDShareUtil shareTye:shareWXFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         case 12:
         {
-            [WDShareUtil shareTye:shareWXzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+            [WDShareUtil shareTye:shareWXzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         case 13:
         {
-             [WDShareUtil shareTye:shareQQFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+             [WDShareUtil shareTye:shareQQFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         case 14:
         {
-             [WDShareUtil shareTye:shareQQzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+             [WDShareUtil shareTye:shareQQzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         case 15:
         {
-            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
         }
             break;
         default:

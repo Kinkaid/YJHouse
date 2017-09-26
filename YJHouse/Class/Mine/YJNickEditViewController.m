@@ -33,15 +33,19 @@
     if ([pred evaluateWithObject:self.nickTextField.text]) {
         if (![self.nickTextField.text containsString:@"回复"]) {
             [SVProgressHUD show];
-            [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-nickname",Server_url] parameters:@{@"nickname":self.nickTextField.text,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
-                if (responseObject[@"result"]) {
+            [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-username",Server_url] parameters:@{@"username":self.nickTextField.text,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+                if (!ISEMPTY(responseObject[@"result"])) {
                     [SVProgressHUD dismiss];
                     self.nBlock(self.nickTextField.text);
                     [LJKHelper saveUserName:self.nickTextField.text];
                     [self.navigationController popViewControllerAnimated:YES];
+                } else {
+                    [SVProgressHUD dismiss];
+                    [YJApplicationUtil alertHud:responseObject[@"error"] afterDelay:1];
                 }
             } error:^(NSError *error) {
-                
+                [SVProgressHUD dismiss];
+                [YJApplicationUtil alertHud:@"设置失败，请重新尝试" afterDelay:1];
             }];
         } else {
             [YJApplicationUtil alertHud:@"昵称不能包含【回复】两字" afterDelay:1];

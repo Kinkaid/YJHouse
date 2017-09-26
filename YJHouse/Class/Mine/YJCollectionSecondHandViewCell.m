@@ -57,9 +57,9 @@
         _totalPrice.text = [NSString stringWithFormat:@"%@万",model.total_price];
     }
     
-    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%.2f",[model.total_score floatValue] < 0 ?([model.total_score floatValue] / (- 10.0)):([model.total_score floatValue] / 10.0 )]];
-    [AttributedStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:16] range:NSMakeRange(0, AttributedStr.length-2)];
-    [AttributedStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:10] range:NSMakeRange(AttributedStr.length-2, 2)];
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%.1f",[model.total_score floatValue] < 0 ?([model.total_score floatValue] / (- 1.0)):([model.total_score floatValue] / 1.0 )]];
+    [AttributedStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:16] range:NSMakeRange(0, AttributedStr.length-1)];
+    [AttributedStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:10] range:NSMakeRange(AttributedStr.length-1, 1)];
     _score.attributedText = AttributedStr;
     if (ISEMPTY(model.tags)) {
         for (int i=1; i<5; i++) {

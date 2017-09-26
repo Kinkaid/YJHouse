@@ -119,6 +119,15 @@
 		30B66C731ED7C1430096E0D2 /* YJLoadingAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B66C721ED7C1430096E0D2 /* YJLoadingAnimationView.m */; };
 		30B702771E6D87E20007528D /* YJUserCenterViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B702751E6D87E20007528D /* YJUserCenterViewCell.m */; };
 		30B702781E6D87E20007528D /* YJUserCenterViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30B702761E6D87E20007528D /* YJUserCenterViewCell.xib */; };
+		30B8CA731F74AA160007CB55 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA721F74AA160007CB55 /* libc++.1.tbd */; };
+		30B8CA751F74AA340007CB55 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA741F74AA340007CB55 /* Security.framework */; };
+		30B8CA771F74AA630007CB55 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA761F74AA630007CB55 /* SystemConfiguration.framework */; };
+		30B8CA791F74AA6E0007CB55 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA781F74AA6E0007CB55 /* CoreTelephony.framework */; };
+		30B8CA7B1F74AA7C0007CB55 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA7A1F74AA7C0007CB55 /* AVFoundation.framework */; };
+		30B8CA7D1F74AA8E0007CB55 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA7C1F74AA8E0007CB55 /* CoreLocation.framework */; };
+		30B8CA7F1F74AA9A0007CB55 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA7E1F74AA9A0007CB55 /* UserNotifications.framework */; };
+		30B8CA8B1F74ABA40007CB55 /* libGeTuiSdk-1.6.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA891F74ABA40007CB55 /* libGeTuiSdk-1.6.4.0.a */; };
+		30B8CA8C1F74ABA40007CB55 /* libGtExtensionSdk-1.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B8CA8A1F74ABA40007CB55 /* libGtExtensionSdk-1.3.0.a */; };
 		30BBBEC61EE2F5250073CA11 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30BBBEC51EE2F5250073CA11 /* StoreKit.framework */; };
 		30BC568E1EFA07820093A994 /* YJMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30BC568C1EFA07820093A994 /* YJMapViewController.m */; };
 		30BC568F1EFA07820093A994 /* YJMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30BC568D1EFA07820093A994 /* YJMapViewController.xib */; };
@@ -135,6 +144,7 @@
 		30D18CD61ED9673E00EE9ADA /* YJNickEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30D18CD41ED9673E00EE9ADA /* YJNickEditViewController.xib */; };
 		30D18CDA1EDA8C3700EE9ADA /* WDAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D18CD81EDA8C3700EE9ADA /* WDAboutUsViewController.m */; };
 		30D18CDB1EDA8C3700EE9ADA /* WDAboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30D18CD91EDA8C3700EE9ADA /* WDAboutUsViewController.xib */; };
+		30E117681F6693E900F38FC8 /* UITabBar+badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E117671F6693E800F38FC8 /* UITabBar+badge.m */; };
 		30E14A5B1E606F9400129DE0 /* YJHistorySearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E14A5A1E606F9300129DE0 /* YJHistorySearchView.m */; };
 		30E14A5E1E61595A00129DE0 /* YJNoSearchDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E14A5D1E61595A00129DE0 /* YJNoSearchDataView.m */; };
 		30E14A621E61A44000129DE0 /* YJHouseDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E14A601E61A44000129DE0 /* YJHouseDetailViewController.m */; };
@@ -399,6 +409,18 @@
 		30B702741E6D87E20007528D /* YJUserCenterViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJUserCenterViewCell.h; sourceTree = "<group>"; };
 		30B702751E6D87E20007528D /* YJUserCenterViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJUserCenterViewCell.m; sourceTree = "<group>"; };
 		30B702761E6D87E20007528D /* YJUserCenterViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJUserCenterViewCell.xib; sourceTree = "<group>"; };
+		30B8CA721F74AA160007CB55 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
+		30B8CA741F74AA340007CB55 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		30B8CA761F74AA630007CB55 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		30B8CA781F74AA6E0007CB55 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		30B8CA7A1F74AA7C0007CB55 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		30B8CA7C1F74AA8E0007CB55 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		30B8CA7E1F74AA9A0007CB55 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		30B8CA801F74AAC00007CB55 /* YJHouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YJHouse.entitlements; sourceTree = "<group>"; };
+		30B8CA871F74ABA40007CB55 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiExtSdk.h; sourceTree = "<group>"; };
+		30B8CA881F74ABA40007CB55 /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeTuiSdk.h; sourceTree = "<group>"; };
+		30B8CA891F74ABA40007CB55 /* libGeTuiSdk-1.6.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGeTuiSdk-1.6.4.0.a"; sourceTree = "<group>"; };
+		30B8CA8A1F74ABA40007CB55 /* libGtExtensionSdk-1.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGtExtensionSdk-1.3.0.a"; sourceTree = "<group>"; };
 		30BBBEC51EE2F5250073CA11 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		30BC568B1EFA07820093A994 /* YJMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJMapViewController.h; sourceTree = "<group>"; };
 		30BC568C1EFA07820093A994 /* YJMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJMapViewController.m; sourceTree = "<group>"; };
@@ -425,6 +447,8 @@
 		30D18CD71EDA8C3700EE9ADA /* WDAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDAboutUsViewController.h; sourceTree = "<group>"; };
 		30D18CD81EDA8C3700EE9ADA /* WDAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDAboutUsViewController.m; sourceTree = "<group>"; };
 		30D18CD91EDA8C3700EE9ADA /* WDAboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WDAboutUsViewController.xib; sourceTree = "<group>"; };
+		30E117661F6693E800F38FC8 /* UITabBar+badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+badge.h"; sourceTree = "<group>"; };
+		30E117671F6693E800F38FC8 /* UITabBar+badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+badge.m"; sourceTree = "<group>"; };
 		30E14A591E606F9300129DE0 /* YJHistorySearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJHistorySearchView.h; sourceTree = "<group>"; };
 		30E14A5A1E606F9300129DE0 /* YJHistorySearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJHistorySearchView.m; sourceTree = "<group>"; };
 		30E14A5C1E61595A00129DE0 /* YJNoSearchDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJNoSearchDataView.h; sourceTree = "<group>"; };
@@ -517,10 +541,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30B8CA7F1F74AA9A0007CB55 /* UserNotifications.framework in Frameworks */,
+				30B8CA7D1F74AA8E0007CB55 /* CoreLocation.framework in Frameworks */,
+				30B8CA8B1F74ABA40007CB55 /* libGeTuiSdk-1.6.4.0.a in Frameworks */,
+				30B8CA7B1F74AA7C0007CB55 /* AVFoundation.framework in Frameworks */,
+				30B8CA791F74AA6E0007CB55 /* CoreTelephony.framework in Frameworks */,
+				30B8CA771F74AA630007CB55 /* SystemConfiguration.framework in Frameworks */,
+				30B8CA751F74AA340007CB55 /* Security.framework in Frameworks */,
+				30B8CA731F74AA160007CB55 /* libc++.1.tbd in Frameworks */,
 				30BBBEC61EE2F5250073CA11 /* StoreKit.framework in Frameworks */,
 				302E7ED51E94BCED00BFCA41 /* MobileCoreServices.framework in Frameworks */,
 				30E14AAF1E642B1700129DE0 /* ImageIO.framework in Frameworks */,
 				30E14AAD1E642AFB00129DE0 /* JavaScriptCore.framework in Frameworks */,
+				30B8CA8C1F74ABA40007CB55 /* libGtExtensionSdk-1.3.0.a in Frameworks */,
 				30E14AAB1E642AF300129DE0 /* libstdc++.tbd in Frameworks */,
 				30E14AA91E642ADD00129DE0 /* libz.tbd in Frameworks */,
 				30E14AA71E642ACF00129DE0 /* libicucore.tbd in Frameworks */,
@@ -631,6 +664,7 @@
 		305CB8441E568A4F00682F88 /* YJHouse */ = {
 			isa = PBXGroup;
 			children = (
+				30B8CA801F74AAC00007CB55 /* YJHouse.entitlements */,
 				305CB8D21E56E1EF00682F88 /* Network */,
 				305CB8821E56918B00682F88 /* Base */,
 				305CB8781E568FDC00682F88 /* Category */,
@@ -691,6 +725,8 @@
 				305CB9181E57D53300682F88 /* CALayer+borderColor.m */,
 				305CB91A1E57D58300682F88 /* UIView+Frame.h */,
 				305CB91B1E57D58300682F88 /* UIView+Frame.m */,
+				30E117661F6693E800F38FC8 /* UITabBar+badge.h */,
+				30E117671F6693E800F38FC8 /* UITabBar+badge.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -745,6 +781,7 @@
 		305CB87C1E568FDC00682F88 /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				30B8CA861F74ABA40007CB55 /* GtSdkLib */,
 				300372AA1E97C28E005A7B37 /* YQFiveStarView.h */,
 				300372AB1E97C28E005A7B37 /* YQFiveStarView.m */,
 				30E14A691E6429FE00129DE0 /* ShareSDK */,
@@ -1000,6 +1037,17 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		30B8CA861F74ABA40007CB55 /* GtSdkLib */ = {
+			isa = PBXGroup;
+			children = (
+				30B8CA871F74ABA40007CB55 /* GeTuiExtSdk.h */,
+				30B8CA881F74ABA40007CB55 /* GeTuiSdk.h */,
+				30B8CA891F74ABA40007CB55 /* libGeTuiSdk-1.6.4.0.a */,
+				30B8CA8A1F74ABA40007CB55 /* libGtExtensionSdk-1.3.0.a */,
+			);
+			path = GtSdkLib;
+			sourceTree = "<group>";
+		};
 		30E14A691E6429FE00129DE0 /* ShareSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -1139,6 +1187,13 @@
 		B7F60B16A9B79B581CE8BD2D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30B8CA7E1F74AA9A0007CB55 /* UserNotifications.framework */,
+				30B8CA7C1F74AA8E0007CB55 /* CoreLocation.framework */,
+				30B8CA7A1F74AA7C0007CB55 /* AVFoundation.framework */,
+				30B8CA781F74AA6E0007CB55 /* CoreTelephony.framework */,
+				30B8CA761F74AA630007CB55 /* SystemConfiguration.framework */,
+				30B8CA741F74AA340007CB55 /* Security.framework */,
+				30B8CA721F74AA160007CB55 /* libc++.1.tbd */,
 				30BBBEC51EE2F5250073CA11 /* StoreKit.framework */,
 				302E7ED41E94BCED00BFCA41 /* MobileCoreServices.framework */,
 				30E14AB01E642B2900129DE0 /* libsqlite3.0.tbd */,
@@ -1225,6 +1280,14 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = YCWL25KE27;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					305CB85A1E568A4F00682F88 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1450,6 +1513,7 @@
 				30CF7E291E9BAD7D00AA277B /* YJLowPriceViewController.m in Sources */,
 				306C2EAA1EA4DDEB000AC5A3 /* YJZFMoreView.m in Sources */,
 				307DDEE51ECAD49200F3E2FC /* YJPrivateModel.m in Sources */,
+				30E117681F6693E900F38FC8 /* UITabBar+badge.m in Sources */,
 				300BB42C1EA5F24D00432F8C /* YJFirstStepViewController.m in Sources */,
 				30D18CC61ED80C4F00EE9ADA /* YJNetRequestTimeoutView.m in Sources */,
 				30E14A5E1E61595A00129DE0 /* YJNoSearchDataView.m in Sources */,
@@ -1648,6 +1712,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = YJHouse/YJHouse.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = YCWL25KE27;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1658,6 +1723,7 @@
 					"$(PROJECT_DIR)/YJHouse/Vender/ShareSDK/Support/PlatformConnector",
 					"$(PROJECT_DIR)/YJHouse/Vender/ShareSDK/Support/PlatformSDK/QQSDK",
 					"$(PROJECT_DIR)/YJHouse/Vender/ShareSDK/Support/Required",
+					"$(PROJECT_DIR)/YJHouse/Vender/GtSdkLib",
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_INPUT_FILETYPE = automatic;
@@ -1673,6 +1739,7 @@
 					"$(PROJECT_DIR)/YJHouse/Vender/GETUI_IOS_SDK_1.6.3.0/Demo工程/GtSdkLib",
 					"$(PROJECT_DIR)/YJHouse/Vender/GETUI_IOS_SDK_1.6.3.0/资源文件/GtSdkLib",
 					"$(PROJECT_DIR)/YJHouse/Vender/GETUI_IOS_SDK_1.6.3.0/资源文件/GtSdkLib-noidfa",
+					"$(PROJECT_DIR)/YJHouse/Vender/GtSdkLib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youjia.YJHouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1688,6 +1755,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = YJHouse/YJHouse.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = YCWL25KE27;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1698,6 +1766,7 @@
 					"$(PROJECT_DIR)/YJHouse/Vender/ShareSDK/Support/PlatformConnector",
 					"$(PROJECT_DIR)/YJHouse/Vender/ShareSDK/Support/PlatformSDK/QQSDK",
 					"$(PROJECT_DIR)/YJHouse/Vender/ShareSDK/Support/Required",
+					"$(PROJECT_DIR)/YJHouse/Vender/GtSdkLib",
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_INPUT_FILETYPE = automatic;
@@ -1713,6 +1782,7 @@
 					"$(PROJECT_DIR)/YJHouse/Vender/GETUI_IOS_SDK_1.6.3.0/Demo工程/GtSdkLib",
 					"$(PROJECT_DIR)/YJHouse/Vender/GETUI_IOS_SDK_1.6.3.0/资源文件/GtSdkLib",
 					"$(PROJECT_DIR)/YJHouse/Vender/GETUI_IOS_SDK_1.6.3.0/资源文件/GtSdkLib-noidfa",
+					"$(PROJECT_DIR)/YJHouse/Vender/GtSdkLib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youjia.YJHouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";

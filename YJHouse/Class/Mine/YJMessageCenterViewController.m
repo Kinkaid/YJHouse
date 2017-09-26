@@ -32,13 +32,13 @@
 - (void)registerTableView {
     self.contentAry = [@[] mutableCopy];
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
-    NSArray * titleAry = @[@"二手房推荐",@"租房推荐",@"系统消息",@"反馈",@"举报",@"评论回复"];
-    NSArray * contentAry = @[@"查看收藏二手房降价和收藏小区新房源的最新资讯",@"查看收藏租房降价和收藏小区新房源的最新资讯",@"查看系统更新提醒",@"查看反馈消息",@"查看举报消息",@"查看评论回复"];
+    NSArray * titleAry = @[@"二手房推荐",@"租房推荐",@"评论回复",@"反馈",@"举报",@"系统消息"];
+    NSArray * contentAry = @[@"查看收藏二手房降价和收藏小区新房源的最新资讯",@"查看收藏租房降价和收藏小区新房源的最新资讯",@"查看评论回复",@"查看反馈消息",@"查看举报消息",@"查看系统更新提醒"];
     for (int i=0; i<6; i++) {
         YJMsgModel *model = [[YJMsgModel alloc] init];
         model.content = contentAry[i];
         model.title = titleAry[i];
-//        model.count = [self.msgCount[i] intValue];
+        model.count = [self.msgCount[i] intValue];
         [self.contentAry addObject:model];
     }
     [self.tableView reloadData];
@@ -59,6 +59,8 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    YJMsgModel *model = self.contentAry[indexPath.row];
+    model.count = 0;
     YJHouseRecommendViewController *vcR = [[YJHouseRecommendViewController alloc] init];
     if (indexPath.row == 0) {
         vcR.type = @"6";
@@ -71,7 +73,7 @@
         switch (indexPath.row) {
             case 2:
             {
-                vc.type = @"1";
+                vc.type = @"8";
             }
                 break;
             case 3:
@@ -86,17 +88,14 @@
                 break;
             case 5:
             {
-                vc.type = @"3";
+                vc.type = @"1";
             }
                 break;
             default:
                 break;
         }
-        YJMsgModel *model = self.contentAry[indexPath.row];
-        model.count = 0;
-        [self.tableView reloadData];
         PushController(vc);
     }
-
+     [self.tableView reloadData];
 }
 @end

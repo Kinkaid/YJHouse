@@ -12,7 +12,6 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"msgId":@"idd",
              @"count":@"count",
              @"title":@"title",
              @"content":@"content",

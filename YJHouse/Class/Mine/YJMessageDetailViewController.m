@@ -10,6 +10,7 @@
 #import "YJMessageDetailViewCell.h"
 #import "YJMsgModel.h"
 #import "YJNoSearchDataView.h"
+#import "YJHouseCommentViewController.h"
 #define kCellIdentifier @"YJMessageDetailViewCell"
 @interface YJMessageDetailViewController ()<UITableViewDelegate,UITableViewDataSource,YJRequestTimeoutDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -63,7 +64,13 @@
 }
 - (void)loadMsgData {
     __weak typeof(self)weakSelf = self;
-    NSDictionary *params = @{@"page":@(self.page),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
+    NSDictionary *params;
+    if ([self.type intValue] == 1) {
+        params = @{@"page":@(self.page),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
+    } else {
+        params = @{@"page":@(self.page),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
+    }
+    
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-list",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             if (weakSelf.page == 0) {
@@ -73,13 +80,29 @@
                 NSArray *ary = responseObject[@"result"];
                 if (![ary count]) {
                     self.noSearchResultView.hidden = NO;
-                } else {
-                    [LJKHelper saveLastRequestMsgTime:responseObject[@"result"][0][@"time"]];
+                }
+                if ([self.type intValue] == 1) {
+                    if (!ISEMPTY(responseObject[@"result"])) {
+                        [LJKHelper saveLastRequestMsgTime:responseObject[@"result"][0][@"time"]];
+                    } else {
+                        [LJKHelper saveLastRequestMsgTime:[NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970]]];
+                    }
                 }
             }
             NSArray *ary =responseObject[@"result"];
             for (int i=0; i<[ary count]; i++) {
-                YJMsgModel *model = [MTLJSONAdapter modelOfClass:[YJMsgModel class] fromJSONDictionary:ary[i] error:nil];
+                YJMsgModel *model = [[YJMsgModel alloc] init];
+                if ([self.type intValue] == 8) {
+                    model.content = [NSString stringWithFormat:@"原评论:%@\n\n    %@回复你:%@",ary[i][@"content"][@"orign_comment"],ary[i][@"content"][@"from_user"],ary[i][@"content"][@"reply_comment"]];
+                    model.site = ary[i][@"content"][@"site"];
+                    model.tid = ary[i][@"content"][@"tid"];
+                } else if ([self.type intValue] == 5 ||[self.type intValue] == 4) {
+                    model.content = [NSString stringWithFormat:@"%@",ary[i][@"reply"]];
+                } else {
+                    model.content = [NSString stringWithFormat:@"%@",ary[i][@"content"]];
+                }
+                model.type = self.type;
+                model.time =ary[i][@"time"];
                 [weakSelf.msgAry addObject:model];
             }
             if (ary.count<20) {
@@ -95,7 +118,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     YJMsgModel *model = self.msgAry[indexPath.section];
-    return 30 + [LJKHelper textHeightFromTextString:model.content width:APP_SCREEN_WIDTH - 20 fontSize:13] + 8;
+    return 38 + [LJKHelper textHeightFromTextString:model.content width:APP_SCREEN_WIDTH - 20 fontSize:13] + 16;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 8;
@@ -117,5 +140,14 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell showDataWithModel:self.msgAry[indexPath.section]];
     return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.type intValue] == 8) {
+        YJMsgModel *model = self.msgAry[indexPath.section];
+        YJHouseCommentViewController *vc = [[YJHouseCommentViewController alloc] init];
+        vc.house_id = model.tid;
+        vc.site_id = model.site;
+        PushController(vc);
+    }
 }
 @end
