@@ -32,9 +32,9 @@
 - (void)registerTableView {
     self.contentAry = [@[] mutableCopy];
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
-    NSArray * titleAry = @[@"二手房推荐",@"租房推荐",@"评论回复",@"反馈",@"举报",@"系统消息"];
-    NSArray * contentAry = @[@"查看收藏二手房降价和收藏小区新房源的最新资讯",@"查看收藏租房降价和收藏小区新房源的最新资讯",@"查看评论回复",@"查看反馈消息",@"查看举报消息",@"查看系统更新提醒"];
-    for (int i=0; i<6; i++) {
+    NSArray * titleAry = @[@"收藏二手房降价",@"收藏出租房降价",@"收藏小区新上二手房",@"收藏小区新上出租房",@"评论回复",@"反馈",@"举报",@"系统消息"];
+    NSArray * contentAry = @[@"查看收藏二手房降价",@"查看收藏租房降价",@"查看收藏小区新上二手房最新资讯",@"查看收藏小区新上租房最新资讯",@"查看评论回复",@"查看反馈消息",@"查看举报消息",@"查看系统更新提醒"];
+    for (int i=0; i<titleAry.count; i++) {
         YJMsgModel *model = [[YJMsgModel alloc] init];
         model.content = contentAry[i];
         model.title = titleAry[i];
@@ -63,32 +63,41 @@
     model.count = 0;
     YJHouseRecommendViewController *vcR = [[YJHouseRecommendViewController alloc] init];
     if (indexPath.row == 0) {
-        vcR.type = @"6";
+        vcR.type = @"6"; // 收藏二手房降价
         PushController(vcR);
     } else if (indexPath.row == 1){
-        vcR.type = @"7";
+        vcR.type = @"7"; // 收藏租房降价
         PushController(vcR);
+        
+    }else if (indexPath.row == 2){
+        vcR.type = @"9"; //收藏小区二手房上新
+        PushController(vcR);
+        
+    }else if (indexPath.row == 3){
+        vcR.type = @"10"; //收藏小区出租房上新
+        PushController(vcR);
+        
     } else {
         YJMessageDetailViewController *vc = [[YJMessageDetailViewController alloc] init];
         switch (indexPath.row) {
-            case 2:
-            {
-                vc.type = @"8";
-            }
-                break;
-            case 3:
-            {
-                vc.type = @"5";
-            }
-                break;
             case 4:
             {
-                vc.type = @"4";
+                vc.type = @"8"; //评论回复
             }
                 break;
             case 5:
             {
-                vc.type = @"1";
+                vc.type = @"5"; //反馈
+            }
+                break;
+            case 6:
+            {
+                vc.type = @"4";  //举报
+            }
+                break;
+            case 7:
+            {
+                vc.type = @"1"; //系统消息
             }
                 break;
             default:

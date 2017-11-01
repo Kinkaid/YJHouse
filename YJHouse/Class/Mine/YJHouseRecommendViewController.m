@@ -7,12 +7,12 @@
 //
 
 #import "YJHouseRecommendViewController.h"
-#import "YJHomePageViewCell.h"
+#import "YJReducePriceViewCell.h"
 #import "YJHouseListModel.h"
 #import "YJHouseDetailViewController.h"
 #import "YJNoSearchDataView.h"
 #import "YJNoSearchDataView.h"
-#define kCellIdentifier @"YJHomePageViewCell"
+#define kCellIdentifier @"YJReducePriceViewCell"
 
 @interface YJHouseRecommendViewController ()<UITableViewDelegate,UITableViewDataSource,YJRequestTimeoutDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -58,13 +58,19 @@
 }
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
+    [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"header"];
+
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.homePage = 0;
     self.homeHouseAry = [@[] mutableCopy];
     if ([self.type isEqualToString:@"6"]) {
-        [self setTitle:@"二手房推荐"];
-    } else {
-        [self setTitle:@"租房推荐"];
+        [self setTitle:@"收藏二手房降价"];
+    } else if ([self.type isEqualToString:@"7"]){
+        [self setTitle:@"收藏租房降价"];
+    }else if ([self.type isEqualToString:@"9"]){
+        [self setTitle:@"收藏小区二手房上新"];
+    }else if ([self.type isEqualToString:@"10"]){
+        [self setTitle:@"收藏小区出租房上新"];
     }
 }
 - (void)loadHouseData {
@@ -83,13 +89,22 @@
             }
             NSArray *ary = responseObject[@"result"];
             for (int i = 0; i<ary.count; i++) {
-                YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][@"content"] error:nil];
-                if ([self.type isEqualToString:@"6"]) {
+                YJHouseListModel *model;
+                if([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"7"]){
+                    model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][@"content"] error:nil];
+                    model.xq_new = NO;
+                } else {
+                    for (int j=0; j<[ary[i] count]; j++) {
+                       model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][j] error:nil];
+                        model.date = ary[i][j][@"update_time"];
+                        model.xq_new = YES;
+                    }
+                }
+                if ([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"9"]) {
                     model.zufang = NO;
                 } else {
                     model.zufang = YES;
                 }
-                model.topcut = @"";
                 [weakSelf.homeHouseAry addObject:model];
             }
             if (ary.count<20) {
@@ -104,26 +119,66 @@
     }];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return self.homeHouseAry.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.homeHouseAry.count;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 97;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJHomePageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+    YJReducePriceViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     if (!cell) {
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell showDataWithModel:self.homeHouseAry[indexPath.row]];
+    [cell showDataWithModels:self.homeHouseAry[indexPath.section]];
     return cell;
 }
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section >=1) {
+        YJHouseListModel *fir = self.homeHouseAry[section-1];
+        YJHouseListModel *sec = self.homeHouseAry[section];
+        if ([[LJKHelper dateStringFromNumberTimer:sec.date withFormat:@"yyyy.MM.dd"] isEqualToString:[LJKHelper dateStringFromNumberTimer:fir.date withFormat:@"yyyy.MM.dd"]]) {
+            return nil;
+        } else {
+            UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+            return headerView;
+        }
+    } else {
+        UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+        return headerView;
+    }
+}
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+    headerView.textLabel.font = [UIFont systemFontOfSize:12];
+    headerView.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"C8CACE"];
+    headerView.textLabel.textAlignment = NSTextAlignmentCenter;
+    YJHouseListModel *model = self.homeHouseAry[section];
+    headerView.textLabel.text = [LJKHelper dateStringFromNumberTimer:model.date withFormat:@"yyyy.MM.dd"];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section >=1) {
+        YJHouseListModel *fir = self.homeHouseAry[section-1];
+        YJHouseListModel *sec = self.homeHouseAry[section];
+        if ([[LJKHelper dateStringFromNumberTimer:sec.date withFormat:@"yyyy.MM.dd"] isEqualToString:[LJKHelper dateStringFromNumberTimer:fir.date withFormat:@"yyyy.MM.dd"]]) {
+            return 0.01;
+        } else {
+            return 30.0;
+        }
+    } else {
+        return 30.0;
+    }
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger) section {
+    return 0.01;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJHouseListModel *model = self.homeHouseAry[indexPath.row];
+    YJHouseListModel *model = self.homeHouseAry[indexPath.section];
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id =model.site;
     vc.score = model.total_score;

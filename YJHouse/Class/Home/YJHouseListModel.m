@@ -33,7 +33,8 @@
              @"tags":@"tags",
              @"decoration":@"decoration",
              @"content":@"content",
-             @"state":@"state"
+             @"state":@"state",
+             @"date":@"date"
              };
 }
 

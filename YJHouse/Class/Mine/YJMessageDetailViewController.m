@@ -62,6 +62,16 @@
         [self loadMsgData];
     }
 }
+-(NSDictionary *)parseJSONStringToNSDictionary:(id)JSONString {
+    if ([JSONString isKindOfClass:[NSDictionary class]]) {
+        return JSONString;
+    } else {
+        NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
+        return responseJSON;
+    }
+}
+
 - (void)loadMsgData {
     __weak typeof(self)weakSelf = self;
     NSDictionary *params;
@@ -93,9 +103,13 @@
             for (int i=0; i<[ary count]; i++) {
                 YJMsgModel *model = [[YJMsgModel alloc] init];
                 if ([self.type intValue] == 8) {
-                    model.content = [NSString stringWithFormat:@"原评论:%@\n\n    %@回复你:%@",ary[i][@"content"][@"orign_comment"],ary[i][@"content"][@"from_user"],ary[i][@"content"][@"reply_comment"]];
-                    model.site = ary[i][@"content"][@"site"];
-                    model.tid = ary[i][@"content"][@"tid"];
+                    NSDictionary *contentDic = [self parseJSONStringToNSDictionary:ary[i][@"content"]];
+                    model.content = [NSString stringWithFormat:@"原评论:%@\n\n    %@回复你:%@",contentDic[@"orign_comment"],contentDic[@"from_user"],contentDic[@"reply_comment"]];
+                    model.site = ary[i][@"site"];
+                    model.tid = ary[i][@"tid"];
+                    model.isZufang = ary[i][@"class"];
+                    model.total_score = ary[i][@"total_score"];
+                    model.tags = ary[i][@"tags"];
                 } else if ([self.type intValue] == 5 ||[self.type intValue] == 4) {
                     model.content = [NSString stringWithFormat:@"%@",ary[i][@"reply"]];
                 } else {
@@ -147,6 +161,9 @@
         YJHouseCommentViewController *vc = [[YJHouseCommentViewController alloc] init];
         vc.house_id = model.tid;
         vc.site_id = model.site;
+        vc.tags = model.tags;
+        vc.total_score = model.total_score;
+        vc.isZufang = model.isZufang;
         PushController(vc);
     }
 }

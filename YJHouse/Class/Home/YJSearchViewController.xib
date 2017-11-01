@@ -102,7 +102,7 @@
                 <constraint firstItem="0V0-m4-eWP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="klO-xx-a5Z"/>
                 <constraint firstItem="Ci0-49-aOr" firstAttribute="top" secondItem="0V0-m4-eWP" secondAttribute="bottom" id="oqM-8X-h8f"/>
             </constraints>
-            <point key="canvasLocation" x="-127" y="-125"/>
+            <point key="canvasLocation" x="-113" y="-267"/>
         </view>
         <view contentMode="scaleToFill" id="Dmh-C5-oUl" customClass="KLCPopup">
             <rect key="frame" x="0.0" y="0.0" width="76" height="90"/>

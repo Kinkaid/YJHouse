@@ -19,6 +19,17 @@
     //转化为 时间字符串
     return [df stringFromDate:date];
 }
++ (NSString *)dateStringFromNumberTimer:(NSString *)timerStr withFormat:(NSString *)format {
+    //转化为Double
+    double t = [timerStr doubleValue];
+    //计算出距离1970的NSDate
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:t];
+    //转化为 时间格式化字符串
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = format;
+    //转化为 时间字符串
+    return [df stringFromDate:date];
+}
 //动态 计算行高
 //根据字符串的实际内容的多少 在固定的宽度和字体的大小，动态的计算出实际的高度
 + (CGFloat)textHeightFromTextString:(NSString *)text width:(CGFloat)textWidth fontSize:(CGFloat)size{

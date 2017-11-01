@@ -32,4 +32,6 @@
 @property (nonatomic,assign) BOOL zufang;
 @property (nonatomic,copy) NSString *content;
 @property (nonatomic,copy) id state;
+@property (nonatomic,copy) id date;
+@property (nonatomic,assign) BOOL xq_new;
 @end

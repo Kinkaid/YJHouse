@@ -17,8 +17,10 @@
 #import "YJXiaoQuDetailViewController.h"
 #define cellId @"YJXiaoQuViewCell"
 #import "YJHouseDetailViewController.h"
+#import "YJSecondStepViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
 static NSString *const houseTypeKey = @"houseTypeKey";
+static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
 @interface YJSearchViewController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource,KeyViewDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet KLCPopup *popupView;
@@ -220,9 +222,19 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (IBAction)selectType:(id)sender {
     UIButton *selectBtn = sender;
-    [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
     UIButton *typeBtn = [self.view viewWithTag:3];
     if (selectBtn.tag == 1) {
+        if (ISEMPTY([LJKHelper getZufangWeight_id])) {
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = YES;
+            vc.showBackBtn = YES;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:nav animated:YES completion:nil];
+            [self.klcManager dismiss:YES];
+            return;
+        }
+        [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
         [typeBtn setTitle:@"租房" forState:UIControlStateNormal];
         UIButton *btn = [self.popupView viewWithTag:2];
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
@@ -230,6 +242,17 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         [[NSUserDefaults standardUserDefaults] synchronize];
         self.zufang = YES;
     } else if (selectBtn.tag == 2){
+        if (ISEMPTY([LJKHelper getErshouWeight_id])) {
+            YJSecondStepViewController *vc = [[YJSecondStepViewController alloc] init];
+            vc.registerModel = [[YJRegisterModel alloc] init];
+            vc.registerModel.zufang = NO;
+            vc.showBackBtn = YES;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:nav animated:YES completion:nil];
+            [self.klcManager dismiss:YES];
+            return;
+        }
+        [selectBtn setTitleColor:[UIColor ex_colorFromHexRGB:@"FF807D"] forState:UIControlStateNormal];
         [typeBtn setTitle:@"买房" forState:UIControlStateNormal];
         UIButton *btn = (UIButton *)[self.popupView viewWithTag:1];
         [btn setTitleColor:[UIColor ex_colorFromHexRGB:@"3F3F3F"] forState:UIControlStateNormal];
@@ -238,6 +261,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         self.zufang = NO;
     }
     [self.klcManager dismiss:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kReloadHomeDataNotif object:nil];
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.searchBar resignFirstResponder];

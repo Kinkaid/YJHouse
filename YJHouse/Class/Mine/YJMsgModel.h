@@ -16,5 +16,8 @@
 @property (nonatomic,copy) id type;
 @property (nonatomic,copy) id site;
 @property (nonatomic,copy) id tid;
+@property (nonatomic,copy) id isZufang;
+@property (nonatomic,copy) id tags;
+@property (nonatomic,copy) id total_score;
 
 @end

@@ -11,4 +11,7 @@
 @interface YJHouseCommentViewController : YJBaseViewController
 @property (nonatomic,copy) NSString *site_id;
 @property (nonatomic,copy) NSString *house_id;
+@property (nonatomic,copy) NSString *total_score;
+@property (nonatomic,copy) NSString *tags;
+@property (nonatomic,copy) NSString *isZufang;
 @end

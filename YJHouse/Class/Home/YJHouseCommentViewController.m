@@ -14,6 +14,7 @@
 #import "YJHouseCommentSectionHeaderView.h"
 #import "KLCPopup.h"
 #import "YJCommentReportViewController.h"
+#import "YJHouseDetailViewController.h"
 #import "WDLoginViewController.h"
 static NSString * const kCellId = @"YJHouseCommentCell";
 static NSString * const kYJHeaderId = @"header";
@@ -42,10 +43,40 @@ static NSString * const kYJHeaderId = @"header";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setTitle:@"所有评论"];
+    [self setRightBarButtonItem];
     [self loadCommentList];
     [self registerTableView];
     [self registerRefresh];
     [self configInputView];
+}
+- (void)setRightBarButtonItem {
+    if (!ISEMPTY(self.total_score)) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self setNavigationBarItem:button];
+        [button addTarget:self action:@selector(enterHouseDetail) forControlEvents:UIControlEventTouchUpInside];
+        [button setTitle:@"房源详情" forState:UIControlStateNormal];
+        [button setTintColor:[UIColor whiteColor]];
+        button.titleLabel.font = [UIFont systemFontOfSize:16];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(78);
+            make.height.mas_equalTo(30);
+            make.centerY.equalTo(self.navigationBar).with.offset(10);
+            make.trailing.equalTo(self.navigationBar).with.offset(-10);
+        }];
+    }
+}
+- (void)enterHouseDetail {
+    YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
+    vc.site_id = self.site_id;
+    vc.score = self.total_score;
+    vc.house_id = self.house_id;
+    if ([self.isZufang intValue] ==2) {
+        vc.type = type_zufang;
+        vc.tags = [self.tags componentsSeparatedByString:@";"];
+    } else {
+        vc.type = type_maifang;
+    }
+    PushController(vc);
 }
 - (void)configInputView {
     self.inputView = [[InputView alloc]initWithFrame:CGRectMake(0, APP_SCREEN_HEIGHT-55, APP_SCREEN_WIDTH, 55)];

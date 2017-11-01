@@ -16,6 +16,8 @@
 		300BB42D1EA5F24D00432F8C /* YJFirstStepViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 300BB42B1EA5F24C00432F8C /* YJFirstStepViewController.xib */; };
 		300BB4311EA643FC00432F8C /* YJSecondStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300BB42F1EA643FC00432F8C /* YJSecondStepViewController.m */; };
 		300BB4321EA643FC00432F8C /* YJSecondStepViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 300BB4301EA643FC00432F8C /* YJSecondStepViewController.xib */; };
+		300E78291F8EFD7A00668713 /* YJReducePriceViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 300E78271F8EFD7A00668713 /* YJReducePriceViewCell.xib */; };
+		300E782A1F8EFD7A00668713 /* YJReducePriceViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 300E78281F8EFD7A00668713 /* YJReducePriceViewCell.m */; };
 		301D1E1A1EB8C3BB00C7A4F7 /* YJFiveStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 301D1E181EB8C3BB00C7A4F7 /* YJFiveStepViewController.m */; };
 		301D1E1B1EB8C3BB00C7A4F7 /* YJFiveStepViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 301D1E191EB8C3BB00C7A4F7 /* YJFiveStepViewController.xib */; };
 		301D1E1F1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 301D1E1D1EB8C6F300C7A4F7 /* YJFiveStepCollectionViewCell.m */; };
@@ -233,6 +235,9 @@
 		300BB42E1EA643FC00432F8C /* YJSecondStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJSecondStepViewController.h; sourceTree = "<group>"; };
 		300BB42F1EA643FC00432F8C /* YJSecondStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJSecondStepViewController.m; sourceTree = "<group>"; };
 		300BB4301EA643FC00432F8C /* YJSecondStepViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJSecondStepViewController.xib; sourceTree = "<group>"; };
+		300E78261F8EFD7A00668713 /* YJReducePriceViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJReducePriceViewCell.h; sourceTree = "<group>"; };
+		300E78271F8EFD7A00668713 /* YJReducePriceViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJReducePriceViewCell.xib; sourceTree = "<group>"; };
+		300E78281F8EFD7A00668713 /* YJReducePriceViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJReducePriceViewCell.m; sourceTree = "<group>"; };
 		301D1E171EB8C3BB00C7A4F7 /* YJFiveStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJFiveStepViewController.h; sourceTree = "<group>"; };
 		301D1E181EB8C3BB00C7A4F7 /* YJFiveStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJFiveStepViewController.m; sourceTree = "<group>"; };
 		301D1E191EB8C3BB00C7A4F7 /* YJFiveStepViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YJFiveStepViewController.xib; sourceTree = "<group>"; };
@@ -903,6 +908,9 @@
 				305F62781E7196AB00754DAA /* YJMessageCenterCell.h */,
 				305F62791E7196AB00754DAA /* YJMessageCenterCell.m */,
 				305F627A1E7196AB00754DAA /* YJMessageCenterCell.xib */,
+				300E78261F8EFD7A00668713 /* YJReducePriceViewCell.h */,
+				300E78281F8EFD7A00668713 /* YJReducePriceViewCell.m */,
+				300E78271F8EFD7A00668713 /* YJReducePriceViewCell.xib */,
 				302E7EE01E94C5C900BFCA41 /* YJCollectionSecondHandViewCell.h */,
 				302E7EE11E94C5C900BFCA41 /* YJCollectionSecondHandViewCell.m */,
 				302E7EE21E94C5C900BFCA41 /* YJCollectionSecondHandViewCell.xib */,
@@ -1341,6 +1349,7 @@
 				302215E31EEBC4CE00362319 /* YJSettingViewController.xib in Resources */,
 				30B66C661ECE9B400096E0D2 /* YJSystemHeaderCollectionViewCell.xib in Resources */,
 				30AFC3431E5B0FD90023F50A /* YJHomePageViewCell.xib in Resources */,
+				300E78291F8EFD7A00668713 /* YJReducePriceViewCell.xib in Resources */,
 				300BB4321EA643FC00432F8C /* YJSecondStepViewController.xib in Resources */,
 				30D18CDB1EDA8C3700EE9ADA /* WDAboutUsViewController.xib in Resources */,
 				30E14AA11E6429FE00129DE0 /* read_me.txt in Resources */,
@@ -1502,6 +1511,7 @@
 				302E7EE81E94D25A00BFCA41 /* YJRemarkViewController.m in Sources */,
 				302E7EE31E94C5C900BFCA41 /* YJCollectionSecondHandViewCell.m in Sources */,
 				305CB8921E5696E100682F88 /* YJImage.m in Sources */,
+				300E782A1F8EFD7A00668713 /* YJReducePriceViewCell.m in Sources */,
 				302215DD1EEBB7A300362319 /* YJFirstScrollViewController.m in Sources */,
 				3032C1621EE13CC8006C998C /* YJXiaoquCollectionViewCell.m in Sources */,
 				30E14A5B1E606F9400129DE0 /* YJHistorySearchView.m in Sources */,

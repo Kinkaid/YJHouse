@@ -61,8 +61,7 @@
                 [weakSelf.msgCountAry removeAllObjects];
                 [weakSelf.msgCountAry addObjectsFromArray:@[
                                                             @([responseObject[@"result"][@"favourite_ershou"] intValue]),
-                                                            @([responseObject[@"result"][@"favourite_zufang"] intValue]),
-                                                            @([responseObject[@"result"][@"user_reply"] intValue] +[responseObject[@"result"][@"user_call"] intValue]),
+                                                            @([responseObject[@"result"][@"favourite_zufang"] intValue]),                                                            @([responseObject[@"result"][@"xiaoqu_ershou_new"] intValue]),                                                            @([responseObject[@"result"][@"xiaoqu_zufang_new"] intValue]),                                                            @([responseObject[@"result"][@"user_reply"] intValue] +[responseObject[@"result"][@"user_call"] intValue]),
                                                             @([responseObject[@"result"][@"feedback"] intValue]),
                                                             @([responseObject[@"result"][@"report"] intValue]),
                                                             @([responseObject[@"result"][@"system"] intValue])
@@ -71,7 +70,7 @@
                 weakSelf.mgsCount.hidden = YES;
                 [self.tabBarController.tabBar hideBadgeOnItemIndex:2];
                 [weakSelf.msgCountAry removeAllObjects];
-                [weakSelf.msgCountAry addObjectsFromArray:@[@(0),@(0),@(0),@(0),@(0),@(0)]];
+                [weakSelf.msgCountAry addObjectsFromArray:@[@(0),@(0),@(0),@(0),@(0),@(0),@(0),@(0)]];
             }
         }
        
@@ -310,5 +309,6 @@
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:nil];
     }
+    
 }
 @end

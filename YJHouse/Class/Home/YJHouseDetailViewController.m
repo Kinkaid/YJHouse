@@ -140,10 +140,14 @@
         }
     }
     self.popTextView.text = introduction;
-    NSMutableAttributedString *scoreStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.1f",[self.score floatValue]]];
-    [scoreStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:24] range:NSMakeRange(0, [self.score floatValue] >=100.0 ? 3:2)];
-    [scoreStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:16] range:NSMakeRange([self.score floatValue] >=100?3:2,2)];
-    self.houseScoreLabel.attributedText = scoreStr;
+    if (self.score) {
+        NSMutableAttributedString *scoreStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.1f",[self.score floatValue]]];
+        [scoreStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:24] range:NSMakeRange(0, [self.score floatValue] >=100.0 ? 3:2)];
+        [scoreStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:16] range:NSMakeRange([self.score floatValue] >=100?3:2,2)];
+        self.houseScoreLabel.attributedText = scoreStr;
+    } else {
+        self.houseScoreLabel.hidden = YES;
+    }
     if (self.type == type_zufang) {
         _supportingFacilitiesView.hidden = NO;
         NSArray *titleAry = @[@"电视",@"空调",@"冰箱",@"床",@"热水器",@"网络",@"燃气",@"洗衣机"];
@@ -202,7 +206,6 @@
     __weak typeof(self) weakSelf = self;
     NSString *url ;
     if (self.type == type_zufang) {
-        
         url = [NSString stringWithFormat:@"%@/zufang/item-info",Server_url];
     } else {
         url = [NSString stringWithFormat:@"%@/ershou/item-info",Server_url];
