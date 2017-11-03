@@ -98,8 +98,10 @@
         return NO;
     } else {
         if ([text isEqualToString:@"\n"]) {
-            textView.text = @"";
-            return NO;
+            if ([self.delegate respondsToSelector:@selector(publishButtonDidClick)]) {
+                [self.delegate publishButtonDidClick];
+            }
+            return YES;
         }
     }
     return YES;

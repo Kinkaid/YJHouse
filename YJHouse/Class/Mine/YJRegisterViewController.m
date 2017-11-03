@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.isForgetPW) {
-        self.tips.text = @"请填写邮箱进行找回密码";
+        self.tips.text = @"请填写邮箱账号进行找回密码";
         [self setTitle:@"忘记密码"];
     } else {
         [self setTitle:@"注册账号"];
@@ -31,7 +31,7 @@
 }
 - (IBAction)confirmAction:(id)sender {
     if (![self.emailTextField.text containsString:@"@"]) {
-        [YJApplicationUtil alertHud:@"请输入正确的邮箱地址" afterDelay:1];
+        [YJApplicationUtil alertHud:@"请输入正确的邮箱账号" afterDelay:1];
         return;
     }
     [SVProgressHUD show];
@@ -58,7 +58,7 @@
         }
         [SVProgressHUD dismiss];
     } error:^(NSError *error) {
-        [YJApplicationUtil alertHud:@"请输入正确的邮箱" afterDelay:1];
+        [YJApplicationUtil alertHud:@"请输入正确的邮箱账号" afterDelay:1];
         [SVProgressHUD dismiss];
     }];
 }

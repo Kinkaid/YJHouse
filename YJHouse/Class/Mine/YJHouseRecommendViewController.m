@@ -68,9 +68,9 @@
     } else if ([self.type isEqualToString:@"7"]){
         [self setTitle:@"收藏租房降价"];
     }else if ([self.type isEqualToString:@"9"]){
-        [self setTitle:@"收藏小区二手房上新"];
+        [self setTitle:@"收藏小区新上二手房"];
     }else if ([self.type isEqualToString:@"10"]){
-        [self setTitle:@"收藏小区出租房上新"];
+        [self setTitle:@"收藏小区新上租房"];
     }
 }
 - (void)loadHouseData {

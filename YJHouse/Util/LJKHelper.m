@@ -9,15 +9,27 @@
 #import "LJKHelper.h"
 @implementation LJKHelper
 + (NSString *)dateStringFromNumberTimer:(NSString *)timerStr {
-    //转化为Double
     double t = [timerStr doubleValue];
-    //计算出距离1970的NSDate
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:t];
-    //转化为 时间格式化字符串
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    df.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    //转化为 时间字符串
-    return [df stringFromDate:date];
+    NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval time = currentTime - t;
+    if (time < 60) {
+        return @"刚刚";
+    }else if (time < 3600){
+        return [NSString stringWithFormat:@"%.0f分钟前",time / 60];
+    } else if(time < (3600 * 24)){
+        return [NSString stringWithFormat:@"%.0f小时前",time / (3600)];
+    } else if (time < (3600 * 24 *2)) {
+        return [NSString stringWithFormat:@"昨天"];
+    } else if (time < (3600 * 24 *3)) {
+        return [NSString stringWithFormat:@"2天前"];
+    } else if (time < (3600 * 24 *4)) {
+        return [NSString stringWithFormat:@"3天前"];
+    } else {
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:t];
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        df.dateFormat = @"yyyy-MM-dd HH:mm";
+        return [df stringFromDate:date];
+    }
 }
 + (NSString *)dateStringFromNumberTimer:(NSString *)timerStr withFormat:(NSString *)format {
     //转化为Double

@@ -74,13 +74,7 @@
 
 - (void)loadMsgData {
     __weak typeof(self)weakSelf = self;
-    NSDictionary *params;
-    if ([self.type intValue] == 1) {
-        params = @{@"page":@(self.page),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
-    } else {
-        params = @{@"page":@(self.page),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
-    }
-    
+    NSDictionary *params = @{@"page":@(self.page),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-list",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             if (weakSelf.page == 0) {
@@ -127,7 +121,8 @@
             [weakSelf.tableView reloadData];
         }
     } error:^(NSError *error) {
-        
+        [YJGIFAnimationView hideInView:self.view];
+        [YJApplicationUtil alertHud:@"请求发生错误" afterDelay:1];
     }];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

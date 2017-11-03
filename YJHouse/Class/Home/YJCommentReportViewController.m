@@ -11,6 +11,7 @@
 @interface YJCommentReportViewController ()<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *commentLabel;
 @property (weak, nonatomic) IBOutlet UITextView *commentTV;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *reportContentHeight;
 
 @end
 
@@ -23,6 +24,7 @@
 
 - (void)rightBarButtonItem {
     self.commentLabel.text = self.comment;
+    self.reportContentHeight.constant = [LJKHelper textHeightFromTextString:self.comment width:APP_SCREEN_WIDTH - 40 fontSize:14]+12;
     [self setTitle:@"举报"];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitle:@"提交" forState:UIControlStateNormal];

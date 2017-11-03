@@ -32,7 +32,7 @@
 - (void)registerTableView {
     self.contentAry = [@[] mutableCopy];
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
-    NSArray * titleAry = @[@"收藏二手房降价",@"收藏出租房降价",@"收藏小区新上二手房",@"收藏小区新上出租房",@"评论回复",@"反馈",@"举报",@"系统消息"];
+    NSArray * titleAry = @[@"收藏二手房降价",@"收藏租房降价",@"收藏小区新上二手房",@"收藏小区新上租房",@"评论回复",@"反馈",@"举报",@"系统消息"];
     NSArray * contentAry = @[@"查看收藏二手房降价",@"查看收藏租房降价",@"查看收藏小区新上二手房最新资讯",@"查看收藏小区新上租房最新资讯",@"查看评论回复",@"查看反馈消息",@"查看举报消息",@"查看系统更新提醒"];
     for (int i=0; i<titleAry.count; i++) {
         YJMsgModel *model = [[YJMsgModel alloc] init];

@@ -288,12 +288,14 @@ static NSString * const kYJHeaderId = @"header";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([LJKHelper thirdLoginSuccess]) {
         self.selectModel = self.commentAry[indexPath.section][indexPath.row+1];
-        self.selectSelection = indexPath.section;
-        self.popupManager = [KLCPopup popupWithContentView:self.menuView];
-        YJHouseCommentModel *secModel = self.commentAry[indexPath.section][0];
-        [self.likeBtn setTitle:[NSString stringWithFormat:@"顶 (%@)",secModel.good] forState:UIControlStateNormal];
-        [self.dislikeBtn setTitle:[NSString stringWithFormat:@"踩 (%@)",secModel.bad] forState:UIControlStateNormal];
-        [self.popupManager show];
+        if (!ISEMPTY(self.selectModel.commentID)) {
+            self.selectSelection = indexPath.section;
+            self.popupManager = [KLCPopup popupWithContentView:self.menuView];
+            YJHouseCommentModel *secModel = self.commentAry[indexPath.section][0];
+            [self.likeBtn setTitle:[NSString stringWithFormat:@"顶 (%@)",secModel.good] forState:UIControlStateNormal];
+            [self.dislikeBtn setTitle:[NSString stringWithFormat:@"踩 (%@)",secModel.bad] forState:UIControlStateNormal];
+            [self.popupManager show];
+        }
     } else {
         WDLoginViewController *vc = [[WDLoginViewController alloc] init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -320,10 +322,9 @@ static NSString * const kYJHeaderId = @"header";
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     static NSString * identy = @"headFoot";
     UITableViewHeaderFooterView * hf = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identy];
-    hf.backgroundColor = [UIColor clearColor];
+    hf.contentView.backgroundColor = [UIColor clearColor];
     if (!hf) {
         hf = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:identy];
-        
         UIView * view = [[UIView alloc]initWithFrame:CGRectMake(13, 23, self.view.frame.size.width - 26, 1)];
         view.backgroundColor = [UIColor ex_colorFromHexRGB:@"D7D7D7"];
         [hf addSubview:view];
@@ -379,6 +380,7 @@ static NSString * const kYJHeaderId = @"header";
         self.inputView.label.text = @"   添加一条评论~";
     }
 }
+
 - (IBAction)menuAction:(id)sender {
     [self.popupManager dismiss:NO];
     UIButton *btn = sender;
@@ -441,6 +443,8 @@ static NSString * const kYJHeaderId = @"header";
             YJCommentReportViewController *vc = [[YJCommentReportViewController alloc] init];
             vc.comment = self.selectModel.comment;
             vc.commentID = self.selectModel.commentID;
+            vc.house_id = self.house_id;
+            vc.site_id = self.site_id;
             PushController(vc);
         }
             break;

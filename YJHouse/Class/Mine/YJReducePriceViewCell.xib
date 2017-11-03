@@ -56,7 +56,7 @@
                         <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="824万" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxA-l6-nVR">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="824万" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxA-l6-nVR">
                         <rect key="frame" x="269" y="45" width="35" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="1" green="0.51372549019607838" blue="0.086274509803921567" alpha="1" colorSpace="calibratedRGB"/>
@@ -101,9 +101,9 @@
                     <constraint firstItem="obB-HJ-Wzj" firstAttribute="top" secondItem="oxA-l6-nVR" secondAttribute="bottom" constant="8" id="71e-sp-xff"/>
                     <constraint firstItem="4L2-UK-mXI" firstAttribute="top" secondItem="5wy-tk-duH" secondAttribute="bottom" constant="4" id="AIv-hb-1L3"/>
                     <constraint firstItem="5wy-tk-duH" firstAttribute="top" secondItem="gxB-TU-7Sk" secondAttribute="bottom" constant="8" id="E9k-Tx-RSG"/>
-                    <constraint firstItem="oxA-l6-nVR" firstAttribute="centerX" secondItem="cux-rY-dcI" secondAttribute="centerX" id="FIZ-1t-fa1"/>
                     <constraint firstAttribute="trailing" secondItem="obB-HJ-Wzj" secondAttribute="trailing" constant="9" id="Fqm-zX-jMt"/>
                     <constraint firstItem="TrU-hO-Q0i" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="GdZ-3h-IIs"/>
+                    <constraint firstAttribute="trailing" secondItem="oxA-l6-nVR" secondAttribute="trailing" constant="16" id="Ge8-Mw-0Nz"/>
                     <constraint firstAttribute="trailing" secondItem="cux-rY-dcI" secondAttribute="trailing" constant="18" id="Im8-jV-X3L"/>
                     <constraint firstItem="gxB-TU-7Sk" firstAttribute="top" secondItem="NO4-R9-22k" secondAttribute="top" id="OC1-No-iCD"/>
                     <constraint firstItem="cux-rY-dcI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="Orf-Mc-hY9"/>
@@ -134,7 +134,7 @@
                 <outlet property="_totalPrice" destination="oxA-l6-nVR" id="WkC-50-lUC"/>
                 <outlet property="_xqNewLabel" destination="obB-HJ-Wzj" id="Ihp-bf-xlf"/>
             </connections>
-            <point key="canvasLocation" x="1" y="67"/>
+            <point key="canvasLocation" x="56" y="86"/>
         </tableViewCell>
     </objects>
     <resources>
