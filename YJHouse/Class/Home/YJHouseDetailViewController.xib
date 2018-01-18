@@ -76,7 +76,7 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q7h-kz-jeS">
-                    <rect key="frame" x="20" y="28" width="28" height="28"/>
+                    <rect key="frame" x="10" y="28" width="28" height="28"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="28" id="lnD-E8-Zvg"/>
@@ -117,7 +117,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="235" height="46"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BAN-2H-udr">
-                                    <rect key="frame" x="0.0" y="13" width="59" height="20"/>
+                                    <rect key="frame" x="0.0" y="13" width="58.5" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="ckP-9V-aKU"/>
                                     </constraints>
@@ -131,7 +131,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAa-av-Swa">
-                                    <rect key="frame" x="58.5" y="13" width="59" height="20"/>
+                                    <rect key="frame" x="58" y="13" width="58.5" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-4"/>
                                     <state key="normal" title="0" image="icon_dislike">
@@ -142,7 +142,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JDC-pY-ij3">
-                                    <rect key="frame" x="118" y="13.5" width="58.5" height="20"/>
+                                    <rect key="frame" x="117" y="13.5" width="59" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-4"/>
                                     <state key="normal" title=" 分享" image="icon_share">
@@ -153,7 +153,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2K-zl-bm2">
-                                    <rect key="frame" x="176.5" y="13.5" width="58.5" height="20"/>
+                                    <rect key="frame" x="176" y="13.5" width="59" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-4"/>
                                     <state key="normal" title=" 评论" image="icon_comment">
@@ -261,7 +261,7 @@
                 <constraint firstAttribute="trailing" secondItem="Lhv-qg-3sX" secondAttribute="trailing" id="Zdp-QU-4xD"/>
                 <constraint firstItem="erN-2o-J0p" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="erc-vl-jna"/>
                 <constraint firstItem="erN-2o-J0p" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="jH0-0x-63s"/>
-                <constraint firstItem="Q7h-kz-jeS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="mdz-on-Kkf"/>
+                <constraint firstItem="Q7h-kz-jeS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="mdz-on-Kkf"/>
                 <constraint firstItem="Lhv-qg-3sX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ni8-1H-Eby"/>
                 <constraint firstAttribute="trailing" secondItem="erN-2o-J0p" secondAttribute="trailing" id="zV0-fk-Qc9"/>
             </constraints>

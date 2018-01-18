@@ -26,7 +26,7 @@
     if (!_noSearchResultView) {
         _noSearchResultView = [[YJNoSearchDataView alloc] initWithFrame:CGRectMake(0, 64, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 64)];
         [self.view addSubview:_noSearchResultView];
-        _noSearchResultView.content = @"暂无收藏小区";
+        _noSearchResultView.content = @"亲，您暂时没有任何收藏哦";
     }
     return _noSearchResultView;
 }

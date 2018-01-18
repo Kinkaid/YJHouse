@@ -15,6 +15,7 @@
 
 #define APP_VERSION  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 
+#define KIsiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 
 #define ISEMPTY(x)	(((x) == nil ||[(x) isKindOfClass:[NSNull class]] ||([(x) isKindOfClass:[NSString class]] &&  ([(NSString*)(x) length] == 0 ||[(NSString*)(x) isEqualToString:@"(null)"])) || ([(x) isKindOfClass:[NSArray class]] && [(NSArray*)(x) count] == 0))|| ([(x) isKindOfClass:[NSDictionary class]] && [(NSDictionary*)(x) count] == 0))
 #define MainColor [UIColor ex_colorFromHexRGB:@"44A7FB"]
@@ -33,3 +34,24 @@
 
 
 #endif /* Header_h */
+/*
+ {"name":"桐庐县",
+ "children_children":
+ [{"name":"不限","id":"330122000"}],
+ "id":"330122000"},
+ 
+ {"name":"淳安县",
+ "children_children":
+ [{"name":"不限","id":"330127000"}],
+ "id":"330127000"},
+ 
+ {"name":"建德市",
+ "children_children":
+ [{"name":"不限","id":"330182000"}],
+ "id":"330182000"},
+ 
+ {"name":"临安市",
+ "children_children":
+ [{"name":"不限","id":"330185000"}],
+ "id":"330185000"}
+ */

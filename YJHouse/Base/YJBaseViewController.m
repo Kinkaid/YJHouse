@@ -19,7 +19,7 @@
 
 - (UIView *)navigationBar {
     if (!_navigationBar) {
-        _navigationBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, 64)];
+        _navigationBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, KIsiPhoneX?88:64)];
         _navigationBar.backgroundColor = [UIColor ex_colorFromHexRGB:@"44A7FB"];
         [self.view addSubview:_navigationBar];
         [self.view bringSubviewToFront:_navigationBar];
@@ -39,8 +39,8 @@
 - (UIButton *)backButton {
     if (!_backButton) {
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _backButton.frame = CGRectMake(0, 20, 44, 44);
         [_backButton setImage:[UIImage imageNamed:@"white_back_icon"] forState:UIControlStateNormal];
+        [_backButton setTitle:@"  " forState:UIControlStateNormal];
         [_backButton addTarget:self action:@selector(clickBackButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [self.navigationBar addSubview:_backButton];
     }
@@ -94,9 +94,9 @@
     }];
     [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.navigationBar);
-        make.top.equalTo(self.navigationBar).with.offset(17);
-        make.height.mas_equalTo(50);
-        make.width.mas_equalTo(70);
+        make.bottom.equalTo(self.navigationBar).with.offset(0);
+        make.height.mas_equalTo(44);
+        make.width.mas_equalTo(44);
     }];
     
 }

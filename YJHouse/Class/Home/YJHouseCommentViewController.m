@@ -16,9 +16,10 @@
 #import "YJCommentReportViewController.h"
 #import "YJHouseDetailViewController.h"
 #import "WDLoginViewController.h"
+#import "YJLoginTipsView.h"
 static NSString * const kCellId = @"YJHouseCommentCell";
 static NSString * const kYJHeaderId = @"header";
-@interface YJHouseCommentViewController ()<UITableViewDelegate,UITableViewDataSource,InputViewDelegate,YJSectionHeaderActionDelegate>
+@interface YJHouseCommentViewController ()<UITableViewDelegate,UITableViewDataSource,InputViewDelegate,YJSectionHeaderActionDelegate,YJLoginTipsViewShowDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *commentAry;
 @property (nonatomic, strong) InputView *inputView;
@@ -35,11 +36,19 @@ static NSString * const kYJHeaderId = @"header";
 @property (strong, nonatomic) IBOutlet UIView *menuView;
 @property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *dislikeBtn;
+@property (nonatomic,strong) YJLoginTipsView *loginTipsView;
 
 @end
 
 @implementation YJHouseCommentViewController
 
+- (YJLoginTipsView *)loginTipsView {
+    if (!_loginTipsView) {
+        _loginTipsView = [[YJLoginTipsView alloc] init];
+        _loginTipsView.delegate = self;
+    }
+    return _loginTipsView;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setTitle:@"所有评论"];
@@ -153,9 +162,10 @@ static NSString * const kYJHeaderId = @"header";
                 [self replayToSB:self.inputView.inputTextView.text];
             }
         } else {
-            WDLoginViewController *vc = [[WDLoginViewController alloc] init];
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-            [self presentViewController:nav animated:YES completion:nil];
+            [self.inputView.inputTextView resignFirstResponder];
+            self.popupManager = [KLCPopup popupWithContentView:self.loginTipsView];
+            self.popupManager.shouldDismissOnBackgroundTouch = NO;
+            [self.popupManager show];
         }
     }
 }
@@ -214,6 +224,7 @@ static NSString * const kYJHeaderId = @"header";
             [self.tableView reloadData];
         } else {
             [self.tableView.mj_header endRefreshing];
+            self.tableView.mj_footer.state = MJRefreshStateNoMoreData;
             [SVProgressHUD dismiss];
         }
     } error:^(NSError *error) {
@@ -276,16 +287,24 @@ static NSString * const kYJHeaderId = @"header";
     }];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.commentAry.count;
+    return self.commentAry.count ? self.commentAry.count : 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.commentAry[section] count] - 1;
+    return self.commentAry.count ? [self.commentAry[section] count] - 1 : 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJHouseCommentModel *model = self.commentAry[indexPath.section][indexPath.row+1];
-    return model.height+8;
+    if (!self.commentAry.count) {
+        return APP_SCREEN_HEIGHT - 120;
+    } else {
+        YJHouseCommentModel *model = self.commentAry[indexPath.section][indexPath.row+1];
+        return model.height+8;
+    }
+    
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.commentAry.count) {
+        return;
+    }
     if ([LJKHelper thirdLoginSuccess]) {
         self.selectModel = self.commentAry[indexPath.section][indexPath.row+1];
         if (!ISEMPTY(self.selectModel.commentID)) {
@@ -297,27 +316,49 @@ static NSString * const kYJHeaderId = @"header";
             [self.popupManager show];
         }
     } else {
-        WDLoginViewController *vc = [[WDLoginViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
+        [self.inputView.inputTextView resignFirstResponder];
+        self.popupManager = [KLCPopup popupWithContentView:self.loginTipsView];
+        self.popupManager.shouldDismissOnBackgroundTouch = NO;
+        [self.popupManager show];
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJHouseCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[YJHouseCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellId];
+    if (!self.commentAry.count) {
+        static NSString *cellId = @"cellId";
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 3.0, (APP_SCREEN_HEIGHT - 160 - (APP_SCREEN_WIDTH / 3.0)) / 2.0 , APP_SCREEN_WIDTH / 3.0, APP_SCREEN_WIDTH / 3.0)];
+        img.image = [UIImage imageNamed:@"icon_comment_placeholder"];
+        [cell addSubview:img];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, (APP_SCREEN_HEIGHT - 160 - (APP_SCREEN_WIDTH / 3.0)) / 2.0 + (APP_SCREEN_WIDTH / 3.0), APP_SCREEN_WIDTH, 50)];
+        label.numberOfLines = 0;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"还没有评论\n快来抢沙发吧";
+        label.font = [UIFont systemFontOfSize:14];
+        label.textColor = [UIColor ex_colorFromHexRGB:@"8A8A8A"];
+        [cell addSubview:label];
+        return cell;
+    } else {
+        YJHouseCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+        if (!cell) {
+            cell = [[YJHouseCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellId];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        YJHouseCommentModel *model = self.commentAry[indexPath.section][indexPath.row+1];
+        [cell showDataWithModel:model];
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    YJHouseCommentModel *model = self.commentAry[indexPath.section][indexPath.row+1];
-    [cell showDataWithModel:model];
-    return cell;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    YJHouseCommentSectionHeaderView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kYJHeaderId];
-    header.delegate = self;
-    [header showDataWithModel:self.commentAry[section][0]];
-    header.section = section;
-    return header;
+    if (!self.commentAry.count) {
+        return nil;
+    } else {
+        YJHouseCommentSectionHeaderView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kYJHeaderId];
+        header.delegate = self;
+        [header showDataWithModel:self.commentAry[section][0]];
+        header.section = section;
+        return header;
+    }
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     static NSString * identy = @"headFoot";
@@ -329,15 +370,20 @@ static NSString * const kYJHeaderId = @"header";
         view.backgroundColor = [UIColor ex_colorFromHexRGB:@"D7D7D7"];
         [hf addSubview:view];
     }
-    return hf;
+    return self.commentAry.count ? hf :nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    YJHouseCommentModel *model = self.commentAry[section][0];
-    return model.height + 80 +20;
+    if (!self.commentAry.count) {
+        return 0.01;
+    } else {
+        YJHouseCommentModel *model = self.commentAry[section][0];
+        return model.height + 80 +20;
+    }
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 24.0;
+    return self.commentAry.count ? 24.0 :0.01;
 }
 - (void)sectionHeaderAction:(NSInteger)section {
     if ([LJKHelper thirdLoginSuccess]) {
@@ -351,11 +397,23 @@ static NSString * const kYJHeaderId = @"header";
         [self.dislikeBtn setTitle:[NSString stringWithFormat:@"踩 (%@)",self.selectModel.bad] forState:UIControlStateNormal];
         [self.popupManager show];
     } else {
-        WDLoginViewController *vc = [[WDLoginViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
+        [self.inputView.inputTextView resignFirstResponder];
+        self.popupManager = [KLCPopup popupWithContentView:self.loginTipsView];
+        self.popupManager.shouldDismissOnBackgroundTouch = NO;
+        [self.popupManager show];
     }
 }
+#pragma mark - YJLoginTipsViewDelegate
+- (void)cancelLoginTipsAction {
+    [self.popupManager dismiss:YES];
+}
+- (void)gotoLoginAction {
+    [self.popupManager dismiss:NO];
+    WDLoginViewController *vc = [[WDLoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
 - (void)commentLikeAction:(UIButton *)sender section:(NSInteger)section{
     self.selectModel = self.commentAry[section][0];
     if (ISEMPTY(self.selectModel.commentID)||[self.selectModel.eva boolValue]) {

@@ -17,12 +17,13 @@
 #import "YJFeedbackViewController.h"
 #import "YJCollectionRentViewController.h"
 #import "KLCPopup.h"
+#import "YJLoginTipsView.h"
 #import "WDShareUtil.h"
 #import "YJLoadingAnimationView.h"
 #import "WDAboutUsViewController.h"
 #import "YJSettingViewController.h"
 #import "WDLoginViewController.h"
-@interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource,SKStoreProductViewControllerDelegate>
+@interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource,SKStoreProductViewControllerDelegate,YJLoginTipsViewShowDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic,strong) NSMutableArray *titleAry;
@@ -32,11 +33,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UILabel *mgsCount;
 @property (nonatomic,strong) NSMutableArray *msgCountAry;
+@property (nonatomic,strong) YJLoginTipsView *loginTipsView;
 
 @end
 
 @implementation YJUserCenterViewController
 
+
+- (YJLoginTipsView *)loginTipsView {
+    if (!_loginTipsView) {
+        _loginTipsView = [[YJLoginTipsView alloc] init];
+        _loginTipsView.delegate = self;
+    }
+    return _loginTipsView;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.hidden = YES;
@@ -186,31 +196,31 @@
                 self.klcManager.showType = KLCPopupShowTypeSlideInFromBottom;
                 self.klcManager.dismissType = KLCPopupDismissTypeSlideOutToBottom;
                 [self.klcManager showAtCenter:CGPointMake(APP_SCREEN_WIDTH / 2.0, APP_SCREEN_HEIGHT - 75) inView:self.view];
-//                [self shareFriendWithImg:[UIImage imageNamed:@"yj_download"]];
             }
                 break;
             case 3:
             {
-                [SVProgressHUD show];
-                //初始化控制器
-                SKStoreProductViewController *storeProductViewContorller = [[SKStoreProductViewController alloc] init];
-                //设置代理请求为当前控制器本身
-                storeProductViewContorller.delegate = self;
-                //加载一个新的视图展示
-                [storeProductViewContorller loadProductWithParameters:
-                 //appId唯一的
-                 @{SKStoreProductParameterITunesItemIdentifier : @"1241832323"} completionBlock:^(BOOL result, NSError *error) {
-                     //block回调
-                     if(error){
-                         NSLog(@"error %@ with userInfo %@",error,[error userInfo]);
-                     }else{
-                         //模态弹出appstore
-                         [self presentViewController:storeProductViewContorller animated:YES completion:^{
-                             [SVProgressHUD dismiss];
+                if([SKStoreReviewController respondsToSelector:@selector(requestReview)]){
+                    [SKStoreReviewController requestReview];
+                } else {
+                    [SVProgressHUD show];
+                    //初始化控制器
+                    SKStoreProductViewController *storeProductViewContorller = [[SKStoreProductViewController alloc] init];
+                    //设置代理请求为当前控制器本身
+                    storeProductViewContorller.delegate = self;
+                    //加载一个新的视图展示
+                    [storeProductViewContorller loadProductWithParameters:
+                     //appId唯一的
+                     @{SKStoreProductParameterITunesItemIdentifier : @"1241832323"} completionBlock:^(BOOL result, NSError *error) {
+                         //block回调
+                         if(!error){
+                             //模态弹出appstore
+                             [self presentViewController:storeProductViewContorller animated:YES completion:^{
+                                 [SVProgressHUD dismiss];
+                             }];
                          }
-                          ];
-                     }
-                 }];
+                     }];
+                }
             }
                 break;
             default:
@@ -305,10 +315,19 @@
         YJPersonInfoViewController *vc = [[YJPersonInfoViewController alloc] init];
         PushController(vc);
     } else {
-        WDLoginViewController *vc = [[WDLoginViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
+//        self.klcManager = [KLCPopup popupWithContentView:self.loginTipsView];
+//        self.klcManager.shouldDismissOnBackgroundTouch = NO;
+//        [self.klcManager show];
+        [self gotoLoginAction];
     }
-    
+}
+- (void)cancelLoginTipsAction {
+    [self.klcManager dismiss:YES];
+}
+- (void)gotoLoginAction {
+    [self.klcManager dismiss:NO];
+    WDLoginViewController *vc = [[WDLoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 @end

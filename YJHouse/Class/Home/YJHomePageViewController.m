@@ -21,6 +21,7 @@
 #import "YJHouseListModel.h"
 #import "YJSecondStepViewController.h"
 #import "YJMapViewController.h"
+#import "YJHouseInformationViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
 static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
 static NSString *const houseTypeKey = @"houseTypeKey";
@@ -49,6 +50,9 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 @property (nonatomic,copy) NSString *maxPrice;
 @property (nonatomic,strong) NSDictionary *mfParams;
 @property (nonatomic,assign) NSInteger sortTapLastTime;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *navHeightLayout;
+@property (weak, nonatomic) IBOutlet UIScrollView *houseInfoSV;
+@property (nonatomic, strong) dispatch_source_t timer;
 @end
 
 @implementation YJHomePageViewController
@@ -58,7 +62,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJPriceView *)priceView {
     if (!_priceView) {
-        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100 - 49)];
+        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, KIsiPhoneX?126:100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - (KIsiPhoneX?126:100) - 49)];
         _priceView.hidden = YES;
         _priceView.delegate = self;
         _priceView.houseType = houseBuy;
@@ -68,7 +72,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJAddressView *)addressView {
     if (!_addressView) {
-        _addressView = [[YJAddressView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH,APP_SCREEN_HEIGHT - 100 - 49)];
+        _addressView = [[YJAddressView alloc] initWithFrame:CGRectMake(0, KIsiPhoneX?126:100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - (KIsiPhoneX?126:100) - 49)];
         _addressView.delegate = self;
         _addressView.hidden = YES;
         [self.view addSubview:_addressView];
@@ -77,7 +81,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJSortView *)sortView {
     if (!_sortView) {
-        _sortView = [[YJSortView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100 - 49)];
+        _sortView = [[YJSortView alloc] initWithFrame:CGRectMake(0, KIsiPhoneX?126:100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - (KIsiPhoneX?126:100) - 49)];
         _sortView.hidden = YES;
         _sortView.delegate = self;
         _sortView.sortType = houseType;
@@ -87,7 +91,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJMFMoreView *)mfMoreView {
     if (!_mfMoreView) {
-        _mfMoreView = [[YJMFMoreView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100 - 49)];
+        _mfMoreView = [[YJMFMoreView alloc] initWithFrame:CGRectMake(0, KIsiPhoneX?126:100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - (KIsiPhoneX?126:100) - 49)];
         _mfMoreView.hidden = YES;
         _mfMoreView.delegate = self;
         [self.view addSubview:_mfMoreView];
@@ -96,7 +100,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (YJZFMoreView *)zfMoreView {
     if (!_zfMoreView) {
-        _zfMoreView = [[YJZFMoreView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100 - 49)];
+        _zfMoreView = [[YJZFMoreView alloc] initWithFrame:CGRectMake(0, KIsiPhoneX?126:100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - (KIsiPhoneX?126:100) - 49)];
         _zfMoreView.hidden = YES;
         _zfMoreView.delegate = self;
         [self.view addSubview:_zfMoreView];
@@ -110,6 +114,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [SVProgressHUD show];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     self.navigationBar.hidden = YES;
+    self.navHeightLayout.constant = KIsiPhoneX?88:64;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHomeData) name:kReloadHomeDataNotif object:nil];
     [self registerTableView];
     self.sortTapLastTime = 51;
@@ -125,6 +130,52 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         [self initWithBtnWithType:0];
     }
     [self loadHomeData];
+    [self loadHouseInfo];
+}
+- (void)loadHouseInfo {
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *params = @{@"type":@(1),@"page":@(0)};
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/news/list",Server_url] parameters:params method:GET callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject[@"result"])) {
+            NSArray *ary = responseObject[@"result"];
+            weakSelf.houseInfoSV.contentSize = CGSizeMake(self.houseInfoSV.frame.size.width, 44*((ary.count)>6?6:ary.count));
+            for (int i=0; i<((ary.count)>6?6:ary.count); i++) {
+                UILabel *label = [[UILabel alloc] init];
+                label.text = [NSString stringWithFormat:@"%@",ary[i][@"title"]];
+                label.textColor = [UIColor ex_colorFromHexRGB:@"212121"];
+                label.frame = CGRectMake(0, 44*i, weakSelf.houseInfoSV.frame.size.width, 44);
+                label.font = [UIFont systemFontOfSize:14];
+                [weakSelf.houseInfoSV addSubview:label];
+            }
+            [weakSelf setGCDTimerWithCount:((ary.count)>6?6:ary.count)];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
+- (void)setGCDTimerWithCount:(NSUInteger)msgCount {
+    __block int count = -1;
+    dispatch_queue_t queue = dispatch_get_main_queue();
+    self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
+    uint64_t interval = (uint64_t)(3.0 * NSEC_PER_SEC);
+    dispatch_source_set_timer(self.timer, start, interval, 0);
+    __block float dur = 0.2;
+    dispatch_source_set_event_handler(self.timer, ^{
+        count ++;
+        if (count == 0) {
+            dur = 0;
+        } else {
+            dur = 0.2;
+        }
+        [UIView animateWithDuration:dur animations:^{
+            self.houseInfoSV.contentOffset = CGPointMake(0, 44*count);
+            if (count >=msgCount-1) {
+                count = -1;
+            }
+        }];
+    });
+    dispatch_resume(self.timer);
 }
 #pragma mark -YJRequestTimeoutDelegate 
 - (void)requestTimeoutAction {
@@ -200,10 +251,10 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 }
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.66 +150 +46);
+    self.headerView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.66 + 150 +46 +50);
     [self.tableView setTableHeaderView:self.headerView];
     self.navView.backgroundColor = [[UIColor ex_colorFromHexRGB:@"FF0000"] colorWithAlphaComponent:0];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.homePage = 0;
     self.homeHouseAry = [@[] mutableCopy];
 }
@@ -268,26 +319,42 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     }];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.homeHouseAry.count;
+    return self.homeHouseAry.count ? self.homeHouseAry.count : 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 97;
+    return self.homeHouseAry.count ? 97 : APP_SCREEN_WIDTH / 3.0;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YJHomePageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
-    if (!cell) {
-        cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+    if (!self.homeHouseAry.count) {
+        static NSString *cellId = @"cellId";
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(APP_SCREEN_WIDTH / 3.0, 0, APP_SCREEN_WIDTH / 3.0, APP_SCREEN_WIDTH / 3.0)];
+        img.image = [UIImage imageNamed:@"icon_search_placeholder"];
+        [cell addSubview:img];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, APP_SCREEN_WIDTH / 3.0, APP_SCREEN_WIDTH, 12)];
+        label.text = @"暂无匹配房源";
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor ex_colorFromHexRGB:@"8A8A8A"];
+        label.font = [UIFont systemFontOfSize:14];
+        [cell addSubview:label];
+        return cell;
+    } else {
+        YJHomePageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+        if (!cell) {
+            cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell showDataWithModel:self.homeHouseAry[indexPath.row]];
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell showDataWithModel:self.homeHouseAry[indexPath.row]];
-    return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.homeHouseAry.count) {
+        return;
+    }
     YJHouseListModel *model = self.homeHouseAry[indexPath.row];
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id =model.site;
@@ -304,7 +371,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 #pragma mark - IBActions
 - (IBAction)scanTypeAction:(id)sender {
     self.klcManager = [KLCPopup popupWithContentView:self.popupView];
-    [self.klcManager showAtCenter:CGPointMake(40, 100) inView:self.view];
+    [self.klcManager showAtCenter:CGPointMake(40, KIsiPhoneX?126:100) inView:self.view];
 }
 - (IBAction)mapAction:(id)sender {
 //    YJMapViewController *vc =[[YJMapViewController alloc] init];
@@ -469,7 +536,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     }
     UIButton *button = sender;
     if (button.tag < 55) {
-      [self.tableView setContentOffset:CGPointMake(0, APP_SCREEN_WIDTH *0.66 +150 + 6 - 64)];
+        [self.tableView setContentOffset:CGPointMake(0, APP_SCREEN_WIDTH *0.66 +150 + + 50 +6 - (KIsiPhoneX?88:64))];
     }
     if (button.tag == 51 || button.tag == 55) {
         UIButton *btn51= [self.view viewWithTag:51];
@@ -578,6 +645,12 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         }
     }
 }
+#pragma mark --资讯
+- (IBAction)houseInfoAction:(id)sender {
+    YJHouseInformationViewController *vc= [[YJHouseInformationViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (IBAction)xiaoquAction:(id)sender {
     __weak typeof(self) weakSelf = self;
     UIButton *btn = sender;
@@ -613,10 +686,10 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     self.zfMoreView.hidden = YES;
     self.addressView.hidden = YES;
     self.navView.backgroundColor = [[UIColor ex_colorFromHexRGB:@"44A7FB"] colorWithAlphaComponent:(scrollView.contentOffset.y /128.0)];
-    if (scrollView.contentOffset.y >= APP_SCREEN_WIDTH *0.66 +150 + 6 - 63) {
+    if (scrollView.contentOffset.y >= APP_SCREEN_WIDTH *0.66 +150 + 50 + 6 - (KIsiPhoneX?88:64)) {
         self.topView.hidden = NO;
         self.titleView.hidden = NO;
-        self.titleView.subviews[0].alpha = (scrollView.contentOffset.y - (APP_SCREEN_WIDTH *0.66 +150 + 6 - 64)) / 64.0;
+        self.titleView.subviews[0].alpha = (scrollView.contentOffset.y - (APP_SCREEN_WIDTH *0.66 +120 - (KIsiPhoneX?88:64))) / (KIsiPhoneX?88.0:64.0);
         self.searchBtn.hidden = NO;
     } else {
         self.topView.hidden = YES;

@@ -7,9 +7,8 @@
 //
 
 #import "WDWebKitViewController.h"
-
+#import "YJMessageHandler.h"
 @interface WDWebKitViewController ()<WKUIDelegate,WKNavigationDelegate,WDWebViewNavigationDelegate,WKScriptMessageHandler>
-
 @property (nonatomic, strong) NSURLRequest *loadRequest;
 
 @end
@@ -25,7 +24,7 @@
 - (WKWebView *)webView {
     if (!_webView) {
         WKUserContentController *userContentController = [[WKUserContentController alloc] init];
-        [userContentController addScriptMessageHandler:self name:@"doPush"];
+        [userContentController addScriptMessageHandler:[[YJMessageHandler alloc] initWithDelegate:self] name:@"doPush"];
         
         WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
         configuration.userContentController = userContentController;
@@ -44,7 +43,7 @@
         UIProgressView *progressView = [[UIProgressView alloc] init];
         progressView.trackTintColor = [UIColor clearColor];
         progressView.alpha = 0.0f;
-        progressView.frame = CGRectMake(0, 64, self.view.frame.size.width, 2.0);
+        progressView.frame = CGRectMake(0, KIsiPhoneX?88:64, self.view.frame.size.width, 2.0);
         [self.view addSubview:progressView];
         _progressBar = progressView;
     }

@@ -96,6 +96,7 @@
 - (IBAction)nextAction:(id)sender {
     if (self.slider.selectedMinimum == self.slider.selectedMaximum) {
         [YJApplicationUtil alertHud:@"请正确设置价格区间" afterDelay:1];
+        return;
     }
     YJFourthStepViewController *vc = [[YJFourthStepViewController alloc] init];
     int min = self.slider.selectedMinimum;

@@ -14,14 +14,14 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor ex_colorFromHexRGB:@"E8E8E8"];
-        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake((APP_SCREEN_WIDTH - 196) / 2.0, 100, 196, 145)];
-        img.image = [UIImage imageNamed:@"icon_noSearchResult"];
+        self.backgroundColor = [UIColor whiteColor];
+        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake((APP_SCREEN_WIDTH / 3.0) , (APP_SCREEN_HEIGHT - 160 - (APP_SCREEN_WIDTH / 3.0)) / 2.0, (APP_SCREEN_WIDTH / 3.0), (APP_SCREEN_WIDTH / 3.0))];
+        img.image = [UIImage imageNamed:@"icon_collection_placeholder"];
         [self addSubview:img];
-        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 250, APP_SCREEN_WIDTH, 30)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(0, (APP_SCREEN_HEIGHT - 100 - (APP_SCREEN_WIDTH / 3.0)) / 2.0 +(APP_SCREEN_WIDTH / 3.0), APP_SCREEN_WIDTH, 30)];
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor ex_colorFromHexRGB:@"B3B3B3"];
-        label.font = [UIFont systemFontOfSize:22];
+        label.font = [UIFont systemFontOfSize:16];
         [self addSubview:label];
     }
     return self;

@@ -8,13 +8,24 @@
 
 #import "YJReportAndFeedbackViewController.h"
 #import "WDLoginViewController.h"
-@interface YJReportAndFeedbackViewController ()<UITextViewDelegate>
+#import "KLCPopup.h"
+#import "YJLoginTipsView.h"
+@interface YJReportAndFeedbackViewController ()<UITextViewDelegate,YJLoginTipsViewShowDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tipsLabel;
 @property (weak, nonatomic) IBOutlet UITextView *otherReasonTextView;
+@property (nonatomic,strong) YJLoginTipsView *loginTipsView;
+@property (nonatomic,strong) KLCPopup *klcManager;
 @end
 
 @implementation YJReportAndFeedbackViewController
 
+- (YJLoginTipsView *)loginTipsView {
+    if (!_loginTipsView) {
+        _loginTipsView = [[YJLoginTipsView alloc] init];
+        _loginTipsView.delegate = self;
+    }
+    return _loginTipsView;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"反馈与举报";
@@ -69,9 +80,9 @@
             
         }];
     } else {
-        WDLoginViewController *vc = [[WDLoginViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
+        self.klcManager = [KLCPopup popupWithContentView:self.loginTipsView];
+        self.klcManager.shouldDismissOnBackgroundTouch = NO;
+        [self.klcManager show];
     }
 }
 - (IBAction)selectReasonAction:(id)sender {
@@ -92,5 +103,14 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.otherReasonTextView resignFirstResponder];
+}
+- (void)cancelLoginTipsAction {
+    [self.klcManager dismiss:YES];
+}
+- (void)gotoLoginAction {
+    [self.klcManager dismiss:NO];
+    WDLoginViewController *vc = [[WDLoginViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 @end

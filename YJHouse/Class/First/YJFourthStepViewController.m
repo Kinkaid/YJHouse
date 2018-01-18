@@ -195,8 +195,7 @@
                     [self.view removeFromSuperview];
                 } else {
                     [YJApplicationUtil alertHud:responseObject[@"error"] afterDelay:1];
-                }
-                
+                } 
             } else {
                 if (!self.edit) {
                     [LJKHelper saveErshouWeight_id:responseObject[@"result"][@"weight_id"]];
