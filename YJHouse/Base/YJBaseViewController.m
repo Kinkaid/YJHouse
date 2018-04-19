@@ -64,6 +64,7 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushRemoteNotification:) name:kPushRemoteNotification object:nil];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -76,6 +77,28 @@
     self.firstDisplay = NO;
     [YJGIFAnimationView hideInView:self.view];
     [SVProgressHUD dismiss];
+}
+- (void)pushRemoteNotification:(NSNotification *)notif {
+    if (self.isVisible) {
+        if ([notif.object[@"type"] intValue] == 1) {
+            YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
+            vc.type = type_maifang;
+            vc.site_id = notif.object[@"site"];
+            vc.house_id = notif.object[@"tid"];
+            PushController(vc);
+        } else if ([notif.object[@"type"] intValue] == 2) {
+            YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
+            vc.type = type_zufang;
+            vc.site_id = notif.object[@"site"];
+            vc.house_id = notif.object[@"tid"];
+            PushController(vc);
+        } else if ([notif.object[@"type"] intValue] == 3) {
+            YJHouseCommentViewController *vc = [[YJHouseCommentViewController alloc] init];
+            vc.site_id = notif.object[@"site"];
+            vc.house_id = notif.object[@"tid"];
+            PushController(vc);
+        }
+    }
 }
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;

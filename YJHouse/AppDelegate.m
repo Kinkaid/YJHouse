@@ -15,9 +15,9 @@
 #import "WeiboSDK.h"
 #import "YJFirstScrollViewController.h"
 #import <AMapFoundationKit/AMapFoundationKit.h>
-#define kGtAppId @"uzENlmgh9nAqvsoVDkdQu5"
-#define kGtAppSecret @"jaBs6Ers0P8YMvY4tUW4k5"
-#define kGtAppKey @"clbnm5kb5O6JjXdFA9vte3" 
+#define kGtAppId @"UcDJH8tFZy7fVYqeMx4TS3"
+#define kGtAppSecret @"G6HRVjiZ938hiOhOOpdQL8"
+#define kGtAppKey @"BFQDaz9AUG9jpW1N955fv2"
 
 @interface AppDelegate ()
 
@@ -92,25 +92,18 @@
                                                              }];
 }
 - (void)registerRemoteNotification {
+    [GeTuiSdk resetBadge];
+    //如果需要角标清空需要调用系统方法设置
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0 // Xcode 8编译会调
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         center.delegate = self;
-        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionCarPlay
-                                                 ) completionHandler:^(BOOL granted, NSError *_Nullable error) {
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionCarPlay) completionHandler:^(BOOL granted, NSError *_Nullable error) {
             if (!error) {
                 NSLog(@"request authorization succeeded!");
-            } }];
+            }
+        }];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
-#else // Xcode 7编译会调
-            UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotifi
-                                            cationTypeSound | UIUserNotificationTypeBadge);
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings setting
-                                                sForTypes:types categories:nil];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settin
-         gs];
-#endif
     } else if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
         UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
@@ -119,47 +112,57 @@
     }
 }
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[
-                                                                                  NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    YJLog(@"\n>>>[DeviceToken Success]:%@\n\n", token);
-    // 向个推服务 注册deviceToken
+    NSLog(@"\n>>>[DeviceToken Success]:%@\n\n", token);
+    // 向个推服务器注册deviceToken
     [GeTuiSdk registerDeviceToken:token];
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     // 将收到的APNs信息传给个推统计
-    [GeTuiSdk handleRemoteNotification:userInfo]; completionHandler(UIBackgroundFetchResultNewData);
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [GeTuiSdk handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-// iOS 10: App在前台获取到通知
+
+//  iOS 10: App在前台获取到通知 对于iOS 10 及以后版本，为处理 APNs 通知点击，统计有效用户点击数
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-    NSLog(@"willPresentNotification:%@", notification.request.content.userInfo);
-    // 根据APP需要，判断是否要提示 户Badge、Sound、Alert
+    // 根据APP需要，判断是否要提示用户Badge、Sound、Alert
     completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
 }
-// iOS 10: 点击通知进 App时触发，在该 法内统计有效 户点击数
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)( ))completionHandler {
-    NSLog(@"didReceiveNotification:%@", response.notification.request.content.userInfo);
-    // [ GTSdk ]:将收到的APNs信息传给个推统计
+
+//  iOS 10: 点击通知进入App时触发，在该方法内统计有效用户点击数
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    NSLog(@"didReceiveNotification：%@", response.notification.request.content.userInfo);
+    // [ GTSdk ]：将收到的APNs信息传给个推统计
     [GeTuiSdk handleRemoteNotification:response.notification.request.content.userInfo];
     completionHandler();
+//    SystemUser *user =  [SystemUser shareInstance];
+//    if (user.isLogin) {
+//        if (!ISEMPTY(response.notification.request.content.userInfo[@"tid"])) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kPushRemoteNotification object:response.notification.request.content.userInfo];
+//        }
+//    }
 }
 #endif
 /** SDK启动成功返回cid */
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId {
     //个推SDK已注册，返回clientId
-    NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
+    [[NSUserDefaults standardUserDefaults] setObject:clientId forKey:@"clientId"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 /** SDK收到透传消息回调 */
-- (void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData andTaskId:(NSString *) taskId andMsgId:(NSString *)msgId andOffLine:(BOOL)offLine fromGtAppId:(NSString * )appId {
+- (void)GeTuiSdkDidReceivePayloadData:(NSData *)payloadData andTaskId:(NSString *)taskId andMsgId:(NSString *)msgId andOffLine:(BOOL)offLine fromGtAppId:(NSString *)appId {
     //收到个推消息
     NSString *payloadMsg = nil;
     if (payloadData) {
         payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes length:payloadData.length encoding:NSUTF8StringEncoding];
     }
-    NSString *msg = [NSString stringWithFormat:@"taskId=%@,messageId:%@,payloadMsg :%@%@",taskId,msgId, payloadMsg,offLine ? @"<离线消息>" : @""];
-    NSLog(@"\n>>>[GexinSdk ReceivePayload]:%@\n\n", msg);
+    NSData * data = [payloadMsg dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    if (!offLine) {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kOrderReceiveRemoteNotification object:jsonDict];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

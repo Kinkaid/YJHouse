@@ -34,7 +34,7 @@
     self.navigationBar.hidden = YES;
 }
 - (IBAction)loginByQQ:(id)sender {
-    if([QQApiInterface isQQInstalled]){
+//    if([QQApiInterface isQQInstalled]){
         [ShareSDK getUserInfo:SSDKPlatformTypeQQ
                onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
          {
@@ -46,9 +46,9 @@
                  [YJApplicationUtil alertHud:@"QQ授权失败，请重新尝试" afterDelay:1];
              }
          }];
-    } else {
-        [YJApplicationUtil alertHud:@"请安装QQ客户端授权登录" afterDelay:1];
-    }
+//    } else {
+//        [YJApplicationUtil alertHud:@"请安装QQ客户端授权登录" afterDelay:1];
+//    }
 }
 - (IBAction)loginByWB:(id)sender {
     
@@ -78,8 +78,16 @@
         [LJKHelper saveThirdLoginState];
 //        [self saveUserInfoWithNick:nick icon:icon];
         [self postHeaderImg:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:icon]]]];
+        [self bindRemotePushCid];
     } error:^(NSError *error) {
         [YJApplicationUtil alertHud:@"第三方登录失败" afterDelay:1];
+    }];
+}
+- (void)bindRemotePushCid{
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-cid",Server_url] parameters:@{@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        
+    } error:^(NSError *error) {
+        NSLog(@"绑定cid错误");
     }];
 }
 - (void)saveUserInfoWithNick:(NSString *)nick icon:(NSString *)icon {

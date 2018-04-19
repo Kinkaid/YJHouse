@@ -20,20 +20,19 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="房子号啊，特别好啊，又便宜啊，便宜 卖啊" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MqT-h1-270">
-                        <rect key="frame" x="9" y="15" width="181" height="33.5"/>
+                        <rect key="frame" x="9" y="15" width="183" height="33.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.14901960784313725" green="0.14509803921568626" blue="0.14509803921568626" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_QQ" translatesAutoresizingMaskIntoConstraints="NO" id="O1L-g9-9nn">
-                        <rect key="frame" x="210" y="8" width="101" height="69"/>
+                        <rect key="frame" x="212" y="8" width="99" height="67.5"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="O1L-g9-9nn" secondAttribute="height" multiplier="101:69" id="H2x-Ab-Trh"/>
-                            <constraint firstAttribute="height" constant="69" id="O9v-xo-J7a"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12-02" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYl-Zl-gSb">
-                        <rect key="frame" x="9" y="53" width="33.5" height="14.5"/>
+                        <rect key="frame" x="9" y="61" width="33.5" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.61176470588235299" green="0.61176470588235299" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -48,15 +47,16 @@
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
+                    <constraint firstItem="3Gl-b8-1Dp" firstAttribute="top" secondItem="O1L-g9-9nn" secondAttribute="bottom" constant="8" id="5cw-uY-0WL"/>
                     <constraint firstItem="O1L-g9-9nn" firstAttribute="leading" secondItem="MqT-h1-270" secondAttribute="trailing" constant="20" id="7Bl-fJ-As4"/>
                     <constraint firstItem="MYl-Zl-gSb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="9" id="7zn-Xq-quA"/>
                     <constraint firstAttribute="trailing" secondItem="O1L-g9-9nn" secondAttribute="trailing" constant="9" id="BFS-Bb-iky"/>
+                    <constraint firstItem="MYl-Zl-gSb" firstAttribute="bottom" secondItem="O1L-g9-9nn" secondAttribute="bottom" id="CGC-4s-tSc"/>
                     <constraint firstItem="MqT-h1-270" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="9" id="N9t-IG-6dB"/>
+                    <constraint firstItem="O1L-g9-9nn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="amd-eA-Js0"/>
                     <constraint firstAttribute="trailing" secondItem="3Gl-b8-1Dp" secondAttribute="trailing" id="bm6-T1-Dqv"/>
-                    <constraint firstItem="O1L-g9-9nn" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="e0E-Gr-gKd"/>
                     <constraint firstAttribute="bottom" secondItem="3Gl-b8-1Dp" secondAttribute="bottom" id="pzA-AL-DGX"/>
                     <constraint firstItem="MqT-h1-270" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="vja-99-LUE"/>
-                    <constraint firstAttribute="bottom" secondItem="MYl-Zl-gSb" secondAttribute="bottom" constant="17" id="wym-g2-CM5"/>
                     <constraint firstItem="3Gl-b8-1Dp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="yqE-NQ-HMs"/>
                 </constraints>
             </tableViewCellContentView>
@@ -65,7 +65,7 @@
                 <outlet property="_img" destination="O1L-g9-9nn" id="Wtk-Wh-SbP"/>
                 <outlet property="_title" destination="MqT-h1-270" id="kEf-hW-TW0"/>
             </connections>
-            <point key="canvasLocation" x="16" y="44"/>
+            <point key="canvasLocation" x="15" y="3"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -10,4 +10,5 @@
 
 @interface YJHomePageViewController : YJBaseViewController
 
+
 @end

@@ -21,6 +21,7 @@
 @property (nonatomic,copy) id site;
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,copy) NSString *topcut;
+@property (nonatomic,assign) int difference;
 @property (nonatomic,copy) id total_price;
 @property (nonatomic,copy) NSString *type;
 @property (nonatomic,copy) NSString *uid;
@@ -34,4 +35,5 @@
 @property (nonatomic,copy) id state;
 @property (nonatomic,copy) id date;
 @property (nonatomic,assign) BOOL xq_new;
+@property (nonatomic,copy) NSString* time;
 @end

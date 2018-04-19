@@ -17,13 +17,15 @@
 #import "YJFeedbackViewController.h"
 #import "YJCollectionRentViewController.h"
 #import "KLCPopup.h"
-#import "YJLoginTipsView.h"
 #import "WDShareUtil.h"
 #import "YJLoadingAnimationView.h"
 #import "WDAboutUsViewController.h"
 #import "YJSettingViewController.h"
 #import "WDLoginViewController.h"
-@interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource,SKStoreProductViewControllerDelegate,YJLoginTipsViewShowDelegate>
+#import "YJLoginView.h"
+#import <ShareSDK/ShareSDK.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+@interface YJUserCenterViewController ()<UITableViewDelegate,UITableViewDataSource,SKStoreProductViewControllerDelegate,YJLoginViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic,strong) NSMutableArray *titleAry;
@@ -33,19 +35,19 @@
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UILabel *mgsCount;
 @property (nonatomic,strong) NSMutableArray *msgCountAry;
-@property (nonatomic,strong) YJLoginTipsView *loginTipsView;
+@property (nonatomic,strong) YJLoginView *loginView;
 
 @end
 
 @implementation YJUserCenterViewController
 
-
-- (YJLoginTipsView *)loginTipsView {
-    if (!_loginTipsView) {
-        _loginTipsView = [[YJLoginTipsView alloc] init];
-        _loginTipsView.delegate = self;
+- (YJLoginView *)loginView {
+    if (!_loginView) {
+        _loginView = [[YJLoginView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH - 80, 220)];
+        _loginView.delegate = self;
+        _loginView.backgroundColor = [UIColor whiteColor];
     }
-    return _loginTipsView;
+    return _loginView;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,7 +58,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.headerImg sd_setImageWithURL:[NSURL URLWithString:[LJKHelper getUserHeaderUrl]] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
-    self.userName.text = [LJKHelper getUserName];
+    self.userName.text = [LJKHelper thirdLoginSuccess]?[LJKHelper getUserName]:@"QQ/微博登陆";
     [self msgCount];
 }
 
@@ -251,27 +253,27 @@
     switch (btn.tag) {
         case 11:
         {
-         [WDShareUtil shareTye:shareWXFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+            [WDShareUtil shareTye:shareWXFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:NO];
         }
             break;
         case 12:
         {
-            [WDShareUtil shareTye:shareWXzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+            [WDShareUtil shareTye:shareWXzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:NO];
         }
             break;
         case 13:
         {
-             [WDShareUtil shareTye:shareQQFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+             [WDShareUtil shareTye:shareQQFriends withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:NO];
         }
             break;
         case 14:
         {
-             [WDShareUtil shareTye:shareQQzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+             [WDShareUtil shareTye:shareQQzone withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:NO];
         }
             break;
         case 15:
         {
-            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦"];
+            [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[UIImage imageNamed:@"logo"]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:NO];
         }
             break;
         default:
@@ -315,19 +317,100 @@
         YJPersonInfoViewController *vc = [[YJPersonInfoViewController alloc] init];
         PushController(vc);
     } else {
-//        self.klcManager = [KLCPopup popupWithContentView:self.loginTipsView];
-//        self.klcManager.shouldDismissOnBackgroundTouch = NO;
-//        [self.klcManager show];
-        [self gotoLoginAction];
+        self.klcManager = [KLCPopup popupWithContentView:self.loginView];
+        [self.klcManager show];
     }
 }
-- (void)cancelLoginTipsAction {
+#pragma mark -- YJLoginViewDelegate
+- (void)wxLoginAction {
     [self.klcManager dismiss:YES];
+//    if([QQApiInterface isQQInstalled]){
+        [ShareSDK getUserInfo:SSDKPlatformTypeQQ
+               onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
+         {
+             if (state == SSDKResponseStateSuccess) {
+                 [SVProgressHUD show];
+                 NSDictionary *params = @{@"type":@"1",@"tuid":user.uid,@"username":user.nickname,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+                 [self thirdLogin:params nick:user.nickname icon:user.icon];
+             } else {
+                 [YJApplicationUtil alertHud:@"QQ授权失败，请重新尝试" afterDelay:1];
+             }
+         }];
+//    } else {
+//        [YJApplicationUtil alertHud:@"请安装QQ客户端授权登录" afterDelay:1];
+//    }
 }
-- (void)gotoLoginAction {
-    [self.klcManager dismiss:NO];
-    WDLoginViewController *vc = [[WDLoginViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:nav animated:YES completion:nil];
+- (void)sinaLoginAction {
+    [self.klcManager dismiss:YES];
+    [ShareSDK getUserInfo:SSDKPlatformTypeSinaWeibo
+           onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
+     {
+         if (state == SSDKResponseStateSuccess) {
+             //             NSLog(@"uid=%@",user.uid);
+             //             NSLog(@"%@",user.credential);
+             //             NSLog(@"token=%@",user.credential.token);
+             //             NSLog(@"nickname=%@",user.nickname);
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [SVProgressHUD show];
+                 NSDictionary *params = @{@"type":@"2",@"tuid":user.uid,@"username":user.nickname,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+                 [self thirdLogin:params nick:user.nickname icon:user.icon];
+             });
+         } else {
+             [YJApplicationUtil alertHud:@"微博授权失败，请重新尝试" afterDelay:1];
+         }
+     }];
+}
+- (void)thirdLogin:(NSDictionary *)params nick:(NSString *)nick icon:(NSString *)icon {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:params method:POST callBack:^(id responseObject) {
+        [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+        [LJKHelper saveUserID:responseObject[@"result"][@"user_info"][@"user_id"]];
+        [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
+        [LJKHelper saveThirdLoginState];
+        [self postHeaderImg:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:icon]]]];
+        [SVProgressHUD dismiss];
+        [self.headerImg sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
+        self.userName.text = [LJKHelper getUserName];
+        [self bindRemotePushCid];
+    } error:^(NSError *error) {
+        [YJApplicationUtil alertHud:@"第三方登录失败" afterDelay:1];
+    }];
+}
+- (void)bindRemotePushCid{
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-cid",Server_url] parameters:@{@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        
+    } error:^(NSError *error) {
+        NSLog(@"绑定cid错误");
+    }];
+}
+- (void)postHeaderImg:(UIImage *)image {
+    [SVProgressHUD show];
+    AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
+    sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"multipart/form-data",
+                                                                @"text/html",
+                                                                @"image/jpeg",
+                                                                @"image/png",
+                                                                @"application/octet-stream",
+                                                                @"text/json",
+                                                                nil];
+    [sessionManager POST:[NSString stringWithFormat:@"%@/user/set-avatar",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key]} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        // 上传文件
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *str = [formatter stringFromDate:[NSDate date]];
+        NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+        
+        [formData appendPartWithFileData:imageData name:@"avatar_image" fileName:fileName mimeType:@"image/jpg"];
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (responseObject) {
+            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+    }];
 }
 @end

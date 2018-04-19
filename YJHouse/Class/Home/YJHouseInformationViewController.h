@@ -9,5 +9,5 @@
 #import "YJBaseViewController.h"
 
 @interface YJHouseInformationViewController : YJBaseViewController
-
+@property (nonatomic,assign) NSInteger type;
 @end

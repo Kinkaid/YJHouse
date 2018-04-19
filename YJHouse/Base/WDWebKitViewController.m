@@ -195,7 +195,7 @@
     [self.delegate webKitDoPush:navigationAction.request.URL.absoluteString];
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    self.title = self.webView.title;
+//    self.title = self.webView.title;
 }
 
 #pragma mark - kvo

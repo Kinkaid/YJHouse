@@ -56,7 +56,7 @@
         [categoryContainerView addSubview:categoryBtn];
         [categoryBtn addTarget:self action:@selector(categoryClick:) forControlEvents:UIControlEventTouchUpInside];
         categoryBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        if (i==0) {
+        if (i==(self.type - 1)) {
             categoryBtn.selected = YES;
             [categoryContainerView addSubview:self.lineView];
             self.lineView.frame = CGRectMake(0, 36, 28, 4);
@@ -77,7 +77,8 @@
         [tableViewContainerView loadTableViewData];
         [self.infoScrollView addSubview:tableViewContainerView];
     }
-    self.curSelectedBtnTag = 100;
+    self.infoScrollView.contentOffset =  CGPointMake(APP_SCREEN_WIDTH *(self.type - 1),0);
+    self.curSelectedBtnTag = 99 + self.type;
 }
 #pragma mark action
 - (void)categoryClick:(UIButton *)button {

@@ -7,7 +7,7 @@
 //
 
 #import "YJHouseInformationViewCell.h"
-
+#import "UIImage+GIF.h"
 @implementation YJHouseInformationViewCell{
     
     __weak IBOutlet UILabel *_title;
@@ -20,11 +20,14 @@
     [super awakeFromNib];
     // Initialization code
 }
-- (void)showDataWithDictionary:(NSDictionary *)dic {
-    _title.text = dic[@"title"];
-    [_img sd_setImageWithURL:[NSURL URLWithString:dic[@"main_img"]]];
-    _date.text = [LJKHelper dateStringFromNumberTimer:dic[@"time"] withFormat:@"MM-dd"];
+- (void)showDataWithModel:(ArticleModel *)model {
+    _title.text = model.title;
+//    _title.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+    _title.font = [UIFont fontWithName:@"Helvetica-BoldOblique" size:16];
+    [_img sd_setImageWithURL:[NSURL URLWithString:model.main_img] placeholderImage:[UIImage imageNamed:@"icon_placeholder2"]];
+    _date.text = [LJKHelper dateStringFromNumberTimer:model.time withFormat:@"yyyy-MM-dd"];
 }
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

@@ -41,11 +41,10 @@
 + (NSString *)getLastRequestMsgTime;
 
 + (UIImage*)imageFromView:(UIView*)view;
-
++ (UIImage *)captureScreenScrollView:(UIScrollView *)scrollView;
 + (void)saveThirdLoginState;
 + (BOOL)thirdLoginSuccess;
-
-
++ (id)stringToJSON:(NSString *)jsonStr;
 @end
 
 

@@ -41,4 +41,6 @@
 @property (nonatomic,copy) id manager_tel;
 @property (nonatomic,copy) id uid;
 @property (nonatomic,copy) id tags;
+@property (nonatomic,copy) id total_score;
+@property (nonatomic,strong) NSArray *addition;
 @end

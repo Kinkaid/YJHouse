@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,6 +34,7 @@
                 <outlet property="scoreView" destination="I4u-nb-Duk" id="aZa-6s-9xt"/>
                 <outlet property="scrollView" destination="8D6-TS-2O5" id="v9b-Jn-yVQ"/>
                 <outlet property="selectView" destination="9Op-iN-qnl" id="KqB-Wo-hJD"/>
+                <outlet property="shareView" destination="IQW-LT-MzK" id="q7M-Ql-Eh9"/>
                 <outlet property="shop_count" destination="VJt-DJ-SZE" id="WHZ-sy-aFv"/>
                 <outlet property="showView" destination="5w5-Wa-18F" id="eHN-a9-VxK"/>
                 <outlet property="tjershouLabel" destination="E5v-SS-qb2" id="cFJ-D0-zrj"/>
@@ -817,8 +818,147 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="547.5" y="537"/>
         </view>
+        <view contentMode="scaleToFill" id="IQW-LT-MzK">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OP0-h7-oVx">
+                    <rect key="frame" x="0.0" y="24" width="75" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="0Ic-1m-r9Y"/>
+                    </constraints>
+                    <state key="normal" image="icon_WX"/>
+                    <connections>
+                        <action selector="shareItemClick:" destination="-1" eventType="touchUpInside" id="r9c-R2-JsA"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="19" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7T-3d-ge1">
+                    <rect key="frame" x="0.0" y="100" width="375" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="GEM-AI-5KN"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="取消">
+                        <color key="titleColor" red="0.35686274509999999" green="0.34509803919999998" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
+                            <color key="value" red="0.95294117649999999" green="0.95686274510000002" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                            <real key="value" value="0.5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="shareViewCancelClick:" destination="-1" eventType="touchUpInside" id="t3f-JH-RVb"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SXB-Q5-N32">
+                    <rect key="frame" x="75" y="24" width="75" height="50"/>
+                    <state key="normal" image="icon_WXZone"/>
+                    <connections>
+                        <action selector="shareItemClick:" destination="-1" eventType="touchUpInside" id="chq-Ir-Ptc"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oAl-bz-knJ">
+                    <rect key="frame" x="150" y="24" width="75" height="50"/>
+                    <state key="normal" image="icon_QQ"/>
+                    <connections>
+                        <action selector="shareItemClick:" destination="-1" eventType="touchUpInside" id="bMZ-C8-cU6"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="14" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rc8-M7-Vui">
+                    <rect key="frame" x="225" y="24" width="75" height="50"/>
+                    <state key="normal" image="icon_QQZone"/>
+                    <connections>
+                        <action selector="shareItemClick:" destination="-1" eventType="touchUpInside" id="dUu-XR-Slx"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q71-Xp-fEo">
+                    <rect key="frame" x="300" y="24" width="75" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="5dc-9l-Uef"/>
+                    </constraints>
+                    <state key="normal" image="icon_wb"/>
+                    <connections>
+                        <action selector="shareItemClick:" destination="-1" eventType="touchUpInside" id="UJz-lB-EVO"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Per-UD-ev8">
+                    <rect key="frame" x="25" y="74" width="25" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朋友圈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UqY-7c-Exb">
+                    <rect key="frame" x="94" y="74" width="37" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QQ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vyv-bd-wRn">
+                    <rect key="frame" x="178" y="74" width="19" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QQ空间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tc1-EI-a9l">
+                    <rect key="frame" x="240" y="74" width="44" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新浪微博" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rvj-ON-cUI">
+                    <rect key="frame" x="313" y="74" width="49.5" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.99607843139999996" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="oAl-bz-knJ" firstAttribute="width" secondItem="SXB-Q5-N32" secondAttribute="width" id="3i0-A6-el8"/>
+                <constraint firstItem="Vyv-bd-wRn" firstAttribute="centerX" secondItem="oAl-bz-knJ" secondAttribute="centerX" id="8dH-bE-SMQ"/>
+                <constraint firstItem="rvj-ON-cUI" firstAttribute="centerY" secondItem="Tc1-EI-a9l" secondAttribute="centerY" id="A7z-B8-sLZ"/>
+                <constraint firstItem="oAl-bz-knJ" firstAttribute="centerY" secondItem="SXB-Q5-N32" secondAttribute="centerY" id="AAf-ix-frD"/>
+                <constraint firstItem="q71-Xp-fEo" firstAttribute="centerY" secondItem="Rc8-M7-Vui" secondAttribute="centerY" id="Bb4-Mu-1SW"/>
+                <constraint firstAttribute="bottom" secondItem="W7T-3d-ge1" secondAttribute="bottom" id="Bxl-9M-c3P"/>
+                <constraint firstItem="q71-Xp-fEo" firstAttribute="width" secondItem="Rc8-M7-Vui" secondAttribute="width" id="EHj-CC-lKS"/>
+                <constraint firstItem="OP0-h7-oVx" firstAttribute="leading" secondItem="IQW-LT-MzK" secondAttribute="leading" id="GH8-6E-eJn"/>
+                <constraint firstItem="Tc1-EI-a9l" firstAttribute="centerY" secondItem="Vyv-bd-wRn" secondAttribute="centerY" id="H6b-gV-k7v"/>
+                <constraint firstItem="W7T-3d-ge1" firstAttribute="leading" secondItem="IQW-LT-MzK" secondAttribute="leading" id="Iif-bh-hsr"/>
+                <constraint firstItem="q71-Xp-fEo" firstAttribute="leading" secondItem="Rc8-M7-Vui" secondAttribute="trailing" id="KNM-pZ-JmX"/>
+                <constraint firstItem="UqY-7c-Exb" firstAttribute="centerY" secondItem="Per-UD-ev8" secondAttribute="centerY" id="L9Y-1G-Bg5"/>
+                <constraint firstItem="Rc8-M7-Vui" firstAttribute="leading" secondItem="oAl-bz-knJ" secondAttribute="trailing" id="Lka-dU-Fnf"/>
+                <constraint firstItem="OP0-h7-oVx" firstAttribute="top" secondItem="IQW-LT-MzK" secondAttribute="top" constant="24" id="N6R-JC-Ejb"/>
+                <constraint firstAttribute="trailing" secondItem="W7T-3d-ge1" secondAttribute="trailing" id="O9e-GL-9lu"/>
+                <constraint firstItem="Rc8-M7-Vui" firstAttribute="centerY" secondItem="oAl-bz-knJ" secondAttribute="centerY" id="OGz-HM-vKl"/>
+                <constraint firstItem="rvj-ON-cUI" firstAttribute="centerX" secondItem="q71-Xp-fEo" secondAttribute="centerX" id="PNm-uU-4Yo"/>
+                <constraint firstItem="Rc8-M7-Vui" firstAttribute="height" secondItem="oAl-bz-knJ" secondAttribute="height" id="Pb8-pX-mLO"/>
+                <constraint firstItem="Tc1-EI-a9l" firstAttribute="centerX" secondItem="Rc8-M7-Vui" secondAttribute="centerX" id="QFj-hH-AQv"/>
+                <constraint firstAttribute="trailing" secondItem="q71-Xp-fEo" secondAttribute="trailing" id="ag7-Th-PfN"/>
+                <constraint firstItem="Vyv-bd-wRn" firstAttribute="centerY" secondItem="UqY-7c-Exb" secondAttribute="centerY" id="bEr-Nv-NU8"/>
+                <constraint firstItem="SXB-Q5-N32" firstAttribute="leading" secondItem="OP0-h7-oVx" secondAttribute="trailing" id="ePa-n3-IQ9"/>
+                <constraint firstItem="SXB-Q5-N32" firstAttribute="width" secondItem="OP0-h7-oVx" secondAttribute="width" id="fQH-Zw-SGE"/>
+                <constraint firstItem="q71-Xp-fEo" firstAttribute="height" secondItem="Rc8-M7-Vui" secondAttribute="height" id="fWK-Bk-8ic"/>
+                <constraint firstItem="SXB-Q5-N32" firstAttribute="height" secondItem="OP0-h7-oVx" secondAttribute="height" id="h6K-mh-snP"/>
+                <constraint firstItem="UqY-7c-Exb" firstAttribute="centerX" secondItem="SXB-Q5-N32" secondAttribute="centerX" id="iFp-VD-64p"/>
+                <constraint firstItem="oAl-bz-knJ" firstAttribute="height" secondItem="SXB-Q5-N32" secondAttribute="height" id="ijI-OH-cgh"/>
+                <constraint firstItem="oAl-bz-knJ" firstAttribute="leading" secondItem="SXB-Q5-N32" secondAttribute="trailing" id="pQ6-CT-Tj2"/>
+                <constraint firstItem="Per-UD-ev8" firstAttribute="centerX" secondItem="OP0-h7-oVx" secondAttribute="centerX" id="qdi-OC-AOi"/>
+                <constraint firstItem="Rc8-M7-Vui" firstAttribute="width" secondItem="oAl-bz-knJ" secondAttribute="width" id="yDI-0Q-9NG"/>
+                <constraint firstItem="SXB-Q5-N32" firstAttribute="centerY" secondItem="OP0-h7-oVx" secondAttribute="centerY" id="zgp-jj-vic"/>
+                <constraint firstItem="Per-UD-ev8" firstAttribute="top" secondItem="OP0-h7-oVx" secondAttribute="bottom" id="zj9-TJ-pJA"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="110" y="-296"/>
+        </view>
     </objects>
     <resources>
+        <image name="icon_QQ" width="30" height="30"/>
+        <image name="icon_QQZone" width="30" height="30"/>
+        <image name="icon_WX" width="30" height="30"/>
+        <image name="icon_WXZone" width="30" height="30"/>
         <image name="icon_addrepic" width="140" height="20"/>
         <image name="icon_agree" width="36" height="37"/>
         <image name="icon_disagree" width="36" height="37"/>
@@ -827,6 +967,7 @@
         <image name="icon_homeheader" width="375" height="246"/>
         <image name="icon_location" width="19" height="19"/>
         <image name="icon_sale_up" width="29" height="25"/>
+        <image name="icon_wb" width="30" height="30"/>
         <image name="icon_xq_home" width="20" height="23"/>
         <image name="icon_xq_hospital" width="39" height="39"/>
         <image name="icon_xq_key" width="22" height="22"/>

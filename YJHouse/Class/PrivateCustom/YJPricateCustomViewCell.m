@@ -47,11 +47,18 @@
         _priceLeftConstraints.constant = 26;
     }
     if (!model.zufang) {
-        _priceLabel.text = [NSString stringWithFormat:@"%@-%@万",model.price_min,model.price_max];
+        if ([model.price_max intValue]== 6000) {
+            _priceLabel.text = [NSString stringWithFormat:@"高于%@万",model.price_min];
+        } else {
+            _priceLabel.text = [NSString stringWithFormat:@"%@-%@万",model.price_min,model.price_max];
+        }
     } else {
-        _priceLabel.text = [NSString stringWithFormat:@"%@-%@元/月",model.price_min,model.price_max];
+        if ([model.price_max intValue] == 100000) {
+            _priceLabel.text = [NSString stringWithFormat:@"高于%@元/月",model.price_min];
+        } else {
+            _priceLabel.text = [NSString stringWithFormat:@"%@-%@元/月",model.price_min,model.price_max];
+        }
     }
-    
     if (model.selected) {
         _icon.layer.borderColor = [UIColor ex_colorFromHexRGB:@"39343F"].CGColor;
         _bgView.backgroundColor = MainColor;

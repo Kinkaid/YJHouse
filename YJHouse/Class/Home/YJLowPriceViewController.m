@@ -42,12 +42,11 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 
 
 - (void)dealloc {
-    
     self.priceView = nil;
 }
 - (YJPriceView *)priceView {
     if (!_priceView) {
-        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH - 100)];
+        _priceView = [[YJPriceView alloc] initWithFrame:CGRectMake(0, 100, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 100)];
         _priceView.hidden = YES;
         _priceView.delegate = self;
         _priceView.houseType = houseBuy;
@@ -236,7 +235,6 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         vc.type = type_maifang;
     }
     vc.house_id = model.house_id;
-    vc.score = model.total_score;
     PushController(vc);
 }
 
@@ -448,7 +446,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.maxPrice =  @"1500";
             } else {
                 self.minPrice = 0;
-                self.maxPrice = @"100";
+                self.maxPrice = @"150";
             }
         }
             break;
@@ -458,8 +456,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.minPrice = @"1500";
                 self.maxPrice =  @"2500";
             } else {
-                self.minPrice = @"100";
-                self.maxPrice = @"150";
+                self.minPrice = @"150";
+                self.maxPrice = @"300";
             }
             
         }
@@ -470,8 +468,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.minPrice = @"2500";
                 self.maxPrice =  @"3500";
             } else {
-                self.minPrice = @"150";
-                self.maxPrice = @"200";
+                self.minPrice = @"300";
+                self.maxPrice = @"450";
             }
         }
             break;
@@ -481,8 +479,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.minPrice = @"3500";
                 self.maxPrice =  @"4500";
             } else {
-                self.minPrice = @"200";
-                self.maxPrice = @"300";
+                self.minPrice = @"450";
+                self.maxPrice = @"600";
             }
         }
             break;
@@ -492,8 +490,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.minPrice = @"4500";
                 self.maxPrice = @"-4500";
             } else {
-                self.minPrice = @"300";
-                self.maxPrice = @"-300";
+                self.minPrice = @"600";
+                self.maxPrice = @"-600";
             }
         }
             break;

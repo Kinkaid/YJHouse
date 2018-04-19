@@ -17,7 +17,7 @@
 @implementation WDShareUtil
 
 
-+ (void)shareTye:(WDShareType)ShareType withImageAry:(NSArray *)imageAry withUrl:(NSString *)url withTitle:(NSString *)title withContent:(NSString *)content {
++ (void)shareTye:(WDShareType)ShareType withImageAry:(NSArray *)imageAry withUrl:(NSString *)url withTitle:(NSString *)title withContent:(NSString *)content isPic:(BOOL)isPic{
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
     [shareParams SSDKEnableUseClientShare];
     if (ShareType == shareSinaWeibo) {
@@ -25,13 +25,13 @@
                                          images:imageAry
                                             url:[NSURL URLWithString:[NSString stringWithFormat:@"%@",url]]
                                           title:title
-                                           type:SSDKContentTypeAuto];
+                                           type:SSDKContentTypeImage];
     } else {
         [shareParams SSDKSetupShareParamsByText:content
                                          images:imageAry
                                             url:[NSURL URLWithString:[NSString stringWithFormat:@"%@",url]]
                                           title:title
-                                           type:SSDKContentTypeAuto];
+                                           type:isPic?SSDKContentTypeImage:SSDKContentTypeAuto];
     }
     
     SSDKPlatformType platFormType;

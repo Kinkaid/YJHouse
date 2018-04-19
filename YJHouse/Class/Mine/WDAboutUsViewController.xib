@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -59,15 +59,23 @@
                         <constraint firstAttribute="height" constant="33" id="vye-FM-akd"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.youjar.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTh-15-7cC">
+                    <rect key="frame" x="156" y="487" width="104.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Jxr-fs-Sek" firstAttribute="centerX" secondItem="xQB-W8-cDh" secondAttribute="centerX" id="FFK-cb-Ue0"/>
                 <constraint firstItem="9PJ-ri-GFL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="HIY-lw-cbk"/>
+                <constraint firstItem="eTh-15-7cC" firstAttribute="top" secondItem="CX4-14-4ly" secondAttribute="bottom" constant="8" id="Oeb-9J-PYO"/>
                 <constraint firstItem="Jxr-fs-Sek" firstAttribute="centerY" secondItem="xQB-W8-cDh" secondAttribute="centerY" constant="-60" id="Rmz-EV-tC9"/>
                 <constraint firstAttribute="trailing" secondItem="xQB-W8-cDh" secondAttribute="trailing" id="coO-Tu-Yrx"/>
                 <constraint firstItem="xQB-W8-cDh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="glw-G2-ofd"/>
                 <constraint firstAttribute="bottom" secondItem="xQB-W8-cDh" secondAttribute="bottom" id="hz7-ZJ-nfW"/>
+                <constraint firstItem="eTh-15-7cC" firstAttribute="centerX" secondItem="CX4-14-4ly" secondAttribute="centerX" id="la6-io-Zmj"/>
                 <constraint firstItem="xQB-W8-cDh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o5O-j0-BbQ"/>
                 <constraint firstAttribute="bottom" secondItem="9PJ-ri-GFL" secondAttribute="bottom" constant="180" id="xSs-Vn-fal"/>
             </constraints>

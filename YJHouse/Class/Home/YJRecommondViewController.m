@@ -57,7 +57,6 @@ static NSString *const kCellIdentifier = @"YJHomePageViewCell";
         vc.type = type_maifang;
     }
     vc.house_id = model.house_id;
-    vc.score = model.total_score;
     PushController(vc);
 }
 - (void)didReceiveMemoryWarning {

@@ -70,9 +70,9 @@
         _lowPImg.hidden = NO;
         _xqNewLabel.hidden = NO;
         if (model.zufang) {
-            _xqNewLabel.text = [NSString stringWithFormat:@"比收藏时降价%.f元",[model.rent floatValue] *(1.0 / (1.0+[model.topcut floatValue]) - 1.0)];
+            _xqNewLabel.text = [NSString stringWithFormat:@"比收藏时降价%d元",model.difference];
         } else {
-            _xqNewLabel.text = [NSString stringWithFormat:@"比收藏时降价%.f万",[model.total_price floatValue] *(1.0 / (1.0+[model.topcut floatValue]) - 1.0)];
+            _xqNewLabel.text = [NSString stringWithFormat:@"比收藏时降价%d万",model.difference];
         }
     }
     

@@ -131,6 +131,27 @@
     UIGraphicsEndImageContext();
     return image;
 }
++ (UIImage *)captureScreenScrollView:(UIScrollView *)scrollView {
+    UIImage *image = nil;
+    UIGraphicsBeginImageContextWithOptions(scrollView.contentSize, NO, scrollView.layer.contentsScale * 3.0);
+    {
+        CGPoint savedContentOffset = scrollView.contentOffset;
+        CGRect savedFrame = scrollView.frame;
+        scrollView.frame = CGRectMake(0 , 0, scrollView.contentSize.width, scrollView.contentSize.height);
+        NSLog(@"%f-%f",scrollView.contentSize.width,scrollView.contentSize.height);
+        [scrollView.layer renderInContext:UIGraphicsGetCurrentContext()];
+        image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        scrollView.contentOffset = savedContentOffset;
+        scrollView.frame = savedFrame;
+    }
+    UIGraphicsEndImageContext();
+    
+    if (image != nil) {
+        return image;
+    }
+    return nil;
+}
 + (void)saveThirdLoginState {
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"yj_third_login_success"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -141,6 +162,19 @@
         return YES;
     } else {
         return NO;
+    }
+}
++ (id)stringToJSON:(NSString *)jsonStr {
+    if (jsonStr) {
+        NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *err;
+        id obj = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+        if(err) {
+            return nil;
+        }
+        return obj;
+    } else {
+        return nil;
     }
 }
 @end

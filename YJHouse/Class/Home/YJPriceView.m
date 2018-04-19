@@ -26,9 +26,9 @@ NSArray *xqMaifangAry;
         contentView.backgroundColor = [UIColor whiteColor];
         [self addSubview:contentView];
         zufangAry = [NSMutableArray arrayWithObjects:@"不限",@"1500以下",@"1500-2500",@"2500-3500",@"3500-4500",@"4500以上", nil];
-        maifangAry = [NSMutableArray arrayWithObjects:@"不限",@"100万以下",@"100-150万",@"150-200万",@"200-300万",@"300万以上", nil];
+        maifangAry = [NSMutableArray arrayWithObjects:@"不限",@"150万以下",@"150-300万",@"300-450万",@"450-600万",@"600万以上", nil];
         xqZufangAry = [NSMutableArray arrayWithObjects:@"不限",@"1000以下",@"1000-1500",@"1500-2000",@"2000-2500万",@"2500-3000", nil];
-        xqMaifangAry = [NSMutableArray arrayWithObjects:@"不限",@"1万以下",@"1-1.5万",@"1.5-2万",@"2-2.5万",@"2.5-3万", nil];
+        xqMaifangAry = [NSMutableArray arrayWithObjects:@"不限",@"2万以下",@"2-3万",@"3-4万",@"4-5万",@"5万以上", nil];
         for (int i=0; i<7; i++) {
             if (i>0) {
                 UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 40*i, APP_SCREEN_WIDTH, 1)];

@@ -50,7 +50,9 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.headerImg sd_setImageWithURL:[NSURL URLWithString:[LJKHelper getUserHeaderUrl]] placeholderImage:[UIImage imageNamed:@"icon_header_11"]];
-    self.headerName.text = [LJKHelper getUserName];
+    if ([LJKHelper thirdLoginSuccess]) {
+        self.headerName.text = [LJKHelper getUserName];
+    }
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:houseTypeKey] intValue]) {
         self.zufang = YES;
         [self initWithBtnWithType:1];

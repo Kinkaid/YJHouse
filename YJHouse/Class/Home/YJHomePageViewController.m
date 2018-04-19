@@ -23,6 +23,8 @@
 #import "YJMapViewController.h"
 #import "YJHouseInformationViewController.h"
 #define kCellIdentifier @"YJHomePageViewCell"
+#import "YJWeatherView.h"
+#import "YJUpdateView.h"
 static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
 static NSString *const houseTypeKey = @"houseTypeKey";
 @interface YJHomePageViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate,YJMFSortDelegate,YJZFSortDelegate,YJRequestTimeoutDelegate>
@@ -35,6 +37,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 @property (nonatomic,strong)KLCPopup *klcManager;
 @property (weak, nonatomic) IBOutlet UIView *titleView;
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
+
 @property (nonatomic,strong) YJAddressView *addressView;
 @property (nonatomic,strong) YJPriceView *priceView;
 @property (nonatomic,strong) YJSortView *sortView;
@@ -53,12 +56,30 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *navHeightLayout;
 @property (weak, nonatomic) IBOutlet UIScrollView *houseInfoSV;
 @property (nonatomic, strong) dispatch_source_t timer;
+@property (nonatomic,strong) YJWeatherView *weatherView;
+@property (nonatomic,strong) YJUpdateView *updateView;
+
+
 @end
 
 @implementation YJHomePageViewController
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+- (YJUpdateView *)updateView {
+    if (!_updateView) {
+        _updateView = [[YJUpdateView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH *2 / 3.0, APP_SCREEN_WIDTH *2 / 3.0)];
+        _updateView.backgroundColor = [UIColor whiteColor];
+        _updateView.layer.cornerRadius = 8;
+    }
+    return _updateView;
+}
+- (YJWeatherView *)weatherView {
+    if (!_weatherView) {
+        _weatherView = [[YJWeatherView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH, APP_SCREEN_WIDTH *0.66)];
+    }
+    return _weatherView;
 }
 - (YJPriceView *)priceView {
     if (!_priceView) {
@@ -131,23 +152,76 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     }
     [self loadHomeData];
     [self loadHouseInfo];
+    [self requesUpdateInfoMsg];
+}
+- (void)requesUpdateInfoMsg{
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/condition/new-version",Server_url] parameters:nil method:GET callBack:^(id responseObject) {
+        if (!ISEMPTY(responseObject)) {
+            NSString *version = responseObject[@"result"][@"version"];
+            if ([version compare:APP_VERSION] == 1) {
+                self.klcManager = [KLCPopup popupWithContentView:self.updateView];
+                if ([responseObject[@"result"][@"force"] intValue] == 1) {
+                    self.klcManager.shouldDismissOnBackgroundTouch = NO;
+                }
+                self.updateView.text = [responseObject[@"result"][@"text"] componentsSeparatedByString:@"|"];
+                self.updateView.version = responseObject[@"result"][@"version"];
+                [self.klcManager show];
+            }
+        }
+    } error:^(NSError *error) {
+        
+    }];
+
 }
 - (void)loadHouseInfo {
     __weak typeof(self) weakSelf = self;
-    NSDictionary *params = @{@"type":@(1),@"page":@(0)};
-    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/news/list",Server_url] parameters:params method:GET callBack:^(id responseObject) {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/news/slide",Server_url] parameters:nil method:GET callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
-            NSArray *ary = responseObject[@"result"];
-            weakSelf.houseInfoSV.contentSize = CGSizeMake(self.houseInfoSV.frame.size.width, 44*((ary.count)>6?6:ary.count));
-            for (int i=0; i<((ary.count)>6?6:ary.count); i++) {
-                UILabel *label = [[UILabel alloc] init];
-                label.text = [NSString stringWithFormat:@"%@",ary[i][@"title"]];
-                label.textColor = [UIColor ex_colorFromHexRGB:@"212121"];
-                label.frame = CGRectMake(0, 44*i, weakSelf.houseInfoSV.frame.size.width, 44);
-                label.font = [UIFont systemFontOfSize:14];
-                [weakSelf.houseInfoSV addSubview:label];
+            NSMutableArray *ary = [@[] mutableCopy];
+            if (!ISEMPTY(responseObject[@"result"][@"type_1"])) {
+                [ary addObject:responseObject[@"result"][@"type_1"][0]];
             }
-            [weakSelf setGCDTimerWithCount:((ary.count)>6?6:ary.count)];
+            if (!ISEMPTY(responseObject[@"result"][@"type_2"])) {
+                [ary addObject:responseObject[@"result"][@"type_2"][0]];
+            }
+            if (!ISEMPTY(responseObject[@"result"][@"type_3"])) {
+                [ary addObject:responseObject[@"result"][@"type_3"][0]];
+            }
+            if ([responseObject[@"result"][@"type_1"] count] >=2) {
+                [ary addObject:responseObject[@"result"][@"type_1"][1]];
+            }
+            if ([responseObject[@"result"][@"type_2"] count] >=2) {
+                [ary addObject:responseObject[@"result"][@"type_2"][1]];
+            }
+            if ([responseObject[@"result"][@"type_3"] count] >=2) {
+                [ary addObject:responseObject[@"result"][@"type_3"][1]];
+            }
+            weakSelf.houseInfoSV.contentSize = CGSizeMake(self.houseInfoSV.frame.size.width, 44 * (ary.count));
+            for (int i=0; i<ary.count; i++) {
+                UILabel *typeLabel = [[UILabel alloc] init];
+                typeLabel.layer.cornerRadius = 4;
+                typeLabel.layer.borderWidth = 0.3;
+                typeLabel.layer.borderColor = [UIColor redColor].CGColor;
+                typeLabel.textColor = [UIColor redColor];
+                typeLabel.font = [UIFont systemFontOfSize:11];
+                typeLabel.frame = CGRectMake(0, 44 * i +14,52, 16);
+                typeLabel.textAlignment = NSTextAlignmentCenter;
+                if (i == 0 || i == 3 ) {
+                    typeLabel.text = @"热门楼讯";
+                } else if (i == 1 || i == 4) {
+                    typeLabel.text = @"杭州消息";
+                } else {
+                    typeLabel.text = @"数据报告";
+                }
+                [weakSelf.houseInfoSV addSubview:typeLabel];
+                UILabel *contentLabel = [[UILabel alloc] init];
+                contentLabel.text = [NSString stringWithFormat:@"%@",ary[i][@"title"]];
+                contentLabel.textColor = [UIColor ex_colorFromHexRGB:@"212121"];
+                contentLabel.frame = CGRectMake(58, 44*i, weakSelf.houseInfoSV.frame.size.width - 58, 44);
+                contentLabel.font = [UIFont systemFontOfSize:14];
+                [weakSelf.houseInfoSV addSubview:contentLabel];
+            }
+            [weakSelf setGCDTimerWithCount:ary.count];
         }
     } error:^(NSError *error) {
         
@@ -255,6 +329,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     [self.tableView setTableHeaderView:self.headerView];
     self.navView.backgroundColor = [[UIColor ex_colorFromHexRGB:@"FF0000"] colorWithAlphaComponent:0];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    [self.headerView addSubview:self.weatherView];
     self.homePage = 0;
     self.homeHouseAry = [@[] mutableCopy];
 }
@@ -277,7 +352,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
         if ([self.maxPrice intValue] < 0) {
             [params setObject:[NSString stringWithFormat:@"%@",self.maxPrice] forKey:@"price[0]"];
         } else {
-            [params setObject:[NSString stringWithFormat:@"%ld-%ld",[self.minPrice integerValue],[self.maxPrice integerValue]] forKey:@"price[0]"];
+            [params setObject:[NSString stringWithFormat:@"%ld-%ld",(long)[self.minPrice integerValue],[self.maxPrice integerValue]] forKey:@"price[0]"];
         }
     }
     if (!ISEMPTY(self.mfParams)) {
@@ -358,11 +433,9 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     YJHouseListModel *model = self.homeHouseAry[indexPath.row];
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id =model.site;
-    vc.score = model.total_score;
     vc.house_id = model.house_id;
     if (model.zufang) {
         vc.type = type_zufang;
-        vc.tags = [model.tags componentsSeparatedByString:@";"];
     } else {
         vc.type = type_maifang;
     }
@@ -648,6 +721,13 @@ static NSString *const houseTypeKey = @"houseTypeKey";
 #pragma mark --资讯
 - (IBAction)houseInfoAction:(id)sender {
     YJHouseInformationViewController *vc= [[YJHouseInformationViewController alloc] init];
+    if (self.houseInfoSV.contentOffset.y / 44 == 0 || self.houseInfoSV.contentOffset.y / 44 == 3 ) {
+        vc.type = 1;
+    } else if (self.houseInfoSV.contentOffset.y / 44 == 1 || self.houseInfoSV.contentOffset.y / 44 == 4) {
+        vc.type = 2;
+    } else {
+        vc.type = 3;
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -799,7 +879,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.maxPrice =  @"1500";
             } else {
                 self.minPrice = 0;
-                self.maxPrice = @"100";
+                self.maxPrice = @"150";
             }
         }
             break;
@@ -809,8 +889,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.minPrice = @"1500";
                 self.maxPrice =  @"2500";
             } else {
-                self.minPrice = @"100";
-                self.maxPrice = @"150";
+                self.minPrice = @"150";
+                self.maxPrice = @"300";
             }
 
         }
@@ -821,8 +901,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.minPrice = @"2500";
                 self.maxPrice =  @"3500";
             } else {
-                self.minPrice = @"150";
-                self.maxPrice = @"200";
+                self.minPrice = @"300";
+                self.maxPrice = @"450";
             }
         }
             break;
@@ -832,8 +912,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.minPrice = @"3500";
                 self.maxPrice =  @"4500";
             } else {
-                self.minPrice = @"200";
-                self.maxPrice = @"300";
+                self.minPrice = @"450";
+                self.maxPrice = @"600";
             }
         }
             break;
@@ -843,8 +923,8 @@ static NSString *const houseTypeKey = @"houseTypeKey";
                 self.minPrice = @"4500";
                 self.maxPrice = @"-4500";
             } else {
-                self.minPrice = @"300";
-                self.maxPrice = @"-300";
+                self.minPrice = @"600";
+                self.maxPrice = @"-600";
             }
         }
             break;

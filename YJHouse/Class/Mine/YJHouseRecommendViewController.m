@@ -75,7 +75,7 @@
 }
 - (void)loadHouseData {
     __weak typeof(self)weakSelf = self;
-    NSDictionary *params = @{@"page":@(self.homePage),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
+    NSDictionary *params = @{@"page":@(self.homePage),@"type":self.type,@"auth_key":@"GMyK87fb8TZHtGYTwXzxm117i9Q_ew4i"};
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-list",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             [YJGIFAnimationView hideInView:self.view];
@@ -89,23 +89,40 @@
             }
             NSArray *ary = responseObject[@"result"];
             for (int i = 0; i<ary.count; i++) {
-                YJHouseListModel *model;
                 if([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"7"]){
-                    model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][@"content"] error:nil];
+                    YJHouseListModel * model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][@"content"] error:nil];
                     model.xq_new = NO;
-                } else {
-                    for (int j=0; j<[ary[i] count]; j++) {
-                       model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][j] error:nil];
-                        model.date = ary[i][j][@"update_time"];
-                        model.xq_new = YES;
+                    model.time =ary[i][@"time"];
+                    if ([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"9"]) {
+                        model.zufang = NO;
+                    } else {
+                        model.zufang = YES;
                     }
-                }
-                if ([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"9"]) {
-                    model.zufang = NO;
+                    [weakSelf.homeHouseAry addObject:model];
                 } else {
-                    model.zufang = YES;
+//                    NSArray *sameDateAry = [LJKHelper stringToJSON:ary[i][@"content"]];
+//                    for (int j=0; j<[sameDateAry count]; j++) {
+//                        YJHouseListModel *model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:sameDateAry[j] error:nil];
+//                        model.time = sameDateAry[j][@"date"];
+//                        model.xq_new = YES;
+//                        if ([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"9"]) {
+//                            model.zufang = NO;
+//                        } else {
+//                            model.zufang = YES;
+//                        }
+//                        [weakSelf.homeHouseAry addObject:model];
+//                    }
+                    YJHouseListModel * model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:[LJKHelper stringToJSON:ary[i][@"content"]] error:nil];
+                    model.xq_new = YES;
+                    model.time =ary[i][@"time"];
+                    if ([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"9"]) {
+                        model.zufang = NO;
+                    } else {
+                        model.zufang = YES;
+                    }
+                    [weakSelf.homeHouseAry addObject:model];
                 }
-                [weakSelf.homeHouseAry addObject:model];
+            
             }
             if (ary.count<20) {
                 weakSelf.tableView.mj_footer.state = MJRefreshStateNoMoreData;
@@ -118,6 +135,7 @@
         
     }];
 }
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.homeHouseAry.count;
 }
@@ -141,7 +159,7 @@
     if (section >=1) {
         YJHouseListModel *fir = self.homeHouseAry[section-1];
         YJHouseListModel *sec = self.homeHouseAry[section];
-        if ([[LJKHelper dateStringFromNumberTimer:sec.date withFormat:@"yyyy.MM.dd"] isEqualToString:[LJKHelper dateStringFromNumberTimer:fir.date withFormat:@"yyyy.MM.dd"]]) {
+        if ([[LJKHelper dateStringFromNumberTimer:sec.time withFormat:@"yyyy.MM.dd"] isEqualToString:[LJKHelper dateStringFromNumberTimer:fir.time withFormat:@"yyyy.MM.dd"]]) {
             return nil;
         } else {
             UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
@@ -158,14 +176,14 @@
     headerView.textLabel.textColor = [UIColor ex_colorFromHexRGB:@"C8CACE"];
     headerView.textLabel.textAlignment = NSTextAlignmentCenter;
     YJHouseListModel *model = self.homeHouseAry[section];
-    headerView.textLabel.text = [LJKHelper dateStringFromNumberTimer:model.date withFormat:@"yyyy.MM.dd"];
+    headerView.textLabel.text = [LJKHelper dateStringFromNumberTimer:model.time withFormat:@"yyyy.MM.dd"];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section >=1) {
         YJHouseListModel *fir = self.homeHouseAry[section-1];
         YJHouseListModel *sec = self.homeHouseAry[section];
-        if ([[LJKHelper dateStringFromNumberTimer:sec.date withFormat:@"yyyy.MM.dd"] isEqualToString:[LJKHelper dateStringFromNumberTimer:fir.date withFormat:@"yyyy.MM.dd"]]) {
+        if ([[LJKHelper dateStringFromNumberTimer:sec.time withFormat:@"yyyy.MM.dd"] isEqualToString:[LJKHelper dateStringFromNumberTimer:fir.time withFormat:@"yyyy.MM.dd"]]) {
             return 0.01;
         } else {
             return 30.0;
@@ -181,11 +199,9 @@
     YJHouseListModel *model = self.homeHouseAry[indexPath.section];
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id =model.site;
-    vc.score = model.total_score;
     vc.house_id = model.house_id;
     if (model.zufang) {
         vc.type = type_zufang;
-        vc.tags = [model.tags componentsSeparatedByString:@";"];
     } else {
         vc.type = type_maifang;
     }

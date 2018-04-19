@@ -208,6 +208,11 @@
 		30FC19A71F4435C800A559A3 /* YJHouseCommentSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FC19A61F4435C800A559A3 /* YJHouseCommentSectionHeaderView.m */; };
 		30FC19AA1F44419F00A559A3 /* YJHouseCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FC19A91F44419F00A559A3 /* YJHouseCommentModel.m */; };
 		EDFF60511B350C5289D4F75E /* libPods-YJHouse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E196D3BC251EC9ABDF39C832 /* libPods-YJHouse.a */; };
+		FA42A3342027EE5E002EC930 /* ArticleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA42A3332027EE5E002EC930 /* ArticleModel.m */; };
+		FA9A1CCE2012CA1500F04FCD /* YJLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9A1CCD2012CA1500F04FCD /* YJLoginView.m */; };
+		FA9A8EA4206624D30094CFAE /* YJUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9A8EA3206624D30094CFAE /* YJUpdateView.m */; };
+		FA9A8EA720663F3A0094CFAE /* YJUpdateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9A8EA620663F3A0094CFAE /* YJUpdateCell.m */; };
+		FAB6B4F3202ADB41008CEF8A /* YJWeatherView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB6B4F2202ADB41008CEF8A /* YJWeatherView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -563,6 +568,16 @@
 		30FC19A91F44419F00A559A3 /* YJHouseCommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJHouseCommentModel.m; sourceTree = "<group>"; };
 		6A389F4F3512CB02AE627720 /* Pods-YJHouse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJHouse.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YJHouse/Pods-YJHouse.debug.xcconfig"; sourceTree = "<group>"; };
 		E196D3BC251EC9ABDF39C832 /* libPods-YJHouse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YJHouse.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA42A3322027EE5E002EC930 /* ArticleModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArticleModel.h; sourceTree = "<group>"; };
+		FA42A3332027EE5E002EC930 /* ArticleModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticleModel.m; sourceTree = "<group>"; };
+		FA9A1CCC2012CA1500F04FCD /* YJLoginView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJLoginView.h; sourceTree = "<group>"; };
+		FA9A1CCD2012CA1500F04FCD /* YJLoginView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJLoginView.m; sourceTree = "<group>"; };
+		FA9A8EA2206624D30094CFAE /* YJUpdateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJUpdateView.h; sourceTree = "<group>"; };
+		FA9A8EA3206624D30094CFAE /* YJUpdateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJUpdateView.m; sourceTree = "<group>"; };
+		FA9A8EA520663F3A0094CFAE /* YJUpdateCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJUpdateCell.h; sourceTree = "<group>"; };
+		FA9A8EA620663F3A0094CFAE /* YJUpdateCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJUpdateCell.m; sourceTree = "<group>"; };
+		FAB6B4F1202ADB41008CEF8A /* YJWeatherView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJWeatherView.h; sourceTree = "<group>"; };
+		FAB6B4F2202ADB41008CEF8A /* YJWeatherView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJWeatherView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -954,6 +969,8 @@
 				302215E41EEBC4EB00362319 /* YJSettingViewCell.h */,
 				302215E51EEBC4EB00362319 /* YJSettingViewCell.m */,
 				302215E61EEBC4EB00362319 /* YJSettingViewCell.xib */,
+				FA9A1CCC2012CA1500F04FCD /* YJLoginView.h */,
+				FA9A1CCD2012CA1500F04FCD /* YJLoginView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1035,6 +1052,8 @@
 				300BB4261EA5D87400432F8C /* YJHouseDetailModel.m */,
 				30FC19A81F44419F00A559A3 /* YJHouseCommentModel.h */,
 				30FC19A91F44419F00A559A3 /* YJHouseCommentModel.m */,
+				FA42A3322027EE5E002EC930 /* ArticleModel.h */,
+				FA42A3332027EE5E002EC930 /* ArticleModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1080,6 +1099,12 @@
 				30BFF7EA1FDECE08004209CF /* YJHouseInformationViewCell.h */,
 				30BFF7EB1FDECE08004209CF /* YJHouseInformationViewCell.m */,
 				30BFF7EC1FDECE08004209CF /* YJHouseInformationViewCell.xib */,
+				FAB6B4F1202ADB41008CEF8A /* YJWeatherView.h */,
+				FAB6B4F2202ADB41008CEF8A /* YJWeatherView.m */,
+				FA9A8EA2206624D30094CFAE /* YJUpdateView.h */,
+				FA9A8EA3206624D30094CFAE /* YJUpdateView.m */,
+				FA9A8EA520663F3A0094CFAE /* YJUpdateCell.h */,
+				FA9A8EA620663F3A0094CFAE /* YJUpdateCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1513,6 +1538,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA9A8EA4206624D30094CFAE /* YJUpdateView.m in Sources */,
 				30B29A371E9E3163007180F1 /* YJAddressViewCell.m in Sources */,
 				302E7ED91E94BF6200BFCA41 /* YJXiaoquCollectionViewController.m in Sources */,
 				30AFC32F1E57E2BA0023F50A /* YJDate.m in Sources */,
@@ -1520,6 +1546,7 @@
 				30BC568E1EFA07820093A994 /* YJMapViewController.m in Sources */,
 				305CB8981E569A1D00682F88 /* UIColor+YJColor.m in Sources */,
 				305C375B1EC9412D00695935 /* YJRegisterModel.m in Sources */,
+				FA9A1CCE2012CA1500F04FCD /* YJLoginView.m in Sources */,
 				30FC19AA1F44419F00A559A3 /* YJHouseCommentModel.m in Sources */,
 				302686001E685A2800A59E13 /* YJPrivateAddViewCell.m in Sources */,
 				305CB9191E57D53300682F88 /* CALayer+borderColor.m in Sources */,
@@ -1530,6 +1557,7 @@
 				30D18CC31ED7EF8900EE9ADA /* YJLoadingView.m in Sources */,
 				30B66C651ECE9B400096E0D2 /* YJSystemHeaderCollectionViewCell.m in Sources */,
 				30BFF7E91FDECCE2004209CF /* YJHouseInformationView.m in Sources */,
+				FA9A8EA720663F3A0094CFAE /* YJUpdateCell.m in Sources */,
 				30565FD41EADC87A0038A873 /* YJFourthStepPreview.m in Sources */,
 				30FC19A71F4435C800A559A3 /* YJHouseCommentSectionHeaderView.m in Sources */,
 				30F2CEFD1E862F69000D42A3 /* YJXiaoQuDetailViewController.m in Sources */,
@@ -1556,6 +1584,7 @@
 				301D00A21FD939CB00E27623 /* YJMessageHandler.m in Sources */,
 				302E7EE31E94C5C900BFCA41 /* YJCollectionSecondHandViewCell.m in Sources */,
 				305CB8921E5696E100682F88 /* YJImage.m in Sources */,
+				FAB6B4F3202ADB41008CEF8A /* YJWeatherView.m in Sources */,
 				300E782A1F8EFD7A00668713 /* YJReducePriceViewCell.m in Sources */,
 				302215DD1EEBB7A300362319 /* YJFirstScrollViewController.m in Sources */,
 				3032C1621EE13CC8006C998C /* YJXiaoquCollectionViewCell.m in Sources */,
@@ -1613,6 +1642,7 @@
 				30E14AC21E65BEAF00129DE0 /* YJPricateCustomViewCell.m in Sources */,
 				30E2B61B1E7FED3200221859 /* YJXiaoQuViewCell.m in Sources */,
 				30AFC3291E57D6D70023F50A /* LJKHelper.m in Sources */,
+				FA42A3342027EE5E002EC930 /* ArticleModel.m in Sources */,
 				305CB8891E5691C400682F88 /* YJHomePageViewController.m in Sources */,
 				302424FF1F28D1A70056DFAC /* WDLoginViewController.m in Sources */,
 				30F0106D1F57EFCE0042EE66 /* YJCommentReportViewController.m in Sources */,
@@ -1772,6 +1802,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = YJHouse/YJHouse.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YCWL25KE27;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1815,6 +1846,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = YJHouse/YJHouse.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YCWL25KE27;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ArticleModel.h"
 @interface YJHouseInformationViewCell : UITableViewCell
-- (void)showDataWithDictionary:(NSDictionary *)dic;
+- (void)showDataWithModel:(ArticleModel *)model;
 @end

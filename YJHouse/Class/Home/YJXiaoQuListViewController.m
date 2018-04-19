@@ -289,32 +289,32 @@
         case 2:
         {
             self.minPrice = 0;
-            self.maxPrice = @"10000";
+            self.maxPrice = @"20000";
         }
             break;
         case 3:
         {
-            self.minPrice = @"10000";
-            self.maxPrice = @"15000";
+            self.minPrice = @"20000";
+            self.maxPrice = @"30000";
             
         }
             break;
         case 4:
         {
-            self.minPrice = @"15000";
-            self.maxPrice = @"20000";
+            self.minPrice = @"30000";
+            self.maxPrice = @"40000";
         }
             break;
         case 5:
         {
-            self.minPrice = @"20000";
-            self.maxPrice = @"25000";
+            self.minPrice = @"40000";
+            self.maxPrice = @"50000";
         }
             break;
         case 6:
         {
-            self.minPrice = @"25000";
-            self.maxPrice = @"30000";
+            self.minPrice = @"50000";
+            self.maxPrice = @"200000";
         }
             break;
         default:

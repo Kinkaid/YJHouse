@@ -43,7 +43,8 @@
              @"manager":@"manager",
              @"manager_tel":@"manager_tel",
              @"uid":@"uid",
-             @"tags":@"tags"
+             @"tags":@"tags",
+             @"total_score":@"total_score"
              };
 }
 

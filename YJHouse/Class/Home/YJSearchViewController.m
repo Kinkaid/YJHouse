@@ -47,6 +47,11 @@ static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    UIView *imageView = [[UIView alloc]initWithFrame:self.searchBar.frame];
+//    imageView.backgroundColor =[UIColor ex_colorFromHexRGB:@"4AA9F8"];
+//    [self.searchBar insertSubview:imageView atIndex:1];
+    [[[[self.searchBar.subviews objectAtIndex:0] subviews] objectAtIndex:0] removeFromSuperview];
+    [self.searchBar setBackgroundColor:[UIColor clearColor]];
     self.navigationBar.hidden = YES;
     if (self.isXiaoquSearch) {
         UIButton *typeBtn = [self.view viewWithTag:3];
@@ -155,11 +160,9 @@ static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
         YJHouseListModel *model = self.searchAry[indexPath.row];
         YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
         vc.site_id =model.site;
-        vc.score = model.total_score;
         vc.house_id = model.house_id;
         if (model.zufang) {
             vc.type = type_zufang;
-            vc.tags = [model.tags componentsSeparatedByString:@";"];
         } else {
             vc.type = type_maifang;
         }

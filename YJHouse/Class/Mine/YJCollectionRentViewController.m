@@ -153,11 +153,9 @@
     }
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id =model.site;
-    vc.score = model.total_score;
     vc.house_id = model.house_id;
     if (model.zufang) {
         vc.type = type_zufang;
-        vc.tags = [model.tags componentsSeparatedByString:@";"];
     } else {
         vc.type = type_maifang;
     }

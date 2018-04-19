@@ -77,11 +77,9 @@ static NSString * const kYJHeaderId = @"header";
 - (void)enterHouseDetail {
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id = self.site_id;
-    vc.score = self.total_score;
     vc.house_id = self.house_id;
     if ([self.isZufang intValue] ==2) {
         vc.type = type_zufang;
-        vc.tags = [self.tags componentsSeparatedByString:@";"];
     } else {
         vc.type = type_maifang;
     }
@@ -148,11 +146,11 @@ static NSString * const kYJHeaderId = @"header";
     }];
 }
 //点击屏幕，键盘消失
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self.inputView.inputTextView resignFirstResponder];
-    self.layView.hidden = YES;
-    self.inputView.frame = CGRectMake(0, APP_SCREEN_HEIGHT-55, APP_SCREEN_WIDTH, 55);
-}
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    [self.inputView.inputTextView resignFirstResponder];
+//    self.layView.hidden = YES;
+//    self.inputView.frame = CGRectMake(0, APP_SCREEN_HEIGHT-55, APP_SCREEN_WIDTH, 55);
+//}
 - (void)publishButtonDidClick {
     if (self.inputView.inputTextView.text.length) {
         if ([LJKHelper thirdLoginSuccess]) {
@@ -258,12 +256,33 @@ static NSString * const kYJHeaderId = @"header";
             [self.tableView reloadData];
         }
     } error:^(NSError *error) {
-        
+        [self.inputView.inputView resignFirstResponder];
+        self.inputView.inputTextView.text = @"";
+        self.inputView.label.alpha = 1;
+        self.inputView.label.text = @"   添加一条评论~";
+        [SVProgressHUD dismiss];
+        [self.inputView.inputTextView resignFirstResponder];
+        self.layView.hidden = YES;
+        self.inputView.frame = CGRectMake(0, APP_SCREEN_HEIGHT-55, APP_SCREEN_WIDTH, 55);
+        NSMutableArray *ary = [@[] mutableCopy];
+        YJHouseCommentModel *model = [[YJHouseCommentModel alloc] init];
+        [ary addObject:model];
+        model.comment = content;
+        model.good = 0;
+        model.bad = 0;
+        model.avatar = [LJKHelper getUserHeaderUrl];
+        model.time = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]];
+        model.height = [LJKHelper textHeightFromTextString:content width:APP_SCREEN_WIDTH - 95 fontSize:15];
+        model.username = [LJKHelper getUserName];
+        [self.commentAry insertObject:ary atIndex:0];
+        [self.tableView reloadData];
     }];
 }
 - (void)replayToSB:(NSString *)content {
+    [SVProgressHUD show];
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/comment",Server_url] parameters:@{@"site":self.site_id,@"tid":self.house_id,@"to_user_id":self.selectModel.user_id,@"to_comment_id":self.selectModel.commentID,@"comment":content,@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject[@"result"])) {
+            [SVProgressHUD dismiss];
             [self.inputView.inputView resignFirstResponder];
             self.inputView.inputTextView.text = @"";
             self.inputView.label.alpha = 1;
@@ -284,6 +303,24 @@ static NSString * const kYJHeaderId = @"header";
             [self.tableView reloadData];
         }
     } error:^(NSError *error) {
+        [self.inputView.inputView resignFirstResponder];
+        self.inputView.inputTextView.text = @"";
+        self.inputView.label.alpha = 1;
+        self.inputView.label.text = @"   添加一条评论~";
+        [SVProgressHUD dismiss];
+        [self.inputView.inputTextView resignFirstResponder];
+        self.layView.hidden = YES;
+        self.inputView.frame = CGRectMake(0, APP_SCREEN_HEIGHT-55, APP_SCREEN_WIDTH, 55);
+        YJHouseCommentModel *model = [[YJHouseCommentModel alloc] init];
+        YJHouseCommentModel *sectionModel = self.commentAry[self.selectSelection][0];
+        if ([self.selectModel.username isEqualToString:sectionModel.username]) {
+            model.comment = [NSString stringWithFormat:@"%@:%@",[LJKHelper getUserName],content];
+        } else {
+            model.comment = [NSString stringWithFormat:@"%@回复%@:%@",[LJKHelper getUserName],self.selectModel.username,content];
+        }
+        model.height = [LJKHelper textHeightFromTextString:model.comment width:APP_SCREEN_WIDTH - 105 fontSize:12];
+        [self.commentAry[self.selectSelection] addObject:model];
+        [self.tableView reloadData];
     }];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

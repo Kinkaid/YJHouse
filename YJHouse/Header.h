@@ -11,6 +11,9 @@
 
 #define APP_SCREEN_WIDTH    ([[UIScreen mainScreen]bounds].size.width)
 #define APP_SCREEN_HEIGHT   ([[UIScreen mainScreen]bounds].size.height)
+#define APP_SCREEN_SCALE_WIDTH (([[UIScreen mainScreen]bounds].size.width) / 375.0)
+#define APP_SCREEN_SCALE_HEIGHT (([[UIScreen mainScreen]bounds].size.height) / 667.0)
+
 #define PushController(vc)  [self.navigationController pushViewController:vc animated:YES]
 
 #define APP_VERSION  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -30,6 +33,7 @@
 #define qqAppID @"1106304780"
 #define qqAppKey @"D5N5wr4GpTzzUP1z"
 
+#define kPushRemoteNotification @"kPushRemoteNotification"
 
 
 

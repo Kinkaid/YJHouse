@@ -27,4 +27,6 @@
 #import "YJRequestTimeoutUtil.h"
 #import "GlobalNetDefine.h"
 #import "UITabBar+badge.h"
+#import "YJHouseDetailViewController.h"
+#import "YJHouseCommentViewController.h"
 #endif /* PrefixHeader_pch */

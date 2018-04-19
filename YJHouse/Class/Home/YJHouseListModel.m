@@ -23,6 +23,7 @@
              @"site":@"site",
              @"title":@"title",
              @"topcut":@"topcut",
+             @"difference":@"difference",
              @"total_price":@"total_price",
              @"type":@"type",
              @"uid":@"uid",
@@ -34,7 +35,8 @@
              @"decoration":@"decoration",
              @"content":@"content",
              @"state":@"state",
-             @"date":@"date"
+             @"date":@"date",
+             @"time":@"time"
              };
 }
 

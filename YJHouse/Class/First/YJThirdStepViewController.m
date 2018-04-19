@@ -11,31 +11,43 @@
 #import "YJFourthStepViewController.h"
 @interface YJThirdStepViewController ()<TTRangeSliderDelegate>
 @property (nonatomic,strong)TTRangeSlider *slider;
-@property (nonatomic,strong)NSMutableArray *priceSectionAry;
 @property (weak, nonatomic) IBOutlet UILabel *unitLabel;
+@property (strong, nonatomic) UILabel *curPrice;
 
 @end
 
 @implementation YJThirdStepViewController
 
+- (UILabel *)curPrice {
+    if (!_curPrice) {
+        _curPrice = [[UILabel alloc] init];
+        [self.view addSubview:_curPrice];
+        [_curPrice mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(220);
+        }];
+        _curPrice.textColor = [UIColor ex_colorFromHexRGB:@"44A7FB"];
+        _curPrice.font = [UIFont systemFontOfSize:14];
+    }
+    return _curPrice;
+}
 - (TTRangeSlider *)slider {
     if (!_slider) {
         _slider = [[TTRangeSlider alloc] initWithFrame:CGRectMake(16, 249, APP_SCREEN_WIDTH-32, 30)];
         _slider.hideLabels = YES;
         _slider.enableStep = YES;
         _slider.lineHeight = 6;
-        _slider.tintColor = [UIColor ex_colorFromHexRGB:@"3E3E3E"];
+        _slider.tintColor = [UIColor ex_colorFromHexRGB:@"EDEFF4"];
         _slider.tintColorBetweenHandles = [UIColor ex_colorFromHexRGB:@"3E3E3E"];
         _slider.handleBorderColor = [UIColor ex_colorFromHexRGB:@"3E3E3E"];
         _slider.handleBorderWidth = 8;
         _slider.handleDiameter = 24;
         _slider.selectedHandleDiameterMultiplier = 1.2;
         _slider.handleColor = [UIColor ex_colorFromHexRGB:@"44A7FB"];
-        _slider.maxValue = 4;
+        _slider.maxValue = self.registerModel.zufang?10000:600;
         _slider.minValue = 0;
+        _slider.selectedMinimum = 0;
+        _slider.selectedMaximum  = self.registerModel.zufang?10000:600;
         _slider.delegate = self;
-        _slider.selectedMaximum = 3;
-        _slider.selectedMinimum = 1;
         [self.view addSubview:_slider];
     }
     return _slider;
@@ -43,70 +55,72 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.slider.step = 1;
+    self.slider.step = self.registerModel.zufang?500:10;
     self.navigationBar.hidden = YES;
-    self.priceSectionAry = [@[] mutableCopy];
     if (self.registerModel.zufang) {
-        [self.priceSectionAry addObjectsFromArray:@[@"0",@"1500",@"3000",@"5000",@"不限"]];
         self.unitLabel.text = @"单位:元";
     } else {
-        [self.priceSectionAry addObjectsFromArray:@[@"0",@"150",@"300",@"500",@"不限"]];
         self.unitLabel.text = @"单位:万元";
     }
-    if (self.registerModel.uw_price_max !=0) {
-        self.slider.selectedMaximum = 4;
-        for (int i=0; i<self.priceSectionAry.count; i++) {
-            if ([self.priceSectionAry[i] integerValue] == [self.registerModel.uw_price_min integerValue]) {
-                if (i!=4) {
-                    self.slider.selectedMinimum = i;
-                }
-                
-            }
-            if ([self.priceSectionAry[i] integerValue] == [self.registerModel.uw_price_max integerValue]) {
-                if (i!=0) {
-                    self.slider.selectedMaximum = i;
-                } 
-            }
-        }
-    }
-    for (int i=0; i<_priceSectionAry.count; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40 , 20)];
-        label.text = _priceSectionAry[i];
-        if (i==0) {
-            label.center = CGPointMake(33, CGRectGetMaxY(self.slider.frame) +30);
-        } else if (i == 4) {
-            label.center = CGPointMake(APP_SCREEN_WIDTH - 33, CGRectGetMaxY(self.slider.frame) +30);
-        } else {
-            label.center = CGPointMake(20+((APP_SCREEN_WIDTH - 40) / 4.0 *i), CGRectGetMaxY(self.slider.frame) +30);
-        }
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor ex_colorFromHexRGB:@"3E3E3E"];
-        label.font = [UIFont systemFontOfSize:15];
-        [self.view addSubview:label];
+    if (self.edit) {
+        self.slider.selectedMinimum = [self.registerModel.uw_price_min floatValue];
+        self.slider.selectedMaximum = [self.registerModel.uw_price_max floatValue]>self.slider.maxValue?self.slider.maxValue:[self.registerModel.uw_price_max floatValue];
+        [self updateCurpirce:self.slider.selectedMinimum and:self.slider.selectedMaximum];
+    } else {
+        self.slider.selectedMinimum = 0;
+        self.slider.selectedMaximum  =self.slider.maxValue;
+        [self updateCurpirce:0 and:self.slider.maxValue];
     }
 }
 - (void)rangeSlider:(TTRangeSlider *)sender didChangeSelectedMinimumValue:(float)selectedMinimum andMaximumValue:(float)selectedMaximum {
-//    if (selectedMinimum == selectedMaximum &&selectedMinimum != 0) {
-//        self.slider.selectedMinimum = selectedMaximum - 1;
-//    }
-//    if (selectedMinimum == 0) {
-//        self.slider.selectedMaximum !=0;
-//    }
+    [self updateCurpirce:selectedMinimum and:selectedMaximum];
+}
+- (void)updateCurpirce:(CGFloat)selectedMinimum and:(CGFloat)selectedMaximum {
+    if (selectedMinimum ==0 &&selectedMaximum == self.slider.maxValue) {
+        self.curPrice.text = @"不限";
+    } else if (selectedMinimum == 0 && selectedMaximum!=self.slider.maxValue) {
+        if (self.registerModel.zufang) {
+            self.curPrice.text = [NSString stringWithFormat:@"低于%.0f元",selectedMaximum];
+        } else {
+            self.curPrice.text = [NSString stringWithFormat:@"低于%.0f万",selectedMaximum];
+        }
+    } else if (selectedMaximum == self.slider.maxValue  &&selectedMinimum != 0 ){
+        if (self.registerModel.zufang) {
+            self.curPrice.text = [NSString stringWithFormat:@"高于%.0f元",selectedMinimum];
+        } else {
+            self.curPrice.text = [NSString stringWithFormat:@"高于%.0f万",selectedMinimum];
+        }
+    } else {
+        if (self.registerModel.zufang) {
+            self.curPrice.text = [NSString stringWithFormat:@"%.0f元 - %.0f元",selectedMinimum,selectedMaximum];
+        } else {
+            self.curPrice.text = [NSString stringWithFormat:@"%.0f万 - %.0f万",selectedMinimum,selectedMaximum];
+        }
+    }
+    [self.curPrice mas_updateConstraints:^(MASConstraintMaker *make) {
+        CGFloat centerX = 16+((APP_SCREEN_WIDTH - 32.0) / (self.registerModel.zufang?10000.0:600.0)) *((selectedMinimum + selectedMaximum) / 2.0);
+        if (centerX<56) {
+            make.centerX.mas_equalTo(56 - APP_SCREEN_WIDTH /2.0);
+        } else if (APP_SCREEN_WIDTH - centerX<56){
+            make.centerX.mas_equalTo(APP_SCREEN_WIDTH - 56- (APP_SCREEN_WIDTH / 2.0));
+        } else {
+            make.centerX.mas_equalTo(centerX - (APP_SCREEN_WIDTH / 2.0));
+        }
+    }];
 }
 - (IBAction)nextAction:(id)sender {
-    if (self.slider.selectedMinimum == self.slider.selectedMaximum) {
-        [YJApplicationUtil alertHud:@"请正确设置价格区间" afterDelay:1];
-        return;
+    if (self.slider.selectedMinimum != self.slider.maxValue && self.slider.selectedMaximum != self.slider.maxValue ) {
+        if (self.slider.selectedMinimum == self.slider.selectedMaximum && self.slider.selectedMaximum !=self.slider.maxValue) {
+            [YJApplicationUtil alertHud:@"请正确设置价格区间" afterDelay:1];
+            return;
+        }
     }
     YJFourthStepViewController *vc = [[YJFourthStepViewController alloc] init];
-    int min = self.slider.selectedMinimum;
-    int max = self.slider.selectedMaximum;
-    self.registerModel.uw_price_min = self.priceSectionAry[min];
-    if (max == 4) {
-        self.registerModel.uw_price_max = @"99999";
-    } else {
-        self.registerModel.uw_price_max = self.priceSectionAry[max];
+    if (self.slider.selectedMinimum == self.slider.selectedMaximum) {
+        self.slider.selectedMaximum = self.slider.selectedMaximum *10;
     }
+    self.registerModel.uw_price_min = [NSString stringWithFormat:@"%.0f",self.slider.selectedMinimum];
+    self.registerModel.uw_price_max = [NSString stringWithFormat:@"%.0f",self.slider.selectedMaximum==self.slider.maxValue?self.slider.selectedMaximum*10:self.slider.selectedMaximum];
     self.registerModel.uw_price_rank_weight = @"10";
     vc.registerModel = self.registerModel;
     vc.edit = self.edit;

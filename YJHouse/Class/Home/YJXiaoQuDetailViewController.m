@@ -14,7 +14,13 @@
 #import "YJRecommondViewController.h"
 #import "YJMapView.h"
 #import "YJMapDetailViewController.h"
-@interface YJXiaoQuDetailViewController ()<YJRequestTimeoutDelegate,UIScrollViewDelegate>
+#import "KLCPopup.h"
+#import "WDShareUtil.h"
+#import "KLCPopup.h"
+#import "YJLoginView.h"
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <ShareSDK/ShareSDK.h>
+@interface YJXiaoQuDetailViewController ()<YJRequestTimeoutDelegate,UIScrollViewDelegate,YJLoginViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *mapContainerView;
@@ -55,11 +61,23 @@
 
 @property (nonatomic,strong) NSMutableArray *ershouAry;
 @property (nonatomic,strong) NSMutableArray *zufangAry;
+@property (strong, nonatomic) IBOutlet UIView *shareView;
+@property (nonatomic,strong) KLCPopup *klcpopupManager;
+@property (nonatomic,strong) YJLoginView *loginView;
+@property (nonatomic,strong) KLCPopup *klcManager;
 
 @end
 
 @implementation YJXiaoQuDetailViewController
 
+- (YJLoginView *)loginView {
+    if (!_loginView) {
+        _loginView = [[YJLoginView alloc] initWithFrame:CGRectMake(0, 0, APP_SCREEN_WIDTH - 80, 220)];
+        _loginView.delegate = self;
+        _loginView.backgroundColor = [UIColor whiteColor];
+    }
+    return _loginView;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.alpha = 0;
@@ -122,7 +140,7 @@
     }];
 }
 - (void)setContentScrollView {
-    self.scrollView.contentSize = CGSizeMake(0, 997 + APP_SCREEN_WIDTH *0.7);
+    self.scrollView.contentSize = CGSizeMake(APP_SCREEN_WIDTH, 997 + APP_SCREEN_WIDTH *0.7);
     self.contentView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 997 + APP_SCREEN_WIDTH *0.7);
     [self.scrollView addSubview:self.contentView];
 }
@@ -200,31 +218,35 @@
     self.navigationBar.alpha = (scrollView.contentOffset.y - 64) / 64.0;
 }
 - (IBAction)collectionAction:(id)sender {
-    __weak typeof(self) weakSelf = self;
-    NSString *url;
-    
-    if (self.collectionBtn.selected) {
-        url = [NSString stringWithFormat:@"%@/user/cancel-favourite",Server_url];
-    } else {
-        url = [NSString stringWithFormat:@"%@/user/set-favourite",Server_url];
-    }
-    NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":self.model.site,@"id":self.xiaoquId};
-    [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:POST callBack:^(id responseObject) {
-        if (!ISEMPTY(responseObject[@"result"])) {
-            if ([responseObject[@"result"] isEqualToString:@"success"]) {
-                if (weakSelf.collectionBtn.selected) {
-                    [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_dislike"] forState:UIControlStateNormal];
-                    [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] - 1] forState:UIControlStateNormal];
-                } else {
-                    [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
-                    [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] + 1] forState:UIControlStateNormal];
-                }
-                weakSelf.collectionBtn.selected = !self.collectionBtn.selected;
-            }
+    if ([LJKHelper thirdLoginSuccess]) {
+        __weak typeof(self) weakSelf = self;
+        NSString *url;
+        if (self.collectionBtn.selected) {
+            url = [NSString stringWithFormat:@"%@/user/cancel-favourite",Server_url];
+        } else {
+            url = [NSString stringWithFormat:@"%@/user/set-favourite",Server_url];
         }
-    } error:^(NSError *error) {
-        
-    }];
+        NSDictionary *params = @{@"auth_key":[LJKHelper getAuth_key],@"site":self.model.site,@"id":self.xiaoquId};
+        [[NetworkTool sharedTool] requestWithURLString:url parameters:params method:POST callBack:^(id responseObject) {
+            if (!ISEMPTY(responseObject[@"result"])) {
+                if ([responseObject[@"result"] isEqualToString:@"success"]) {
+                    if (weakSelf.collectionBtn.selected) {
+                        [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_dislike"] forState:UIControlStateNormal];
+                        [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] - 1] forState:UIControlStateNormal];
+                    } else {
+                        [weakSelf.collectionBtn setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
+                        [weakSelf.collectionBtn setTitle:[NSString stringWithFormat:@" %d",[weakSelf.collectionBtn.titleLabel.text intValue] + 1] forState:UIControlStateNormal];
+                    }
+                    weakSelf.collectionBtn.selected = !self.collectionBtn.selected;
+                }
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    } else {
+        self.klcManager = [KLCPopup popupWithContentView:self.loginView];
+        [self.klcManager show];
+    }
 }
 - (IBAction)toSelectAction:(id)sender {
     [UIView animateWithDuration:0.4 animations:^{
@@ -303,7 +325,91 @@
 }
 
 - (IBAction)shareAction:(id)sender {
-    [self shareFriendWithImg:[LJKHelper imageFromView:self.view]];
+    self.shareView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 150);
+    self.klcpopupManager = [KLCPopup popupWithContentView:self.shareView];
+    self.klcpopupManager.showType = KLCPopupShowTypeSlideInFromBottom;
+    self.klcpopupManager.dismissType = KLCPopupDismissTypeSlideOutToBottom;
+    [self.klcpopupManager showAtCenter:CGPointMake(APP_SCREEN_WIDTH / 2.0, APP_SCREEN_HEIGHT - 75) inView:self.view];
+}
+- (IBAction)shareItemClick:(id)sender {
+    [self.klcpopupManager dismiss:YES];
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD show];
+        self.contentView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 997 + APP_SCREEN_WIDTH *0.7 + 62);
+        UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 997 + APP_SCREEN_WIDTH *0.7, APP_SCREEN_WIDTH, 62)];
+        bottomView.backgroundColor =[UIColor ex_colorFromHexRGB:@"DADADA"];
+        UIImageView *imgLogo = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 52, 52)];
+        imgLogo.image = [UIImage imageNamed:@"icon_logo"];
+        imgLogo.userInteractionEnabled = YES;
+        imgLogo.layer.cornerRadius = 4;
+        imgLogo.clipsToBounds = YES;
+        [bottomView addSubview:imgLogo];
+        UILabel *nameLabel = [[UILabel alloc] init];
+        nameLabel.font = [UIFont systemFontOfSize:16];
+        nameLabel.textColor = [UIColor ex_colorFromHexRGB:@"1D1D1D"];
+        [bottomView addSubview:nameLabel];
+        nameLabel.text = @"优家选房";
+        [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(imgLogo.mas_right).offset(10);
+            make.top.mas_equalTo(imgLogo.mas_top).offset(6);
+        }];
+        UILabel *subName = [[UILabel alloc] init];
+        subName.text = @"最好用的找房神器(扫码体验)";
+        subName.font = [UIFont systemFontOfSize:12];
+        subName.textColor = [UIColor ex_colorFromHexRGB:@"666666"];
+        [bottomView addSubview:subName];
+        [subName mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(nameLabel.mas_left);
+            make.top.mas_equalTo(nameLabel.mas_bottom).offset(4);
+        }];
+        UIImageView *qr = [[UIImageView alloc] init];
+        qr.image =[UIImage imageNamed:@"icon_qr"];
+        [bottomView addSubview:qr];
+        [qr mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(-10);
+            make.top.mas_equalTo(4);
+            make.bottom.mas_equalTo(-4);
+            make.width.mas_equalTo(54);
+        }];
+        [self.contentView addSubview:bottomView];
+        [SVProgressHUD dismiss];
+        UIButton *btn = sender;
+        switch (btn.tag) {
+            case 11:
+            {
+                [WDShareUtil shareTye:shareWXFriends withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+            }
+                break;
+            case 12:
+            {
+                [WDShareUtil shareTye:shareWXzone withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+            }
+                break;
+            case 13:
+            {
+                [WDShareUtil shareTye:shareQQFriends withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+            }
+                break;
+            case 14:
+            {
+                [WDShareUtil shareTye:shareQQzone withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+            }
+                break;
+            case 15:
+            {
+                [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+            }
+                break;
+            default:
+                break;
+        }
+        [bottomView removeFromSuperview];
+        self.contentView.frame = CGRectMake(0, 0, APP_SCREEN_WIDTH, 997 + APP_SCREEN_WIDTH *0.7);
+    });
+}
+- (IBAction)shareViewCancelClick:(id)sender {
+    [self.klcpopupManager dismiss:YES];
 }
 
 -(void)shareFriendWithImg:(UIImage *)shareImg {
@@ -322,5 +428,95 @@
         [self presentViewController:activityViewController animated:TRUE completion:^{
         }];
     }
+}
+#pragma mark -- YJLoginViewDelegate
+- (void)wxLoginAction {
+    [self.klcManager dismiss:YES];
+//    if([QQApiInterface isQQInstalled]){
+        [ShareSDK getUserInfo:SSDKPlatformTypeQQ
+               onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
+         {
+             if (state == SSDKResponseStateSuccess) {
+                 [SVProgressHUD show];
+                 NSDictionary *params = @{@"type":@"1",@"tuid":user.uid,@"username":user.nickname,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+                 [self thirdLogin:params nick:user.nickname icon:user.icon];
+             } else {
+                 [YJApplicationUtil alertHud:@"QQ授权失败，请重新尝试" afterDelay:1];
+             }
+         }];
+//    } else {
+//        [YJApplicationUtil alertHud:@"请安装QQ客户端授权登录" afterDelay:1];
+//    }
+}
+- (void)sinaLoginAction {
+    [self.klcManager dismiss:YES];
+    [ShareSDK getUserInfo:SSDKPlatformTypeSinaWeibo
+           onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
+     {
+         if (state == SSDKResponseStateSuccess) {
+             //             NSLog(@"uid=%@",user.uid);
+             //             NSLog(@"%@",user.credential);
+             //             NSLog(@"token=%@",user.credential.token);
+             //             NSLog(@"nickname=%@",user.nickname);
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [SVProgressHUD show];
+                 NSDictionary *params = @{@"type":@"2",@"tuid":user.uid,@"username":user.nickname,@"device_uid":[[[UIDevice currentDevice] identifierForVendor] UUIDString]};
+                 [self thirdLogin:params nick:user.nickname icon:user.icon];
+             });
+         } else {
+             [YJApplicationUtil alertHud:@"微博授权失败，请重新尝试" afterDelay:1];
+         }
+     }];
+}
+- (void)thirdLogin:(NSDictionary *)params nick:(NSString *)nick icon:(NSString *)icon {
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/signup",Server_url] parameters:params method:POST callBack:^(id responseObject) {
+        [LJKHelper saveAuth_key:responseObject[@"result"][@"user_info"][@"auth_key"]];
+        [LJKHelper saveUserID:responseObject[@"result"][@"user_info"][@"user_id"]];
+        [LJKHelper saveUserName:responseObject[@"result"][@"user_info"][@"username"]];
+        [LJKHelper saveThirdLoginState];
+        //        [self saveUserInfoWithNick:nick icon:icon];
+        [self postHeaderImg:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:icon]]]];
+        [self bindRemotePushCid];
+    } error:^(NSError *error) {
+        [YJApplicationUtil alertHud:@"第三方登录失败" afterDelay:1];
+    }];
+}
+- (void)bindRemotePushCid{
+    [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/set-cid",Server_url] parameters:@{@"cid":[[NSUserDefaults standardUserDefaults] objectForKey:@"clientId"],@"auth_key":[LJKHelper getAuth_key]} method:POST callBack:^(id responseObject) {
+        
+    } error:^(NSError *error) {
+        NSLog(@"绑定cid错误");
+    }];
+}
+- (void)postHeaderImg:(UIImage *)image {
+    [SVProgressHUD show];
+    AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
+    sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"multipart/form-data",
+                                                                @"text/html",
+                                                                @"image/jpeg",
+                                                                @"image/png",
+                                                                @"application/octet-stream",
+                                                                @"text/json",
+                                                                nil];
+    [sessionManager POST:[NSString stringWithFormat:@"%@/user/set-avatar",Server_url] parameters:@{@"auth_key":[LJKHelper getAuth_key]} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        // 上传文件
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *str = [formatter stringFromDate:[NSDate date]];
+        NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+        
+        [formData appendPartWithFileData:imageData name:@"avatar_image" fileName:fileName mimeType:@"image/jpg"];
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (responseObject) {
+            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
+    }];
 }
 @end

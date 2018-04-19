@@ -235,7 +235,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="494"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_homeheader" translatesAutoresizingMaskIntoConstraints="NO" id="b5k-vV-mzy">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b5k-vV-mzy">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="247.5"/>
                     <color key="backgroundColor" red="0.90980392156862744" green="0.90980392156862744" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -246,14 +246,14 @@
                     <rect key="frame" x="0.0" y="247.5" width="375" height="44"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_house_info" translatesAutoresizingMaskIntoConstraints="NO" id="nac-jk-KnE">
-                            <rect key="frame" x="12" y="12" width="95" height="21"/>
+                            <rect key="frame" x="12" y="14.5" width="72.5" height="16"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="21" id="cLO-Ai-nfh"/>
+                                <constraint firstAttribute="height" constant="16" id="cLO-Ai-nfh"/>
                                 <constraint firstAttribute="width" secondItem="nac-jk-KnE" secondAttribute="height" multiplier="95:21" id="gXZ-c2-MWp"/>
                             </constraints>
                         </imageView>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Tc-qZ-6aa">
-                            <rect key="frame" x="119" y="0.0" width="224" height="44"/>
+                            <rect key="frame" x="90.5" y="0.0" width="252.5" height="44"/>
                         </scrollView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeArrow" translatesAutoresizingMaskIntoConstraints="NO" id="WVV-Ja-bF9">
                             <rect key="frame" x="343" y="12" width="20" height="20"/>
@@ -280,7 +280,7 @@
                         <constraint firstItem="6Tc-qZ-6aa" firstAttribute="top" secondItem="paN-sK-0Ss" secondAttribute="top" id="IDK-5x-CT7"/>
                         <constraint firstItem="nac-jk-KnE" firstAttribute="leading" secondItem="paN-sK-0Ss" secondAttribute="leading" constant="12" id="Owk-ZS-wUm"/>
                         <constraint firstAttribute="trailing" secondItem="oBO-Um-m41" secondAttribute="trailing" id="axS-Dd-BLg"/>
-                        <constraint firstItem="6Tc-qZ-6aa" firstAttribute="leading" secondItem="nac-jk-KnE" secondAttribute="trailing" constant="12" id="b6T-Uh-OEw"/>
+                        <constraint firstItem="6Tc-qZ-6aa" firstAttribute="leading" secondItem="nac-jk-KnE" secondAttribute="trailing" constant="6" id="b6T-Uh-OEw"/>
                         <constraint firstItem="WVV-Ja-bF9" firstAttribute="centerY" secondItem="paN-sK-0Ss" secondAttribute="centerY" id="ecL-kZ-oEV"/>
                         <constraint firstAttribute="trailing" secondItem="WVV-Ja-bF9" secondAttribute="trailing" constant="12" id="k4Y-eb-Gii"/>
                         <constraint firstAttribute="bottom" secondItem="oBO-Um-m41" secondAttribute="bottom" id="lf3-jF-EIG"/>
@@ -620,7 +620,6 @@
         <image name="icon_homeMapSearch" width="93" height="93"/>
         <image name="icon_homeTitle" width="103" height="27"/>
         <image name="icon_home_type" width="54" height="64"/>
-        <image name="icon_homeheader" width="375" height="246"/>
         <image name="icon_homelowprice" width="38" height="38"/>
         <image name="icon_homenew" width="38" height="38"/>
         <image name="icon_house_info" width="95" height="21"/>

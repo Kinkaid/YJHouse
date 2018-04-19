@@ -52,7 +52,7 @@
         }
     } else {
         [self.nickTextField resignFirstResponder];
-        [YJApplicationUtil alertHud:@"昵称不符合要求" afterDelay:1];
+        [YJApplicationUtil alertHud:@"昵称不符合平台规则" afterDelay:1];
     }
 }
 - (void)returnNickName:(nickBlock)block {
@@ -61,6 +61,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.nickTextField resignFirstResponder];
 }
+/*
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     //不支持系统表情的输入
     if ([[textField textInputMode] primaryLanguage]==nil||[[[textField textInputMode] primaryLanguage]isEqualToString:@"emoji"]) {
@@ -118,4 +119,5 @@
         return NO;
     }
 }
+ */
 @end

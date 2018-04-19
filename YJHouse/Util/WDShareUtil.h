@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 typedef enum : NSUInteger {
     shareQQFriends,
     shareQQzone,
@@ -18,6 +17,6 @@ typedef enum : NSUInteger {
 
 @interface WDShareUtil : NSObject
 
-+ (void)shareTye:(WDShareType)shareType withImageAry:(NSArray *)imageAry withUrl:(NSString *)url withTitle:(NSString *)title withContent:(NSString *)content;
++ (void)shareTye:(WDShareType)shareType withImageAry:(NSArray *)imageAry withUrl:(NSString *)url withTitle:(NSString *)title withContent:(NSString *)content isPic:(BOOL)isPic;
 
 @end
