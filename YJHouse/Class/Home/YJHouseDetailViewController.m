@@ -77,8 +77,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sellInfoConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *locationTonConstraint;
 
-@property (strong, nonatomic) IBOutlet UIView *popView;
-@property (weak, nonatomic) IBOutlet UITextView *popTextView;
+//@property (strong, nonatomic) IBOutlet UIView *popView;
+//@property (weak, nonatomic) IBOutlet UITextView *popTextView;
 
 @property (weak, nonatomic) IBOutlet UIView *sellInfoView;
 @property (weak, nonatomic) IBOutlet UIView *supportingFacilitiesView;
@@ -141,7 +141,11 @@
 }
 - (void)registerTableView {
     [self.tableView registerNib:[UINib nibWithNibName:kCellIdentifier bundle:nil] forCellReuseIdentifier:kCellIdentifier];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    if (@available(iOS 11.0, *)) {
+        UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
 }
 - (void)initWithHeaderView {
     self.houseSellInfoAry= [@[] mutableCopy];
@@ -172,7 +176,7 @@
             [self.houseSellInfoAry addObject:@{@"content":[NSString stringWithFormat:@"        %@",self.houseModel.point],@"title":@"卖点"}];
         }
     }
-    self.popTextView.text = introduction;
+//    self.popTextView.text = introduction;
     if (self.houseModel.total_score) {
         NSMutableAttributedString *scoreStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.1f",[self.houseModel.total_score floatValue]]];
         [scoreStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-BoldItalicMT" size:24] range:NSMakeRange(0, [self.houseModel.total_score floatValue] >=100.0 ? 3:2)];
@@ -646,27 +650,27 @@
         switch (btn.tag) {
             case 11:
             {
-                [WDShareUtil shareTye:shareWXFriends withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareWXFriends withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             case 12:
             {
-                [WDShareUtil shareTye:shareWXzone withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareWXzone withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             case 13:
             {
-                [WDShareUtil shareTye:shareQQFriends withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareQQFriends withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             case 14:
             {
-                [WDShareUtil shareTye:shareQQzone withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareQQzone withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             case 15:
             {
-                [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[LJKHelper imageFromView:self.headerView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             default:
@@ -746,7 +750,7 @@
     }];
 }
 - (IBAction)commentAction:(id)sender {
-    if (![LJKHelper thirdLoginSuccess]) {
+    if ([LJKHelper thirdLoginSuccess]) {
         YJHouseCommentViewController *vc = [[YJHouseCommentViewController alloc] init];
         vc.house_id = self.house_id;
         vc.site_id = self.site_id;
@@ -851,7 +855,7 @@
         [SVProgressHUD dismiss];
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {
-            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
+            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://www.youjar.top%@",[responseObject[@"result"] lastObject]]];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
         } else {
             [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];

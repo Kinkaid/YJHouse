@@ -11,6 +11,9 @@
 
 @implementation YJWeatherView {
     UIImageView *_bgImgView;
+    UILabel *_temLabel;
+    UILabel *_weathInfo;
+    
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -19,13 +22,35 @@
         _bgImgView = [[UIImageView alloc] initWithFrame:self.bounds];
         _bgImgView.image = [UIImage imageNamed:@"icon_homeheader"];
         [self addSubview:_bgImgView];
+        _temLabel = [[UILabel alloc] init];
+        [self addSubview:_temLabel];
+        _temLabel.font = [UIFont systemFontOfSize:14];
+        _temLabel.textColor = [UIColor whiteColor];
+        _temLabel.textAlignment = NSTextAlignmentRight;
+        _temLabel.numberOfLines = 1;
+        [_temLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(-8);
+            make.top.mas_equalTo(22);
+        }];
+        _weathInfo = [[UILabel alloc] init];
+        _weathInfo.font = [UIFont systemFontOfSize:10];
+        _weathInfo.textColor = [UIColor whiteColor];
+        _weathInfo.textAlignment = NSTextAlignmentRight;
+        [self addSubview:_weathInfo];
+        [_weathInfo mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(-6);
+            make.top.mas_equalTo(_temLabel.mas_bottom).offset(3);
+        }];
         [self loadWeatherData];
     }
     return self;
 }
 - (void)loadWeatherData {
     [[NetworkTool sharedTool]requestWithURLString:[NSString stringWithFormat:@"%@/condition/weather",Server_url] parameters:@{@"city_id":@"330100000"} method:GET callBack:^(id responseObject) {
-        NSLog(@"%@",[LJKHelper stringToJSON:responseObject[@"result"]]);
+        NSDictionary *weather =  [LJKHelper stringToJSON:responseObject[@"result"]];
+        [_bgImgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",weather_url,weather[@"results"][0][@"now"][@"img"]]] placeholderImage:[UIImage imageNamed:@"icon_homeheader"]];
+        _temLabel.text = [NSString stringWithFormat:@"%@℃",weather[@"results"][0][@"now"][@"temperature"]];
+        _weathInfo.text = weather[@"results"][0][@"now"][@"text"];
         
     } error:nil];
     

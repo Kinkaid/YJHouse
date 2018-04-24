@@ -22,6 +22,8 @@
     __weak IBOutlet UIImageView *_img2;
     __weak IBOutlet UIImageView *_lowPImg;
     __weak IBOutlet UILabel *_xqNewLabel;
+    
+    __weak IBOutlet UIView *_xiajiaViewTip;
 }
 
 - (void)awakeFromNib {
@@ -35,6 +37,11 @@
     // Configure the view for the selected state
 }
 - (void)showDataWithModels:(YJHouseListModel *)model {
+    if (model.expire) {
+        _xiajiaViewTip.hidden = NO;
+    } else {
+        _xiajiaViewTip.hidden = YES;
+    }
     [_main_img sd_setImageWithURL:[NSURL URLWithString:model.main_img] placeholderImage:[UIImage imageNamed:@"icon_placeholder"]];
     _name.text = [NSString stringWithFormat:@"%@ %d平",model.name,[model.area intValue]];
     _score.backgroundColor = [UIColor colorWithHue:(100.0 - [model.total_score floatValue])/360.0 saturation:0.46 brightness:0.91 alpha:1];

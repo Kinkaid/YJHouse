@@ -378,27 +378,27 @@
         switch (btn.tag) {
             case 11:
             {
-                [WDShareUtil shareTye:shareWXFriends withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareWXFriends withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             case 12:
             {
-                [WDShareUtil shareTye:shareWXzone withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareWXzone withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             case 13:
             {
-                [WDShareUtil shareTye:shareQQFriends withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareQQFriends withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             case 14:
             {
-                [WDShareUtil shareTye:shareQQzone withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareQQzone withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             case 15:
             {
-                [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.com/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
+                [WDShareUtil shareTye:shareSinaWeibo withImageAry:@[[LJKHelper imageFromView:self.contentView]] withUrl:@"https://www.youjar.top/app/share/home" withTitle:@"优家选房，选出您的家" withContent:@"拿出手机赶紧下载优家选房APP哦" isPic:YES];
             }
                 break;
             default:
@@ -509,7 +509,7 @@
         [formData appendPartWithFileData:imageData name:@"avatar_image" fileName:fileName mimeType:@"image/jpg"];
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {
-            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
+            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://www.youjar.top%@",[responseObject[@"result"] lastObject]]];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"kEditPrivateCustomNotification" object:nil];
         } else {
             [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];

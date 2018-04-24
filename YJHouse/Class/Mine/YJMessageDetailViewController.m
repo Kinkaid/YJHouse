@@ -9,26 +9,16 @@
 #import "YJMessageDetailViewController.h"
 #import "YJMessageDetailViewCell.h"
 #import "YJMsgModel.h"
-#import "YJNoSearchDataView.h"
 #import "YJHouseCommentViewController.h"
 #define kCellIdentifier @"YJMessageDetailViewCell"
 @interface YJMessageDetailViewController ()<UITableViewDelegate,UITableViewDataSource,YJRequestTimeoutDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,assign) NSInteger page;
 @property (nonatomic,strong) NSMutableArray *msgAry;
-@property (nonatomic,strong) YJNoSearchDataView *noSearchResultView;
 @end
 
 @implementation YJMessageDetailViewController
 
-- (YJNoSearchDataView *)noSearchResultView {
-    if (!_noSearchResultView) {
-        _noSearchResultView = [[YJNoSearchDataView alloc] initWithFrame:CGRectMake(0, 64, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 64)];
-        [self.view addSubview:_noSearchResultView];
-        _noSearchResultView.content = @"暂无消息";
-    }
-    return _noSearchResultView;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,9 +72,9 @@
                 [weakSelf.msgAry removeAllObjects];
                 [weakSelf.tableView.mj_header endRefreshing];
                 NSArray *ary = responseObject[@"result"];
-                if (![ary count]) {
-                    self.noSearchResultView.hidden = NO;
-                }
+//                if (![ary count]) {
+//                    self.noSearchResultView.hidden = NO;
+//                }
                 if ([self.type intValue] == 1) {
                     if (!ISEMPTY(responseObject[@"result"])) {
                         [LJKHelper saveLastRequestMsgTime:responseObject[@"result"][0][@"time"]];

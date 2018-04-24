@@ -39,8 +39,6 @@
                 <outlet property="managerTel" destination="bam-Ja-zgd" id="avz-hF-AqO"/>
                 <outlet property="mapContainerView" destination="CPp-6e-SLd" id="zUc-ck-vTK"/>
                 <outlet property="pageControl" destination="28U-k0-6QT" id="z5D-fT-ZVh"/>
-                <outlet property="popTextView" destination="KpA-Fr-zw6" id="ax9-9H-HOM"/>
-                <outlet property="popView" destination="9wW-lF-pxU" id="rfM-fI-qpX"/>
                 <outlet property="putupTimeLabel" destination="dsw-Tx-IIF" id="HJn-XX-yxE"/>
                 <outlet property="regionLabel" destination="sDf-wQ-4Wg" id="DSc-gR-9yG"/>
                 <outlet property="repairInfoLabel" destination="wqp-PN-e8u" id="3L3-1w-gS5"/>
@@ -67,7 +65,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erN-2o-J0p">
+                <tableView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erN-2o-J0p">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="621"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -265,7 +263,7 @@
                 <constraint firstItem="Lhv-qg-3sX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ni8-1H-Eby"/>
                 <constraint firstAttribute="trailing" secondItem="erN-2o-J0p" secondAttribute="trailing" id="zV0-fk-Qc9"/>
             </constraints>
-            <point key="canvasLocation" x="127.5" y="53.5"/>
+            <point key="canvasLocation" x="110" y="115"/>
         </view>
         <view contentMode="scaleToFill" id="MTW-Fw-sau">
             <rect key="frame" x="0.0" y="0.0" width="375" height="1732"/>
@@ -1234,7 +1232,7 @@
                 <constraint firstItem="gxS-ak-N5v" firstAttribute="height" secondItem="lWm-EK-tSX" secondAttribute="height" id="zqe-pa-BF7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="110" y="-296"/>
+            <point key="canvasLocation" x="265" y="-349"/>
         </view>
     </objects>
     <resources>

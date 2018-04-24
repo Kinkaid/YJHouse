@@ -111,7 +111,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
             if (ISEMPTY(responseObject[@"error"])) {
                 [LJKHelper saveUserName:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"user_info"][@"username"]]];
                 if (!ISEMPTY(responseObject[@"result"][@"user_info"][@"avatar"])) {
-                    [LJKHelper saveUserHeader:[NSString stringWithFormat:@"http://www.youjar.com%@",responseObject[@"result"][@"user_info"][@"avatar"]]];
+                    [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://www.youjar.top%@",responseObject[@"result"][@"user_info"][@"avatar"]]];
                 }
                 for (int i=0; i<[responseObject[@"result"][@"weight_ershou"] count]; i++) {
                     YJPrivateModel *ershouModel = [MTLJSONAdapter modelOfClass:[YJPrivateModel class] fromJSONDictionary:responseObject[@"result"][@"weight_ershou"][i] error:nil];

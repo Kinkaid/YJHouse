@@ -31,7 +31,7 @@
                                 "</body>"
                                 "</html>",responseObject[@"result"][@"title"],
                                 responseObject[@"result"][@"content"]];
-        [self openHTMLString:htmlString baseURL:[NSURL URLWithString:@"http://www.youjar.com"]];
+        [self openHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://www.youjar.top"]];
         [self setTitle:@"文章详情"];
     } error:^(NSError *error) {
         

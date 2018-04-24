@@ -291,29 +291,44 @@
                     <rect key="frame" x="0.0" y="297.5" width="123" height="150"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_homeMapSearch" translatesAutoresizingMaskIntoConstraints="NO" id="RGY-zl-Bb9">
-                            <rect key="frame" x="16.5" y="41" width="84" height="84"/>
+                            <rect key="frame" x="16.5" y="18" width="84" height="84"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="84" id="m1w-vC-H89"/>
                                 <constraint firstAttribute="width" secondItem="RGY-zl-Bb9" secondAttribute="height" multiplier="1:1" id="sep-Gi-qwH"/>
                             </constraints>
                         </imageView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jf5-Gz-Yrf" customClass="UIControl">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="房价雷达" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sxK-PP-jbJ">
+                            <rect key="frame" x="32" y="105" width="53.5" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.2470588235" green="0.2470588235" blue="0.2470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收藏房源降价提醒" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rm7-dO-nqy">
+                            <rect key="frame" x="5.5" y="124" width="106.5" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="0.49803921569999998" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gbX-6t-GQz" customClass="UIControl">
                             <rect key="frame" x="0.0" y="0.0" width="123" height="150"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="mapAction:" destination="-1" eventType="touchUpInside" id="laH-1h-YCn"/>
+                                <action selector="collectionReduceAction:" destination="-1" eventType="touchUpInside" id="w2T-Qv-GrK"/>
                             </connections>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="RGY-zl-Bb9" firstAttribute="centerY" secondItem="OY8-Ny-AiS" secondAttribute="centerY" constant="8" id="6Ve-I5-6Pn"/>
-                        <constraint firstItem="jf5-Gz-Yrf" firstAttribute="leading" secondItem="OY8-Ny-AiS" secondAttribute="leading" id="Aip-yE-wgU"/>
-                        <constraint firstAttribute="trailing" secondItem="jf5-Gz-Yrf" secondAttribute="trailing" id="DFi-im-mK1"/>
+                        <constraint firstAttribute="trailing" secondItem="gbX-6t-GQz" secondAttribute="trailing" id="3Tp-0G-DxM"/>
+                        <constraint firstItem="RGY-zl-Bb9" firstAttribute="top" secondItem="OY8-Ny-AiS" secondAttribute="top" constant="18" id="7JB-ni-5bO"/>
+                        <constraint firstItem="sxK-PP-jbJ" firstAttribute="top" secondItem="RGY-zl-Bb9" secondAttribute="bottom" constant="3" id="AcE-So-msh"/>
+                        <constraint firstAttribute="bottom" secondItem="gbX-6t-GQz" secondAttribute="bottom" id="Byl-QW-uQe"/>
+                        <constraint firstItem="gbX-6t-GQz" firstAttribute="leading" secondItem="OY8-Ny-AiS" secondAttribute="leading" id="MO3-pg-wpK"/>
+                        <constraint firstItem="Rm7-dO-nqy" firstAttribute="centerX" secondItem="sxK-PP-jbJ" secondAttribute="centerX" id="c24-5R-LVy"/>
+                        <constraint firstItem="gbX-6t-GQz" firstAttribute="top" secondItem="OY8-Ny-AiS" secondAttribute="top" id="f8P-wW-UqV"/>
                         <constraint firstItem="RGY-zl-Bb9" firstAttribute="centerX" secondItem="OY8-Ny-AiS" secondAttribute="centerX" constant="-3" id="jHh-ws-cRm"/>
-                        <constraint firstItem="jf5-Gz-Yrf" firstAttribute="top" secondItem="OY8-Ny-AiS" secondAttribute="top" id="kGO-Si-lc9"/>
+                        <constraint firstItem="Rm7-dO-nqy" firstAttribute="top" secondItem="sxK-PP-jbJ" secondAttribute="bottom" constant="3" id="jng-be-p8o"/>
+                        <constraint firstItem="sxK-PP-jbJ" firstAttribute="centerX" secondItem="RGY-zl-Bb9" secondAttribute="centerX" id="qav-Pe-48M"/>
                         <constraint firstAttribute="height" constant="150" id="qow-pz-RxB"/>
-                        <constraint firstAttribute="bottom" secondItem="jf5-Gz-Yrf" secondAttribute="bottom" id="uGn-fp-cgv"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVQ-If-sPG">

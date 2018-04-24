@@ -209,6 +209,8 @@
 		30FC19AA1F44419F00A559A3 /* YJHouseCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FC19A91F44419F00A559A3 /* YJHouseCommentModel.m */; };
 		EDFF60511B350C5289D4F75E /* libPods-YJHouse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E196D3BC251EC9ABDF39C832 /* libPods-YJHouse.a */; };
 		FA42A3342027EE5E002EC930 /* ArticleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA42A3332027EE5E002EC930 /* ArticleModel.m */; };
+		FA73A3E5208CA95300FCE99C /* UITableView+EmptyData.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73A3E3208CA95200FCE99C /* UITableView+EmptyData.m */; };
+		FA73A3E6208CA95300FCE99C /* EmptyDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73A3E4208CA95300FCE99C /* EmptyDataView.m */; };
 		FA9A1CCE2012CA1500F04FCD /* YJLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9A1CCD2012CA1500F04FCD /* YJLoginView.m */; };
 		FA9A8EA4206624D30094CFAE /* YJUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9A8EA3206624D30094CFAE /* YJUpdateView.m */; };
 		FA9A8EA720663F3A0094CFAE /* YJUpdateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9A8EA620663F3A0094CFAE /* YJUpdateCell.m */; };
@@ -570,6 +572,10 @@
 		E196D3BC251EC9ABDF39C832 /* libPods-YJHouse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YJHouse.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA42A3322027EE5E002EC930 /* ArticleModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArticleModel.h; sourceTree = "<group>"; };
 		FA42A3332027EE5E002EC930 /* ArticleModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticleModel.m; sourceTree = "<group>"; };
+		FA73A3E1208CA95200FCE99C /* UITableView+EmptyData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+EmptyData.h"; sourceTree = "<group>"; };
+		FA73A3E2208CA95200FCE99C /* EmptyDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyDataView.h; sourceTree = "<group>"; };
+		FA73A3E3208CA95200FCE99C /* UITableView+EmptyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+EmptyData.m"; sourceTree = "<group>"; };
+		FA73A3E4208CA95300FCE99C /* EmptyDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyDataView.m; sourceTree = "<group>"; };
 		FA9A1CCC2012CA1500F04FCD /* YJLoginView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJLoginView.h; sourceTree = "<group>"; };
 		FA9A1CCD2012CA1500F04FCD /* YJLoginView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YJLoginView.m; sourceTree = "<group>"; };
 		FA9A8EA2206624D30094CFAE /* YJUpdateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YJUpdateView.h; sourceTree = "<group>"; };
@@ -761,6 +767,10 @@
 		305CB8781E568FDC00682F88 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				FA73A3E2208CA95200FCE99C /* EmptyDataView.h */,
+				FA73A3E4208CA95300FCE99C /* EmptyDataView.m */,
+				FA73A3E1208CA95200FCE99C /* UITableView+EmptyData.h */,
+				FA73A3E3208CA95200FCE99C /* UITableView+EmptyData.m */,
 				305CB8901E5696E100682F88 /* YJImage.h */,
 				305CB8911E5696E100682F88 /* YJImage.m */,
 				305CB8961E569A1D00682F88 /* UIColor+YJColor.h */,
@@ -1562,7 +1572,9 @@
 				30FC19A71F4435C800A559A3 /* YJHouseCommentSectionHeaderView.m in Sources */,
 				30F2CEFD1E862F69000D42A3 /* YJXiaoQuDetailViewController.m in Sources */,
 				3032C15D1EDFDEF4006C998C /* YJHouseInfoDetailViewCell.m in Sources */,
+				FA73A3E5208CA95300FCE99C /* UITableView+EmptyData.m in Sources */,
 				300BB4271EA5D87400432F8C /* YJHouseDetailModel.m in Sources */,
+				FA73A3E6208CA95300FCE99C /* EmptyDataView.m in Sources */,
 				302AFBA81F417B0100ADEE0C /* YJHouseCommentCell.m in Sources */,
 				300372AF1E97CCBA005A7B37 /* YJXiaoquModel.m in Sources */,
 				300372AC1E97C28E005A7B37 /* YQFiveStarView.m in Sources */,

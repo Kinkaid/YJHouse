@@ -11,7 +11,6 @@
 #import "YJHouseListModel.h"
 #import "YJHouseDetailViewController.h"
 #import "YJNoSearchDataView.h"
-#import "YJNoSearchDataView.h"
 #define kCellIdentifier @"YJReducePriceViewCell"
 
 @interface YJHouseRecommendViewController ()<UITableViewDelegate,UITableViewDataSource,YJRequestTimeoutDelegate>
@@ -23,12 +22,11 @@
 
 @implementation YJHouseRecommendViewController
 
-
 - (YJNoSearchDataView *)noSearchResultView {
     if (!_noSearchResultView) {
         _noSearchResultView = [[YJNoSearchDataView alloc] initWithFrame:CGRectMake(0, 64, APP_SCREEN_WIDTH, APP_SCREEN_HEIGHT - 64)];
         [self.view addSubview:_noSearchResultView];
-        _noSearchResultView.content = @"暂无推荐";
+        _noSearchResultView.content = @"请先收藏跟踪价格的房源哦";
     }
     return _noSearchResultView;
 }
@@ -75,7 +73,8 @@
 }
 - (void)loadHouseData {
     __weak typeof(self)weakSelf = self;
-    NSDictionary *params = @{@"page":@(self.homePage),@"type":self.type,@"auth_key":@"GMyK87fb8TZHtGYTwXzxm117i9Q_ew4i"};
+//    GMyK87fb8TZHtGYTwXzxm117i9Q_ew4i
+    NSDictionary *params = @{@"page":@(self.homePage),@"type":self.type,@"auth_key":[LJKHelper getAuth_key]};
     [[NetworkTool sharedTool] requestWithURLString:[NSString stringWithFormat:@"%@/user/get-message-list",Server_url] parameters:params method:POST callBack:^(id responseObject) {
         if (!ISEMPTY(responseObject)) {
             [YJGIFAnimationView hideInView:self.view];
@@ -83,7 +82,7 @@
                 [YJGIFAnimationView hideInView:self.view];
                 [weakSelf.homeHouseAry removeAllObjects];
                 [weakSelf.tableView.mj_header endRefreshing];
-                if (![responseObject[@"result"] count]) {
+                if ([responseObject[@"result"] count] == 0) {
                     self.noSearchResultView.hidden = NO;
                 }
             }
@@ -91,6 +90,8 @@
             for (int i = 0; i<ary.count; i++) {
                 if([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"7"]){
                     YJHouseListModel * model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:ary[i][@"content"] error:nil];
+                    //测试
+                    model.expire = [ary[i][@"state"] boolValue];
                     model.xq_new = NO;
                     model.time =ary[i][@"time"];
                     if ([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"9"]) {
@@ -113,6 +114,7 @@
 //                        [weakSelf.homeHouseAry addObject:model];
 //                    }
                     YJHouseListModel * model = [MTLJSONAdapter modelOfClass:[YJHouseListModel class] fromJSONDictionary:[LJKHelper stringToJSON:ary[i][@"content"]] error:nil];
+                    model.expire = [ary[i][@"state"] boolValue];
                     model.xq_new = YES;
                     model.time =ary[i][@"time"];
                     if ([self.type isEqualToString:@"6"]||[self.type isEqualToString:@"9"]) {
@@ -197,6 +199,10 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     YJHouseListModel *model = self.homeHouseAry[indexPath.section];
+    if (model.expire) {
+        [YJApplicationUtil alertHud:@"该房源已下架，请关注其他房源" afterDelay:1];
+        return;
+    }
     YJHouseDetailViewController *vc = [[YJHouseDetailViewController alloc] init];
     vc.site_id =model.site;
     vc.house_id = model.house_id;
@@ -206,5 +212,11 @@
         vc.type = type_maifang;
     }
     PushController(vc);
+}
+- (UIImage *)fk_noDataViewImage {
+    return [UIImage imageNamed:@"icon_collection_placeholder"];
+}
+- (NSString *)fk_noDataViewMessage {
+    return @"请先收藏需要跟踪价格的房源";
 }
 @end

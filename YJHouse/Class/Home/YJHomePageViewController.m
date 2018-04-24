@@ -25,6 +25,7 @@
 #define kCellIdentifier @"YJHomePageViewCell"
 #import "YJWeatherView.h"
 #import "YJUpdateView.h"
+#import "YJHouseRecommendViewController.h"
 static NSString *const kReloadHomeDataNotif = @"kReloadHomeDataNotif";
 static NSString *const houseTypeKey = @"houseTypeKey";
 @interface YJHomePageViewController ()<UITableViewDelegate,UITableViewDataSource,YJAddressClickDelegate,YJSortDelegate,YJPriceSortDelegate,YJMFSortDelegate,YJZFSortDelegate,YJRequestTimeoutDelegate>
@@ -317,6 +318,7 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.homePage = 0;
         [weakSelf loadHomeData];
+        [weakSelf.weatherView loadWeatherData];
     }];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         weakSelf.homePage ++;
@@ -442,14 +444,21 @@ static NSString *const houseTypeKey = @"houseTypeKey";
     PushController(vc);
 }
 #pragma mark - IBActions
+
+- (IBAction)collectionReduceAction:(id)sender {
+    YJHouseRecommendViewController *vcR = [[YJHouseRecommendViewController alloc] init];
+    if (!self.zufang) {
+        vcR.type = @"6"; // 收藏二手房降价
+    } else {
+        vcR.type = @"7"; // 收藏租房降价
+    }
+    PushController(vcR);
+}
 - (IBAction)scanTypeAction:(id)sender {
     self.klcManager = [KLCPopup popupWithContentView:self.popupView];
     [self.klcManager showAtCenter:CGPointMake(40, KIsiPhoneX?126:100) inView:self.view];
 }
-- (IBAction)mapAction:(id)sender {
-//    YJMapViewController *vc =[[YJMapViewController alloc] init];
-//    PushController(vc);
-}
+
 
 
 - (IBAction)selectType:(id)sender {

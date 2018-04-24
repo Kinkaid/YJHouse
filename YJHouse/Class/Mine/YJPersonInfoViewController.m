@@ -115,7 +115,7 @@
         if (responseObject) {
             self.headerImg.image = image;
             [SVProgressHUD showSuccessWithStatus:@"上传成功"];
-            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://youjar.com%@",[responseObject[@"result"] lastObject]]];
+            [LJKHelper saveUserHeader:[NSString stringWithFormat:@"https://www.youjar.top%@",[responseObject[@"result"] lastObject]]];
         } else {
             [SVProgressHUD showErrorWithStatus:@"上传失败,请重试"];
         }

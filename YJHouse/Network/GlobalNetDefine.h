@@ -12,6 +12,7 @@
 
 //#define Server_url                     @"https://www.youjar.com/app"
 #define Server_url                       @"https://www.youjar.top/app"
+#define weather_url                       @"https://www.youjar.top"
 //#define Server_url                       @"https://106.14.183.91"
 
 

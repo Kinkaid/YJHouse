@@ -43,8 +43,8 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello@youjar.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CX4-14-4ly">
-                            <rect key="frame" x="41" y="8" width="114" height="17"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <rect key="frame" x="41" y="7" width="127.5" height="19.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -60,23 +60,32 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.youjar.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTh-15-7cC">
-                    <rect key="frame" x="156" y="487" width="104.5" height="17"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <rect key="frame" x="153" y="488.5" width="117" height="19.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_url" translatesAutoresizingMaskIntoConstraints="NO" id="NKD-Oc-uYQ">
+                    <rect key="frame" x="110" y="487" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="NKD-Oc-uYQ" secondAttribute="height" multiplier="1:1" id="Fxp-kK-zkS"/>
+                        <constraint firstAttribute="width" constant="20" id="uoi-I5-zd4"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Jxr-fs-Sek" firstAttribute="centerX" secondItem="xQB-W8-cDh" secondAttribute="centerX" id="FFK-cb-Ue0"/>
                 <constraint firstItem="9PJ-ri-GFL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="HIY-lw-cbk"/>
+                <constraint firstItem="NKD-Oc-uYQ" firstAttribute="top" secondItem="55J-ih-HDW" secondAttribute="bottom" constant="6.5" id="I4O-KT-HoC"/>
                 <constraint firstItem="eTh-15-7cC" firstAttribute="top" secondItem="CX4-14-4ly" secondAttribute="bottom" constant="8" id="Oeb-9J-PYO"/>
                 <constraint firstItem="Jxr-fs-Sek" firstAttribute="centerY" secondItem="xQB-W8-cDh" secondAttribute="centerY" constant="-60" id="Rmz-EV-tC9"/>
                 <constraint firstAttribute="trailing" secondItem="xQB-W8-cDh" secondAttribute="trailing" id="coO-Tu-Yrx"/>
                 <constraint firstItem="xQB-W8-cDh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="glw-G2-ofd"/>
                 <constraint firstAttribute="bottom" secondItem="xQB-W8-cDh" secondAttribute="bottom" id="hz7-ZJ-nfW"/>
-                <constraint firstItem="eTh-15-7cC" firstAttribute="centerX" secondItem="CX4-14-4ly" secondAttribute="centerX" id="la6-io-Zmj"/>
+                <constraint firstItem="eTh-15-7cC" firstAttribute="centerX" secondItem="CX4-14-4ly" secondAttribute="centerX" constant="-4" id="la6-io-Zmj"/>
                 <constraint firstItem="xQB-W8-cDh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o5O-j0-BbQ"/>
+                <constraint firstItem="NKD-Oc-uYQ" firstAttribute="centerX" secondItem="55J-ih-HDW" secondAttribute="centerX" id="oeS-pH-6bQ"/>
                 <constraint firstAttribute="bottom" secondItem="9PJ-ri-GFL" secondAttribute="bottom" constant="180" id="xSs-Vn-fal"/>
             </constraints>
             <point key="canvasLocation" x="65.5" y="53.5"/>
@@ -85,5 +94,6 @@
     <resources>
         <image name="icon_about_us" width="375" height="667"/>
         <image name="icon_email" width="31" height="31"/>
+        <image name="icon_url" width="63" height="63"/>
     </resources>
 </document>

@@ -10,4 +10,6 @@
 
 @interface YJWeatherView : UIView
 @property(nonatomic,strong) CAEmitterLayer *rainDropEmitterLayer;
+- (void)loadWeatherData;
+
 @end

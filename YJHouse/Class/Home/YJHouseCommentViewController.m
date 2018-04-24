@@ -207,7 +207,7 @@ static NSString * const kYJHeaderId = @"header";
                         model.height = [LJKHelper textHeightFromTextString:model.comment width:APP_SCREEN_WIDTH - 105.0 fontSize:12];
                     } else {
                         model.height = [LJKHelper textHeightFromTextString:model.comment width:APP_SCREEN_WIDTH - 95.0 fontSize:15];
-                        model.avatar =[NSString stringWithFormat:@"https://www.youjar.com%@",responseObject[i][0][@"avatar"]];
+                        model.avatar =[NSString stringWithFormat:@"https://www.youjar.top%@",responseObject[i][0][@"avatar"]];
                     }
                     [mAry addObject:model];
                 }

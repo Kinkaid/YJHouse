@@ -36,4 +36,5 @@
 @property (nonatomic,copy) id date;
 @property (nonatomic,assign) BOOL xq_new;
 @property (nonatomic,copy) NSString* time;
+@property (nonatomic,assign) BOOL expire;
 @end
